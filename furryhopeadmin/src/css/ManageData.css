@@ -1,0 +1,91 @@
+.manage-body {
+  width: 100%;
+  height: 100%;
+  font-family: 'Poppins', sans-serif;
+  position: relative;
+}
+
+.content {
+  margin-left: 500px;
+  padding: 0;
+  overflow: hidden;
+}
+
+.manage-data-header {
+  margin: 70px 0 30px 70px;
+  font-size: 2.8rem;
+  font-weight: 700;
+  width: 335px;
+  border-bottom: 1px solid #b0b0b0;
+}
+
+.manage-animal-count {
+  font-size: 1.8rem;
+  margin: 0 0 0 70px;
+}
+
+.manage-select {
+  margin: 10px 0 100px 70px;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+/* pagination rulesets */
+.pagination-div {
+  display: grid;
+  place-items: center;
+}
+
+.pagination-container {
+  width: '100px';
+  display: flex;
+  font-family: 'Poppins', sans-serif;
+  margin: 150px 0px;
+}
+
+.pagination-page-li {
+  list-style-type: none;
+  margin-left: 15px;
+  margin-right: 15px;
+  padding: 5px 10px;
+}
+
+.pagination-link-a {
+  font-size: 1.75rem;
+  background-color: rgba(0, 0, 0, .05);
+  padding: 3px 10px;
+}
+
+.next-li {
+  list-style-type: none;
+  margin: 7px 0px 0px 50px;
+}
+
+.next-a {
+  font-size: 1.8rem;
+  font-weight: 500;
+}
+
+.prev-li {
+  list-style-type: none;
+  margin: 7px 50px 0px 0px;
+}
+
+.prev-a {
+  font-size: 1.8rem;
+  font-weight: 500;
+}
+
+.active-li {
+  background: #111;
+  outline: none;
+  border: none;
+}
+
+.active-a {
+  color: white;
+}
+
+
+
+

@@ -1,0 +1,142 @@
+.addData-body {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+  font-family: 'Poppins', sans-serif;
+}
+
+.content {
+  margin-left: 500px;
+  padding: 0;
+  overflow: hidden;
+}
+
+.add-data-header {
+  margin: 70px 0 5px 105px;
+  font-size: 2.8rem;
+  font-weight: 700;
+  width: 495px;
+  border-bottom: 1px solid #b0b0b0;
+}
+
+.addData-form-container {
+  display: flex;
+}
+
+.addData-form-left-column {
+  width: 50%;
+}
+
+.addData-form-right-column {
+  margin-top: 8.5px;
+  width: 50%;
+}
+
+.form-head {
+  font-weight: 900;
+  font-size: 1.6rem;
+  margin: 70px 0 30px 105px;
+  position: relative;
+  z-index: 0;
+}
+
+.lbl-add {
+  font-size: 1.4rem;
+  font-weight: 500;
+  display: inline-block;
+  margin-left: 105px;
+}
+
+.lbl-name {
+  margin-top: 20px;
+}
+
+.input-add-data {
+  width: 70%;
+  height: 45px;
+  margin: 15px 0 20px 105px;
+  font-size: 1.2rem;
+  font-weight: 400;
+  padding: 0px 10px;
+}
+
+.addColor {
+  width: 35%;
+  height: 45px;
+  margin: 5px 0 20px 105px;
+  font-size: 1.2rem;
+  font-weight: 400;
+  padding: 0px 10px;
+}
+
+.addDesc {
+  width: 70%;
+  height: 250px;
+  margin: 15px 0 20px 105px;
+  font-size: 1.2rem;
+  padding: 7px 10px;
+  font-family: "Poppins", sans-serif;
+}
+
+.select {
+  width: 120px;
+  height: 40px;
+  font-size: 1.2rem;
+  font-family: "Poppins", sans-serif;
+  margin: 10px 0 25px 105px;
+}
+
+.select-animal-type {
+  width: 120px;
+  height: 40px;
+  font-size: 1.2rem;
+  font-family: "Poppins", sans-serif;
+  margin: 10px 0 65px 10px;
+}
+
+.add-data-imgUploadContainer {
+  display: flex;
+}
+
+.add-data-imgUpload {
+  margin: 49px 0 0 15px;
+  font-size: 1.1rem;
+  display: block;
+}
+
+.add-data-preview-txt {
+  font-size: 1.4rem;
+  font-weight: 500;
+}
+
+.add-data-imgUpload-preview {
+  width: 490px;
+  height: 440px;
+  margin: 5px 0 0 0;
+  -webkit-user-drag: none;
+  aspect-ratio: 1 / 1;
+}
+
+.btn-add {
+  width: 220px;
+  height: 70px;
+  background-color: #ffef3d;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.7rem;
+  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+  margin-top: 100px;
+  margin-left: 270px;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.btn-add:hover {
+  background-color: #faeb4b;
+  transform: translateY(-2px);
+  transition: .2s ease-in;
+}

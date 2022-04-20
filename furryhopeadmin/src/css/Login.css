@@ -1,0 +1,149 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.login-body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Poppins", sans-serif;
+  position: relative;
+}
+
+.leftpaw {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 500px;
+  width: 500px;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.rightpaw {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 500px;
+  width: 500px;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.login-left-column {
+  height: 100%;
+  width: 50%;
+}
+
+.login-form {
+  height: 720px;
+  width: 541px;
+  background-color: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, .2);
+  margin: 150px auto 0 auto;
+  padding-top: 60px;
+}
+
+.login-header {
+  display: flex;
+  align-items: center;
+  margin: 0 0 70px 55px;
+}
+
+.login-header-img {
+  height: 34px;
+  width: 28px;
+  margin: 5px 7px 0 0;
+}
+
+.login-header {
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.login-label {
+  font-size: 25px;
+  font-weight: 400;
+  margin: 0 0 0 55px;
+}
+
+.login-input {
+  margin: 5px 0 0 55px;
+  padding: 0 12px;
+  height: 63px;
+  width: 408px;
+  font-size: 18px;
+  font-weight: 400;
+  border: 1px solid rgba(0, 0, 0, .45);
+}
+
+.login-input.username-input {
+  margin-bottom: 40px;
+}
+
+.btn-login {
+  position: relative;
+  height: 85px;
+  width: 275px;
+  background-color: #111;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  color: white;
+  transition: .2s ease-in;
+  margin: 170px 0 0 0;
+  padding-left: 55px;
+  font-size: 30px;
+  font-weight: 600;
+}
+
+.btn-login-icon {
+  position: absolute;
+  height: 45px;
+  width: 45px;
+  top: 18px;
+  left: 50px;
+}
+
+.btn-login:hover {
+  opacity: .9;
+  transform: translateY(-5px);
+}
+
+.login-right-column {
+  height: 100%;
+  width: 50%;
+}
+
+.right-column-header {
+  font-size: 80px;
+  position: relative;
+  margin: 180px 0 0 30px;
+}
+
+.right-column-sup {
+  font-size: 40px;
+  position: absolute;
+  top: -2px;
+}
+
+.right-column-subHeader {
+  font-size: 32px;
+  font-weight: 200;
+  word-spacing: 3px;
+  margin-top: -20px;
+  margin-bottom: 20px;
+  margin: -20px 0 20px 30px;
+}
+
+.right-column-vector {
+  height: 611px;
+  width: 688px;
+  margin: 0 auto 0 auto;
+}

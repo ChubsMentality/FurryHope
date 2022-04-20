@@ -1,0 +1,118 @@
+.strayAnimalReport-body {
+  font-family: "Poppins", sans-serif;
+}
+
+.strayAnimalReport-content {
+  margin-left: 450px;
+  width: calc(100vw - 450px);
+  height: 100vh;
+  display: flex;
+}
+
+.listOfReports-container {
+  width: 30%;
+  height: 100vh;
+  overflow: scroll;
+}
+
+/* .reportContainer {
+  background-color: #fff;
+  margin: 20px;
+  border-radius: 5px;
+  height: 150px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+} */
+
+.reportContainer {
+  background-color: #fff;
+  border-bottom: 1px solid #b0b0b0;
+}
+
+.reportContainer-date {
+  margin: 30px 0 5px 15px;
+  padding-left: 15px;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.reportContainer-message {
+  height: 25px;
+  width: 85%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin-bottom: 30px;
+  margin-left: 30px;
+  font-size: 1.4rem;
+}
+
+.reportContent {
+  width: 70%;
+  height: 100%;
+  background-color: #fff;
+  box-shadow: -1px 0px 4px rgba(0, 0, 0, 0.25);
+}
+
+.specificReport-header,
+.specificReport-image-header {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.specificReport-header {
+  margin-top: 100px;
+  margin-right: 80px;
+  margin-left: 80px;
+}
+
+.specificReport-description {
+  font-size: 1.4rem;
+  margin: 0 80px;
+}
+
+.specificReport-image-header {
+  margin-top: 70px;
+  margin-right: 80px;
+  margin-left: 80px;
+}
+
+.specificReport-image {
+  height: 400px;
+  width: 500px;
+  margin-left: 80px;
+}
+
+.dismiss-report-btn {
+  display: block;
+  margin: 140px auto 0 auto;
+  padding: 15px 25px;
+  font-size: 2rem;
+  font-weight: 600;
+  background-color: red;
+  border: none;
+  border-radius: 5px;
+  outline: none;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+}
+
+.dismiss-report-btn:hover {
+  background-color: rgb(255, 65, 65);
+}
+
+.no-report-container {
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
+  display: grid;
+  place-content: center;
+}
+
+.no-report-text {
+  font-size: 3.5rem;
+  font-weight: 200;
+  text-align: center;
+  margin-top: 400px;
+}

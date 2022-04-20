@@ -1,0 +1,123 @@
+.accounts-body {
+    font-family: "Poppins", sans-serif;
+    background-color: white;
+    position: relative;
+}
+
+.accounts-content {
+    margin-left: 500px;
+}
+
+.accounts-header {
+    margin: 70px 0 20px 80px;
+    font-size: 2.5rem;
+    font-weight: 700;
+    width: 380px;
+    border-bottom: 1px solid #b0b0b0;
+}
+
+.accounts-subHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 90px 210px 30px 80px;
+}
+
+.accounts-admins-container {
+    display: flex;
+}
+
+.accounts-admins-header, .accounts-users-header {
+    font-size: 1.6rem;
+    font-weight: 500;
+}
+
+.accounts-add-admin {
+    margin: 2px 0 0 20px;
+    font-size: 1.1rem;
+    width: fit-content;
+    padding: 7px 15px;
+    outline: none;
+    border: none;
+    border-radius: 25px;
+    background-color: #fff799;
+}
+
+.switch-container {
+    display: flex;
+}
+
+.switch-admins {
+    margin-left: 10px;
+    font-size: 1.4rem;
+}
+
+.switch-accounts {
+    margin: 3.5px 0 0 0;
+}
+
+.switch-users {
+    margin-right: 10px;
+    font-size: 1.4rem;
+}
+
+.no-admin-accounts, .no-user-accounts {
+    margin: 100px 0 0 0;
+    font-size: 3rem;
+    font-weight: 300;
+}
+
+.accounts-table {
+    width: 1100px;
+    border-collapse: collapse;
+    margin-left: 80px;
+}
+
+.accounts-table-row:nth-child(even) {
+    background-color: #fff799;
+}
+
+.accounts-th {
+    border: 1px solid black;
+    height: 60px;
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+.admin-id,
+.user-id {
+    width: 25%;
+}
+
+.admin-username,
+.user-username {
+    width: 25%;
+}
+
+.admin-name,
+.user-name {
+    width: 25%;
+}
+
+.delete-admin-account,
+.delete-user-account {
+    width: 25%;
+}
+
+.accounts-data,
+.accounts-action {
+    height: 60px;
+    border: 1px solid black;
+    padding: 0 10px
+}
+
+.delete-admin-btn, .delete-user-btn {
+    margin: 0 auto;
+    display: block;
+    font-size: 1rem;
+    padding: 5px 10px;
+    border-radius: 5px;
+    outline: none;
+    cursor: pointer;
+}
+

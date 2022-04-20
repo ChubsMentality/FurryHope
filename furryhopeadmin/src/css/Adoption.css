@@ -1,0 +1,336 @@
+.specAdoption-body {
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+  font-family: "Poppins", sans-serif;
+}
+
+.specAdoption-content {
+  margin-left: 450px;
+  padding-bottom: 50px;
+}
+
+.specAdoption-back-btn {
+  position: relative;
+  background: transparent;
+  width: fit-content;
+  border: none;
+  outline: none;
+  font-size: 1.5rem;
+  padding-left: 45px;
+  cursor: pointer;
+  margin: 40px 0 150px 40px;
+}
+
+.specAdoption-back-icon {
+  height: 35px;
+  width: 35px;
+  position: absolute;
+  top: 1px;
+  left: 0;
+}
+
+.specAdoption-details,
+.specAdoption-schedule {
+  width: 900px;
+  margin: 0 auto 20px auto;
+}
+
+.specAdoption-details-header,
+.specAdoption-schedule-header {
+  font-size: 1.5rem;
+  font-weight: 400;
+  cursor: pointer;
+  background: #111;
+  color: white;
+  padding: 25px;
+}
+
+.specAdoption-information-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 0 20px;
+}
+
+.specAdoption-userInfo,
+.specAdoption-animalInfo {
+  width: 50%;
+}
+
+.specAdoption-userInfo-header,
+.specAdoption-animalInfo-header {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-top: 30px;
+  margin-bottom: 15px;
+}
+
+.specAdoption-userInfo-label,
+.specAdoption-animalInfo-label {
+  font-size: 1.3rem;
+  font-weight: 500;
+  margin-bottom: 15px;
+}
+
+.specAdoption-userInfo-value,
+.specAdoption-animalInfo-value {
+  font-weight: 300;
+  margin-left: 5px;
+}
+
+.specAdoption-userInfo-address {
+  font-size: 1.3rem;
+  font-weight: 300;
+  width: 90%;
+  line-height: 35px;
+}
+
+.specAdoption-userInfo-label-validId,
+.specAdoption-animalInfo-label-image {
+  font-size: 1.3rem;
+  font-weight: 500;
+  margin-top: 40px;
+  margin-bottom: 10px;
+}
+
+.specAdoption-img {
+  height: 300px;
+  width: 400px;
+}
+
+.specAdoption-valid-id {
+  height: 500px;
+  width: 350px;
+}
+
+.specAdoption-schedule {
+  margin-top: 40px;
+}
+
+.specAdoption-no-schedule-header {
+  text-align: center;
+  font-size: 2rem;
+  margin: 80px 0 0 0;
+}
+
+.specAdoption-set-sched-btn {
+  font-size: 1.5rem;
+  font-weight: 500;
+  border: 0.5px solid #000;
+  outline: none;
+  padding: 10px 16px;
+  margin: 40px auto 0 auto;
+  display: block;
+  background: transparent;
+  cursor: pointer;
+}
+
+.specAdoption-set-sched-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.25);
+  height: 600px;
+  width: 600px;
+  z-index: 10;
+}
+
+.specAdoption-close-modal {
+  height: 40px;
+  width: 40px;
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  cursor: pointer;
+}
+
+.specAdoption-set-sched-header {
+  font-size: 1.8rem;
+  font-weight: 500;
+  margin: 40px 0 0 40px;
+}
+
+.set-sched-label,
+.set-sched-input,
+.sched-message,
+.set-sched-date-picker,
+.set-sched-time-picker {
+  display: block;
+  margin-left: 40px;
+  margin-right: 40px;
+}
+
+.set-sched-label:first-of-type {
+  margin-top: 50px;
+}
+
+.set-sched-label {
+  font-size: 1.5rem;
+  margin-bottom: 7px;
+}
+
+.set-sched-input {
+  height: 45px;
+  width: 85%;
+  font-size: 1rem;
+  padding: 0 8px;
+}
+
+.sched-message {
+  resize: none;
+  width: 85%;
+  height: 120px;
+  padding: 10px;
+}
+
+.set-sched-date-picker,
+.set-sched-time-picker {
+  height: 40px;
+  width: 300px;
+}
+
+.set-sched-btn {
+  display: block;
+  margin: 70px auto 0 auto;
+  background-color: #111;
+  color: white;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.6rem;
+  padding: 12px 20px;
+}
+
+.specAdoption-details-container {
+  padding: 0 20px;
+}
+
+.specAdoption-details-label {
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+.specAdoption-details-label:first-of-type {
+  margin-top: 30px;
+}
+
+.specAdoption-message {
+  margin-bottom: 5px;
+}
+
+.specAdoption-details-value {
+  font-weight: 300;
+  margin-left: 3px;
+}
+
+.specAdoption-details-message {
+  font-weight: 300;
+  font-size: 1.5rem;
+  line-height: 40px;
+}
+
+.specAdoption-btns-container {
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 100px;
+  margin-bottom: 150px;
+}
+
+.specAdoption-accept-btn,
+.specAdoption-reject-btn {
+  font-size: 1.5rem;
+  font-weight: 600;
+  padding: 20px 35px;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+}
+
+.specAdoption-accept-btn {
+  margin-left: 10px;
+  background-color: #5cb85c;
+  color: white;
+}
+
+.specAdoption-reject-btn {
+  margin-right: 10px;
+  background-color: #d9534f;
+  color: white;
+}
+
+.specAdoption-accept-overlay {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 580px;
+  width: 650px;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  z-index: 10;
+}
+
+.accept-adoption-header {
+  font-weight: 600;
+  font-size: 1.6rem;
+  margin: 45px 35px 0 35px;
+}
+
+.accept-adoption-label:first-of-type {
+  font-size: 1.2rem;
+  font-weight: 400;
+  margin: 35px 35px 5px 35px;
+}
+
+.accept-adoption-label {
+  margin: 30px 35px 5px 35px;
+} 
+
+.accept-adoption-date-picker, .accept-adoption-time-picker {
+  margin: 0 35px;
+  height: 40px;
+}
+
+.accept-adoption-date-picker {
+  padding-left: 7px;
+}
+
+.accept-adoption-input {
+  margin: 0px 35px;
+  width: 85%;
+  height: 45px;
+  padding: 3px 10px;
+  font-size: .95rem;
+}
+
+.accept-adoption-label {
+  display: block;
+}
+
+.accept-adoption-btn {
+  display: block; 
+}
+
+.accept-adoption-btn {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+  background-color: #5cb85c;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  margin: 70px 35px 0 35px;
+}
+
+

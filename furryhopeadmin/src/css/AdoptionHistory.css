@@ -1,0 +1,46 @@
+.adoptions-table {
+  margin: 50px 105px 0 105px;
+  border-collapse: collapse;
+}
+
+/* 
+    table head color
+    bg - rgb(248, 248, 248)
+    text - rgb(164, 166, 172) 
+*/
+
+.adoptions-table-row {
+  background-color: rgb(248, 248, 248);
+}
+
+.adoptions-row-head {
+  color: rgb(164, 166, 172);
+  height: 50px;
+  width: 230px;
+  font-size: 1.45rem;
+}
+
+.adoptions-table-body-row {
+  height: 100px;
+}
+
+.adoptions-row-body {
+  padding: 10px 15px;
+  font-size: 1.2rem;
+}
+
+.adoptions-row-center {
+  text-align: center;
+}
+
+.adoptions-row-body-actions {
+  margin: 0 auto;
+}
+
+.adoptions-body-view-btn {
+  padding: 8px 15px;
+  display: block;
+  margin: 0 auto;
+  font-size: 1rem;
+  cursor: pointer;
+}
