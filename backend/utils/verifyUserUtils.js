@@ -15,8 +15,8 @@ const emailTransport = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     auth: {
         // Palitan mo to ng values sa .env
-        user: 'qjasalvador@tip.edu.ph',
-        pass: 'tipofthetopoftheworld'
+        user: "furryhope.mail@gmail.com",
+        pass: "MarikinaVeterinaryOffice"
     }
 })
 

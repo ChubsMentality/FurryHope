@@ -55,7 +55,7 @@ const registerUser = asyncHandler(async (req, res) => {
     await verificationToken.save()
     
     let mailOptions = {
-        from: 'qjasalvador@tip.edu.ph',
+        from: 'furryhope.mail@gmail.com',
         to: user.email,
         subject: 'Account Verification - FurryHope',
         html: emailTemplate(code)
@@ -141,7 +141,7 @@ const sendResetPassword = asyncHandler(async (req, res) => {
     await resetToken.save()
 
     let mailOptions = {
-        from: 'qjasalvador@tip.edu.ph',
+        from: 'furryhope.mail@gmail.com',
         to: user.email,
         subject: 'Reset Password Link - FurryHope',
         html: generateResetPasswordTemplate(`http://localhost:3000/reset-password?token=${generatedToken}&id=${user._id}`)
@@ -188,7 +188,7 @@ const resetPassword = asyncHandler(async (req, res) => {
     await ResetPasswordToken.findOneAndDelete({ owner: user._id })
 
     let mailOptions = {
-        from: 'qjasalvador@tip.edu.ph',
+        from: 'furryhope.mail@gmail.com',
         to: user.email,
         subject: 'Password Reset Successful - FurryHope',
         html: plainEmailTemplate(

@@ -248,7 +248,7 @@ const createInterviewSched = asyncHandler(async (req, res) => {
     }
 
     let mailOptions = {
-        from: 'qjasalvador@tip.edu.ph',
+        from: 'furryhope.mail@gmail.com',
         to: recipientEmail,
         subject: 'Marikina Veterinary Office - Interview for Adopting one of our animals',
         html: sendInterviewSchedTemplate(date, time)
