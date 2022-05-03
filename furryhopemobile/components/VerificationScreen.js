@@ -31,6 +31,7 @@ const VerificationScreen = ({ navigation, route }) => {
             navigation.navigate('Login')
         } catch (error) {
             console.log(error)
+            alert('Invalid Code.')
         }
     }
 

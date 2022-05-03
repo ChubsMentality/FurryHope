@@ -2,7 +2,6 @@ import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import Home from '../Home';
 import Profile from '../Profile'
-import ProfileSettings from '../ProfileSettings'
 import AnimalCare from '../AnimalCare'
 import ViewAnimals from '../ViewAnimals'
 import UserFeedback from '../Forms/UserFeedback'
@@ -15,7 +14,7 @@ const DrawerContainer = () => {
     const Drawer = createDrawerNavigator();
     return (
         <Drawer.Navigator 
-            initialRouteName='Home'
+            initialRouteName='View Animals'
             screenOptions={{
                 drawerStyle: {
                     backgroundColor: '#111',

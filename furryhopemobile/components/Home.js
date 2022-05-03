@@ -25,12 +25,17 @@ const Home = ({ navigation }) => {
     const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext)
     const [animalPreferences, setAnimalPreferences] = useState([])
     const [animals, setAnimals] = useState()
+    const [notAdopted, setNotAdopted] = useState()
 
     const [list, setList] = useState([])
     const [breedOptions, setBreedOptions] = useState()
     const [colorOptions, setColorOptions] = useState()
     const [animalTypeOptions, setAnimalTypeOptions] = useState()
     const [genderOptions, setGenderOptions] = useState()
+
+    const filterNotAdopted = (arr) => {
+        return arr.adoptionStatus === 'Not Adopted'
+    }
 
     const filterPreferences = async () => {
         try {
@@ -40,6 +45,8 @@ const Home = ({ navigation }) => {
             setAnimalPreferences(userData.animalPreferences)
             setAnimals(animalData)
             console.log(animalData)
+            setNotAdopted(animalData.filter(filterNotAdopted))
+
 
             let breeds = []
             let colors = []
@@ -68,40 +75,40 @@ const Home = ({ navigation }) => {
     const renderPreferences = () => {
         console.log(animalPreferences)
 
+        let breeds = []
+        let colors = []
+        let animalType = []
+        let animalGender = []
+
+        notAdopted.forEach((item) => {
+            breeds.push(item.breed)
+            colors.push(item.color)
+            animalType.push(item.type)
+            animalGender.push(item.gender)
+        })
+
+        let uniqueBreeds = [...new Set(breeds)]
+        let uniqueColors = [...new Set(colors)]
+        let uniqueAnimalType = [...new Set(animalType)]
+        let uniqueAnimalGender = [...new Set(animalGender)]
+
         animalPreferences.forEach(preference => {
-            if (breedOptions.includes(preference)) {
+            if (uniqueBreeds.includes(preference)) {
                 // console.log(preference)
-                let filteredBreed = animals.filter(animal => animal.breed === preference)
+                let filteredBreed = notAdopted.filter(animal => animal.breed === preference)
                 setList(...list, filteredBreed)
+                console.log(filteredBreed)
             } 
 
         })
 
         animalPreferences.forEach(preference => {
-            if (colorOptions.includes(preference)) {
+            if (uniqueColors.includes(preference)) {
                 // console.log(preference)
-                let filteredColor = animals.filter(animal => animal.color === preference)
+                let filteredColor = notAdopted.filter(animal => animal.color === preference)
                 setList(...list, filteredColor)
             } 
         })
-
-        // animalPreferences.forEach(preference => {
-        //     if (animalTypeOptions.includes(preference)) {
-        //         // console.log(preference)
-        //         let filteredType = animals.filter(animal => animal.animalType === preference)
-        //             console.log(filteredType)
-        //             setList([...list, filteredType])
-        //     } 
-        // })
-
-        // animalPreferences.forEach(preference => {
-        //     if (genderOptions.includes(preference)) {
-        //         // console.log(preference)
-        //         let filteredGender = animals.filter(animal => animal.gender === preference)
-        //             console.log(filteredGender)
-        //             setList([...list, filteredGender])
-        //     }
-        // })
     }
 
     useEffect(() => {

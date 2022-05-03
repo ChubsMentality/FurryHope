@@ -14,7 +14,7 @@ import closeModalIcon from '../assets/UserPreference/closeModalRed.svg'
 const UserPreferences = ({ navigation }) => {
     const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext)
 
-    const [data, setData] = useState([])
+    const [notAdopted, setNotAdopted] = useState([])
     const [modalVisible, setModalVisible] = useState(false)
     const [overlay, setOverlay] = useState(false)
     const [breedOptions, setBreedOptions] = useState()
@@ -37,11 +37,15 @@ const UserPreferences = ({ navigation }) => {
     let animalTypePreferences = []
     let animalGenderPreferences = []
  
+    const filterNotAdopted = (arr) => {
+        return arr.adoptionStatus === 'Not Adopted'
+    }
+
     const fetchData = async () => {
         try {
             const { data: responseData } = await axios.get('http://localhost:5000/api/animals')
             console.log(responseData)
-            setData(responseData)
+            setNotAdopted(responseData.filter(filterNotAdopted))
         } catch (error) {
             console.log(error)
             alert(error)
@@ -66,9 +70,9 @@ const UserPreferences = ({ navigation }) => {
     const openModal = () => {
         setModalVisible(true)
         setOverlay(true)
-        console.log(data)
+        console.log(notAdopted)
 
-        data.forEach((item) => {
+        notAdopted.forEach((item) => {
             breeds.push(item.breed)
             colors.push(item.color)
             animalType.push(item.type)

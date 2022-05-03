@@ -13,27 +13,6 @@ import pawBlack from '../../assets/AnimalCare/text-paw-unfilled-black.svg'
 
 const RegisterAnimal = ({ navigation }) => {
     const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext)
-
-    /*
-    // Testing
-    const getRegistration = async () => {
-        // We will pass this config object containing the user's token for the authentication in the backend
-        // It's used in authMiddleware.js
-        const config = {
-            headers: {
-                Authorization: `Bearer ${storedCredentials.token}`
-            }
-        }
-
-        const { data } = await axios.get('http://localhost:5000/api/users/getSpecificRegistrations', config)
-        console.log(data)
-    }
-
-    useEffect(() => {
-        getRegistration()
-    }, [])
-    */
-
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
     var d = new Date()
     var month = months[d.getMonth()]
@@ -123,28 +102,12 @@ const RegisterAnimal = ({ navigation }) => {
                     animalName, animalBreed, animalAge, animalColor, animalSex, date
                 }, config)
 
+                alert('Submitted the Registration, Check your emails for updates soon.')
                 console.log(data)
             } catch (error) {
                 console.log(error)
                 alert(error)                
             }
-
-            /*
-                fetch format
-                
-                axios.post('http://192.168.1.10:5000/api/users/registerAnimal', {
-                    animalType, registrationType, name, contactNo, lengthOfStay, address,
-                    animalName, animalBreed, animalAge, animalColor, animalSex, date
-                }, config)
-                    .then((response) => {
-                        console.log(response)
-                        alert('Successfully submited your registration')
-                    })
-                    .catch((error) => {
-                        alert(error)
-                        console.log(error)
-                    })
-            */
         }
 
         setLoading(false)

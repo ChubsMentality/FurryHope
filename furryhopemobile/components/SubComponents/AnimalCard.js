@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginTop: 317,
+        marginTop: 305,
     },
 
     animalDescription: {
@@ -70,14 +70,15 @@ const styles = StyleSheet.create({
 
     animalName: {
         fontFamily: 'Poppins_600SemiBold',
-        fontSize: 25,
+        fontSize: 28,
         color: 'white',
     },
 
     animalBreed: {
         fontFamily: 'Poppins_200ExtraLight',
-        fontSize: 13,
+        fontSize: 17,
         color: 'white',
+        marginTop: -3,
     },
 
     seeInfoBtn: {

@@ -1,4 +1,4 @@
-import { Image, Text, TextInput, TouchableOpacity, useWindowDimensions, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
+import { ActivityIndicator, Image, Text, TextInput, TouchableOpacity, useWindowDimensions, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import React, { useState, useContext } from 'react'
 import { Picker } from '@react-native-picker/picker'
@@ -20,6 +20,7 @@ const Donate = () => {
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [contactNo, setContactNo] = useState('')
+    const [loading, setLoading] = useState(false)
 
     // Date of Donation
     const [selectedMonth, setSelectedMonth] = useState('January')
@@ -69,30 +70,50 @@ const Donate = () => {
     }
 
     const submitHandler = async () => {
+        setLoading(true)
+
         if(!name || !email || !contactNo || !selectedMonth || !selectedDay || !selectedYear || !hour || !minute || !timePeriod || !items ) {
             alert('Fill out the necessary fields.')
         }
 
-        let dateOfDonation = `${selectedMonth} ${selectedDay}, ${selectedYear}`
-        let time = `${hour}:${minute} ${timePeriod}`
+        if(selectedMonth === 'February' && selectedDay === '29') {
+            alert('Invalid Date, Choose a valid one')
+        } else if(selectedMonth === 'February' && selectedDay === '30') {
+            alert('Invalid Date, Choose a valid one')
+        } else if(selectedMonth === 'February' && selectedDay === '31') {
+            alert('Invalid Date, Choose a valid one')
+        } else if(selectedMonth === 'April' && selectedDay === '31') {
+            alert('Invalid Date, Choose a valid one')
+        } else if(selectedMonth === 'June' && selectedDay === '31') {
+            alert('Invalid Date, Choose a valid one')
+        } else if(selectedMonth === 'September' && selectedDay === '31') {
+            alert('Invalid Date, Choose a valid one')
+        } else if(selectedMonth === 'November' && selectedDay === '31') {
+            alert('Invalid Date, Choose a valid one')
+        } else {
+            let dateOfDonation = `${selectedMonth} ${selectedDay}, ${selectedYear}`
+            let time = `${hour}:${minute} ${timePeriod}`
 
-        console.log(dateOfDonation)
-        console.log(time)
+            console.log(dateOfDonation)
+            console.log(time)
 
-        try {
-            const { data } = await axios.post('http://localhost:5000/api/users/submitDonation', 
-            { dateOfDonation, time, name, email, contactNo, items }, config)
+            try {
+                const { data } = await axios.post('http://localhost:5000/api/users/submitDonation', 
+                { dateOfDonation, time, name, email, contactNo, items }, config)
 
-            console.log(data)
-            alert('Thank you for donating, it will help the animals.')
-        } catch (error) {
-            console.log(error)
+                console.log(data)
+                alert('Thank you for donating, it will help the animals.')
+            } catch (error) {
+                console.log(error)
+            }
+
+            setName('')
+            setEmail('')
+            setContactNo('')
+            setItems([])
         }
 
-        setName('')
-        setEmail('')
-        setContactNo('')
-        setItems([])
+        setLoading(false)
     }
 
     // console.log(items)
@@ -339,7 +360,11 @@ const Donate = () => {
                 ))}
 
                 <TouchableOpacity style={styles.submitBtn} onPress={() => submitHandler()}>
-                    <Text style={styles.submitText}>SUBMIT</Text>
+                    {loading ?
+                        <ActivityIndicator color='white' style={{ marginTop: 12 }} /> 
+                        :
+                        <Text style={styles.submitText}>SUBMIT</Text>
+                    }
                 </TouchableOpacity>
             </ScrollView>
 

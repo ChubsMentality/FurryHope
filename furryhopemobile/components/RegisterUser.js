@@ -11,12 +11,19 @@ const RegisterUser = ({navigation}) => {
     const register = async () => {
         setLoading(true)
 
-        if(password !== confirmPassword) {
+        // Using regex to create a strong password
+        if (password.search(/[0-9]/) === -1) { // Password should contain a number
+            alert('Your password should contain one or more numbers')
+        } else if(password.search(/[a-z]/) === -1) { // Password should contain a lowercase letter
+            alert('Your password should contain lowercase letters')
+        } else if(password.search(/[A-Z]/) === -1) { // Password should contain an uppercase letter
+            alert('Your password should contain an uppercase letter')
+        } else if(password.search(/[!\@\#\$\%\^\&\*\(\)\_\+\.\,\;\:]/) === -1) { // Password should contain special characters
+            alert('Your password should also contain special characters')
+        } else if(password !== confirmPassword) {
             alert('Passwords does not match');
         } else if(!fullName || !email || !contactNo || !password || !confirmPassword) {
             alert('Please fill out all the necessary fields');
-        } else if(password.length < 8) {
-            alert('Passwords should be atleast 8 characters long.')
         }
          else {
             try {
@@ -31,6 +38,8 @@ const RegisterUser = ({navigation}) => {
                 setLoading(false)
             }
         }
+
+        setLoading(false)
     }
 
     const [fullName, setFullName] = useState('');

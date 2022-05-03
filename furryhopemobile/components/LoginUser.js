@@ -32,29 +32,9 @@ const LoginUser = ({ navigation }) => {
                 setLoading(false)
             } catch (error) {
                 console.log(error);
-                alert('Invalid email or password');
+                alert('Invalid user credentials / Account is not verified');
                 setLoading(false)
             }
-
-            /* Promise format
-            axios.post('http://192.168.1.10:5000/api/users/loginUser', {email, password})
-                .then((response) => {
-                    const result = response.data;
-                    console.log(result);
-
-                    // Store the user's credential inside async storage, and will automatically navigate to the home page
-                    // and it will keep the user logged in
-                    // due to the logic in app.js line 88 - 96
-                    persistLogin(result);
-                    setLoading(false)
-                })
-                .catch(error => {
-                    console.log(error);
-                    alert('Invalid email or password');
-                    setLoading(false)
-                    throw error
-                })
-            */
             setLoading(false)
         }
     }

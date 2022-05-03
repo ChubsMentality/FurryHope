@@ -4,6 +4,7 @@ import returnIcon from '../../assets/ReportAnimal/returnIcon-white.svg'
 import cameraIcon from '../../assets/ReportAnimal/camera-icon.png'
 import galleryIcon from '../../assets/ReportAnimal/gallery-icon.png'
 import * as ImagePicker from 'expo-image-picker'
+import * as Location from 'expo-location'
 import { useNavigation } from '@react-navigation/native'
 import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import BottomNav from '../SubComponents/BottomNav'
@@ -13,6 +14,7 @@ const ReportAnimal = () => {
     const [description, setDescription] = useState('')
     const [img, setImg] = useState('http://res.cloudinary.com/drvd7jh0b/image/upload/v1640256598/hyr5slabmcd9zf8xddrv.png')
     const [image, setImage] = useState('')
+    const [userLocation, setUserLocation] = useState('')
     
     const pickAnImage_Gallery = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -73,9 +75,26 @@ const ReportAnimal = () => {
         
     }
 
+    // const getCurrentLocation = async () => {
+    //     let { status } = await Location.requestForegroundPermissionsAsync();
+    //     if (status !== 'granted') {
+    //         setErrorMsg('Permission to access location was denied');
+    //         return;
+    //     }
+
+    //     let location = await Location.getCurrentPositionAsync({})
+    //     let address = await Location.reverseGeocodeAsync(location.coords)
+    //     console.log(address)
+    //     setUserLocation(location);
+    //     console.log(location)
+    // }
+
     useEffect(() => {
         console.log(image)
+        // getCurrentLocation()
     }, [image])
+
+
 
     const submitReport = async () => {
         if(image == '') {

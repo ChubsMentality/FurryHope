@@ -15,8 +15,11 @@ const Profile = () => {
     const window = useWindowDimensions()
     const navigation = useNavigation()
 
+    console.log(storedCredentials)
+
     const [currentStatus, setCurrentStatus] = useState('Pending')
     const [adoptions, setAdoptions] = useState([])
+    const [registerAnimals, setRegsterAnimals] = useState()
     const [pending, setPending] = useState([])
     const [adopted, setAdopted] = useState([])
     const isPending = currentStatus === 'Pending'
@@ -65,11 +68,28 @@ const Profile = () => {
         } catch (error) {
             console.log(error)
         }
+    } 
+
+    const fetchRegistrations = async () => {
+        const config = {
+            headers: {
+                Authorization: `Bearer ${storedCredentials.token}`,
+            },
+        }
+
+        try {
+            const { data } = await axios.get(`http://localhost:5000/api/users/getSpecificRegistrations`, config)
+            setRegsterAnimals(data)
+            console.log(data)
+        } catch (error) {
+            console.log(error)    
+        }
     }
 
     useEffect(() => { 
         fetchAdoptions()
         fetchUser()
+        fetchRegistrations()
     }, [successChangedPicture])
 
     const renderData = ({item}) => {
@@ -262,6 +282,20 @@ const Profile = () => {
                             ListEmptyComponent={emptyList}
                         />
                     </View>
+                    
+                    <Text style={styles.animalRegHeader}>Animal Registrations</Text>
+                    <View style={styles.animalRegContainer}>
+                        <Text style={styles.animalNameReg}>Pet's Name</Text>
+                        <Text style={styles.regStatus}>Status</Text>
+                    </View>
+                    {registerAnimals &&
+                        registerAnimals.map((animal) => (
+                            <View style={styles.regContainer} key={animal._id}>
+                                <Text>{animal.animalName}</Text>
+                                <Text>{animal.registered}</Text>
+                            </View>
+                        ))
+                    }
                 </View>
             </ScrollView>
 
@@ -384,8 +418,42 @@ const styles = StyleSheet.create({
     },
 
     myAdoptionsHeader: {
-        fontFamily: 'Poppins_500Medium',
+        fontFamily: 'Poppins_700Bold',
         fontSize: 14,
+    },
+
+    animalRegHeader: {
+        fontFamily: 'Poppins_700Bold',
+        fontSize: 14,
+        marginTop: 50,
+    },
+
+    animalRegContainer: {
+        borderBottomWidth: 1,
+        borderBottomColor: '#b0b0b0',
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginTop: 15,
+        paddingBottom: 5,
+    },
+
+    animalNameReg: {
+        fontFamily: 'Poppins_500Medium',
+    },
+
+    regStatus: {
+        fontFamily: 'Poppins_500Medium',
+    },
+
+    regContainer: {
+        borderBottomWidth: 1,
+        borderBottomColor: '#b0b0b0',
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingTop: 5,
+        paddingBottom: 5,
     },
 
     adoptionStatus: {

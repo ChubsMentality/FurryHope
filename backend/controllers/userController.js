@@ -217,6 +217,11 @@ const loginUser = asyncHandler(async (req, res) => {
     // Finds the user in the db
     const userAcc = await User.findOne({ email });
 
+    if(!userAcc.verified) {
+        res.status(401)
+        throw new Error(`Your account is unverified, you can't login.`)
+    }
+
     // Authenticates the user
     if(userAcc && (await userAcc.matchPassword(password))) {
         res.json({
