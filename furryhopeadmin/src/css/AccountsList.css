@@ -41,6 +41,7 @@
     border: none;
     border-radius: 25px;
     background-color: #fff799;
+    cursor: pointer;
 }
 
 .switch-container {
@@ -111,6 +112,8 @@
     padding: 0 10px
 }
 
+
+
 .delete-admin-btn, .delete-user-btn {
     margin: 0 auto;
     display: block;
@@ -119,5 +122,150 @@
     border-radius: 5px;
     outline: none;
     cursor: pointer;
+    border: 1px solid gray;
 }
 
+/* 1600 x 1200 */
+@media screen and (max-width: 1919px) {
+    .accounts-content {
+        margin-left: 380px;
+    }
+
+    .accounts-header {
+        font-size: 2.2rem;
+        width: fit-content;
+        margin: 90px 0 20px 80px;
+    }
+
+    .accounts-subHeader {
+        margin: 90px 210px 30px 80px;
+    }
+
+    .accounts-admins-header, .accounts-users-header {
+        font-size: 1.5rem;
+    }
+
+    .accounts-table {
+        width: 1000px;
+    }
+}
+
+/* 1440 x 900 */
+@media screen and (max-width: 1440px) {
+    .accounts-content {
+        margin-left: 340px;
+    }
+
+    .accounts-header {
+        font-size: 1.8rem;
+    }
+
+    .accounts-admins-header, .accounts-users-header {
+        font-size: 1.3rem;
+    }
+
+    .accounts-add-admin {
+        font-size: .95rem;
+        margin: 4px 0 0 20px;
+    }
+
+    .switch-admins, .switch-users {
+        font-size: 1.2rem;
+    }
+
+    .accounts-table {
+        width: 850px;
+    }
+
+    .accounts-th {
+        font-size: 1.3rem;
+        height: 50px;
+    }
+
+    .accounts-data, .accounts-action {
+        font-size: .95rem;
+    }
+}
+
+/* 1360 x 900 */
+@media screen and (max-width: 1360px) {
+    .accounts-content {
+        margin-left: 320px;
+    }
+
+    .accounts-header {
+        font-size: 1.6rem;
+    }
+
+    .accounts-admins-header, .accounts-users-header {
+        font-size: 1.2rem;
+        margin-bottom: 0px;
+    }
+
+    .accounts-add-admin {
+        font-size: .85rem;
+        margin: 1px 0 0 20px;
+    }
+
+    .switch-admins, .switch-users {
+        font-size: 1.1rem;
+    }
+
+    .accounts-th {
+        font-size: 1.2rem
+    }
+
+    .accounts-data, .accounts-action {
+        font-size: .85rem;
+    }
+}
+
+/* 1280 x 1024 */
+@media screen and (max-width: 1280px) {
+    .accounts-content {
+
+    }
+
+    .accounts-header {
+        font-size: 1.5rem;
+    }
+
+    .accounts-table {
+        width: 790px;
+    }
+}
+
+/* 1024 x 768 */
+@media screen and (max-width: 1024px) {
+    .accounts-content {
+        margin-left: 260px;
+    }
+
+    .accounts-admins-header, .accounts-users-header {
+        font-size: 1.05rem;
+    }
+
+    .accounts-subHeader {
+        justify-content: space-between;
+    }
+
+    .switch-container {
+        width: 30%;
+    }
+
+    .accounts-add-admin {
+        font-size: .75rem;
+    }
+
+    .accounts-table {
+        width: 630px;
+    }
+
+    .accounts-th {
+        font-size: 1rem;
+    }
+
+    .accounts-data, .accounts-action {
+        font-size: .8rem;
+    }
+}

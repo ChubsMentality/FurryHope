@@ -51,6 +51,12 @@ import {
     RECEIVED_DONATION_REQUEST,
     RECEIVED_DONATION_SUCCESS,
     RECEIVED_DONATION_FAIL,
+    ADD_TO_INVENTORY_REQUEST,
+    ADD_TO_INVENTORY_SUCCESS,
+    ADD_TO_INVENTORY_FAIL,
+    GET_INVENTORY_REQUEST,
+    GET_INVENTORY_SUCCESS,
+    GET_INVENTORY_FAIL,
 } from '../constants/adminConstants'
 
 export const adminLoginReducer = (state={}, action) => {
@@ -287,3 +293,30 @@ export const receivedDonationReducer = (state = {}, action) => {
     }
 }
 
+export const addtoInventoryReducer = (state = {}, action) => {
+    switch(action.type) {
+        case ADD_TO_INVENTORY_REQUEST: 
+            return { loading: true }
+        case ADD_TO_INVENTORY_SUCCESS:
+            return { loading: false, success: true }
+        case ADD_TO_INVENTORY_FAIL:
+            return { loading: false, success: false, error: action.payload }
+
+        default:
+            return state
+    }
+}
+
+export const getInventoryReducer = (state = { inventoryList: [] }, action) => {
+    switch(action.type) {
+        case GET_INVENTORY_REQUEST: 
+            return { loading: true }
+        case GET_INVENTORY_SUCCESS:
+            return { loading: false, inventoryList: action.payload }
+        case GET_INVENTORY_FAIL:
+            return { loading: false, error: action.payload }
+
+        default: 
+            return state
+    }
+}

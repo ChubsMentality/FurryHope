@@ -61,9 +61,9 @@ const ManageData = () => {
     }
 
     useEffect(() => {
-        setNotAdopted(animalList.filter(filterNotAdopted))
-        setPending(animalList.filter(filterPending))
-        setAdopted(animalList.filter(filterAdopted))
+        animalList && setNotAdopted(animalList.filter(filterNotAdopted))
+        animalList && setPending(animalList.filter(filterPending))
+        animalList && setAdopted(animalList.filter(filterAdopted))
         console.log(currentStatus)
 
         if(currentStatus === 'No Filter') {
@@ -156,8 +156,10 @@ const ManageData = () => {
 
     return (
         <div className='manage-body'>
+            {loading && <Loading />}
+            {loading && <Overlay />}
             <Sidebar />
-            <div className='update-content'>
+            <div className='manage-content'>
                 <h1 className='manage-data-header'>MANAGE DATA</h1>
                 <p className='manage-animal-count'>Animals ({filteredAnimals && filteredAnimals.length})</p>
                 <select className='manage-select' value={currentStatus} onChange={(e) => setCurrentStatus(e.target.value)}>

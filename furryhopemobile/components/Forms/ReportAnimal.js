@@ -6,7 +6,7 @@ import galleryIcon from '../../assets/ReportAnimal/gallery-icon.png'
 import * as ImagePicker from 'expo-image-picker'
 import * as Location from 'expo-location'
 import { useNavigation } from '@react-navigation/native'
-import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Alert, Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import BottomNav from '../SubComponents/BottomNav'
 
 const ReportAnimal = () => {
@@ -14,7 +14,54 @@ const ReportAnimal = () => {
     const [description, setDescription] = useState('')
     const [img, setImg] = useState('http://res.cloudinary.com/drvd7jh0b/image/upload/v1640256598/hyr5slabmcd9zf8xddrv.png')
     const [image, setImage] = useState('')
+    const [locationServiceEnabled, setLocationServiceEnabled] = useState(false)
+    const [displayCurrentAddress, setDisplayCurrentAddress] = useState('The location is still being identified')
     const [userLocation, setUserLocation] = useState('')
+    const [googleApiKey, setGoogleApiKey] = useState('')
+
+    const checkIfLocationEnabled = async () => {
+        let enabled = await Location.hasServicesEnabledAsync()
+
+        if(!enabled) {
+            Alert.alert(
+                'Location Service is not enabled',
+                'Please enable your location services to continue',
+                [{ text: 'OK' }],
+                { cancelable: false }
+            )
+        } else {
+            setLocationServiceEnabled(true)
+        }
+    }
+
+    const getCurrentLocation = async () => {
+        // Location.setGoogleApiKey('AIzaSyCLNKnr-vbq5V32GjiJf4CUlmSNhzu4itM')
+        let { status } = await Location.requestForegroundPermissionsAsync();
+
+        if (status !== 'granted') {
+            Alert.alert(
+            'Permission not granted',
+            'Allow the app to use location service.',
+            [{ text: 'OK' }],
+            { cancelable: false }
+            );
+        }
+
+        let { coords } = await Location.getCurrentPositionAsync();
+
+        if (coords) {
+            const { latitude, longitude } = coords;
+            let response = await Location.reverseGeocodeAsync({
+                latitude,
+                longitude
+            });
+
+            for (let item of response) {
+                let address = `${item.name}, ${item.street}, ${item.postalCode}, ${item.city}`;
+                setDisplayCurrentAddress(address);
+            }
+        }
+    }
     
     const pickAnImage_Gallery = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -89,11 +136,17 @@ const ReportAnimal = () => {
     //     console.log(location)
     // }
 
+
     useEffect(() => {
         console.log(image)
         // getCurrentLocation()
     }, [image])
 
+
+    useEffect(() => {
+        checkIfLocationEnabled()
+        getCurrentLocation()
+    }, [])
 
 
     const submitReport = async () => {

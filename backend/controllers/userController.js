@@ -359,19 +359,19 @@ const getSpecificRegistrations = asyncHandler(async (req, res) => {
 const submitAnimalRegistration = asyncHandler(async (req, res) => {
     const { 
         animalType, registrationType, name, contactNo, lengthOfStay, address,
-        animalName, animalBreed, animalAge, animalColor, animalSex, date
+        animalName, animalBreed, animalAge, animalColor, animalSex, date, email
     } = req.body
 
     if(
         !animalType || !registrationType || !name || !contactNo || !lengthOfStay || !address ||
-        !animalName || !animalBreed || !animalAge || !animalColor || !animalSex
+        !animalName || !animalBreed || !animalAge || !animalColor || !animalSex || !date || !email
     ) {
         res.status(400)
         throw new Error('Please fill out all necessary fields')
     } else {
         const newRegistration = new RegisterAnimal({
             animalType, registrationType, name, contactNo, lengthOfStay, address,
-            animalName, animalBreed, animalAge, animalColor, animalSex, date, user: req.user._id
+            animalName, animalBreed, animalAge, animalColor, animalSex, date, email, user: req.user._id
         })
         // The 'user: req.user._id' comes from the validated token of the user in authMiddleware.js
 

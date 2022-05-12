@@ -32,6 +32,7 @@ const RegisterAnimal = ({ navigation }) => {
     const [animalColor, setAnimalColor] = useState('')
     const [animalSex, setAnimalSex] = useState('Choose')
     const [date, setDate] = useState(d.toLocaleDateString())
+    const [email, setEmail] = useState('')
     const [loading, setLoading] = useState(false)
 
     // Step Indicator
@@ -87,7 +88,7 @@ const RegisterAnimal = ({ navigation }) => {
             }
         }
 
-        if(!animalName || !animalBreed || !animalAge || !animalColor) {
+        if(!animalName || !animalBreed || !animalAge || !animalColor || !email) {
             alert('Please fill out all the necessary fields')
             setLoading(false)
             return
@@ -99,7 +100,7 @@ const RegisterAnimal = ({ navigation }) => {
             try {
                 const { data } = await axios.post('http://localhost:5000/api/users/registerAnimal', {
                     animalType, registrationType, name, contactNo, lengthOfStay, address,
-                    animalName, animalBreed, animalAge, animalColor, animalSex, date
+                    animalName, animalBreed, animalAge, animalColor, animalSex, date, email
                 }, config)
 
                 alert('Submitted the Registration, Check your emails for updates soon.')
@@ -123,6 +124,7 @@ const RegisterAnimal = ({ navigation }) => {
         setAnimalAge('')
         setAnimalColor('')
         setAnimalSex('Choose')
+        setEmail('')
         setTimeout(() => {
             setCurrentStep(0)
         }, 2000)
@@ -204,6 +206,13 @@ const RegisterAnimal = ({ navigation }) => {
                             style={styles.formInput}
                             value={name}
                             onChangeText={setName}
+                        />
+
+                        <Text style={styles.formLabel}>Email</Text>
+                        <TextInput 
+                            style={styles.formInput}
+                            value={email}
+                            onChangeText={setEmail}
                         />
 
                         <Text style={styles.formLabel}>Contact Number</Text>

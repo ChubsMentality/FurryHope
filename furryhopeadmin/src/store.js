@@ -19,6 +19,8 @@ import {
     getDonationsReducer,
     deleteDonationReducer,
     receivedDonationReducer,
+    addtoInventoryReducer,
+    getInventoryReducer,
 } from './reducers/adminReducers'
 import { animalCreateReducer, animalDataReducer, animalDeleteReducer, animalUpdateReducer } from './reducers/animalReducer'
 
@@ -45,6 +47,8 @@ const reducer = combineReducers({
     getDonationsState: getDonationsReducer,
     donationDelete: deleteDonationReducer, 
     receivedDonation: receivedDonationReducer,
+    addToInventoryState: addtoInventoryReducer,
+    donationInventoryState: getInventoryReducer,
 })
 
 // Gets the admin info from the local storage

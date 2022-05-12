@@ -66,6 +66,11 @@ registerAnimalSchema = mongoose.Schema(
             type: String,
             default: 'Not Registered',
         },
+
+        email: {
+            type: String,
+            required: true,
+        },
         
         user: {
             type: mongoose.Schema.Types.ObjectId,

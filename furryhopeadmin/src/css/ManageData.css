@@ -5,7 +5,7 @@
   position: relative;
 }
 
-.content {
+.manage-content {
   margin-left: 500px;
   padding: 0;
   overflow: hidden;
@@ -30,6 +30,85 @@
   cursor: pointer;
 }
 
+/* 1600 x 1200 */
+@media screen and (max-width: 1919px)  {
+  .manage-data-header {
+    margin: 70px 0 30px 0px;
+  }
+
+  .manage-animal-count {
+    margin: 0;
+  }
+
+  .manage-select {
+    margin: 10px 0 100px 0px;
+  }
+}
+
+/* 1440 x 900 */
+@media screen and (max-width: 1440px) {
+  .manage-content {
+    margin-left: 430px;
+  }
+
+  .manage-data-header {
+    margin: 70px 0 25px 0;
+    font-size: 2.25rem;
+    width: 270px;
+  }
+
+  .manage-animal-count {
+    font-size: 1.45rem;
+  }
+}
+
+/* 1368 x 768 */
+@media screen and (max-width: 1368px) {
+  .manage-content {
+    margin-left: 415px;
+  }
+
+  .manage-data-header {
+    font-size: 2rem;
+    width: 240px;
+  }
+
+  .manage-animal-count {
+    font-size: 1.3rem;
+  }
+}
+
+/* 1280 x 1024 */
+@media screen and (max-width: 1280px) {
+  .manage-content {
+    margin-left: 385px;
+  }
+
+  .manage-data-header {
+    font-size: 1.9rem;
+    width: 228px;
+  }
+
+  .manage-animal-count {
+    font-size: 1.25rem;
+  }
+}
+
+/* 1024 x 768 */
+@media screen and (max-width: 1024px) {
+  .manage-content {
+    margin-left: 350px;
+  }
+
+  .manage-data-header {
+    font-size: 1.7rem;
+  }
+
+  .manage-animal-count {
+    font-size: 1.175rem;
+  }
+}
+
 /* pagination rulesets */
 .pagination-div {
   display: grid;
@@ -51,7 +130,7 @@
 }
 
 .pagination-link-a {
-  font-size: 1.75rem;
+  font-size: 1.55rem;
   background-color: rgba(0, 0, 0, .05);
   padding: 3px 10px;
 }

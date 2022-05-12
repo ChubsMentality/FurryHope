@@ -52,7 +52,7 @@ const AddAdmin = () => {
     return ( 
         <div className="body">
             <Sidebar />
-            <div className='content'>
+            <div className='add-admin-content'>
                 <p className='add-admin-header'>ADD AN ADMIN ACCOUNT</p>
                 <Link to={'/accountsList'}>
                     <button className='addAdmin-back-link'>back to accounts</button>
@@ -60,22 +60,22 @@ const AddAdmin = () => {
                 
                 <form className="addAdmin-form-container" onSubmit={submitAdmin}>   
 
-                    <label htmlFor="name" className="lbl-name lbl-add">Full Name</label><br />
+                    <label htmlFor="name" className="lbl-name lbl-add-admin">Full Name</label><br />
                     <input type="text" name="name" className="addAdminName input-add-admin" required value={name} onChange={(e) => setName(e.target.value)}/><br />
 
                     <br />
 
-                    <label htmlFor="username" className="lbl-username lbl-add">Username</label><br />
+                    <label htmlFor="username" className="lbl-username lbl-add-admin">Username</label><br />
                     <input type="text" name="username" className="addUsername input-add-admin" required value={username} onChange={(e) => setUsername(e.target.value)} /><br />
 
                     <br />
 
-                    <label htmlFor="password" className="lbl-breed lbl-add">Password</label><br />
+                    <label htmlFor="password" className="lbl-breed lbl-add-admin">Password</label><br />
                     <input type="password" name="password" className="addPassword input-add-admin" required value={password} onChange={(e) => setPassword(e.target.value)}/><br />
 
                     <br />
                     
-                    <label htmlFor="confirmpassword" className="lbl-breed lbl-add">Confirm Password</label><br />
+                    <label htmlFor="confirmpassword" className="lbl-breed lbl-add-admin">Confirm Password</label><br />
                     <input type="password" name="confirmpassword" className="addPassword input-add-admin" required value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} /><br />
 
                     <br />

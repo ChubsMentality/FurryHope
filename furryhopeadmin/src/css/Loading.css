@@ -59,3 +59,48 @@
     background-color: #fff370;
 }
 
+/* 1440 x 900 */
+@media screen and (max-width: 1440px) {
+    :root {
+        --box-size-1440: 53px
+    }
+    
+    .loading-container {
+        height: 360px;
+        width: 620px;
+    }
+
+    .animation-container {
+        margin: 120px 0 0 0;
+    }
+
+    .loading-txt {
+        font-size: 1.85rem;
+    }
+
+    .animated-circle {
+        height: var(--box-size-1440);
+        width: var(--box-size-1440);
+    }
+}
+
+/* 1280 x 1024 */
+@media screen and (max-width: 1280px) {
+    :root {
+        --box-size-1280: 49px;
+    }
+
+    .loading-container {
+        height: 340px;
+        width: 580px;
+    }
+
+    .loading-txt {
+        font-size: 1.7rem;
+    }
+
+    .animated-circle {
+        height: var(--box-size-1280);
+        width: var(--box-size-1280);
+    }
+}

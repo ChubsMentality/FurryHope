@@ -107,7 +107,7 @@ const AddData = () => {
     return (
         <div className="addData-body">
             <Sidebar />
-            <div className='content'>
+            <div className='addData-content'>
                 {error && window.alert(error)}
                 <p className='add-data-header'>ADD A NEW ANIMAL</p>
                 <form className="addData-form-container" onSubmit={submitHandler}>
@@ -133,7 +133,7 @@ const AddData = () => {
                         <br />
 
                         <label htmlFor="select" className="lbl-select lbl-add">Gender</label>
-                        <select className="select" name="select" required value={gender} onChange={(e) => setGender(e.target.value)}>
+                        <select className="select select-gender" name="select-gender" required value={gender} onChange={(e) => setGender(e.target.value)}>
                             <option value="" defaultValue>Select here</option>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>

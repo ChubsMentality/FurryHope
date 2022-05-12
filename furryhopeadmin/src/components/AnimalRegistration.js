@@ -10,8 +10,8 @@ import '../css/AnimalRegistration.css'
 
 const AnimalRegistration = () => {
     const dispatch = useDispatch()
-    const registrations = useSelector(state => state.getRegistrations)
-    const { animalRegistrations, loading } = registrations
+    // const registrations = useSelector(state => state.getRegistrations)
+    // const { animalRegistrations, loading } = registrations
 
     const registeredState = useSelector(state => state.animalRegister)
     const { success, registerLoading } = registeredState
@@ -19,6 +19,20 @@ const AnimalRegistration = () => {
     const [overlay, setOverlay] = useState(false)
     const [modal, setModal] = useState(false)
     const [modalData, setModalData] = useState([])
+    const [animalRegistrations, setAnimalRegistrations] = useState()
+    const [loading, setLoading] = useState(false)
+    const [active, setActive] = useState('')
+    const [activeArr, setActiveArr] = useState()
+    const [registered, setRegistered] = useState()
+    const [notRegistered, setNotRegistered] = useState()
+
+    const filterRegistered = (arr) => {
+        return arr.registered === 'Registered'
+    }
+
+    const filterNotRegistered = (arr) => {
+        return arr.registered === 'Not Registered'
+    }
 
     const openModal = async (id) => {
         const { data } = await axios.get(`http://localhost:5000/api/users/animalRegistration/${id}`)
@@ -35,15 +49,39 @@ const AnimalRegistration = () => {
         setModal(false)
     }
 
-    const registerAnimalHandler = (id) => {
+    const getAnimalHandler = async () => {
+        try {
+            setLoading(true)
+            const { data } = await axios.get('http://localhost:5000/api/admins/getAllRegistrations')
+            setAnimalRegistrations(data)
+            setRegistered(data.filter(filterRegistered))
+            setNotRegistered(data.filter(filterNotRegistered))
+            setLoading(false)
+            setActiveArr(data.filter(filterNotRegistered))
+            setActive('Not Registered')
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const registerAnimalHandler = async (id, email, name, animalName) => {
         dispatch(registerAnimal(id))
+
+        try {
+            const { data } = await axios.post('http://localhost:5000/api/admins/sendRegisteredMessage', { email, name, animalName })
+        } catch (error) {
+            console.log(error)
+        }
+
         alert('The animal has been registered')
         setOverlay(false)
         setModal(false)
     }
 
     useEffect(() => {
-        dispatch(getAnimalRegistrations())
+        getAnimalHandler()
+
     }, [dispatch, success])
 
     const deleteHandler = (id) => {        
@@ -56,6 +94,19 @@ const AnimalRegistration = () => {
         }
     }
 
+    const toggleNotRegistered = () => {
+        setActive('Not Registered')
+        setActiveArr(notRegistered)
+    }
+
+    const toggleRegistered = () => {
+        setActive('Registered')
+        setActiveArr(registered)
+    }
+
+    const isNotRegisteredActive = active === 'Not Registered'
+    const isRegisteredActive = active === 'Registered'
+
     return (
         <div className='animalRegistration-body'>
             <Sidebar />
@@ -63,11 +114,15 @@ const AnimalRegistration = () => {
             {loading && <Overlay />}
             <div className='animalRegistration-content'>
                 <p className='animalRegistration-header'>ANIMAL REGISTRATIONS</p>
+
+                <div className="toggleRegistrationsBtnContainer">
+                    <button className={isNotRegisteredActive ? 'toggle-reg-btn notReg-active' : 'toggle-reg-btn notReg-inactive'} onClick={() => toggleNotRegistered()}>Not Registered</button>
+                    <button className={isRegisteredActive ? 'toggle-reg-btn reg-active' : 'toggle-reg-btn reg-inactive'} onClick={() => toggleRegistered()}>Registered</button>
+                </div>
                 {
-                    animalRegistrations && animalRegistrations.length === 0 ?
+                    activeArr && activeArr.length === 0 ?
                         <p>There are no registrations!</p>
                     :
-                    animalRegistrations ?        
                         <table className='registration-table'>
                             <thead>
                                 <tr>
@@ -81,7 +136,7 @@ const AnimalRegistration = () => {
 
                             <tbody>
                             {
-                                animalRegistrations && animalRegistrations.map((item) => (
+                                activeArr && activeArr.map((item) => (
                                     <tr key={item._id} className='registration-data-row'>
                                         <td className='registration-data data-owner'>{item.name}</td>
                                         <td className='registration-data data-address'>{item.address}</td>
@@ -96,8 +151,6 @@ const AnimalRegistration = () => {
                             }
                             </tbody>
                         </table>
-                    :
-                        <Loading />
                 }
             </div>
 
@@ -107,7 +160,7 @@ const AnimalRegistration = () => {
                     <h1 className='viewRegistration-modal-header'>ANIMAL REGISTRATION</h1>
                     <p className='modalLabel-date'>Date:<span className='modalValue'>{modalData.date}</span></p>
 
-                    <p className='owner-information-header'>Owner's Information</p>
+                    {/* <p className='owner-information-header'>Owner's Information</p> */}
                     <p className='modalLabel'>Animal Type:
                         <span className='modalValue'>{modalData.animalType}</span>
                     </p>
@@ -117,13 +170,16 @@ const AnimalRegistration = () => {
                     <p className='modalLabel'>Owner's Name:
                         <span className='modalValue'>{modalData.name}</span>
                     </p>
+                    <p className='modalLabel'>Email:
+                        <span className='modalValue'>{modalData.email}</span>
+                    </p>
                     <p className='modalLabel'>Contact Number: 
                         <span className='modalValue'>{modalData.contactNo}</span>
                     </p>
                     <p className='modalLabel-address'>Address:</p>
                     <p className='modalValue-address'>{modalData.address}</p>
                     
-                    <p className='animal-information-header'>Animal's Information</p> 
+                    {/* <p className='animal-information-header'>Animal's Information</p>  */}
                     <p className='modalLabel'>Animal's Name: 
                         <span className='modalValue'>{modalData.animalName}</span>
                     </p>
@@ -137,7 +193,7 @@ const AnimalRegistration = () => {
                         <span className='modalValue'>{modalData.animalSex}</span>
                     </p>
 
-                    <button className="registerAnimalBtn" onClick={() => registerAnimalHandler(modalData._id)}>REGISTER</button>
+                    <button className="registerAnimalBtn" onClick={() => registerAnimalHandler(modalData._id, modalData.email, modalData.name, modalData.animalName)}>REGISTER</button>
                 </div>
             }
 

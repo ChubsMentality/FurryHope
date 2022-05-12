@@ -14,7 +14,7 @@ const DrawerContainer = () => {
     const Drawer = createDrawerNavigator();
     return (
         <Drawer.Navigator 
-            initialRouteName='View Animals'
+            initialRouteName='Report an Animal'
             screenOptions={{
                 drawerStyle: {
                     backgroundColor: '#111',

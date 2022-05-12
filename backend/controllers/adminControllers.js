@@ -11,7 +11,7 @@ const InterviewSched = require('../models/interviewSchedModel')
 const asyncHandler = require('express-async-handler');
 const { generateToken } = require('../utils/generateToken');
 const { emailTransport } = require('../utils/verifyUserUtils')
-const { sendInterviewSchedTemplate, pickupTemplate } = require('../utils/emailTemplates');
+const { sendInterviewSchedTemplate, pickupTemplate, rejectAdoptionTemplate, registerAnimalTemplate } = require('../utils/emailTemplates');
 
 const registerAdmin = asyncHandler(async (req, res) => {
     const { username, password, name } = req.body;
@@ -123,6 +123,25 @@ const registerAnimal = asyncHandler(async (req, res) => {
         res.status(404)
         throw new Error('Registration was not found.')
     }
+})
+
+const sendRegisteredMessage = asyncHandler(async (req, res) => {
+    const { email, name, animalName, } = req.body
+
+    let mailOptions = {
+        from: 'furryhope.mail@gmail.com',
+        to: email,
+        subject: 'Marikina Veterinary Office - Your pet has been registered to the vet office.',
+        html: registerAnimalTemplate(name, animalName)
+    }
+
+    emailTransport.sendMail(mailOptions, (error, info) => {
+        if(error) {
+            console.log(error)
+        } else {
+            console.log(`Email was sent to: ${info.response}`)
+        }
+    })
 })
 
 const getAdoptionSubmissions = asyncHandler(async (req, res) => {
@@ -282,7 +301,7 @@ const submitPickupMessage = asyncHandler(async (req, res) => {
         throw new Error('Please fill out all the fields')
     } else {
         let mailOptions = {
-            from: 'qjasalvador@tip.edu.ph',
+            from: 'furryhope.mail@gmail.com',
             to: email,
             subject: 'Your adoption has been accepted - FurryHope',
             html: pickupTemplate(pickupDate, pickupTime, animalName, adopterName)
@@ -290,6 +309,30 @@ const submitPickupMessage = asyncHandler(async (req, res) => {
 
         emailTransport.sendMail(mailOptions, (error, info) => {
             if (error) {
+                console.log(error)
+            } else {
+                console.log(`Email was sent to: ${info.response}`)
+            }
+        })
+    }
+})
+
+const sendRejectMessage = asyncHandler(async (req, res) => {
+    const { email, adopterName, animalName } = req.body
+
+    if(!adopterName || !animalName) {
+        res.status(400)
+        throw new Error('An error has occurred')
+    } else {
+        let mailOptions = {
+            from: 'furryhope.mail@gmail.com',
+            to: email,
+            subject: 'Your adoption has been rejected - FurryHope',
+            html: rejectAdoptionTemplate(adopterName, animalName)
+        }
+
+        emailTransport.sendMail(mailOptions, (error, info) => {
+            if(error) {
                 console.log(error)
             } else {
                 console.log(`Email was sent to: ${info.response}`)
@@ -337,20 +380,19 @@ const receivedDonation = asyncHandler(async (req, res) => {
 })
 
 const addToInventory = asyncHandler(async (req, res) => {
-    const { itemName, quantity, donatedBy, dateOfDonation } = req.body
+    const { dataItems, donatedBy, dateOfDonation } = req.body
 
-    if(!itemName || !quantity || !donatedBy || !dateOfDonation)  {
+    if(!dataItems || !donatedBy || !dateOfDonation)  {
         res.status(400)
         throw new Error('')
     } else {
         const addToInventorySubmission = await DonationInventory.create({
-            itemName, quantity, donatedBy, dateOfDonation
+            dataItems, donatedBy, dateOfDonation
         })
 
         if(addToInventorySubmission) {
             res.status(201).json({
-                itemName: addToInventorySubmission.itemName,
-                quantity: addToInventorySubmission.quantity,
+                dataItems: addToInventorySubmission.dataItems,
                 donatedBy: addToInventorySubmission.donatedBy,
                 dateOfDonation: addToInventorySubmission.dateOfDonation
             })
@@ -359,6 +401,11 @@ const addToInventory = asyncHandler(async (req, res) => {
             throw new Error('An error occurred, could not add to the inventory.')
         }
     }
+})
+
+const getDonationInventory = asyncHandler(async (req, res) => {
+    const inventoryList = await DonationInventory.find()
+    res.json(inventoryList)
 })
 
 module.exports = {
@@ -370,6 +417,7 @@ module.exports = {
     dismissReport,
     getAllRegistrations,
     registerAnimal,
+    sendRegisteredMessage,
     getAdoptionSubmissions,
     getAdoptionSubmissionPerAnimal,
     getAdoptionById,
@@ -383,9 +431,11 @@ module.exports = {
     createInterviewSched,
     getInterviewSched,
     submitPickupMessage,
+    sendRejectMessage,
     getDonations,
     getDonationById,
     deleteDonation,
     receivedDonation,
     addToInventory,
+    getDonationInventory,
 };

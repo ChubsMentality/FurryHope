@@ -26,10 +26,17 @@
 .reportContainer {
   background-color: #fff;
   border-bottom: 1px solid #b0b0b0;
+  cursor: pointer;
+  padding-top: 30px;
+  transition: .15s ease-in;
+}
+
+.reportContainer:hover {
+  background-color: #fefeef;
 }
 
 .reportContainer-date {
-  margin: 30px 0 5px 15px;
+  margin: 0 0 5px 15px;
   padding-left: 15px;
   font-size: 1.2rem;
   font-weight: 600;
@@ -81,6 +88,7 @@
   height: 400px;
   width: 500px;
   margin-left: 80px;
+  -webkit-user-drag: none;
 }
 
 .dismiss-report-btn {
@@ -115,4 +123,151 @@
   font-weight: 200;
   text-align: center;
   margin-top: 400px;
+}
+
+/* 1600 x 1200 */
+@media screen and (max-width: 1919px) {
+  .strayAnimalReport-content {
+    margin-left: 395px;
+    width: calc(100vw - 395px);
+  }
+}
+
+/* 1440 x 900 */
+@media screen and (max-width: 1440px) {
+  .strayAnimalReport-content {
+    margin-left: 350px;
+    width: calc(100vw - 350px);
+  }
+
+  .reportContainer {
+    padding-top: 25px;
+  }
+
+  .reportContainer-date {
+    font-size: 1rem;
+  }
+
+  .reportContainer-message {
+    font-size: 1.2rem;
+    margin-bottom: 25px;
+  }
+
+  .specificReport-header {
+    font-size: 1.5rem;
+  }
+
+  .specificReport-description {
+    font-size: 1.2rem;
+  }
+
+  .specificReport-image-header {
+    font-size: 1.5rem;
+  }
+
+  .specificReport-image {
+    height: 300px;
+    width: 400px;
+  }
+
+  .dismiss-report-btn {
+    font-size: 1.65rem;
+    margin-top: 120px;
+  }
+
+  .no-report-text {
+    font-size: 2.8rem;
+    margin-top: 320px;
+  }
+}
+
+/* 1360 x 768 */
+@media screen and (max-width: 1360px) {
+  .strayAnimalReport-content {
+    margin-left: 320px;
+    width: calc(100vw - 320px);
+  }
+
+  .reportContainer-date {
+    font-size: .95rem;
+  }
+
+  .reportContainer-message {
+    font-size: .95rem;
+  }
+
+  .specificReport-header {
+    font-size: 1.3rem;
+  }
+
+  .specificReport-description {
+    font-size: 1.05rem;
+  }
+
+  .specificReport-image-header {
+    font-size: 1.3rem;
+  }
+
+  .specificReport-image {
+    height: 250px;
+    width: 350px;
+  }
+
+  .no-report-text {
+    font-size: 2.6rem;
+    margin-top: 300px;
+  }
+}
+
+/* 1280 x 1024 */
+@media screen and (max-width: 1280px) {
+  .reportContainer {
+    padding-top: 20px;
+  }
+
+  .reportContainer-message {
+    margin-bottom: 20px;
+  }
+}
+
+/* 1024 x 768 */
+@media screen and (max-width: 1024px) {
+  .strayAnimalReport-content {
+    margin-left: 290px;
+    width: calc(100vw - 290px);
+  }
+
+  .reportContainer {
+    padding-top: 18px;
+  }
+
+  .reportContainer-date {
+    font-size: .8rem;
+  }
+
+  .reportContainer-message {
+    font-size: .9rem;
+    margin-bottom: 18px;
+  }
+
+  .specificReport-header, .specificReport-image-header {
+    font-size: 1.15rem;
+  }
+
+  .specificReport-description {
+    font-size: .9rem;
+  }
+
+  .specificReport-image {
+    height: 200px;
+    width: 300px;
+  }
+
+  .dismiss-report-btn {
+    font-size: 1.4rem;
+  }
+
+  .no-report-text {
+    font-size: 2.1rem;
+  }
 }

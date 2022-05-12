@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getStrayAnimalReports, dismissReport } from '../actions/adminActions'
 import axios from 'axios'
+import Loading from './SubComponents/Loading'
+import Overlay from './SubComponents/Overlay'
 import Sidebar from './Sidebar'
 import '../css/StrayAnimalReports.css'
 
@@ -14,8 +16,9 @@ const StrayAnimalReports = () => {
     const reportList = useSelector(state => state.strayReports)
     const { loading, error, strayReportList } = reportList
 
+    const dismissState = useSelector(state => state.dismissReport)
+    const { success:successDelete } = dismissState
     
-
     const filterPending = (arr) => {
         return arr.status === "Pending"
     }
@@ -30,7 +33,7 @@ const StrayAnimalReports = () => {
         }
     }
 
-    const displaySpecificReport = async (id) => {
+    const displaySpecificReport = async (id) => { 
         try {
             const { data } = await axios.get(`http://localhost:5000/api/admins/getReports/${id}`)
             setSpecificReport(data)
@@ -40,26 +43,28 @@ const StrayAnimalReports = () => {
         }
     }
 
-    const dismissReport = async (id) => {
+    const dismissReportHandler = async (id) => {
         try {
             if(window.confirm('Are you sure you want to dismiss this report?')) {
-                const status = 'Dismissed'
-                const { data } = await axios.put(`http://localhost:5000/api/admins/dismissReport/${id}`, { status })
-                console.log(data)
+                dispatch(dismissReport(id))
+                alert('Report has been dismissed.')
             }
         } catch (error) {
             console.log(error)
         }
     }
 
-
     useEffect(() => {
         getReports()
-    }, [])
+    }, [dispatch, successDelete])
+
+    pendingReports && console.table(pendingReports)
 
     return (
         <div className='strayAnimalReport-body'>
             <Sidebar />
+            {loading && <Loading />}
+            {loading && <Overlay />}
 
             <div className="strayAnimalReport-content">
                 <div className="listOfReports-container">
@@ -80,7 +85,7 @@ const StrayAnimalReports = () => {
                             <p className='specificReport-image-header'>Stray Animal Image</p>
                             <img className='specificReport-image' src={specificReport.image } />
 
-                            <button className='dismiss-report-btn' onClick={() => dismissReport(specificReport._id)}>DISMISS</button>
+                            <button className='dismiss-report-btn' onClick={() => dismissReportHandler(specificReport._id)}>DISMISS</button>
                         </div>
                         :
                         <div className="no-report-container">

@@ -14,6 +14,8 @@ const Login = ({history}) => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
+    console.log(window.screen.availWidth)
+
     // To call adminActions
     const dispatch = useDispatch();
 

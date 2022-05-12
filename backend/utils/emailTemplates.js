@@ -85,4 +85,32 @@ const pickupTemplate = (pickupDate, pickupTime, animalName, adopterName) => {
     `
 }
 
-module.exports = { sendInterviewSchedTemplate, pickupTemplate }
+const registerAnimalTemplate = (name, animalName) => {
+    return `
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <style>
+                @media only screen and (max-width: 620px) {
+                    h1 {
+                        font-size: 20px;
+                        padding: 5px;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <div style="max-width: 620px; margin: 0 auto; font-family: sans-serif; color: #272727;">
+                <p>Message</p>
+                <p>
+                    Good day ${name}, we would like to inform you that your pet ${animalName} has been registered to the veterinary office.
+                </p>
+            </div>
+        </body>
+        </html>
+    `
+} 
+
+module.exports = { sendInterviewSchedTemplate, rejectAdoptionTemplate, pickupTemplate, registerAnimalTemplate }

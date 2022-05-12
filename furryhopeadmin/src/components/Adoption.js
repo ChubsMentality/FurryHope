@@ -70,12 +70,20 @@ const Adoption = ({ match, history }) => {
         console.log(adopterName)
     }
     
-    const rejectApplication = (animalId, adoptionId) => {
+    const rejectApplication = async (email, adopterName, animalName, animalId, adoptionId) => {
         const adoptionStatus = 'Not Adopted'
         const applicationStatus = 'Rejected'
 
         if(window.confirm('Are you sure you want to reject this adoption?')) {
             dispatch(updateAdoptionApplication(animalId, adoptionId, adoptionStatus, applicationStatus))
+
+            try {
+                const { data } = await axios.post('http://localhost:5000/api/admins/sendRejectMessage', {email, adopterName, animalName})
+                console.log(data)
+                alert('Message Sent')
+            } catch (error) {
+                console.log(error)
+            }
         }
     }
 
@@ -170,6 +178,11 @@ const Adoption = ({ match, history }) => {
                                     <span className='specAdoption-animalInfo-value'>{specificAdoption.animalColor}</span>
                                 </p>
 
+                                <p className='specAdoption-animalInfo-label'>
+                                    Adoption Status: 
+                                    <span className='specAdoption-animalInfo-value'>{specificAdoption.adoptionStatus}</span>
+                                </p>
+
                                 <p className='specAdoption-animalInfo-label-image'>Image</p>
                                 <img className='specAdoption-img' src={specificAdoption.animalImg} />
                             </div>
@@ -207,7 +220,7 @@ const Adoption = ({ match, history }) => {
                         <div style={{display: 'none'}}></div>
                     :
                         <div className="specAdoption-btns-container">
-                            <button className='specAdoption-reject-btn' onClick={() => rejectApplication(specificAdoption.animalId, specificAdoption._id)}>REJECT</button>
+                            <button className='specAdoption-reject-btn' onClick={() => rejectApplication(specificAdoption.email, specificAdoption.adopterName, specificAdoption.animalName, specificAdoption.animalId, specificAdoption._id)}>REJECT</button>
                             <button className='specAdoption-accept-btn' onClick={() => toggleAcceptOverlay()}>ACCEPT</button>
                         </div> 
                 }

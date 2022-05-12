@@ -13,6 +13,7 @@ const {
     updateAdoptionStatus,
     getAllRegistrations,
     registerAnimal,
+    sendRegisteredMessage,
     updateApplicationStatus,
     getUserAccounts,
     getAdminAccounts,
@@ -22,11 +23,13 @@ const {
     createInterviewSched,
     getInterviewSched,
     submitPickupMessage,
+    sendRejectMessage,
     getDonations,
     getDonationById,
     deleteDonation,
     receivedDonation,
     addToInventory,
+    getDonationInventory,
 } = require('../controllers/adminControllers.js');
 
 // Routes (/api/admins)
@@ -55,6 +58,8 @@ router.route('/getInterviewSched/:id').get(getInterviewSched)
 
 router.route('/sendPickupMessage').post(submitPickupMessage)
 
+router.route('/sendRejectMessage').post(sendRejectMessage)
+
 router.route('/getDonations').get(getDonations)
 
 router.route('/getDonationById/:id').get(getDonationById)
@@ -64,6 +69,8 @@ router.route('/deleteDonation/:id').delete(deleteDonation)
 router.route('/updateReceivedDonation/:id').put(receivedDonation)
 
 router.route('/addToDonationInventory').post(addToInventory)
+
+router.route('/getDonationInventory').get(getDonationInventory)
 
 router.route('/adoptions').get(getAdoptionSubmissions)
 
@@ -76,6 +83,8 @@ router.route('/updateAdoptionStatus/:id').put(updateAdoptionStatus)
 router.route('/getAllRegistrations').get(getAllRegistrations)
 
 router.route('/registerAnimal/:id').put(registerAnimal)
+
+router.route('/sendRegisteredMessage').post(sendRegisteredMessage)
 
 router.route('/updateApplication/:id').put(updateApplicationStatus)
 

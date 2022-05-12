@@ -51,6 +51,12 @@ import {
     RECEIVED_DONATION_REQUEST,
     RECEIVED_DONATION_SUCCESS,
     RECEIVED_DONATION_FAIL,
+    ADD_TO_INVENTORY_REQUEST,
+    ADD_TO_INVENTORY_SUCCESS,
+    ADD_TO_INVENTORY_FAIL,
+    GET_INVENTORY_REQUEST,
+    GET_INVENTORY_SUCCESS,
+    GET_INVENTORY_FAIL,
 } from '../constants/adminConstants'
 import axios from 'axios'
 
@@ -332,13 +338,17 @@ export const deleteUserAccount = (id) => async (dispatch) => {
 }
 
 export const getStrayAnimalReports = () => async (dispatch) => {
+    const filterPending = (arr) => {
+        return arr.status === 'Pending'
+    }
+
     try {
         dispatch({
             type: GET_STRAY_REPORTS_REQUEST
         })
 
         const { data } = await axios.get('http://localhost:5000/api/admins/getReports')
-
+       
         dispatch({
             type: GET_STRAY_REPORTS_SUCCESS,
             payload: data
@@ -362,7 +372,8 @@ export const dismissReport = (id) => async (dispatch) => {
             type: DISMISS_STRAY_REPORT_REQUEST
         })
 
-        const { data } = axios.put(`http://localhost:5000/api/admins/dismissReport/${id}`)
+        const status = 'Dismissed'
+        const { data } = await axios.put(`http://localhost:5000/api/admins/dismissReport/${id}`, {status})
 
         dispatch({
             type: DISMISS_STRAY_REPORT_SUCCESS,
@@ -501,5 +512,55 @@ export const receivedDonation = (id) => async (dispatch) => {
             type: RECEIVED_DONATION_FAIL,
             payload: message
         })
+    }
+}
+
+export const addToInventory = (dataItems, donatedBy, dateOfDonation) => async (dispatch) => {
+    try {
+        dispatch({
+            type: ADD_TO_INVENTORY_REQUEST
+        })
+
+        const { data } = await axios.post('http://localhost:5000/api/admins/addToDonationInventory', { dataItems, donatedBy, dateOfDonation })
+
+        dispatch({
+            type: ADD_TO_INVENTORY_SUCCESS,
+            payload: data
+        })
+    } catch (error) {
+        const message = 
+            error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message
+
+        dispatch({
+            type: ADD_TO_INVENTORY_FAIL,
+            payload: message
+        })
+    }
+}
+
+export const getDonationInventory = () => async (dispatch) => {
+    try {
+        dispatch({
+            type: GET_INVENTORY_REQUEST
+        })
+
+        const { data } = await axios.get('http://localhost:5000/api/admins/getDonationInventory')
+
+        dispatch({
+            type: GET_INVENTORY_SUCCESS,
+            payload: data
+        })
+    } catch (error) {
+        const message = 
+            error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message
+
+        dispatch({
+            type: GET_INVENTORY_FAIL,
+            payload: message
+        })    
     }
 }
