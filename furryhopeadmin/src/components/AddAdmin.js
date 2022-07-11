@@ -4,6 +4,7 @@ import '../css/AddAdmin.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { addAnAdmin } from '../actions/adminActions'
 import { css } from '@emotion/css'
+import { AiOutlineArrowLeft } from 'react-icons/ai'
 import ClipLoader from 'react-spinners/ClipLoader'
 import Sidebar from './Sidebar'
 
@@ -15,72 +16,154 @@ const override = css`
     margin-right: auto;
 `
 
-const AddAdmin = () => {
+const AddAdmin = ({ history }) => {
 
     // loading state
     const [color] = useState('#111111')
 
-    const [username, setUsername] = useState('');
+    const [fullName, setFullName] = useState('')
+    const [email, setEmail] = useState('')
+    const [contactNo, setContactNo] = useState('')
+    const [address, setAddress] = useState('')
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('')
-    const [name, setName] = useState('');
+    const [jobPosition, setJobPosition] = useState('')
+    const [role, setRole] = useState('Admin')
+    const [profilePicture, setProfilePicture] = useState('https://res.cloudinary.com/drvd7jh0b/image/upload/v1650026769/tcgfy3tbaoowhjfufvob.png')
 
     const dispatch = useDispatch();
     const addAdmin = useSelector(state => state.addAdmin) 
     const { loading, error } = addAdmin
 
-    const submitAdmin = async (e) => {
+    // Function to upload the image to cloudinary
+    const uploadImg = (selectedImg) => {
+        if(selectedImg.type === 'image/jpeg' || selectedImg.type === 'image/png') {
+            const data = new FormData()
+            data.append('file', selectedImg)
+            data.append('upload_preset', 'furryhopeimg')
+            data.append('cloud_name', 'drvd7jh0b')
+            fetch('https://api.cloudinary.com/v1_1/drvd7jh0b/image/upload', {
+                method: 'post',
+                body: data
+            })
+                .then((res) => res.json())
+                .then((data) => {
+                console.log(data)
+                setProfilePicture(data.url.toString()) // gives us the url of the image in the cloud
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+        } else {
+            alert('Please select an image')
+        }
+    }
+
+    const submitAdmin = (e) => {
         e.preventDefault();
 
         if(password !== confirmPassword) {
             alert('Passwords does not match!')
-        }
-        else {
-            dispatch(addAnAdmin(username, password, name))
+        } else if (password.search(/[0-9]/) === -1) { // Password should contain a number
+            alert('Your password should contain one or more numbers')
+        } else if(password.search(/[a-z]/) === -1) { // Password should contain a lowercase letter
+            alert('Your password should contain lowercase letters')
+        } else if(password.search(/[A-Z]/) === -1) { // Password should contain an uppercase letter
+            alert('Your password should contain an uppercase letter')
+        } else if(password.search(/[!\@\#\$\%\^\&\*\(\)\_\+\.\,\;\:]/) === -1) { // Password should contain special characters
+            alert('Your password should also contain special characters')
+        } else if(password !== confirmPassword) {
+            alert('Passwords does not match');
+        } else {
+            dispatch(addAnAdmin(fullName, email, contactNo, address, password, jobPosition, role, profilePicture))
             alert('Successfully created an admin account.')
-            setUsername('')
+            
+            setFullName('')
+            setEmail('')
+            setContactNo('')
+            setAddress('')
             setPassword('')
             setConfirmPassword('')
-            setName('')
+            setJobPosition('')
+            setRole('')
+            setProfilePicture('https://res.cloudinary.com/drvd7jh0b/image/upload/v1650026769/tcgfy3tbaoowhjfufvob.png')
+            // console.log(fullName)
+            // console.log(email)
+            // console.log(contactNo)
+            // console.log(address)
+            // console.log(password)
+            // console.log(confirmPassword)
+            // console.log(jobPosition)
+            // console.log(role)
+            // console.log(profilePicture)
         }
     }
 
     if(error) {
         window.alert(error)
     }
-
+    
     return ( 
         <div className="body">
             <Sidebar />
             <div className='add-admin-content'>
-                <p className='add-admin-header'>ADD AN ADMIN ACCOUNT</p>
-                <Link to={'/accountsList'}>
-                    <button className='addAdmin-back-link'>back to accounts</button>
-                </Link>
+                <div className='add-admin-header'>
+                    <Link to='/accountsList' className='add-admin-return-btn'>
+                        <AiOutlineArrowLeft size={35} color='#111' style={{ position: 'absolute', top: 0, left: 0, }} />
+                        Back
+                    </Link>
+                </div>
                 
+                {/* FullName, email, password, contactNo, address, role, jobPosition, profilePicture */}
                 <form className="addAdmin-form-container" onSubmit={submitAdmin}>   
+                    <div className='addAdmin-form-left'>
+                        <label htmlFor="name" className="lbl-addAdmin-name lbl-add-admin">Full Name</label>
+                        <input type="text" name="name" className="addAdminName input-add-admin" required value={fullName} onChange={(e) => setFullName(e.target.value)}/><br />
 
-                    <label htmlFor="name" className="lbl-name lbl-add-admin">Full Name</label><br />
-                    <input type="text" name="name" className="addAdminName input-add-admin" required value={name} onChange={(e) => setName(e.target.value)}/><br />
 
-                    <br />
+                        <label htmlFor="email" className="lbl-addAdmin-email lbl-add-admin">Email</label>
+                        <input type="text" name="email" className="addAdminEmail input-add-admin" required value={email} onChange={(e) => setEmail(e.target.value)} /><br />
 
-                    <label htmlFor="username" className="lbl-username lbl-add-admin">Username</label><br />
-                    <input type="text" name="username" className="addUsername input-add-admin" required value={username} onChange={(e) => setUsername(e.target.value)} /><br />
 
-                    <br />
+                        <label htmlFor="contactNo" className="lbl-addAdmin-contactNo lbl-add-admin">Contact Number</label>
+                        <input type="number" name="contactNo" className="addAdminContactNo input-add-admin" required maxLength='11' value={contactNo} onChange={(e) => setContactNo(e.target.value)} /><br />
 
-                    <label htmlFor="password" className="lbl-breed lbl-add-admin">Password</label><br />
-                    <input type="password" name="password" className="addPassword input-add-admin" required value={password} onChange={(e) => setPassword(e.target.value)}/><br />
+                        <label htmlFor="address" className="lbl-addAdmin-address lbl-add-admin">Address</label>
+                        <input type="text" name="address" className="addAdminAddress input-add-admin" required value={address} onChange={(e) => setAddress(e.target.value)} /><br />
 
-                    <br />
-                    
-                    <label htmlFor="confirmpassword" className="lbl-breed lbl-add-admin">Confirm Password</label><br />
-                    <input type="password" name="confirmpassword" className="addPassword input-add-admin" required value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} /><br />
+                        <label htmlFor="password" className="lbl-addAdmin-password lbl-add-admin">Password</label>
+                        <input type="password" name="password" className="addAdminPassword input-add-admin" required value={password} onChange={(e) => setPassword(e.target.value)}/><br />
 
-                    <br />
+                        <label htmlFor="confirmpassword" className="lbl-addAdmin-confirmPassword lbl-add-admin">Confirm Password</label>
+                        <input type="password" name="confirmpassword" className="addAdminPassword input-add-admin" required value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} /><br />
+                    </div>
 
-                    <button className="btn-submit-admin">{loading ? <ClipLoader color={color} css={override} loading={loading} size={35} /> : <p className='submit-admin-text'>SUBMIT</p>}</button>
+                    <div className='addAdmin-form-right'>
+                        <label htmlFor="jobPosition" className="lbl-jobPosition lbl-add-admin">Job Position</label>
+                        <input type="text" name="jobPosition" className="addJobPosition input-add-admin" required value={jobPosition} onChange={(e) => setJobPosition(e.target.value)} /><br />
+
+                        <br />
+
+                        <label htmlFor='select-role' className='=lbl-addAdmin-role lbl-add-admin'>Role</label><br />
+                        <select className='add-admin-select' value={role} onChange={(e) => setRole(e.target.value)}>
+                            <option value='Admin'>Admin</option>
+                            <option value='Staff'>Staff</option>
+                        </select>
+
+                        <br />
+
+                        <label htmlFor="profilePic" className="lbl-addAdmin-profilePicture lbl-add-admin">Profile Picture</label>
+                        <input type="file" name="profilePic" className="input-file-profPic" onChange={(e) => uploadImg(e.target.files[0])} /><br />
+                        
+                        <br />
+
+                        <p className='lbl-add-admin add-admin-img-preview'>Image Preview</p>
+                        <img src={profilePicture} className='add-admin-pic-preview' />
+
+                        <br />
+
+                        <button className="btn-submit-admin">{loading ? <ClipLoader color={color} css={override} loading={loading} size={35} /> : <p className='submit-admin-text'>SUBMIT</p>}</button>
+                    </div>
                 </form>
             </div>
         </div>

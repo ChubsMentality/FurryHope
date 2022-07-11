@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 
+// _id, applicantId, name, email, contactNo, address, validId, animalName, animalBreed, 
 const adoptionSchema = mongoose.Schema(
     {
         animalId: {
@@ -7,7 +8,7 @@ const adoptionSchema = mongoose.Schema(
             required: true,
         },
 
-        adopterName: {
+        applicantName: {
             type: String,
             required: true,
         },
@@ -25,6 +26,11 @@ const adoptionSchema = mongoose.Schema(
         address: {
             type: String,
             required: true
+        },
+
+        applicantImg: {
+            type: String,
+            required: true,
         },
 
         validId: {
@@ -75,6 +81,14 @@ const adoptionSchema = mongoose.Schema(
         applicationStatus: {
             type: String,
             required: true,
+        },
+
+        hasBeenInterviewed: {
+            type: Boolean,
+        },
+
+        hasPaid: {
+            type: Boolean,
         },
 
         user: {

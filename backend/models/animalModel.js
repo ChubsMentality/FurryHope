@@ -6,29 +6,40 @@ const animalSchema = mongoose.Schema(
             type: String,
             required: true,
         },
+
         color: {
             type: String,
             required: true,
         },
+
         breed: {
             type: String,
             default: 'Unknown / Not Specified'
         },
+
         description: {
             type: String,
             default: 'No description given about the animal was given.'
         },
+
         gender: {
             type: String,
         },
+
         type: {
             type: String,
             required: true
         },
+
+        size: {
+
+        },
+
         animalImg: {
             type: String,
             default: 'https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg'
         },
+        
         adoptionStatus: {
             type: String,
             default: 'Not Adopted'

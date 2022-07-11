@@ -1,16 +1,209 @@
 .specAdoption-body {
   height: 100vh;
-  width: 100vw;
+  width: 100%;
   position: relative;
+  background-color: #F4F6FA;
   font-family: "Poppins", sans-serif;
 }
 
 .specAdoption-content {
-  margin-left: 450px;
-  padding-bottom: 50px;
+  margin-left: 390px;
+  padding-top: 70px;
 }
 
-.specAdoption-back-btn {
+.specAdoption-nav-container {
+  margin: 0 90px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.specAdoption-back-container {
+  display: flex;
+  align-items: center;
+}
+
+.specAdoption-back-icon {
+  height: 35px;
+  width: 35px;
+}
+
+.specAdoption-back-txt {
+  font-size: 1.4rem;
+  margin: 0 0 0 10px;
+}
+
+.specAdoption-nav-statusContainer {
+  display: flex;
+  align-items: center;
+}
+
+.specAdoption-statusLabel {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.specAdoption-currentStatus-pending {
+  background-color: #efab54;
+  border-radius: 5px;
+  color: white;
+  font-size: 1rem;
+  font-weight: 500;
+  width: fit-content;
+  padding: 5px 15px;
+  margin: 0 0 0 10px;
+}
+
+.specAdoption-currentStatus-rejected {
+  background-color: rgb(244, 33, 33);
+  border-radius: 5px;
+  color: white;
+  font-size: 1rem;
+  font-weight: 500;
+  width: fit-content;
+  padding: 5px 15px;
+  margin: 0 0 0 10px;
+}
+
+.specAdoption-currentStatus-accepted {
+  background-color: green;
+  border-radius: 5px;
+  color: white;
+  font-size: 1rem;
+  font-weight: 500;
+  width: fit-content;
+  padding: 5px 15px;
+  margin: 0 0 0 10px;
+}
+
+.specAdoption-details {
+  margin: 50px 90px 0 90px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.specAdoption-info-container:hover {
+  box-shadow: 0 2px 25px rgba(0, 0, 0, .05);
+}
+
+.specAdoption-info-header {
+  font-weight: 600;
+  margin: 0 0 25px 0;
+  position: relative;
+}
+
+.specAdoption-info-header::before {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  background-color: #111;
+  height: 2px;
+  width: 70px;
+  border-radius: 25px;
+}
+
+.specAdoption-applicantInfo {
+  background-color: white;
+  border-radius: 5px;
+  height: 370px;
+  width: 500px;
+  padding: 35px 30px 0 30px;
+}
+
+.specAdoption-applicant-label, .specAdoption-animal-label {
+  display: flex;
+  font-weight: 500;
+  font-size: 1.3rem;
+  margin: 0 0 10px 0;
+}
+
+.specAdoption-applicant-value, .specAdoption-animal-value {
+  font-weight: 300;
+  font-size: 1.3rem;
+  margin-left: 5px;
+}
+
+.specAdoption-applicant-addressLbl {
+  font-size: 1.3rem;
+  font-weight: 500;
+}
+
+.specAdoption-applicant-address {
+  font-size: 1.3rem;
+  font-weight: 300;
+}
+
+.specAdoption-applicant-validIdBtn {
+  font-size: 1rem;
+  padding: 8px;
+  margin: 50px 0 0 0;
+}
+
+.specAdoption-animalInfo {
+  height: 300px;
+  width: 480px;
+  background-color: white;
+  padding: 35px 30px 0 30px;
+  border-radius: 5px;
+  margin-left: 20px;
+  position: relative;
+}
+
+.specAdoption-animalImg {
+  position: absolute;
+  top: 25%;
+  right: 15%;
+  height: 180px;
+  width: 180px;
+}
+
+.specAdoption-setInterviewSched-container {
+  height: 320px;
+  width: 480px;
+  background-color: white;
+  margin-top: 25px;
+}
+
+.specAdoption-setInterviewSched-btn {
+  font-size: 1.1rem;
+  padding: 8px;
+  display: block;
+  margin: 40px auto 0 auto;
+}
+
+.specAdoption-validIdModal {
+  z-index: 10;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 800px;
+  width: 500px;
+  background-color: white;
+  border-radius: 5px;
+  display: grid;
+  place-items: center;
+}
+
+.specAdoption-validId-closeIcon {
+  height: 35px;
+  width: 35px;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+}
+
+.specAdoption-validId-preview {
+  height: 600px;
+  width: 400px;
+}
+
+.specAdoption {
+  
+}
+
+/* .specAdoption-back-btn {
   position: relative;
   background: transparent;
   width: fit-content;
@@ -19,7 +212,7 @@
   font-size: 1.5rem;
   padding-left: 45px;
   cursor: pointer;
-  margin: 40px 0 150px 40px;
+  margin: 0 0 150px 40px;
 }
 
 .specAdoption-back-icon {
@@ -164,6 +357,11 @@
   margin-right: 40px;
 }
 
+.time-picker-container {
+  margin-left: 40px;
+  display: flex;
+}
+
 .set-sched-label:first-of-type {
   margin-top: 50px;
 }
@@ -173,11 +371,22 @@
   margin-bottom: 7px;
 }
 
+.sched-time-picker {
+  display: block;
+  margin-top: 18px;
+}
+
 .set-sched-input {
   height: 45px;
   width: 85%;
   font-size: 1rem;
   padding: 0 8px;
+}
+
+.set-sched-hour, .set-sched-minute-picker .set-sched-timePeriod {
+  font-size: 1.2rem;
+  margin-right: 5px;
+  display: block;
 }
 
 .sched-message {
@@ -198,6 +407,7 @@
   margin: 70px auto 0 auto;
   background-color: #111;
   color: white;
+  cursor: pointer;
   outline: none;
   border: none;
   border-radius: 5px;
@@ -331,225 +541,31 @@
   border-radius: 5px;
   padding: 10px 15px;
   margin: 70px 35px 0 35px;
-}
+} */
 
 /* 1600 x 1200 */
 @media screen and (max-width: 1919px) {
-  .specAdoption-content {
-    margin-left: 450px;
-  }
-
-  .specAdoption-back-btn {
-    margin: 60px 0 150px 0;
-  }
-
-  .specAdoption-details, .specAdoption-schedule {
-    width: 850px;
-  }
-
-  .specAdoption-details-header, .specAdoption-schedule-header {
-    font-size: 1.4rem;
-  }
-
-  .specAdoption-information-container {
-    padding: 0 25px;
-  }
-
-  .specAdoption-valid-id {
-    height: 450px;
-    width: 280px;
-  }
-
-  .specAdoption-img {
-    height: 250px;
-    width: 350px;
-  }
-
-  .specAdoption-animalInfo {
-    padding: 0 25px; 
-  }
+  
 }
 
 /* 1440 x 900 */
 @media screen and (max-width: 1440px) {
-  .specAdoption-content {
-    margin-left: 410px;
-  }
-
-  .specAdoption-back-btn {
-    font-size: 1.4rem;
-    padding-left: 40px;
-  }
-
-  .specAdoption-back-icon {
-    height: 30px;
-    width: 30px;
-  }
-
-  .specAdoption-details, .specAdoption-schedule {
-    width: 780px;
-  }
-
-  .specAdoption-details-header, .specAdoption-schedule-header {
-    font-size: 1.3rem;
-    padding: 18px;
-  }
-
-  .specAdoption-information-container {
-    padding: 0 25px;
-  }
-
-  .specAdoption-userInfo-header, .specAdoption-animalInfo-header {
-    font-size: 1.25rem;
-  }
-
-  .specAdoption-userInfo-label, .specAdoption-animalInfo-label {
-    font-size: 1.1rem;
-  }
-
-  .specAdoption-userInfo-address {
-    font-size: 1.1rem;
-    margin-top: -17px;
-  }
-
-  .specAdoption-userInfo-label-validId, .specAdoption-animalInfo-label-image {
-    font-size: 1.1rem;
-  }
-
-  .specAdoption-valid-id {
-    height: 400px;
-    width: 260px;
-  }
-
-  .specAdoption-img {
-    height: 250px;
-    width: 350px;
-  }
-
-  .specAdoption-details-label {
-    font-size: 1.1rem;
-  }
-
-  .specAdoption-accept-btn, .specAdoption-reject-btn {
-    font-size: 1.25rem;
-    padding: 17px 32px;
-  }
+  
 }
 
 /* 1360 x 768 */
 @media screen and (max-width: 1360px) {
-  .specAdoption-content {
-    margin-left: 380px;
-  }
-
-  .specAdoption-details {
-    margin-top: -40px;
-  }
-
-  .specAdoption-details, .specAdoption-schedule {
-    width: 730px;
-  }
+ 
 }
 
 /* 1280 x 1024 */
 @media screen and (max-width: 1280px) {
-  .specAdoption-back-btn {
-    font-size: 1.3rem;
-  }
 
-  .specAdoption-back-icon {
-    height: 29px;
-    width: 29px;
-  }
-
-  .specAdoption-details, .specAdoption-schedule {
-    width: 700px;
-  }
-
-  .specAdoption-details-header, .specAdoption-schedule-header {
-    font-size: 1.2rem;
-    padding: 15px;
-  }
-
-  .specAdoption-userInfo-header, .specAdoption-animalInfo-header {
-    font-size: 1.17rem;
-  }
-
-  .specAdoption-userInfo-label, .specAdoption-animalInfo-label {
-    font-size: .95rem;
-  }
-
-  .specAdoption-userInfo-address {
-    font-size: .95rem;
-  }
-
-  .specAdoption-userInfo-label-validId, .specAdoption-animalInfo-label-image {
-    font-size: .95rem;
-  }
-
-  .specAdoption-valid-id {
-    height: 320px;
-    width: 210px;
-  }
-
-  .specAdoption-img {
-    height: 200px;
-    width: 300px;
-  }
-
-  .specAdoption-details-label {
-    font-size: .95rem;
-  }
-
-  .specAdoption-accept-btn, .specAdoption-reject-btn {
-    font-size: 1.1rem;
-    padding: 13px 25px;
-  }
 }
 
 /* 1024 x 768 */
 @media screen and (max-width: 1024px) {
-  .specAdoption-content {
-    margin-left: 350px;
-  }
 
-  .specAdoption-back-btn {
-    font-size: 1.2rem;
-  }
-
-  .specAdoption-details, .specAdoption-schedule {
-    width: 550px;
-  }
-
-  .specAdoption-details-header, .specAdoption-schedule-header {
-    font-size: 1.1rem;
-  }
-
-  .specAdoption-userInfo-header, .specAdoption-animalInfo-header {
-    font-size: .98rem;
-  }
-
-  .specAdoption-userInfo-label, .specAdoption-animalInfo-label {
-    font-size: .85rem;
-  }
-
-  .specAdoption-userInfo-address {
-    font-size: .85rem;
-  }
-
-  .specAdoption-userInfo-label-validId, .specAdoption-animalInfo-label-image {
-    font-size: .98rem;
-  }
-
-  .specAdoption-valid-id {
-    height: 280px;
-    width: 170px;
-  }
-
-  .specAdoption-img {
-    height: 200px;
-    width: 220px;
-  }
 }
 
 

@@ -6,23 +6,32 @@ const userSchema = mongoose.Schema(
     {
         fullName: {
             type: String,
+            required: true
         },
 
         email: {
             type: String,
             unique: true,
+            required: true
         },
 
         contactNo: {
             type: String,
+            required: true
+        },
+
+        address: {
+            type: String,
+            required: true
         },
 
         password: {
-            type: String
+            type: String,
+            required: true
         },
 
-        animalPreferences: {
-            type: [String],
+        animalPreference: {
+            type: String,
         },
 
         breedPreferences: {
@@ -33,12 +42,12 @@ const userSchema = mongoose.Schema(
             type: [String],
         },
 
-        animalTypePreferences: {
-            type: [String],
+        genderPreference: {
+            type: String,
         },
 
-        animalGenderPreferences: {
-            type: [String],
+        sizePreferece: {
+            type: String,
         },
 
         verified: {

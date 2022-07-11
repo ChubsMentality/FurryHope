@@ -5,21 +5,30 @@ const TotalCount = require('../models/totalAnimalCount')
 // Gets all the animals
 const getAnimals = asyncHandler(async (req, res) => {
     const animals = await Animal.find();
-    
     res.json(animals);
 });
 
+const getDogs = asyncHandler(async (req, res) => {
+    const dogs = await Animal.find({ type: 'Dog', adoptionStatus: 'Not Adopted' })
+    res.json(dogs)
+})
+
+const getCats = asyncHandler(async (req, res) => {
+    const cats = await Animal.find({ type: 'Cat', adoptionStatus: 'Not Adopted' })
+    res.json(cats)
+})
+
 // Creates a new animal
 const createAnimal = asyncHandler(async (req, res) => {
-    const {name, color, breed, description, gender, type, animalImg, adoptionStatus} = req.body;
+    const {name, color, breed, description, gender, type, size, animalImg, adoptionStatus} = req.body;
 
-    if(!name || !color || !breed || !description || !gender || !type || !animalImg || !adoptionStatus) {
+    if(!name || !color || !breed || !description || !gender || !type || !size || !animalImg || !adoptionStatus) {
         res.status(400);
         throw new Error('Please fill out the necessary information');
     }
     else {
         // Creates a new animal and store it inside the database
-        const animal = new Animal({ name, color, breed, description, gender, type, animalImg, adoptionStatus});
+        const animal = new Animal({ name, color, breed, description, gender, type, size, animalImg, adoptionStatus});
 
         // saves the animal into the database
         const createdAnimal = await animal.save();
@@ -41,7 +50,7 @@ const getAnimalById = asyncHandler(async (req, res) => {
 
 // Updating the animal's data
 const updateAnimal = asyncHandler(async (req, res) => {
-    const { name, color, breed, description, gender, type, animalImg, adoptionStatus } = req.body
+    const { name, color, breed, description, gender, type, size, animalImg, adoptionStatus } = req.body
     
     // Finds the id of the animal
     const animal = await Animal.findById(req.params.id);
@@ -53,6 +62,7 @@ const updateAnimal = asyncHandler(async (req, res) => {
         animal.description = description;
         animal.gender = gender;
         animal.type = type;
+        animal.size = size
         animal.animalImg = animalImg;
         animal.adoptionStatus = adoptionStatus;
 
@@ -104,4 +114,15 @@ const updateTotalCount = asyncHandler(async (req, res) => {
     }
 })
 
-module.exports = { getAnimals, createAnimal, getAnimalById, updateAnimal, deleteAnimal, addTotalCount, getTotalCount, updateTotalCount };
+module.exports = { 
+    getAnimals, 
+    getDogs,
+    getCats,
+    createAnimal, 
+    getAnimalById, 
+    updateAnimal, 
+    deleteAnimal, 
+    addTotalCount, 
+    getTotalCount, 
+    updateTotalCount 
+}

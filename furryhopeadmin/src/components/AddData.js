@@ -33,6 +33,7 @@ const AddData = () => {
     const [color, setColor] = useState('')
     const [gender, setGender] = useState('');
     const [animalType, setAnimalType] = useState('');
+    const [size, setSize] = useState('')
     const [selectedImg, setSelectedImg] = useState('https://res.cloudinary.com/drvd7jh0b/image/upload/v1640256598/hyr5slabmcd9zf8xddrv.png');
     const adoptionStatus = 'Not Adopted'
 
@@ -90,8 +91,8 @@ const AddData = () => {
 
     const submitHandler = (e) => {
         e.preventDefault();
-        if(!name || !breed || !description || !color || !gender || !animalType || !selectedImg || !adoptionStatus) return;
-        dispatch(createAnimalAction(name, color, breed, description, gender, animalType, selectedImg, adoptionStatus));
+        if(!name || !breed || !description || !color || !gender || !animalType || !size || !selectedImg || !adoptionStatus) return;
+        dispatch(createAnimalAction(name, color, breed, description, gender, animalType, size, selectedImg, adoptionStatus));
         alert('Successfully Added to the Database!');
         setName('')
         setBreed('Unknown / Unidentified')
@@ -112,28 +113,28 @@ const AddData = () => {
                 <p className='add-data-header'>ADD A NEW ANIMAL</p>
                 <form className="addData-form-container" onSubmit={submitHandler}>
                     <div className='addData-form-left-column'>
-                        <label htmlFor="name" className="lbl-name lbl-add">Name</label><br />
+                        <label htmlFor="name" className="lbl-name lbl-addData">Name</label><br />
                         <input type="text" name="name" className="addName input-add-data" required value={name} onChange={(e) => setName(e.target.value)}/><br />
 
                         <br />
 
-                        <label htmlFor="breed" className="lbl-breed lbl-add">Breed</label><br />
+                        <label htmlFor="breed" className="lbl-breed lbl-addData">Breed</label><br />
                         <input type="text" name="breed" className="addBreed input-add-data" value={breed} onChange={(e) => setBreed(e.target.value)}/><br />
 
                         <br />
 
-                        <label htmlFor="desc" className="lbl-breed lbl-add">Description (optional)</label><br />
+                        <label htmlFor="desc" className="lbl-breed lbl-addData">Description (optional)</label><br />
                         <textarea name="desc" className="addDesc" value={description} onChange={(e) => setDescription(e.target.value)}></textarea><br />
 
                         <br />
 
-                        <label htmlFor="color" className='lbl-color lbl-add'>Color</label><br />
+                        <label htmlFor="color" className='lbl-color lbl-addData'>Color</label><br />
                         <input type="text" name="color" className="addColor" value={color} onChange={(e) => setColor(e.target.value)} /><br />
 
                         <br />
 
-                        <label htmlFor="select" className="lbl-select lbl-add">Gender</label>
-                        <select className="select select-gender" name="select-gender" required value={gender} onChange={(e) => setGender(e.target.value)}>
+                        <label htmlFor="select" className="lbl-select lbl-addData">Gender</label>
+                        <select className="addData-select" name="select-gender" required value={gender} onChange={(e) => setGender(e.target.value)}>
                             <option value="" defaultValue>Select here</option>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
@@ -141,18 +142,28 @@ const AddData = () => {
 
                         <br />
 
-                        <label htmlFor="select" className="lbl-select lbl-add">Animal Type</label>
-                        <select className="select-animal-type" name="select" required value={animalType} onChange={(e) => setAnimalType(e.target.value)}>
+                        <label htmlFor="select" className="lbl-select lbl-addData">Animal Type</label>
+                        <select className="addData-select" name="select" required value={animalType} onChange={(e) => setAnimalType(e.target.value)}>
                             <option value="" defaultValue>Select here</option>
                             <option value="Dog">Dog</option>
                             <option value="Cat">Cat</option>
                         </select>
 
                         <br />
+
+                        <label htmlFor="select" className="lbl-select lbl-add">Size of the animal</label>
+                        <select className="addData-select" name="select" required value={size} onChange={(e) => setSize(e.target.value)}>
+                            <option value="" defaultValue>Select here</option>
+                            <option value="Small">Small</option>
+                            <option value="Medium">Medium</option>
+                            <option value="Large">Large</option>
+                        </select>
+
+                        <br />
                     </div>
                     <div className='addData-form-right-column'>
                         <div className="add-data-imgUploadContainer">
-                            <label htmlFor="imgUpload" className="lbl-imgUpload lbl-add">Image Upload</label>
+                            <label htmlFor="imgUpload" className="lbl-select lbl-imgUpload">Image Upload</label>
                             <input type="file" className="add-data-imgUpload" name="imgUpload" onChange={(e) => uploadImg(e.target.files[0])} />
                         </div>
 

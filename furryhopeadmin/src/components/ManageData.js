@@ -5,14 +5,19 @@ import Sidebar from './Sidebar'
 import Loading from './SubComponents/Loading'
 import Overlay from './SubComponents/Overlay'
 import Empty from './SubComponents/EmptyComponent'
-import AnimalComponent from './SubComponents/AnimalsComponent'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAnimalData, deleteAnimalAction } from '../actions/animalActions.js'
+import { MdDelete } from 'react-icons/md'
+import { Link } from 'react-router-dom'
+import { AiTwotoneEdit } from 'react-icons/ai'
 
 const ManageData = () => {
     const dispatch = useDispatch();
     const listOfAnimals = useSelector(state => state.animalData);
     const { loading, error, animalList } = listOfAnimals;
+
+    const adminState = useSelector((state) => state.adminLogin)
+    const { adminInfo } = adminState
 
     // Every time a new aninmal was added it will trigger in the useEffect and re-render
     const animalCreate = useSelector((state) => state.animalCreate);
@@ -80,22 +85,42 @@ const ManageData = () => {
 
     const DataContainer = ({ currentAnimals }) => {
         return (
-            <div>
+            <>
                 {currentAnimals && 
                     currentAnimals.map((animal) => (
-                        <AnimalComponent 
-                            key={animal._id} 
-                            _id={animal._id}
-                            animalImg={animal.animalImg}
-                            name={animal.name}
-                            type={animal.type}
-                            breed={animal.breed} 
-                            gender={animal.gender}
-                            adoptionStatus={animal.adoptionStatus}
-                            deleteHandler={deleteHandler} 
-                        />
-                    ))}
-            </div>
+                        <div className="specAnimal-container" key={animal._id}>
+                            <div className="specAnimal-name specAnimal-column">
+                                <img src={animal.animalImg} className='specAnimal-name-profPic' />
+                                
+                                <div className="specAnimal-name-container">
+                                    <p className='specAnimal-name-head'>{animal.name}</p>
+                                </div>
+                            </div>
+
+                            <div className="specAnimal-email specAnimal-column">
+                                <p className="specAnimal-email-info">{animal.breed}</p>
+                            </div>
+
+                            <div className="specAnimal-contactNo specAnimal-column">
+                                <p className="specAnimal-contactNo-info">{animal.type}</p>
+                            </div>
+
+                            <div className="specAnimal-verified specAnimal-jobPos specAnimal-column">
+                                <p className="specAnimal-verified-info">{animal.adoptionStatus}</p>
+                            </div>
+
+                            <div className="specAnimal-actions specAnimal-column">
+                                <button className="specAnimal-btn-container specAnimal-edit">
+                                    <AiTwotoneEdit size={35} />
+                                </button>
+
+                                <button className="specAnimal-btn-container specAnimal-delete">
+                                    <MdDelete size={35} color='red' />
+                                </button>
+                            </div>
+                        </div>
+                ))}
+            </>
         )
     }
 
@@ -160,53 +185,57 @@ const ManageData = () => {
             {loading && <Overlay />}
             <Sidebar />
             <div className='manage-content'>
-                <h1 className='manage-data-header'>MANAGE DATA</h1>
-                <p className='manage-animal-count'>Animals ({filteredAnimals && filteredAnimals.length})</p>
-                <select className='manage-select' value={currentStatus} onChange={(e) => setCurrentStatus(e.target.value)}>
-                    <option value='No Filter'>No Filter</option>
-                    <option value='Not Adopted'>Not Adopted</option>
-                    <option value='Pending'>Pending</option>
-                    <option value='Adopted'>Adopted</option>
-                </select>
+                <div className="manage-header-container">
+                    <p className='manage-header'>LIST OF ANIMALS</p>
 
-                {/* If there are no animals in the database, show the 'Empty' component. Otherwise display the  
-                    contents of the database (animals) */}
-                {animalList && !animalList.length ? 
-                    <Empty />
-                    :
-                    animalList ?
-                        <div className='pagination-div'>
-                            <PaginatedData animalsPerPage={5} /> 
+                    <div className="manage-adminInfo">
+                        <div className="manage-adminInfo-left">
+                            <h3 className="manage-adminName">{adminInfo.fullName}</h3>
+                            <p className="manage-adminPos">{adminInfo.jobPosition}</p>
                         </div>
-                        : 
-                        <>
-                            {loading && <Loading />}
-                            {loading && <Overlay />}
-                        </>
-                }
+
+                        <img src={adminInfo.profilePicture} alt="admin's profile picture" className="manage-adminProfile" />
+                    </div>                    
+                </div>
+
+                <div className='manage-animals-container'>
+                    <div className='manage-subHeader'>
+                        <p className='manage-animals-header'>Animals ({ filteredAnimals && filteredAnimals.length })</p>
+
+                        <div className="manage-animals-right">
+                            <div className="manage-filter-animals">
+                                <p className="manage-filter-txt">Filter</p>
+                                <select className='manage-select' value={currentStatus} onChange={(e) => setCurrentStatus(e.target.value)}>
+                                    <option value='No Filter'>No Filter</option>
+                                    <option value='Not Adopted'>Not Adopted</option>
+                                    <option value='Pending'>Pending</option>
+                                    <option value='Adopted'>Adopted</option>
+                                </select>
+                            </div>
+
+                            <Link to='/add'>
+                                <button className='manage-add-animal'>
+                                    Add a new animal
+                                </button>
+                            </Link>
+                        </div>
+                    </div>
+
+                    <div className="manage-container-heading">
+                        <div className="manage-table-label">
+                            <p className="manage-label manage-label-name">Name</p>
+                            <p className="manage-label manage-label-email">Breed</p>
+                            <p className="manage-label manage-label-contactNo">Animal Type</p>
+                            <p className="manage-label manage-label-jobPos">Adoption Status</p>
+                            <p className="manage-label manage-label-actions">Actions</p>
+                        </div>
+                    </div>
+
+                    <PaginatedData animalsPerPage={5} /> 
+                </div>
             </div>
         </div>
     );
 }
 
 export default ManageData;
-
-/*
-    // No Pagination Implemented
-
-    animalList ? animalList.map((animal) => {
-        return (
-            <AnimalComponent 
-                key={animal._id} 
-                _id={animal._id}
-                animalImg={animal.animalImg}
-                name={animal.name}
-                type={animal.type}
-                breed={animal.gender} 
-                gender={animal.gender}
-                adoptionStatus={animal.adoptionStatus}
-                deleteHandler={deleteHandler} 
-            />
-        )
-    }) : <Loading loading={loading}/> /* Insert loading component here */
-

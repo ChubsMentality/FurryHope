@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
 
     RA_Section_Name: {
         color: 'white',
-        fontFamily: 'Poppins_700Bold',
+        fontFamily: 'PoppinsBold',
         fontSize: 14.4,
     },
 
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
 
     viewOption: {
         color: 'white',
-        fontFamily: 'Poppins_300Light',
+        fontFamily: 'PoppinsLight',
         fontSize: 11.2,
         marginTop: 2,
         marginRight: 5,
@@ -78,16 +78,17 @@ const styles = StyleSheet.create({
     },
 
     RA_Section_Content: {
-        backgroundColor: 'white',
-        paddingTop: 20,
+        backgroundColor: '#232020',
+        paddingTop: 15,
         paddingRight: 15,
-        paddingBottom: 20,
+        paddingBottom: 15,
         paddingLeft: 15,
     },
 
     content: {
-        fontFamily: 'Poppins_400Regular',
-        fontSize: 12.8,
+        color: 'white',
+        fontFamily: 'PoppinsRegular',
+        fontSize: 13,
         lineHeight: 30,
         textAlign: 'justify',
     }

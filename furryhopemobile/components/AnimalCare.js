@@ -182,7 +182,7 @@ const AnimalCare = () => {
                 scrollEventThrottle={1500}
                 ref={scrollRef}
             >
-                <TopNav ScreenName='Pet Care' />
+                <TopNav ScreenName='Pet Care' color='white' />
                 <Text style={styles.header}>Learn how to take care {'\n'}your newfound pets.</Text>
                 <Text style={styles.subHeadOne}>
                     In this page we’ve provided some{'\n'}

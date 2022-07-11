@@ -52,7 +52,7 @@ registerAnimalSchema = mongoose.Schema(
             required: true,
         },
 
-        animalSex: {
+        animalGender: {
             type: String,
             required: true,
         },

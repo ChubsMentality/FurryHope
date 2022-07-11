@@ -3,99 +3,106 @@
   margin: 0;
   padding: 0;
   position: relative;
-  overflow: hidden;
+  width: 100%;
+  height: 100%;
   font-family: 'Poppins', sans-serif;
+  background-color: #F4F6FA;
 }
 
 .addData-content {
-  margin-left: 500px;
-  padding: 0;
-  overflow: hidden;
+  margin-left: 390px;
+  padding-top: 60px;
+  padding-bottom: 60px;
 }
 
 .add-data-header {
-  margin: 70px 0 5px 105px;
+  margin: 0px 0 5px 90px;
   font-size: 2.8rem;
   font-weight: 700;
-  width: 495px;
+  width: fit-content;
   border-bottom: 1px solid #b0b0b0;
 }
 
 .addData-form-container {
+  align-items: center;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0px 0px 25px 0 rgba(0, 0, 0, .05);
   display: flex;
+  margin: 50px 0 0 90px;
+  padding: 20px 60px;
+  position: relative;
+  width: 1200px;
 }
 
 .addData-form-left-column {
   width: 50%;
+  height: 100%;
 }
 
 .addData-form-right-column {
-  margin-top: 8.5px;
   width: 50%;
+  height: 100%;
+  margin-bottom: auto;
 }
 
-.form-head {
-  font-weight: 900;
-  font-size: 1.6rem;
-  margin: 70px 0 30px 105px;
-  position: relative;
-  z-index: 0;
-}
-
-.lbl-add {
-  font-size: 1.4rem;
+.lbl-addData {
+  display: block;
+  font-size: 1.3rem;
   font-weight: 500;
-  display: inline-block;
-  margin-left: 105px;
-}
-
-.lbl-name {
-  margin-top: 20px;
+  margin: -20px 0 -20px 0;
 }
 
 .input-add-data {
-  width: 70%;
-  height: 45px;
-  margin: 15px 0 20px 105px;
+  display: block;
+  border-radius: 5px;
+  border: 1px solid #808080;
+  height: 55px;
+  width: 440px;
   font-size: 1.2rem;
-  font-weight: 400;
-  padding: 0px 10px;
+  font-weight: 200;
+  margin-bottom: 10px;
+  padding: 0 15px;
 }
 
 .addColor {
-  width: 35%;
-  height: 45px;
-  margin: 5px 0 20px 105px;
+  display: block;
+  border-radius: 5px;
+  border: 1px solid #808080;
+  height: 55px;
+  width: 220px;
   font-size: 1.2rem;
-  font-weight: 400;
-  padding: 0px 10px;
+  font-weight: 200;
+  margin-bottom: 10px;
+  padding: 0 15px;
 }
 
 .addDesc {
-  width: 70%;
+  width: 75%;
   height: 250px;
-  margin: 15px 0 20px 105px;
+  margin: 5px 0 20px 0;
   font-size: 1.2rem;
   padding: 7px 10px;
   font-weight: 300;
   font-family: "Poppins", sans-serif;
+  display: block;
 }
 
-.select {
+.lbl-select {
+  display: block;
+  font-size: 1.3rem;
+  font-weight: 500;
+  margin-bottom: 0px;
+}
+
+.addData-select {
   cursor: pointer;
   width: 120px;
   height: 40px;
   font-size: 1.2rem;
   font-family: "Poppins", sans-serif;
-  margin: 10px 0 25px 105px;
-}
-
-.select-animal-type {
-  width: 120px;
-  height: 40px;
-  font-size: 1.2rem;
-  font-family: "Poppins", sans-serif;
-  margin: 10px 0 65px 10px;
+  margin: 5px 0 25px 0;
+  display: block;
 }
 
 .add-data-imgUploadContainer {
@@ -146,268 +153,25 @@
 
 /* 1600 x 1200 */
 @media screen and (max-width: 1919px) {
-  .addData-content {
-    margin-left: 390px;
-  }
-
-  .add-data-header {
-    margin: 70px 0 5px 105px;
-  }
-
-  .addData-form-right-column {
-    margin-top: 23px;
-  }
-
-  .input-add-data {
-    width: 65%;
-  }
-
-  .addDesc {
-    height: 220px;
-    width: 65%;
-    padding: 12px 10px;
-  }
-
-  .add-data-imgUpload-preview {
-    height: 420px;
-    width: 470px;
-  }
-
-  .btn-add {
-    margin-left: 250px;
-  }
+  
 }
 
 /* 1440 x 900 */
 @media screen and (max-width: 1441px) {
-  .addData-content {
-    margin-left: 340px;
-  }
-
-  .add-data-header {
-    font-size: 2.1rem;
-    width: fit-content;
-  }
-
-  .addData-form-left-column > .lbl-add {
-    font-size: 1.25rem;
-  }
-
-  .addData-form-right-column {
-    margin-top: 6px;
-  }
-
-  .add-data-imgUploadContainer > .lbl-imgUpload {
-    font-size: 1.25rem;
-  }
-
-  .input-add-data {
-    height: 42px;
-    width: 63%;
-    font-size: .98rem;
-    margin: 8px 0 20px 105px;
-  }
-
-  .addColor {
-    font-size: .98rem;
-  }
-
-  .add-data-preview-txt {
-    font-size: 1.25rem;
-  }
-
-  .add-data-imgUpload-preview {
-    height: 400px;
-    width: 430px;
-  }
-
-  .btn-add {
-    width: 200px;
-    margin-left: 230px;
-  }
+  
 }
 
 /* 1360 x 768 */
 @media screen and (max-width: 1360px) {
-  .addData-content {
-    margin-left: 300px;
-  }
-
-  .add-data-header {
-    font-size: 2rem;
-  }
-
-  .addData-form-left-column > .lbl-add {
-    font-size: 1.1rem;
-  }
-
-  .input-add-data {
-    width: 61.5%;
-    height: 40px;
-    font-size: .9rem;
-  }
-
-  .addDesc {
-    font-size: .9rem;
-    width: 61.5%;
-  }
-
-  .addColor {
-    font-size: .9rem;
-  }
-
-  .select {
-    font-size: 1.1rem;
-  }
-
-  .addData-form-left-column > .select-gender {
-    font-size: .9rem;
-  }
-
-  .select-animal-type {
-    font-size: .9rem;
-  }
-
-  .add-data-imgUploadContainer > .lbl-imgUpload {
-    font-size: 1.1rem;
-  }
-
-  .add-data-imgUpload-preview {
-    height: 380px;
-    width: 400px;
-  }
+  
 }
 
 /* 1280 x 1024 */
 @media screen and (max-width: 1280px) {
-  .addData-content {
-    margin-left: 290px;
-  }
-
-  .add-data-header {
-    font-size: 1.85rem;
-  }
-
-  .addData-form-left-column > .lbl-add {
-    font-size: 1.05rem;
-  }
-
-  .input-add-data {
-    height: 37px;
-    width: 61%;
-    font-size: .8rem;
-    padding-right: 10px;
-    padding-left: 10px;
-  }
-
-  .addDesc {
-    font-size: .8rem;
-    padding-left: 10px;
-    padding-right: 10px;
-    height: 150px;
-  }
-
-  .addColor {
-    font-size: .8rem;
-    height: 37px;
-  }
-
-  .select {
-    font-size: .8rem;
-  }
-
-  .addData-form-left-column>.select-gender {
-    font-size: .8rem;
-  }
-
-  .select-animal-type {
-    font-size: .8rem;
-  }
-
-  .add-data-imgUploadContainer>.lbl-imgUpload {
-    font-size: 1.05rem;
-  }
-
-  .addData-form-right-column > .add-data-imgUpload-preview {
-    height: 350px;
-    width: 370px;
-  }
-
-  .btn-add {
-    height: 55px;
-    width: 170px;
-    font-size: 1.5rem;
-    margin-left: 200px;
-  }
+ 
 }
 
 /* 1024 x 768 */
 @media screen and (max-width: 1024px) {
-  .addData-content {
-    margin-left: 250px;
-  }
-
-  .add-data-header {
-    font-size: 1.6rem;
-  }
-
-  .addData-form-left-column>.lbl-add {
-    font-size: .98rem;
-  }
-
-  .input-add-data {
-    height: 33px;
-    width: 55%;
-    font-size: .75rem;
-    padding-right: 10px;
-    padding-left: 10px;
-  }
-
-  .addDesc {
-    font-size: .75rem;
-    padding-left: 10px;
-    padding-right: 10px;
-    height: 150px;
-    width: 55%;
-  }
-
-  .addColor {
-    font-size: .75rem;
-    height: 33px;
-    width: 33%;
-  }
-
-  .select {
-    font-size: .8rem;
-  }
-
-  .addData-form-left-column>.select-gender {
-    font-size: .75rem;
-  }
-
-  .select-animal-type {
-    font-size: .75rem;
-  }
-
-  .add-data-imgUploadContainer > .lbl-imgUpload {
-    font-size: 1rem;
-  }
-
-  .add-data-imgUpload {
-    font-size: .7rem;
-    margin-left: 20px;
-  }
-
-  .addData-form-right-column>.add-data-imgUpload-preview {
-    height: 300px;
-    width: 300px;
-  }
-
-  .btn-add {
-    height: 55px;
-    width: 170px;
-    font-size: 1.5rem;
-    margin-top: 50px;
-    margin-left: 130px;
-  }
+  
 }

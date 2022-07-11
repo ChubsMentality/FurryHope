@@ -1,6 +1,8 @@
 const express = require('express');
 const { 
     getAnimals, 
+    getDogs,
+    getCats,
     createAnimal, 
     getAnimalById, 
     updateAnimal, 
@@ -13,6 +15,9 @@ const router = express.Router();
 
 // Route to get all the animals - /api/animals
 router.route('/').get(getAnimals);
+
+router.route('/getDogs').get(getDogs)
+router.route('/getCats').get(getCats)
 
 // Route for creating the animal's data - /api/animals/create
 router.route('/create').post(createAnimal);

@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const {
     registerAdmin,
+    getAdminInfo,
     authAdmin,
     getFeedbacks,
     getReports,
@@ -34,6 +35,8 @@ const {
 
 // Routes (/api/admins)
 router.route('/').post(registerAdmin); // To add an admin account
+
+router.route('/getAdmin/:id').get(getAdminInfo)
 
 // Get user and admin accounts
 router.route('/userAccounts').get(getUserAccounts)

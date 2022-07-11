@@ -3,17 +3,23 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { RootSiblingParent } from 'react-native-root-siblings'
 import { CredentialsContext } from './components/CredentialsContext';
-import {
-  useFonts, Poppins_200ExtraLight, Poppins_300Light, Poppins_400Regular, Poppins_500Medium, Poppins_600SemiBold,
-  Poppins_700Bold, Poppins_800ExtraBold, Poppins_900Black
-} from '@expo-google-fonts/poppins';
+import { useFonts } from '@expo-google-fonts/poppins';
 import AppLoading from 'expo-app-loading';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios'
 import Constants from 'expo-constants'
 import Login from './components/LoginUser';
 import Register from './components/RegisterUser';
+import Profile from './components/Profile';
+import EditProfile from './components/EditProfile'
+import ChangePassword from './components/ChangePassword'
 import DrawerContainer from './components/Navigations/DrawerContainer';
+import ThingsToConsider from './components/SubComponents/PetCare/ThingsToConsider';
+import Benefits from './components/SubComponents/PetCare/Benefits'
+import DogCare from './components/SubComponents/PetCare/DogCare'
+import CatCare from './components/SubComponents/PetCare/CatCare'
+import ListOfDogs from './components/ListOfDogs'
+import ListOfCats from './components/ListOfCats'
 import ViewAnimalData from './components/ViewAnimalData';
 import ViewAnimalDataPending from './components/ViewAnimalDataPending'
 import ViewAnimalDataAdopted from './components/ViewAnimalDataAdopted'
@@ -21,6 +27,7 @@ import AdoptionForm from './components/Forms/AdoptionForm';
 import Verification from './components/VerificationScreen'
 import ForgotPassword from './components/ForgotPassword';
 import ProfileSettings from './components/ProfileSettings'
+import 'react-native-gesture-handler'
 import { Platform } from 'react-native';
 
 // Push Notif
@@ -135,22 +142,22 @@ const App = () => {
     return () => clearInterval(interval)
 
   }, [currentCount])
-  
-  let fontsLoaded = useFonts({
-    Poppins_200ExtraLight, 
-    Poppins_300Light, 
-    Poppins_400Regular, 
-    Poppins_500Medium, 
-    Poppins_600SemiBold,
-    Poppins_700Bold, 
-    Poppins_800ExtraBold, 
-    Poppins_900Black
-  });
 
-  if(!fontsLoaded) { 
-    return <AppLoading />
+  const [loaded] = useFonts({
+    PoppinsExtraLight: require('./assets/Fonts/Poppins-ExtraLight.ttf'),
+    PoppinsLight: require('./assets/Fonts/Poppins-Light.ttf'),
+    PoppinsRegular: require('./assets/Fonts/Poppins-Regular.ttf'),
+    PoppinsMedium: require('./assets/Fonts/Poppins-Medium.ttf'),
+    PoppinsSemiBold: require('./assets/Fonts/Poppins-SemiBold.ttf'),
+    PoppinsBold: require('./assets/Fonts/Poppins-Bold.ttf'),
+    PoppinsExtraBold: require('./assets/Fonts/Poppins-ExtraBold.ttf'),
+    PoppinsBlack: require('./assets/Fonts/Poppins-Black.ttf')
+  })
+
+  if(!loaded) {
+    return null
   }
-
+  
   // Checks if there's data inside async storage
   const checkLoginCredentials = () => {
     AsyncStorage
@@ -184,7 +191,6 @@ const App = () => {
     // Line 89 - 101
     // If there's data in the storage, the user will be directed to the homepage, otherwise it would direct to the login and register
 
-
     <CredentialsContext.Provider value={{storedCredentials, setStoredCredentials}}>
       <CredentialsContext.Consumer>
         {({storedCredentials}) => (
@@ -192,29 +198,37 @@ const App = () => {
             <Stack.Navigator
               screenOptions={{
                 headerStyle: {
-                  backgroundColor: '#111111',
-                  fontFamily: 'Poppins_700Bold',
+                  fontFamily: 'PoppinsBold',
                 },
-                headerTintColor: '#fff',
-                headerShown: false,
+                fontFamily: 'PoppinsBold',
+                headerTintColor: '#111',
               }}
             >
               {storedCredentials ? (
                 // Screens available if a user has logged in
                 <Stack.Group>
-                  <Stack.Screen name="DrawerContainer" component={DrawerContainer} />
-                  <Stack.Screen name="View Data" component={ViewAnimalData} />
-                  <Stack.Screen name="View Pending" component={ViewAnimalDataPending} />
-                  <Stack.Screen name="View Adopted" component={ViewAnimalDataAdopted}  />
-                  <Stack.Screen name="Adoption Form" component={AdoptionForm} />
-                  <Stack.Screen name='Profile Settings' component={ProfileSettings} />
+                  <Stack.Screen name='Dogs' component={ListOfDogs} options={{ headerShown: false }} />
+                  <Stack.Screen name='DrawerContainer' component={DrawerContainer} options={{ headerShown: false }} />
+                  <Stack.Screen name='Cats' component={ListOfCats} options={{ headerShown: false }} />
+                  <Stack.Screen name='Tips for Adopting' component={ThingsToConsider} />
+                  <Stack.Screen name='Adoption Benefits' component={Benefits} />
+                  <Stack.Screen name='Dog Care' component={DogCare} />
+                  <Stack.Screen name='Cat Care' component={CatCare} />
+                  <Stack.Screen name='View Data' component={ViewAnimalData} options={{ headerShown: false }} />
+                  <Stack.Screen name='View Pending' component={ViewAnimalDataPending} options={{ headerShown: false }} />
+                  <Stack.Screen name='View Adopted' component={ViewAnimalDataAdopted} options={{ headerShown: false }} />
+                  <Stack.Screen name='Adoption Form' component={AdoptionForm} />
+                  {/* <Stack.Screen name="Profile" component={Profile} /> */}
+                  <Stack.Screen name='Edit Profile' component={EditProfile} />
+                  <Stack.Screen name='Change Password' component={ChangePassword} />
+                  <Stack.Screen name='Profile Settings' component={ProfileSettings} options={{ headerShown: false }} />
                 </Stack.Group>
               ) : (
                 // If not, only the login and register screens are available
                 <Stack.Group>
-                  <Stack.Screen name="Login" component={Login} options={{headerShown: false}} />
+                  <Stack.Screen name='Login' component={Login} options={{headerShown: false}} />
+                  <Stack.Screen name='Register' component={Register} options={{ headerShown: false }} />
                   <Stack.Screen name='Forgot Password' component={ForgotPassword} options={{headerShown: false }} />
-                  <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
                   <Stack.Screen name='Verification' component={Verification} options={{ headerShown: false }} />
                 </Stack.Group>
               )}

@@ -70,13 +70,13 @@ const styles = StyleSheet.create({
 
     animalName: {
         fontFamily: 'Poppins_600SemiBold',
-        fontSize: 28,
+        fontSize: 22,
         color: 'white',
     },
 
     animalBreed: {
         fontFamily: 'Poppins_200ExtraLight',
-        fontSize: 17,
+        fontSize: 15,
         color: 'white',
         marginTop: -3,
     },

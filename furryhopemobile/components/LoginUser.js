@@ -1,14 +1,17 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useRef } from 'react';
 import { ActivityIndicator, KeyboardAvoidingView, View, Text, TouchableOpacity, SafeAreaView, StyleSheet, Image, TextInput, Touchable } from 'react-native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import blackLogo from '../assets/Logo/logo-black.png'
+import logoBlack from '../assets/Login/logo-black.png'
+import loginVector from '../assets/Login/login-vector.png'
 import { CredentialsContext } from './CredentialsContext';
 
 const LoginUser = ({ navigation }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('')
     const [loading, setLoading] = useState(false)
+    const [emailFocused, setEmailFocused] = useState(false)
+    const [passwordFocused, setPasswordFocused] = useState(false)
 
     // Context
     const {storedCredentials, setStoredCredentials} = useContext(CredentialsContext);
@@ -50,35 +53,52 @@ const LoginUser = ({ navigation }) => {
                 alert('Persisting login failed');                
             })
     }
-
+    
     return (
         <SafeAreaView style={styles.body}>
             <View style={styles.headerContainer}>
-                <Image source={blackLogo} style={styles.headerImage} />
-                <Text style={styles.headerTxt}>FURRYHOPE</Text>
+                <View style={styles.headerLeft}>
+                    <Image source={logoBlack} style={styles.logoBlack} />
+                    <Text style={styles.headerAdopt}>ADOPT,</Text>
+                    <Text style={styles.headerDontShop}>DON'T SHOP</Text>
+                </View>
+
+                <Image source={loginVector} style={styles.loginVector} />
             </View>
-            <Text style={styles.subTxt}>Let's Begin</Text>
+
             <Text style={styles.lblEmail}>Email</Text>
             <TextInput
-                style={styles.input} 
+                style={emailFocused ? styles.inputFocused : styles.input} 
                 value={email}
                 onChangeText={setEmail}
+                onFocus={() => setEmailFocused(true)}
+                onBlur={() => setEmailFocused(false)}
             />
             <Text style={styles.lblPassword}>Password</Text>
             <TextInput
-                style={styles.input}
+                style={passwordFocused ? styles.inputFocused : styles.input}
                 value={password}
                 onChangeText={setPassword} 
                 secureTextEntry={true}
+                onFocus={() => setPasswordFocused(true)}
+                onBlur={() => setPasswordFocused(false)}
             />
-            <TouchableOpacity onPress={() => navigation.navigate('Forgot Password')}>
-                <Text style={styles.forgotPwd}>Forgot Password?</Text>
-            </TouchableOpacity>
+            
+            <View style={styles.forgotPwdContainer}>
+                <Text style={styles.forgotPwdTxt}>Forgot your password?</Text>
+                <TouchableOpacity onPress={() => navigation.navigate('Forgot Password')}>
+                    <Text style={styles.forgotPwd}>Reset</Text>
+                </TouchableOpacity>
+            </View>
+
+            {/* <TouchableOpacity onPress={() => navigation.navigate('Verification')}>
+                <Text style={styles.forgotPwd}>Verify Account</Text>
+            </TouchableOpacity> */}
 
             <TouchableOpacity style={styles.loginBtn} onPress={() => handleLogin()}>
                 {
                     loading ?
-                            <ActivityIndicator color='white' style={{ marginTop: 12 }} /> 
+                            <ActivityIndicator color='white' size='large' style={{ marginTop: 15 }} /> 
                         :
                             <Text style={styles.loginTxt}>LOGIN</Text>
                 }
@@ -104,76 +124,97 @@ const styles = StyleSheet.create({
     headerContainer: {
         display: 'flex',
         flexDirection: 'row',
-        marginLeft: 35,
-        marginTop: 80,
+        justifyContent: 'space-between',
+        marginLeft: 45,
+        marginRight: 45,
+        marginTop: 100,
     },
 
-    headerImage: {
-        width: 70,
-        height: 70,
+    logoBlack: {
+        height: 38,
+        width: 38,
+        marginBottom: 5,
     },
 
-    headerTxt: {
-        fontFamily: 'Poppins_800ExtraBold',
-        fontSize: 40,
+    headerAdopt: {
+        fontFamily: 'PoppinsBlack',
+        fontSize: 30,
     },
 
-    subTxt: {
-        fontFamily: 'Poppins_500Medium',
-        fontSize: 13.6,
-        backgroundColor: '#ffef3d80',
-        width: 83,
-        paddingTop: 3,
-        paddingRight: 5,
-        paddingLeft: 5,
-        marginLeft: 50,
+    headerDontShop: {
+        fontFamily: 'PoppinsBlack',
+        fontSize: 30,
+    },
+
+    loginVector: {
+        height: 127,
+        width: 118,
     },
 
     lblEmail: {
-        fontFamily: 'Poppins_400Regular',
-        fontSize: 19.2,
-        marginTop: 50,
-        marginLeft: 50,
+        fontFamily: 'PoppinsRegular',
+        fontSize: 18,
+        marginTop: 35,
+        marginLeft: 45,
         marginBottom: 5,
     },
 
     lblPassword: {
-        fontFamily: 'Poppins_400Regular',
-        fontSize: 19.2,
-        marginTop: 15,
-        marginLeft: 50,
+        fontFamily: 'PoppinsRegular',
+        fontSize: 18,
+        marginTop: 20,
+        marginLeft: 45,
         marginBottom: 5,
     },
 
     input: {
-        height: 40,
-        width: '75%',
-        borderColor: '#bfbfbf',
+        height: 47,
+        width: '78%',
         borderRadius: 5,
-        borderStyle: 'solid',
-        borderWidth: 1,
-        marginLeft: 50,
-        backgroundColor: '#ffffff',
-        fontFamily: 'Poppins_400Regular',
+        backgroundColor: '#E8E8E8',
+        fontFamily: 'PoppinsRegular',
         paddingLeft: 10,
         paddingRight: 10,
-        //backgroundColor: '#d9d9d9',
+        marginLeft: 45,
+    },
+
+    inputFocused: {
+        height: 47,
+        width: '78%',
+        borderRadius: 5,
+        borderWidth: 1.5,
+        borderColor: 'black',
+        marginLeft: 45,
+        backgroundColor: 'white',
+        fontFamily: 'PoppinsRegular',
+        paddingLeft: 10,
+        paddingRight: 10,
+    },
+
+    forgotPwdContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        marginTop: 20,
+        marginLeft: 45,
+    },
+
+    forgotPwdTxt: {
+        fontSize: 14.5,
+        fontFamily: 'PoppinsRegular',
     },
 
     forgotPwd: {
-        marginLeft: 'auto',
         color: '#551A8B',
-        fontSize: 14,
-        fontFamily: 'Poppins_400Regular',
-        marginTop: 15,
-        marginRight: 50,
+        fontSize: 14.5,
+        fontFamily: 'PoppinsRegular',
+        marginLeft: 5,
     },
 
-    // 317.25px
     loginBtn: {
         backgroundColor: '#111111',
-        width: 317.25,
-        height: 45,
+        borderRadius: 5,
+        width: 323,
+        height: 66,
         marginTop: 130,
         marginRight: 'auto',
         marginBottom: 30,
@@ -182,27 +223,26 @@ const styles = StyleSheet.create({
 
     loginTxt: {
         textAlign: 'center',
-        fontFamily: 'Poppins_700Bold',
-        fontSize: 20.8,
-        marginTop: 5,
+        fontFamily: 'PoppinsBold',
+        fontSize: 26,
+        marginTop: 13,
         color: '#fff',
         letterSpacing: 3,
     },
 
     registerSec: {
         flexDirection: 'row',
-        justifyContent: 'center'
+        marginLeft: 45,
     },
 
     registerTxt: {
-        fontFamily: 'Poppins_400Regular',
-        fontSize: 15.2,
+        fontFamily: 'PoppinsRegular',
+        fontSize: 14.5,
     },
 
     registerCTA: {
-        fontFamily: 'Poppins_700Bold',
-        fontSize: 16,
-        textDecorationLine: 'underline',
+        fontFamily: 'PoppinsBold',
+        fontSize: 14.5,
         marginTop: -2,
         marginLeft: 10,
         color: '#551A8B'

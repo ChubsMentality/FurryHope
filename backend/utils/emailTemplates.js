@@ -1,3 +1,5 @@
+const address = '2/F Engineering Bldg. Agora Complex Paliparan Sto. Nino Marikina City, Philippines'
+
 const sendInterviewSchedTemplate = (date, time) => {
     return `
         <!DOCTYPE html>
@@ -16,8 +18,7 @@ const sendInterviewSchedTemplate = (date, time) => {
         </head>
         <body>
             <div style="max-width: 620px; margin: 0 auto; font-family: sans-serif; color: #272727;">
-                <p>Message</p>
-                <p>Good day, we would like to invite you to an interview to assess whether or not you are qualified to adopt the animal you applied to adopt.</p>
+                <p>Good day, we would like to invite you to an interview to assess whether or not you are qualified to adopt the animal you applied to adopt. We are located at ${address}</p>
 
                 <p>Interview Details (Date and Time)</p>
                 <p>Date: <span>${date}</span></p>
@@ -46,7 +47,6 @@ const rejectAdoptionTemplate = (adopterName, animalName) => {
         </head>
         <body>
             <div style="max-width: 620px; margin: 0 auto; font-family: sans-serif; color: #272727;">
-                <p>Message</p>
                 <p>
                     Good day ${adopterName}, we would like to inform you that your application to adopt ${animalName} has been rejected
                 </p>
@@ -74,10 +74,9 @@ const pickupTemplate = (pickupDate, pickupTime, animalName, adopterName) => {
         </head>
         <body>
             <div style="max-width: 620px; margin: 0 auto; font-family: sans-serif; color: #272727;">
-                <p>Message</p>
                 <p>
                     Good day ${adopterName}, we would like to inform you that your application to adopt ${animalName} has been approved
-                    and you can pickup your new pet on ${pickupDate} at exactly ${pickupTime}, Have a wonderful day.
+                    and you can pickup your new pet on ${pickupDate} at exactly ${pickupTime}. We are located at ${address}, Have a wonderful day.
                 </p>
             </div>
         </body>
@@ -103,7 +102,6 @@ const registerAnimalTemplate = (name, animalName) => {
         </head>
         <body>
             <div style="max-width: 620px; margin: 0 auto; font-family: sans-serif; color: #272727;">
-                <p>Message</p>
                 <p>
                     Good day ${name}, we would like to inform you that your pet ${animalName} has been registered to the veterinary office.
                 </p>

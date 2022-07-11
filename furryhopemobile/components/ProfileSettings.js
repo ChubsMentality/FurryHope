@@ -1,11 +1,10 @@
 import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { CredentialsContext } from './CredentialsContext'
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import closeIcon from '../assets/Icons/close_cross.png'
 
 const ProfileSettings = ({ navigation, route }) => {
-    const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext)
     const [userData, setUserData] = useState()
     const [fullName, setFullName] = useState('')
     const [email, setEmail] = useState('')
@@ -13,7 +12,6 @@ const ProfileSettings = ({ navigation, route }) => {
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
     const [loading, setLoading] = useState(false)
-
 
     const fetchUser = async () => {
         try {
@@ -29,7 +27,7 @@ const ProfileSettings = ({ navigation, route }) => {
 
     const updateProfile = async () => {
         if(!password || !confirmPassword) {
-
+            alert('Please fill out the password to be changed.')
         } else if(password !== confirmPassword) {
             alert('Password does not match')
         } else {

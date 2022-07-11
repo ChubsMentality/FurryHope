@@ -34,34 +34,34 @@ const ReportAnimal = () => {
         }
     }
 
-    const getCurrentLocation = async () => {
-        // Location.setGoogleApiKey('AIzaSyCLNKnr-vbq5V32GjiJf4CUlmSNhzu4itM')
-        let { status } = await Location.requestForegroundPermissionsAsync();
+    // const getCurrentLocation = async () => {
+    //     // Location.setGoogleApiKey('AIzaSyCLNKnr-vbq5V32GjiJf4CUlmSNhzu4itM')
+    //     let { status } = await Location.requestForegroundPermissionsAsync();
 
-        if (status !== 'granted') {
-            Alert.alert(
-            'Permission not granted',
-            'Allow the app to use location service.',
-            [{ text: 'OK' }],
-            { cancelable: false }
-            );
-        }
+    //     if (status !== 'granted') {
+    //         Alert.alert(
+    //         'Permission not granted',
+    //         'Allow the app to use location service.',
+    //         [{ text: 'OK' }],
+    //         { cancelable: false }
+    //         );
+    //     }
 
-        let { coords } = await Location.getCurrentPositionAsync();
+    //     let { coords } = await Location.getCurrentPositionAsync();
 
-        if (coords) {
-            const { latitude, longitude } = coords;
-            let response = await Location.reverseGeocodeAsync({
-                latitude,
-                longitude
-            });
+    //     if (coords) {
+    //         const { latitude, longitude } = coords;
+    //         let response = await Location.reverseGeocodeAsync({
+    //             latitude,
+    //             longitude
+    //         });
 
-            for (let item of response) {
-                let address = `${item.name}, ${item.street}, ${item.postalCode}, ${item.city}`;
-                setDisplayCurrentAddress(address);
-            }
-        }
-    }
+    //         for (let item of response) {
+    //             let address = `${item.name}, ${item.street}, ${item.postalCode}, ${item.city}`;
+    //             setDisplayCurrentAddress(address);
+    //         }
+    //     }
+    // }
     
     const pickAnImage_Gallery = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -143,10 +143,10 @@ const ReportAnimal = () => {
     }, [image])
 
 
-    useEffect(() => {
-        checkIfLocationEnabled()
-        getCurrentLocation()
-    }, [])
+    // useEffect(() => {
+    //     checkIfLocationEnabled()
+    //     getCurrentLocation()
+    // }, [])
 
 
     const submitReport = async () => {

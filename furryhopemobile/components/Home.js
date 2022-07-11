@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { SafeAreaView, ScrollView, View, Text, TouchableOpacity, StyleSheet, ImageBackground, Image } from 'react-native';
 import { CredentialsContext } from './CredentialsContext';
+import { quickSort } from './SubComponents/QuickSort';
 import 'react-native-gesture-handler'
 import TopNav from './SubComponents/TopNav'
 import BottomNav from './SubComponents/BottomNav'

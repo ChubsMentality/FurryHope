@@ -1,16 +1,16 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { ActivityIndicator, Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, Touchable, TouchableOpacity, View } from 'react-native'
 import { CredentialsContext } from '../CredentialsContext'
+import Ionicons from 'react-native-vector-icons/Ionicons'
 import * as DocumentPicker from 'expo-document-picker'
 import axios from 'axios'
-import returnIcon from '../../assets/arrowLeft.png'
 
 const AdoptionForm = ({ route, navigation }) => {
     const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext)
     const d = new Date()
     const { animalId } = route.params
 
-    const [adopterName, setAdopterName] = useState('')
+    const [applicantName, setApplicantName] = useState('')
     const [email, setEmail] = useState('')
     const [contactNo, setContactNo] = useState('')
     const [address, setAddress] = useState('')  
@@ -19,11 +19,20 @@ const AdoptionForm = ({ route, navigation }) => {
     const [animalType, setAnimalType] = useState('')
     const [animalGender, setAnimalGender] = useState('')
     const [animalColor, setAnimalColor] = useState('')
+    const [animalAge, setAnimalAge] = useState('Unknown')
     const [animalImg, setAnimalImg] = useState('')
     const [validId, setValidId] = useState()
     const [fileName, setFileName] = useState()
     const [date, setDate] = useState(d.toLocaleDateString())
+    const [applicantImg, setApplicantImg] = useState('')
+
     const [loading, setLoading] = useState(false)
+    const [applicantNameFocused, setApplicantNameFocused] = useState(false)
+    const [emailFocused, setEmailFocused] = useState(false)
+    const [contactNoFocused, setContactNoFocused] = useState(false)
+    const [addressFocused, setAddressFocused] = useState(false)
+    const [isCitizen, setIsCitizen] = useState(true)
+    const [regToPound, setRegToPound] = useState(true)
 
     const applicationStatus = 'Pending'
 
@@ -32,8 +41,6 @@ const AdoptionForm = ({ route, navigation }) => {
 
     const getAnimalById = async () => {
         const { data } = await axios.get(`http://localhost:5000/api/animals/${animalId}`)
-        console.log(data)
-
         setAnimalName(data.name)
         setAnimalBreed(data.breed)
         setAnimalType(data.type)
@@ -42,19 +49,16 @@ const AdoptionForm = ({ route, navigation }) => {
         setAnimalImg(data.animalImg)
     }
 
-    useEffect(() => {
-        getAnimalById()
-    }, [animalId])
-
+    
     const pickDocument = async () => {
         let result = await DocumentPicker.getDocumentAsync({ type: '*/*', copyToCacheDirectory: true, base64: true})
             .then((response) => {
                 if(response.type = 'success') {
-
+                    
                     let { name, uri, size } = response
                     let nameParts = name.split('.')
                     let fileType = nameParts[nameParts.length - 1]
-
+                    
                     var fileToUpload = {
                         name: name,
                         size: size,
@@ -90,8 +94,13 @@ const AdoptionForm = ({ route, navigation }) => {
         })
         
     }
-
+    
     const submit = async () => {
+        // console.log('Submit adoption')
+
+        // if(regToPound) {
+        //     console.log('Also register the pet.')
+        // }
         setLoading(true)
 
         const config = {
@@ -100,9 +109,13 @@ const AdoptionForm = ({ route, navigation }) => {
                 Authorization: `Bearer ${storedCredentials.token}`
             }
         }
-
-        if(!adopterName || !email || !contactNo || !address) {
+        
+        if(!applicantName || !email || !contactNo || !address) {
             alert('Please fill out all the necessary fields')
+            setLoading(false)
+            return
+        } else if(!validId) {
+            alert('Please attach your valid I.D.')
             setLoading(false)
             return
         } else if(contactNo.match(/[^$,.\d]/)) {
@@ -111,9 +124,12 @@ const AdoptionForm = ({ route, navigation }) => {
             return 
         } else {
             try {
+                let hasBeenInterviewed = false
+                let hasPaid = false
+
                 const data = await axios.post('http://localhost:5000/api/users/submitAdoption', {
-                    animalId, adopterName, email, contactNo, address, validId, animalName, animalBreed,
-                    animalType, animalGender, animalColor, animalImg, adoptionStatus, applicationStatus, date
+                    animalId, applicantName, email, contactNo, address, applicantImg, validId, animalName, animalBreed,
+                    animalType, animalGender, animalColor, animalImg, adoptionStatus, date, applicationStatus, hasBeenInterviewed, hasPaid
                 }, config)
 
                 console.log(data)
@@ -129,77 +145,98 @@ const AdoptionForm = ({ route, navigation }) => {
             } catch (error) {
                 console.log(error)
             }
+
         }
 
-        setAdopterName('')
-        setEmail('')
-        setContactNo('')
-        setAddress('')
         setLoading(false)
-
+        
         setTimeout(() => {
-            navigation.navigate('View Animals')
+            navigation.navigate('Browse')
         }, 500)
     }
+    
+    useEffect(() => {
+        setApplicantName(storedCredentials.fullName)
+        setEmail(storedCredentials.email)
+        setContactNo(storedCredentials.contactNo)
+        setAddress(storedCredentials.address)
+        setApplicantImg(storedCredentials.profilePicture)
+
+        getAnimalById()
+    }, [animalId])
+
+    useEffect(() => {
+        if(!isCitizen) {
+            setRegToPound(false)
+        }
+    }, [isCitizen])
 
     return (
         <SafeAreaView style={styles.body}>
             <ScrollView>
-                <TouchableOpacity style={styles.backBtn} onPress={() => navigation.goBack()}>
+                {/* <TouchableOpacity style={styles.backBtn} onPress={() => navigation.goBack()}>
                     <Image style={styles.icon} source={returnIcon}/>
                     <Text style={styles.backBtnText}>Back</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
                 
                 <View style={styles.paddedView}>
-                    <Text style={styles.header}>ADOPTION FORM</Text>
+                    {/* <Text style={styles.header}>ADOPTION FORM</Text>
                     <View style={styles.headerUnderline}></View>
 
                     <Text style={styles.dateLabel}>Date:
                         <Text style={styles.dateValue}>{d.toLocaleDateString()}</Text>
-                    </Text>
+                    </Text> */}
 
-                    <Text style={styles.adopterInfoHeader}>Adopter's Information</Text>
-                    <Text style={styles.adopterInfoLabel}>Adopter's Name</Text>
+                    {/* <Text style={styles.adopterInfoHeader}>Adopter's Information</Text> */}
+                    <Text style={[styles.adopterInfoLabel, { marginTop: 40 }]}>Name</Text>
                     <TextInput
-                        style={styles.adopterInfoInput}
-                        value={adopterName}
-                        onChangeText={setAdopterName} 
+                        style={applicantNameFocused ? styles.adopterInfoInputFocused : styles.adopterInfoInput}
+                        value={applicantName}
+                        onChangeText={setApplicantName}
+                        onFocus={() => setApplicantNameFocused(true)}
+                        onBlur={() => setApplicantNameFocused(false)} 
                     />
 
                     <Text style={styles.adopterInfoLabel}>Email Address</Text>
                     <TextInput
-                        style={styles.adopterInfoInput}
+                        style={emailFocused ? styles.adopterInfoInputFocused : styles.adopterInfoInput}
                         value={email}
-                        onChangeText={setEmail} 
+                        onChangeText={setEmail}
+                        onFocus={() => setEmailFocused(true)}
+                        onBlur={() => setEmailFocused(false)} 
                     />
 
                     <Text style={styles.adopterInfoLabel}>Contact Number</Text>
                     <TextInput
-                        style={styles.adopterInfoInput}
+                        style={contactNoFocused ? styles.adopterInfoInputFocused : styles.adopterInfoInput}
                         keyboardType='numeric'
                         value={contactNo}
                         onChangeText={setContactNo} 
                         maxLength={11}
+                        onFocus={() => setContactNoFocused(true)}
+                        onBlur={() => setContactNoFocused(false)}
                     />
                     
                     <Text style={styles.adopterInfoLabel}>Address</Text>
                     <TextInput
-                        style={styles.adopterInfoInput_address}
+                        style={addressFocused ? styles.adopterInfoInputFocused : styles.adopterInfoInput}
                         value={address}
                         onChangeText={setAddress}
-                        multiline={7}
+                        onFocus={() => setAddressFocused(true)}
+                        onBlur={() => setAddressFocused(false)}
                     />
 
                     <Text style={styles.adopterInfoLabel}>Please attach your valid Id</Text>
                     <View style={styles.chooseFileContainer}>
                         <TouchableOpacity style={styles.chooseFileBtn} onPress={() => pickDocument()}>
+                            <Ionicons name='md-document-attach' size={18} color='black' />
                             <Text style={styles.chooseFileText}>Choose File</Text>
                         </TouchableOpacity>
 
                         <Text style={styles.fileName}>{fileName}</Text>
                     </View>
 
-                    <Text style={styles.animalInfoHeader}>Animal's Information</Text>
+                    {/* <Text style={styles.animalInfoHeader}>Animal's Information</Text>
                     <Text style={styles.animalInfoLabel}>Animal's Name</Text>
                     <View style={styles.animalInfoInput}>
                         <Text style={styles.animalInfoInputText}>{animalName}</Text>
@@ -225,6 +262,81 @@ const AdoptionForm = ({ route, navigation }) => {
                         <Text style={styles.animalInfoInputText}>{animalColor}</Text>
                     </View>
 
+                    <Text style={styles.isCitizenLabel}>Are you a citizen of Marikina City?</Text>
+                    <View style={styles.citizenCheckBoxContainer}>
+                        <View style={isCitizen ? styles.citizenYesContainerActive : styles.citizenYesContainer}>
+                            <TouchableOpacity style={isCitizen ? styles.citizenCheckBoxActive : styles.citizenCheckBox} onPress={() => setIsCitizen(true)}>
+                                {isCitizen ?
+                                    <Ionicons name='ios-checkmark-sharp' size={20} color='white' />
+                                    :
+                                    <></>
+                                }
+                            </TouchableOpacity>
+
+                            <Text style={isCitizen ? styles.citizenCheckBoxLabelActive : styles.citizenCheckBoxLabel}>Yes</Text>
+                        </View>
+
+                        <View style={isCitizen ? styles.citizenNoContainer : styles.citizenNoContainerActive}>
+                            <TouchableOpacity style={isCitizen ? styles.citizenCheckBox : styles.citizenCheckBoxActive} onPress={() => setIsCitizen(false)}>
+                                {isCitizen ?
+                                    <></>
+                                    :
+                                    <Ionicons name='ios-checkmark-sharp' size={20} color='white' />
+                                }
+                            </TouchableOpacity>
+
+                            <Text style={isCitizen ? styles.citizenCheckBoxLabel : styles.citizenCheckBoxLabelActive}>No</Text>
+                        </View>
+                    </View>
+                    
+                    {isCitizen ?
+                        <View style={styles.petRegistrationContainer}>
+                            <Text style={styles.petRegistrationHeader}>Do you want to register the animal to the city pound?</Text>
+
+                            <View style={styles.petRegCheckBoxContainer}>
+                                <View style={styles.petRegYesContainer}>
+                                    <TouchableOpacity style={regToPound ? styles.petRegCheckBoxActive : styles.petRegCheckBox} onPress={() => setRegToPound(true)}>
+                                        {regToPound ? 
+                                            <Ionicons name='ios-checkmark-sharp' size={20} color='black' />
+                                            :
+                                            <></>
+                                        }
+                                    </TouchableOpacity>
+
+                                    <Text style={regToPound ? styles.petRegLabelActive : styles.petRegLabel}>Yes</Text>
+                                </View>
+
+                                <View style={styles.petRegNoContainer}>
+                                    <TouchableOpacity style={regToPound ? styles.petRegCheckBox : styles.petRegCheckBoxActive} onPress={() => setRegToPound(false)}>
+                                        {regToPound ?
+                                            <></>
+                                            :
+                                            <Ionicons name='ios-checkmark-sharp' size={20} color='black' />
+                                        }
+                                    </TouchableOpacity>
+
+                                    <Text style={regToPound ? styles.petRegLabel : styles.petRegLabelActive}>No</Text>
+                                </View>    
+                            </View>
+
+                            {regToPound ?
+                                <>
+                                    <Text style={styles.petRegReqHeader}>Requirements for registering a pet:</Text>
+                                    <Text style={styles.petRegRequirements}>Registration fee of ₱ 75.00</Text>
+                                    <Text style={styles.petRegRequirements}>Certificate of Residency issued by barangay or any valid ID.</Text>
+                                    <Text style={styles.petRegRequirements}>Two (2) pcs of 2x2 picture of owner</Text>
+                                    <Text style={styles.petRegRequirements}>Photo of the pet in 3R size (Whole body, Side view)</Text>
+                                    <Text style={styles.petRegRequirements}>Certificate or proof of Anti-Rabies Vaccination</Text>
+                                    <Text style={styles.petRegRequirements}>Photocopy of the certificate that the pet has already been vaccinated for anti-rabies.</Text>
+                                </>
+                                :
+                                <></>
+                            }
+                        </View>
+                        :
+                        <></>
+                    } */}
+
                     <TouchableOpacity style={styles.submitBtn} onPress={() => submit()}>
                         {loading ?
                                 <ActivityIndicator color='white' style={{ marginTop: '14px' }} />
@@ -247,8 +359,8 @@ const styles = StyleSheet.create({
     },
 
     paddedView: {
-        paddingLeft: 45,
-        paddingRight: 45,
+        paddingLeft: 35,
+        paddingRight: 35,
     },
 
     backBtn: {
@@ -265,28 +377,28 @@ const styles = StyleSheet.create({
     },
 
     backBtnText: {
-        fontFamily: 'Poppins_500Medium',
+        fontFamily: 'PoppinsMedium',
         fontSize: 14.5,
         marginTop: 2,
         marginLeft: 7,
     },
 
     header: {
-        fontFamily: 'Poppins_700Bold',
+        fontFamily: 'PoppinsBold',
         fontSize: 25,
     },
 
     dateLabel: {
         display: 'flex',
         flexDirection: 'row',
-        fontFamily: 'Poppins_500Medium',
+        fontFamily: 'PoppinsMedium',
         fontSize: 16,
         marginTop: 5,
 
     },
 
     dateValue: {
-        fontFamily: 'Poppins_300Light',
+        fontFamily: 'PoppinsLight',
         fontSize: 16,
         marginLeft: 5,
     },
@@ -294,7 +406,7 @@ const styles = StyleSheet.create({
     adopterInfoHeader: {
         alignSelf: 'flex-start',
         backgroundColor: '#FFF9B5',
-        fontFamily: 'Poppins_300Light',
+        fontFamily: 'PoppinsLight',
         fontSize: 11,
         marginTop: 40,
         marginBottom: 10,
@@ -305,35 +417,38 @@ const styles = StyleSheet.create({
     },
 
     adopterInfoLabel: {
-        fontFamily: 'Poppins_400Regular',
-        fontSize: 16,
-        marginBottom: 3,
+        fontFamily: 'PoppinsRegular',
+        fontSize: 15,
+        marginBottom: 5,
     },
 
     adopterInfoInput: {
+        height: 45,
         width: '100%',
-        height: 40,
-        borderColor: '#b0b0b0',
-        borderStyle: 'solid',
-        borderWidth: 1,
-        marginBottom: 15,
-        paddingTop: 5,
-        paddingRight: 7,
-        paddingBottom : 5,
-        paddingLeft: 7,
+        borderRadius: 5,
+        borderColor: '#f1f3f7',
+        borderWidth: 3,
+        backgroundColor: '#f3f5f9',
+        color: '#8c8c8e',
+        fontFamily: 'PoppinsRegular',
+        fontSize: 13,
+        marginBottom: 20,
+        paddingLeft: 10,
+        paddingRight: 10,
     },
 
-    adopterInfoInput_address: {
+    adopterInfoInputFocused: {
+        height: 45,
         width: '100%',
-        height: 100,
-        borderColor: '#b0b0b0',
-        borderStyle: 'solid',
+        borderColor: '#111',
         borderWidth: 1,
-        marginBottom: 15,
-        paddingTop: 5,
-        paddingRight: 7,
-        paddingBottom : 5,
-        paddingLeft: 7,
+        borderRadius: 5,
+        backgroundColor: 'white',
+        fontFamily: 'PoppinsRegular',
+        fontSize: 13,
+        marginBottom: 20,
+        paddingLeft: 10,
+        paddingRight: 10,
     },
 
     chooseFileContainer: {
@@ -344,86 +459,243 @@ const styles = StyleSheet.create({
         borderWidth: .5,
         borderColor: '#000',
         borderStyle: 'solid',
+        borderRadius: 5,
         marginTop: 3,
         paddingTop: 5,
         paddingRight: 10,
         paddingBottom: 5,
         paddingLeft: 10,
+        flexDirection: 'row',
+        alignItems: 'center',
         alignSelf: 'flex-start',
     },
 
     chooseFileText: {
         color: '#000',
+        marginLeft: 5,
     },
 
     fileName: {
         color: 'green',
-        fontFamily: 'Poppins_300Light',
+        fontFamily: 'PoppinsLight',
         marginTop: 10,
     },
 
-    animalInfoHeader: {
-        alignSelf: 'flex-start',
-        backgroundColor: '#FFF9B5',
-        fontFamily: 'Poppins_300Light',
-        fontSize: 11,
-        marginTop: 40,
-        marginBottom: 10,
-        paddingTop: 3,
-        paddingRight: 7,
-        paddingBottom: 3,
-        paddingLeft: 7,
-    },
-
-    animalInfoLabel: {
-        fontFamily: 'Poppins_400Regular',
+    isCitizenLabel: {
+        fontFamily: 'PoppinsRegular',
         fontSize: 16,
-        marginBottom: 3,
+        marginTop: 50,
+        marginBottom: 8,
     },
 
-    animalInfoInput: {
-        width: '100%',
-        height: 40,
-        borderColor: '#b0b0b0',
-        borderStyle: 'solid',
-        borderWidth: 1,
+    citizenCheckBoxContainer: {
+    },
+
+    citizenYesContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: 5,
         marginBottom: 15,
-        paddingTop: 10,
-        paddingRight: 7,
-        paddingLeft: 7,
+        borderRadius: 5,
     },
 
-    animalInfoInputHalf: {
-        width: '50%',
-        height: 40,
-        borderColor: '#b0b0b0',
-        borderStyle: 'solid',
-        borderWidth: 1,
+    citizenYesContainerActive: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: 5,
         marginBottom: 15,
-        paddingTop: 10,
-        paddingRight: 7,
-        paddingLeft: 7,
+        backgroundColor: '#b3ffb3',
+        borderRadius: 5,
+        padding: 10,
     },
 
-    animalInfoInputText: {
-        fontFamily: 'Poppins_400Regular',
-        fontSize: 14,
+    citizenNoContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        borderRadius: 5,
     },
+
+    citizenNoContainerActive: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#ff9999',
+        borderRadius: 5,
+        padding: 10,
+    },
+
+    citizenCheckBox: {
+        borderColor: '#111',
+        borderWidth: 1,
+        borderRadius: 5,
+        marginRight: 7,
+        height: 28,
+        width: 28,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+
+    citizenCheckBoxActive: {
+        backgroundColor: '#111',
+        borderColor: '#111',
+        borderWidth: 1,
+        borderRadius: 5,
+        marginRight: 7,
+        height: 28,
+        width: 28,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+
+    citizenCheckBoxLabel: {
+        fontSize: 15,
+        fontFamily: 'PoppinsLight',
+    },
+
+    citizenCheckBoxLabelActive: {
+        fontSize: 15,
+        fontFamily: 'PoppinsBold',
+    },
+
+    petRegistrationContainer: {
+        backgroundColor: '#111',
+        padding: 20,
+        marginTop: 40,
+        overflow: 'hidden',
+        borderRadius: 5,
+    },
+
+    petRegistrationHeader: {
+        color: 'white',
+        fontFamily: 'PoppinsMedium',
+        fontSize: 16,
+    },
+
+    petRegCheckBoxContainer: {
+        marginTop: 15,
+    },
+
+    petRegYesContainer: {
+        flexDirection: 'row',
+    },
+
+    petRegNoContainer: {
+        flexDirection: 'row',
+        marginTop: 10,
+    },
+
+    petRegCheckBox: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderColor: 'white',
+        borderRadius: 5,
+        borderWidth: 1,
+        height: 28,
+        width: 28,
+    },
+
+    petRegCheckBoxActive: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'white',
+        borderColor: 'white',
+        borderRadius: 5,
+        borderWidth: 1,
+        height: 28,
+        width: 28,
+    },
+
+    petRegLabel: {
+        color: 'white',
+        fontFamily: 'PoppinsLight',
+        fontSize: 15,
+        marginLeft: 10,
+    },
+
+    petRegLabelActive: {
+        color: 'white',
+        fontFamily: 'PoppinsMedium',
+        fontSize: 15,
+        marginLeft: 10,
+    },
+
+    petRegReqHeader: {
+        fontFamily: 'PoppinsRegular',
+        color: 'white',
+        fontSize: 15,
+        marginTop: 20,
+        marginBottom: 5,
+    },
+
+    petRegRequirements: {
+        color: 'white',
+        fontFamily: 'PoppinsExtraLight',
+        fontSize: 13.5,
+        marginTop: 10,
+    },
+
+    // animalInfoHeader: {
+    //     alignSelf: 'flex-start',
+    //     backgroundColor: '#FFF9B5',
+    //     fontFamily: 'PoppinsLight',
+    //     fontSize: 11,
+    //     marginTop: 40,
+    //     marginBottom: 10,
+    //     paddingTop: 3,
+    //     paddingRight: 7,
+    //     paddingBottom: 3,
+    //     paddingLeft: 7,
+    // },
+
+    // animalInfoLabel: {
+    //     fontFamily: 'PoppinsRegular',
+    //     fontSize: 16,
+    //     marginBottom: 3,
+    // },
+
+    // animalInfoInput: {
+    //     width: '100%',
+    //     height: 40,
+    //     borderColor: '#b0b0b0',
+    //     borderStyle: 'solid',
+    //     borderWidth: 1,
+    //     marginBottom: 15,
+    //     paddingTop: 10,
+    //     paddingRight: 7,
+    //     paddingLeft: 7,
+    // },
+
+    // animalInfoInputHalf: {
+    //     width: '50%',
+    //     height: 40,
+    //     borderColor: '#b0b0b0',
+    //     borderStyle: 'solid',
+    //     borderWidth: 1,
+    //     marginBottom: 15,
+    //     paddingTop: 10,
+    //     paddingRight: 7,
+    //     paddingLeft: 7,
+    // },
+
+    // animalInfoInputText: {
+    //     fontFamily: 'PoppinsRegular',
+    //     fontSize: 14,
+    // },
 
     submitBtn: {
         width: '100%',
-        height: 50,
+        height: 60,
         backgroundColor: '#111',
-        marginTop: 80,
+        borderRadius: 5,
+        marginTop: 160,
         marginBottom: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 
     submitBtnText: {
         color: 'white',
-        fontFamily: 'Poppins_600SemiBold',
+        fontFamily: 'PoppinsSemiBold',
         fontSize: 21,
         letterSpacing: 2,
-        textAlign: 'center',
-        marginTop: 8,
     },
 })

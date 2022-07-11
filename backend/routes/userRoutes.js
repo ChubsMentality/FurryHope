@@ -11,6 +11,7 @@ const {
     getUserById, 
     updateUserProfile,
     updateProfilePicture,
+    updatePassword,
     submitFeedback, 
     submitReport,
     getSpecificRegistrations,
@@ -48,6 +49,8 @@ router.route('/getUserById/:id').get(getUserById)
 router.route('/updateUserProfile/:id').put(updateUserProfile)
 
 router.route('/updateProfilePicture/:id').put(updateProfilePicture)
+
+router.route('/updatePassword/:id').put(updatePassword)
 
 router.route('/submitFeedback').post(submitFeedback)
 

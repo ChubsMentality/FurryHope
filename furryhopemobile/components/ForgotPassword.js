@@ -1,11 +1,13 @@
 import { Image, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import returnIcon from '../assets/arrowLeft.png'
 import ForgotPasswordPng from '../assets/forgot-password.png'
+import resetPasswordPng from '../assets/Images/resetPassword-vector.png'
 import axios from 'axios'
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 
 const ForgotPassword = ({ navigation }) => {
     const [email, setEmail] = useState('')
+    const [focused, setFocused] = useState(false)
 
     const submitHandler = async () => {
         if (!email) {
@@ -30,19 +32,22 @@ const ForgotPassword = ({ navigation }) => {
                 <Text style={styles.backText}>Back</Text>
             </TouchableOpacity>
 
-            <Image style={styles.forgotPwdPng} source={ForgotPasswordPng} />
+            <Image style={styles.forgotPwdPng} source={resetPasswordPng} />
 
-            <Text style={styles.forgotPwdHead}>RESET PASSWORD</Text>
+            <Text style={styles.forgotPwdHead}>RESET YOUR PASSWORD</Text>
             <Text style={styles.forgotPwdSub}>
-                Enter your email, so that we can {`\n`}
-                send a link to reset your password.
+                Enter your email, then a link will be {`\n`}
+                sent to your email. Where you can {'\n'}
+                change / reset your password.
             </Text>
 
             <Text style={styles.emailLabel}>Email</Text>
             <TextInput
-                style={styles.emailInput}
+                style={focused ? styles.inputFocused : styles.emailInput}
                 value={email}
                 onChangeText={setEmail}
+                onFocus={() => setFocused(true)}
+                onBlur={() => setFocused(false)}    
             />
 
             <TouchableOpacity style={styles.submitBtn} onPress={() => submitHandler()}>
@@ -61,8 +66,8 @@ const styles = StyleSheet.create({
     backBtn: {
         display: 'flex',
         flexDirection: 'row',
-        marginTop: 25,
-        marginLeft: 20,
+        marginTop: 35,
+        marginLeft: 38,
     },
 
     backIcon: {
@@ -71,63 +76,79 @@ const styles = StyleSheet.create({
     },
 
     backText: {
-        fontFamily: 'Poppins_500Medium',
+        fontFamily: 'PoppinsMedium',
         fontSize: 14.5,
         marginTop: 2,
         marginLeft: 7,
     },
 
     forgotPwdPng: {
-        height: 250,
-        width: 250,
-        marginTop: 30,
+        height: 185,
+        width: 185,
+        marginTop: 73,
         marginRight: 'auto',
         marginLeft: 'auto',
     },
 
     forgotPwdHead: {
         textAlign: 'center',
-        fontFamily: 'Poppins_600SemiBold',
-        fontSize: 20,
-        marginTop: 10,
+        fontFamily: 'PoppinsBold',
+        fontSize: 23,
+        marginTop: 50,
         marginBottom: 7,
     },
 
     forgotPwdSub: {
         textAlign: 'center',
-        fontFamily: 'Poppins_300Light',
-        fontSize: 18,
+        fontFamily: 'PoppinsLight',
+        fontSize: 17,
     },
 
     emailLabel: {
-        fontFamily: 'Poppins_400Regular',
+        fontFamily: 'PoppinsRegular',
         fontSize: 16,
-        marginTop: 15,
+        marginTop: 35,
         marginBottom: 3,
-        marginLeft: 54,
+        marginLeft: 42,
     },
 
     emailInput: {
         height: 45,
-        width: 300,
-        borderWidth: 1,
-        borderColor: '#111',
-        marginLeft: 55,
+        width: '80%',
+        backgroundColor: '#E8E8E8',
+        borderRadius: 5,
+        marginRight: 42,
+        marginLeft: 42,
+        paddingRight: 10,
+        paddingLeft: 10,
+    },
+
+    inputFocused: {
+        height: 45,
+        width: '80%',
+        backgroundColor: 'white',
+        borderRadius: 5,
+        borderColor: 'black',
+        borderWidth: 1.5,
+        marginRight: 42,
+        marginLeft: 42,
         paddingRight: 10,
         paddingLeft: 10,
     },
 
     submitBtn: {
         height: 60,
-        width: 300,
+        width: '80%',
         backgroundColor: '#111',
+        borderRadius: 5,
         marginTop: 110,
-        marginLeft: 55,
+        marginRight: 42,
+        marginLeft: 42,
     },
 
     submitText: {
         textAlign: 'center',
-        fontFamily: 'Poppins_700Bold',
+        fontFamily: 'PoppinsBold',
         fontSize: 25,
         color: 'white',
         marginTop: 10,

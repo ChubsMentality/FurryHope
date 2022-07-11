@@ -249,7 +249,7 @@
 }
 
 /* Pagination Rulesets */
-.pagination-container-donations {
+/* .pagination-container-donations {
     width: '100px';
     display: flex;
     justify-content: center;
@@ -299,7 +299,7 @@
 
 .active-a {
     color: white;
-}
+} */
 
 /* 1600 x 1200 */
 @media screen and (max-width: 1919px) {

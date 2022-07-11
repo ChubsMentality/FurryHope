@@ -1,7 +1,8 @@
 .sidebar-body {
     height: 100vh;
-    width: 450px;
-    background-color: #111111;
+    width: 380px;
+    background-color: #fff;
+    box-shadow: 4px 0px 15px 0px rgba(0, 0, 0, .05);
     position: fixed;
     top: 0;
     left: 0;
@@ -10,72 +11,91 @@
     flex-direction: column;
     justify-content: space-between;
     font-family: "Poppins", sans-serif;
-    color: white;
+    color: black;
 }
 
 .sidebar-header {
     display: flex;
     align-items: center;
-    margin-top: 70px;
-    margin-left: 20px;
+    margin-top: 90px;
+    margin-left: 40px;
     padding-bottom: 20px;
     /*border-bottom: 1px solid white;
     border-bottom-width: thin;*/
-    margin-right: 20px;
-    color: white;
+    margin-right: 40px;
+    color: #111;
     text-decoration: none;
 }
 
 .sidebar-logo {
-    width: 100px;
-    height: 100px;
+    width: 35px;
+    height: 35px;
 }
 
 .sidebar-furryhope {
-    font-size: 2.5rem;
-    margin-top: 20px;
+    font-size: 2.1rem;
     position: relative;
+    margin: 0 0 0 10px;
 }
 
 .sidebar-sup {
-    font-size: 1rem;
+    font-size: .9rem;
     position: absolute;
+}
+
+.sidebar-tagline {
+    font-weight: 300;
+    font-size: 1.3rem;
+    /* border-bottom: .05px solid #b0b0b0; */
+    margin: -20px 40px 0 40px;
+    padding-bottom: 15px;
+
 }
 
 .sidebar-links {
-    margin-top: 15px;
+    margin-top: 70px;
 }
 
 .sidebar-li {
-    height: 100px;
-    padding-left: 40px;
+    height: 90px;
+    width: '100%';
+    transition: .25s ease-in;
 }
 
-.sidebar-a {
-    font-size: 1.45rem;
-    font-weight: 300;
-    text-decoration: none;
-    color: white;
-    position: relative;
-    margin-left: 60px;
-    cursor: pointer;
-    margin-top: 50px;
+.sidebar-li:hover {
+    background-color: #f5f5f5;
 }
 
 .sidebar-icons {
-    width: 50px;
-    height: 50px;
-    position: absolute;
-    top: -10px;
-    left: -60px;
+    width: 35px;
+    height: 35px;
+    margin: 0 15px 0 40px;
 }
 
-.animalRegistration-icon {
-    width: 40px;
-    height: 40px;
-    position: absolute;
-    top: -5px;
-    left: -55px;
+.sidebar-a {
+    font-size: 1.3rem;
+    font-weight: 300;
+    text-decoration: none;
+    color: #111;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+.sidebar-a.active {
+    background-color: #efefef;
+    font-weight: 600;
+}
+
+
+.sidebar-a-logout {
+    background-color: transparent;
+    outline: none;
+    border: none;
+    font-size: 1.3rem;
+    font-weight: 300;
 }
 
 .sidebar-footer {
@@ -102,10 +122,10 @@
 }
 
 .sidebar-logout-btn {
-    background: transparent;
+    background: aqua;
     outline: none;
     border: none;
-    color: #fff;
+    color: #111;
     font-size: 1.7rem;
     font-weight: 500;
     position: relative;
@@ -123,254 +143,25 @@
 
 /* 1600 x 1200 */
 @media screen and (max-width: 1919px) {
-    .sidebar-body {
-        width: 395px;
-    }
 
-    .sidebar-header {
-        margin-top: 100px;
-    }
-
-    .sidebar-logo {
-        height: 80px;
-        width: 80px;
-    }
-
-    .sidebar-furryhope {
-        font-size: 2.15rem;
-        margin-top: -5px;
-    }
-
-    .sidebar-sup {
-        font-size: .98rem;
-    }
-
-    .sidebar-links {
-        margin-top: -80px;
-    }
-
-    .sidebar-a {
-        font-size: 1.4rem;
-    }
-
-    .sidebar-icons {
-        height: 45px;
-        width: 45px;
-    }
-
-    .animaRegistration-icon {
-        left: -50px;
-        height: 45px;
-        width: 45px;
-    }
-
-    .sidebar-admin-username {
-        font-size: 1.6rem;
-    }
-
-    .sidebar-admin-name {
-        font-size: 1.2rem;
-    }
-
-    .sidebar-logout-btn {
-        margin: 35px 35px 0 0;
-    }
 }
 
 /* 1440 x 900*/
 @media screen and (max-width: 1440px) {
-    .sidebar-body {
-        height: 100vh;
-        width: 350px;
-    }
-    
-    .sidebar-header {
-        margin-top: 65px;
-    }
-    
-    .sidebar-logo {
-        height: 65px;
-        width: 65px;
-    }
-    
-    .sidebar-furryhope {
-        font-size: 1.8rem;
-    
-    }
-    
-    .sidebar-links {
-        margin-top: 15px;
-    }
-    
-    .sidebar-li {
-        height: 90px;
-        padding-left: 30px;
-    }
-    
-    .sidebar-a {
-        font-size: 1.2rem;
-    }
-    
-    .sidebar-icons {
-        height: 40px;
-        width: 40px;
-    }
-    
-    .sidebar-admin-username {
-        font-size: 1.45rem;
-    }
-    
-    .sidebar-admin-name {
-        font-size: 1rem;
-    }
-    
-    .sidebar-logout-btn {
-        font-size: 1.4rem;
-        margin: 30px 25px 0 0;
-    }
-    
-    .sidebar-logout-icon {
-        height: 35px;
-        width: 35px;
-        top: 6px;
-        left: -27px;
-    }
+   
 }
 
 /* 1360 x 768 */
 @media screen and (max-width: 1368px) {
-    .sidebar-body {
-        width: 325px;
-        height: 100vh;
-    }
-
-    .sidebar-logo {
-        height: 60px;
-        width: 60px;
-    }
-
-    .sidebar-furryhope {
-        font-size: 1.7rem;
-    }
-
-    .sidebar-sup {
-        font-size: .89rem;
-    }
-
-    .sidebar-links {
-        margin-top: 30px;
-    }
-
-    .sidebar-li {
-        height: 78px;
-    }
-
-    .sidebar-a {
-        font-size: 1.05rem;
-        
-    }
-
-    .sidebar-icons {
-        height: 35px;
-        width: 35px;
-    }
-
-    .sidebar-footer {
-        height: 95px;
-    }
-
-    .sidebar-account-details {
-        margin: 20px 0 0 30px;
-    }
-
-    .sidebar-admin-username {
-        font-size: 1.35rem;
-    }
-
-    .sidebar-admin-name {
-        font-size: .9rem;
-    }
-
-    .sidebar-logout-btn {
-        margin: 20px 23px 0 0;
-    }
-
-    .sidebar-logout-icon {
-        height: 30px;
-        width: 30px;
-        top: 9px;
-        left: -25px;
-    }
+    
 }
 
 /* 1280 x 1024 */
 @media screen and (max-width: 1280px) {
-    .sidebar-body {
-        width: 320px;
-    }
-
-    .sidebar-links {
-        margin-top: 19px;
-    }
-
-    .sidebar-logout-btn {
-        margin: 24px 20px 0 0;
-    }
+   
 }
 
 /* 1024 x 768 */
 @media screen and (max-width: 1024px) {
-    .sidebar-body {
-        width: 298px;
-    }
-
-    .sidebar-header {
-        margin-top: 65px 25px 0 25px;
-    }
-
-    .sidebar-logo {
-        height: 55px;
-        width: 55px;
-    }
-
-    .sidebar-furryhope {
-        font-size: 1.5rem;
-    }
-
-    .sidebar-sup {
-        font-size: .8rem;
-    }
-
-    .sidebar-links {
-        margin-top: 20px;
-    }
-
-    .sidebar-li {
-        height: 73px;
-        padding-left: 18px;
-    }
-
-    .sidebar-a {
-        font-size: 1rem;
-    }
-
-    .sidebar-icons {
-        height: 32px;
-        width: 32px;
-        top: -7px;
-        left: -50px;
-    }
-
-    .sidebar-account-details {
-        margin: 23px 0 0 28px;
-    }
-
-    .sidebar-logout-btn {
-        font-size: 1.25rem;
-        margin: 24px 10px 0 0;
-    }
-
-    .sidebar-logout-icon {
-        left: -17px;
-    }
+  
 }

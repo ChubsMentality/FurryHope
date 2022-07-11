@@ -14,10 +14,10 @@ const { emailTransport } = require('../utils/verifyUserUtils')
 const { sendInterviewSchedTemplate, pickupTemplate, rejectAdoptionTemplate, registerAnimalTemplate } = require('../utils/emailTemplates');
 
 const registerAdmin = asyncHandler(async (req, res) => {
-    const { username, password, name } = req.body;
+    const { fullName, email, contactNo, address, password, jobPosition, role, profilePicture } = req.body;
 
     // To check if an admin account exists
-    const adminExists = await Admin.findOne({ username });
+    const adminExists = await Admin.findOne({ email });
 
     // If an admin account already exists, we throw in an error
     if (adminExists) {
@@ -27,17 +27,27 @@ const registerAdmin = asyncHandler(async (req, res) => {
     // If there's no equal admin account then create a new admin account
     // to create a new admin account
     const admin = await Admin.create({
-        username,
+        fullName,
+        email,
+        contactNo,
+        address,
         password,
-        name,
+        jobPosition,
+        role,
+        profilePicture
     });
 
     // If the admin account was successfully created
     if (admin) {
         res.status(201).json({
             id: admin.id,
-            username: admin.username,
-            name: admin.name,
+            fullName: admin.fullName,
+            email: admin.email,
+            contactNo: admin.contactno,
+            address: admin.address,
+            jobPosition: admin.jobPosition,
+            role: admin.role,
+            profilePicture: admin.profilePicture,
             token: generateToken(admin.id),
         })
     // If not an error occurs
@@ -47,23 +57,43 @@ const registerAdmin = asyncHandler(async (req, res) => {
     }
 
     res.json({
-        username,
-        password,
-        name,
+        fullName,
+        email,
+        contactNo,
+        address,
+        jobPosition,
+        role,
+        profilePicture,
     });
 });
 
+const getAdminInfo = asyncHandler(async (req, res) => {
+    const admin = await Admin.findById(req.params.id)
+
+    if(!admin) {
+        res.status(404)
+        throw new Error('Could not find admin account')
+    } else {
+        res.json(admin)
+    }
+})
+
 // Authenticating the account (logging in)
 const authAdmin = asyncHandler(async (req, res) => {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
 
     // Finds the admin in the db
-    const adminAcc = await Admin.findOne({ username });
+    const adminAcc = await Admin.findOne({ email });
     if (adminAcc && (await adminAcc.matchPassword(password))) {
         res.json({
             id: adminAcc.id,
-            username: adminAcc.username,
-            name: adminAcc.name,
+            fullName: adminAcc.fullName,
+            email: adminAcc.email,
+            contactNo: adminAcc.contactNo,
+            address: adminAcc.address,
+            jobPosition: adminAcc.jobPosition,
+            role: adminAcc.role,
+            profilePicture: adminAcc.profilePicture,
             token: generateToken(adminAcc.id),
         });
     } else {
@@ -411,6 +441,7 @@ const getDonationInventory = asyncHandler(async (req, res) => {
 module.exports = {
     registerAdmin,
     authAdmin,
+    getAdminInfo,
     getFeedbacks,
     getReports,
     getSpecificReport,

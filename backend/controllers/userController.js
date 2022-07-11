@@ -11,8 +11,37 @@ const { generateToken, generateResetPasswordToken } = require('../utils/generate
 const { generateCode, mailTransport, emailTransport, emailTemplate } = require('../utils/verifyUserUtils')
 const { generateResetPasswordTemplate, plainEmailTemplate } = require('../utils/resetPasswordUtil')
 
+
+const loginUser = asyncHandler(async (req, res) => {
+    const { email, password } = req.body;
+
+    // Finds the user in the db
+    const userAcc = await User.findOne({ email });
+
+    if(!userAcc.verified) {
+        res.status(401)
+        throw new Error(`Your account is unverified, you can't login.`)
+    }
+
+    // Authenticates the user
+    if(userAcc && (await userAcc.matchPassword(password))) {
+        res.json({
+            id: userAcc.id,
+            fullName: userAcc.fullName,
+            email: userAcc.email,
+            contactNo: userAcc.contactNo,
+            address: userAcc.address,
+            profilePicture: userAcc.profilePicture,
+            token: generateToken(userAcc.id),
+        });
+    } else {
+        res.status(400);
+        throw new Error('Invalid email or password');
+    }
+});
+
 const registerUser = asyncHandler(async (req, res) => {
-    const { fullName, email, contactNo, password } = req.body;
+    const { fullName, email, contactNo, address, password, animalPreference, breedPreferences, colorPreferences, genderPreference, sizePreference } = req.body;
 
     // To check if a user account already exists with the same email
     const userExists = await User.findOne({ email });
@@ -27,7 +56,13 @@ const registerUser = asyncHandler(async (req, res) => {
         fullName,
         email,
         contactNo,
+        address,
         password,
+        animalPreference,
+        breedPreferences,
+        colorPreferences,
+        genderPreference,
+        sizePreference,
     });
 
     // If the account was successfully created
@@ -37,6 +72,12 @@ const registerUser = asyncHandler(async (req, res) => {
             fullName: user.fullName,
             email: user.email,
             contactNo: user.contactNo,
+            address: user.address,
+            animalPreference: user.animalPreference,
+            breedPreferences: user.breedPreferences,
+            colorPreferences: user.colorPreferences,
+            genderPreference: user.genderPreference,
+            sizePreference: user.sizePreference,
             token: generateToken(user.id),
         });
     } else {
@@ -73,6 +114,12 @@ const registerUser = asyncHandler(async (req, res) => {
         fullName,
         email,
         contactNo,
+        address,
+        animalPreference,
+        breedPreferences,
+        colorPreferences,
+        genderPreference,
+        sizePreference,
         // password
     });
 });
@@ -211,48 +258,25 @@ const resetPassword = asyncHandler(async (req, res) => {
     })
 })
 
-const loginUser = asyncHandler(async (req, res) => {
-    const { email, password } = req.body;
-
-    // Finds the user in the db
-    const userAcc = await User.findOne({ email });
-
-    if(!userAcc.verified) {
-        res.status(401)
-        throw new Error(`Your account is unverified, you can't login.`)
-    }
-
-    // Authenticates the user
-    if(userAcc && (await userAcc.matchPassword(password))) {
-        res.json({
-            id: userAcc.id,
-            fullName: userAcc.fullName,
-            email: userAcc.email,
-            token: generateToken(userAcc.id),
-        });
-    } else {
-        res.status(400);
-        throw new Error('Invalid email or password');
-    }
-});
-
 const getUserById = asyncHandler(async (req, res) => {
     const user = await User.findById(req.params.id)
     res.json(user)
 })
 
 const updateUserProfile = asyncHandler(async (req, res) => {
+    const { fullName, email, contactNo, address } = req.body
     const user = await User.findById(req.params.id)
 
     if(user) {
         // Changes the values to the updated one, if the user didn't update one, then it retains the value
-        user.fullName = req.body.fullName || user.fullName
-        user.email = req.body.email || user.email
-        user.contactNo = req.body.contactNo || user.contactNo
+        // user.fullName = req.body.fullName || user.fullName
+        // user.email = req.body.email || user.email
+        // user.contactNo = req.body.contactNo || user.contactNo
 
-        if(req.body.password) {
-            user.password = req.body.password || user.password
-        }
+        user.fullName = fullName || user.fullName
+        user.email = email || user.email
+        user.contactNo = contactNo || user.contactNo
+        user.address = address || user.address
 
         const updatedUser = await user.save()
 
@@ -261,6 +285,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
             fullName: updatedUser.fullName,
             email: updatedUser.email,
             contactNo: updatedUser.contactNo,
+            address: updatedUser.address,
             token: generateToken(updatedUser._id),
         })
     } else {
@@ -281,6 +306,24 @@ const updateProfilePicture = asyncHandler(async (req, res) => {
     } else {
         res.status(404)
         throw new Error(`An error has occured, couldn't find the user.`)
+    }
+})
+
+const updatePassword = asyncHandler(async (req, res) => {
+    const { password } = req.body
+    const user = await User.findById(req.params.id)
+    // const isPasswordSame = await user.matchPassword(password)
+
+    // if(isPasswordSame) {
+    //     throw new Error('Please use a different password than your old one.')
+    // }
+    
+    if(user) {
+        user.password = password
+        const updatedUser = await user.save()
+    } else {
+        res.status(404)
+        throw new Error('Could not find the user')
     }
 })
 
@@ -359,19 +402,19 @@ const getSpecificRegistrations = asyncHandler(async (req, res) => {
 const submitAnimalRegistration = asyncHandler(async (req, res) => {
     const { 
         animalType, registrationType, name, contactNo, lengthOfStay, address,
-        animalName, animalBreed, animalAge, animalColor, animalSex, date, email
+        animalName, animalBreed, animalAge, animalColor, animalGender, date, email
     } = req.body
 
     if(
         !animalType || !registrationType || !name || !contactNo || !lengthOfStay || !address ||
-        !animalName || !animalBreed || !animalAge || !animalColor || !animalSex || !date || !email
+        !animalName || !animalBreed || !animalAge || !animalColor || !animalGender || !date || !email
     ) {
         res.status(400)
         throw new Error('Please fill out all necessary fields')
     } else {
         const newRegistration = new RegisterAnimal({
             animalType, registrationType, name, contactNo, lengthOfStay, address,
-            animalName, animalBreed, animalAge, animalColor, animalSex, date, email, user: req.user._id
+            animalName, animalBreed, animalAge, animalColor, animalGender, date, email, user: req.user._id
         })
         // The 'user: req.user._id' comes from the validated token of the user in authMiddleware.js
 
@@ -401,19 +444,19 @@ const deleteAnimalRegistration = asyncHandler(async (req, res) => {
 })
 
 const submitAdoption = asyncHandler(async (req, res) => {
-    const { animalId, adopterName, email, contactNo, address, validId, animalName, animalBreed,
-            animalType, animalGender, animalColor, animalImg, adoptionStatus, applicationStatus, date 
+    const { animalId, applicantName, email, contactNo, address, applicantImg, validId, animalName, animalBreed,
+            animalType, animalGender, animalColor, animalImg, adoptionStatus, date, applicationStatus, hasBeenInterviewed, hasPaid
     } = req.body
 
-    if(!adopterName || !email || !contactNo || !address || !validId || !animalName || !animalBreed ||
+    if(!applicantName || !email || !contactNo || !address || !validId || !animalName || !animalBreed ||
         !animalType || !animalGender || !animalColor || !animalImg || !date
     ) {
         res.status(400)
         throw new Error('Please fill out all necessary fields')
     } else {
         const adoptionSubmission = new Adoption({
-            animalId, adopterName, email, contactNo, address, validId, animalName, animalBreed, animalType,
-            animalGender, animalColor, animalImg, adoptionStatus, date, applicationStatus, user: req.user.id
+            animalId, applicantName, email, contactNo, address, applicantImg, validId, animalName, animalBreed, animalType,
+            animalGender, animalColor, animalImg, adoptionStatus, date, applicationStatus, hasBeenInterviewed, hasPaid, user: req.user.id
         })
 
         const newSubmission = await adoptionSubmission.save()
@@ -472,6 +515,7 @@ module.exports = {
     getUserById, 
     updateUserProfile,
     updateProfilePicture,
+    updatePassword,
     submitFeedback, 
     submitReport, 
     getSpecificRegistrations, 

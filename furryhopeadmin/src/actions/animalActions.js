@@ -51,7 +51,7 @@ export const getAnimalData = () => async (dispatch) => {
 }
 
 export const createAnimalAction = 
-    (name, color, breed, description, gender, type, animalImg, adoptionStatus) => async (dispatch) => {
+    (name, color, breed, description, gender, type, size, animalImg, adoptionStatus) => async (dispatch) => {
         try {
             dispatch({
                 type: ANIMAL_CREATE_REQUEST,
@@ -65,7 +65,7 @@ export const createAnimalAction =
 
             const { data } = await axios.post(
                 `http://localhost:5000/api/animals/create`,
-                { name, color, breed, description, gender, type, animalImg, adoptionStatus },
+                { name, color, breed, description, gender, type, size, animalImg, adoptionStatus },
                 config
             );
 
@@ -86,7 +86,7 @@ export const createAnimalAction =
     };
 
 export const updateAnimalAction = 
-    (id, name, color, breed, description, gender, type, animalImg, adoptionStatus) => async (dispatch) => {
+    (id, name, color, breed, description, gender, type, size, animalImg, adoptionStatus) => async (dispatch) => {
         try {
             dispatch({
                 type: ANIMAL_UPDATE_REQUEST
@@ -100,7 +100,7 @@ export const updateAnimalAction =
 
             const { data } = await axios.put(
                 `http://localhost:5000/api/animals/${id}`,
-                { name, color, breed, description, gender, type, animalImg, adoptionStatus },
+                { name, color, breed, description, gender, type, size, animalImg, adoptionStatus },
                 config
             );
 

@@ -11,7 +11,7 @@ import loginVector from '../assets/Login/login-vector.svg'
 import loginBtnVector from '../assets/Login/login-btn-vector.svg'
 
 const Login = ({history}) => {
-    const [username, setUsername] = useState('')
+    const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
     console.log(window.screen.availWidth)
@@ -27,11 +27,11 @@ const Login = ({history}) => {
     // and if it's successfull it will store the admin credentials to the local storage
     const submitHandler = (e) => {
         e.preventDefault();
-        if(!username || !password) {
+        if(!email || !password) {
             alert('Enter your login credentials')
         }
         // To login the admin, uses the login function in adminActions.js
-        dispatch(login(username, password));
+        dispatch(login(email, password));
 
         if(error) {
             console.log(error);
@@ -70,8 +70,8 @@ const Login = ({history}) => {
                         <img src={logoBlack} className='login-header-img' />
                         <p className='login-header-text'>ADMIN LOGIN</p>
                     </div>
-                    <label htmlFor='username' className='login-label username'>Username</label><br /> 
-                    <input type='text' name='username' className='username-input login-input' value={username} onChange={(e) => setUsername(e.target.value)} /><br />
+                    <label htmlFor='username' className='login-label username'>Email</label><br /> 
+                    <input type='text' name='username' className='username-input login-input' value={email} onChange={(e) => setEmail(e.target.value)} /><br />
 
                     <label htmlFor='password' className='login-label password'>Password</label><br /> 
                     <input type='password' name='password' className='password-input login-input' value={password} onChange={(e) => setPassword(e.target.value)} /><br />

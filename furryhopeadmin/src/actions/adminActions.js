@@ -61,7 +61,7 @@ import {
 import axios from 'axios'
 
 // Action to login the admin
-export const login = (username, password) => async (dispatch) => {
+export const login = (email, password) => async (dispatch) => {
     try {
         // dispatch calls "USER_LOGIN_REQUEST" from adminReducers.js
         dispatch({ type: ADMIN_LOGIN_REQUEST });
@@ -75,7 +75,7 @@ export const login = (username, password) => async (dispatch) => {
         // POST - Authenticating the user (the file is in the backend (controllers))
         const { data } = await axios.post("http://localhost:5000/api/admins/loginAdmin", // Route authenticating an admin
             {
-                username,
+                email,
                 password,
             }, config);
 
@@ -104,7 +104,7 @@ export const logout = () => async (dispatch) => {
 }
 
 // Action to add an admin
-export const addAnAdmin = (username, password, name) => async (dispatch) => {
+export const addAnAdmin = (fullName, email, contactNo, address, password, jobPosition, role, profilePicture) => async (dispatch) => {
     try {
         dispatch({ type: ADD_ADMIN_REQUEST });
 
@@ -117,9 +117,14 @@ export const addAnAdmin = (username, password, name) => async (dispatch) => {
         // Adding an admin account to the database
         const { data } = await axios.post("http://localhost:5000/api/admins", // Route for adding an admin account
             {
-                username,
+                fullName,
+                email,
+                contactNo,
+                address,
                 password,
-                name
+                jobPosition,
+                role,
+                profilePicture,
             }, config);
 
         dispatch({ type: ADD_ADMIN_SUCCESS, payload: data });

@@ -9,6 +9,7 @@ import ManageData from './ManageData'
 import UpdateData from './UpdateData'
 import AnimalRegistration from './AnimalRegistration'
 import AdoptionApplications from './AdoptionApplications'
+import Adoptions from './Adoptions'
 import Adoption from './Adoption'
 import StrayAnimalReports from './StrayAnimalReports'
 import Donations from './Donations'
@@ -30,12 +31,13 @@ const App = () => {
             <Router>
                 <Switch>
                     <Route exact path="/" component={Login} />
+                    <Route path="/accountsList" component={AccountsList} />
                     <Route path="/manage" component={ManageData} />
                     <Route path="/add" component={AddData} />
-                    <Route path="/accountsList" component={AccountsList} />
                     <Route path="/addAdmin" component={AddAdmin} />
                     <Route path="/animalRegistration" component={AnimalRegistration} />
                     {/* <Route path="/adoptions" component={AdoptionApplications} /> */}
+                    <Route path="/adoptions" component={Adoptions} />
                     <Route path="/adoption/:id" component={Adoption} />
                     <Route path="/update/:id" component={UpdateData} />
                     <Route path="/reports" component={StrayAnimalReports} />

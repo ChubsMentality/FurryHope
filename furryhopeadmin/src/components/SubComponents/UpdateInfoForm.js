@@ -6,14 +6,15 @@ import axios from 'axios'
 import { useHistory } from 'react-router-dom'
 
 const UpdateInfoForm = (props) => {
-    const [name, setName] = useState();
-    const [breed, setBreed] = useState();
-    const [description, setDescription] = useState();
-    const [color, setColor] = useState()
-    const [gender, setGender] = useState();
-    const [animalType, setAnimalType] = useState();
-    const [selectedImg, setSelectedImg] = useState();
-    const [adoptionStatus, setAdoptionStatus] = useState();
+    const [name, setName] = useState('');
+    const [breed, setBreed] = useState('');
+    const [description, setDescription] = useState('');
+    const [color, setColor] = useState('')
+    const [gender, setGender] = useState('');
+    const [animalType, setAnimalType] = useState('');
+    const [size, setSize] = useState()
+    const [selectedImg, setSelectedImg] = useState('');
+    const [adoptionStatus, setAdoptionStatus] = useState('');
     const [date, setDate] = useState('');
 
     // Function to upload the image to cloudinary
@@ -54,6 +55,7 @@ const UpdateInfoForm = (props) => {
             setColor(data.color)
             setGender(data.gender);
             setAnimalType(data.type);
+            setSize(data.size)
             setSelectedImg(data.animalImg);
             setAdoptionStatus(data.adoptionStatus);
             setDate(data.updatedAt);
@@ -69,7 +71,7 @@ const UpdateInfoForm = (props) => {
         setDate(date.substring(0, 10)); 
 
         if(!name || !color || !breed || !description || !gender || !animalType || !selectedImg || !adoptionStatus) return;
-        dispatch(updateAnimalAction(props.paramId, name, color, breed, description, gender, animalType, selectedImg, adoptionStatus, date));
+        dispatch(updateAnimalAction(props.paramId, name, color, breed, description, gender, animalType, size, selectedImg, adoptionStatus, date));
 
         history.push('/manage');
     }

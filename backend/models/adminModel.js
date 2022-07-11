@@ -5,19 +5,46 @@ const bcrypt = require('bcryptjs')
 // db schema for the admin 
 const adminSchema = mongoose.Schema(
     {
-        username: {
+        fullName: {
+            type: String,
+            required: true,
+        },
+
+        email: {
             type: String,
             required: true,
             unique: true,
         },
+
+        contactNo: {
+            type: String,
+            required: true,
+        },
+
+        address: {
+            type: String,
+            required: true,
+        },
+
         password: {
             type: String,
             required: true
         },
-        name: {
+
+        jobPosition: {
             type: String,
             required: true,
-        }
+        },
+
+        role: {
+            type: String,
+            required: true,
+        },
+
+        profilePicture: {
+            type: String,
+            required: true,
+        },
     },
     {
         timestamps: true,
