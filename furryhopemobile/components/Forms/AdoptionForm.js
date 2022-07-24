@@ -23,8 +23,9 @@ const AdoptionForm = ({ route, navigation }) => {
     const [animalImg, setAnimalImg] = useState('')
     const [validId, setValidId] = useState()
     const [fileName, setFileName] = useState()
-    const [date, setDate] = useState(d.toLocaleDateString())
+    const [date, setDate] = useState(d.toLocaleDateString(undefined, { day: '2-digit', month: '2-digit', year: 'numeric' }))
     const [applicantImg, setApplicantImg] = useState('')
+    const [lengthOfStay, setLengthOfStay] = useState('')
 
     const [loading, setLoading] = useState(false)
     const [applicantNameFocused, setApplicantNameFocused] = useState(false)
@@ -33,6 +34,7 @@ const AdoptionForm = ({ route, navigation }) => {
     const [addressFocused, setAddressFocused] = useState(false)
     const [isCitizen, setIsCitizen] = useState(true)
     const [regToPound, setRegToPound] = useState(true)
+    const [lengthOfStayFocused, setLengthOfStayFocused] = useState(false)
 
     const applicationStatus = 'Pending'
 
@@ -96,63 +98,65 @@ const AdoptionForm = ({ route, navigation }) => {
     }
     
     const submit = async () => {
-        // console.log('Submit adoption')
-
-        // if(regToPound) {
-        //     console.log('Also register the pet.')
-        // }
-        setLoading(true)
-
-        const config = {
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${storedCredentials.token}`
-            }
-        }
-        
-        if(!applicantName || !email || !contactNo || !address) {
-            alert('Please fill out all the necessary fields')
-            setLoading(false)
-            return
-        } else if(!validId) {
-            alert('Please attach your valid I.D.')
-            setLoading(false)
-            return
-        } else if(contactNo.match(/[^$,.\d]/)) {
-            alert('Invalid contact number, please enter a valid contact number.')
-            setLoading(false)
-            return 
+        if(regToPound) {
+            console.log('register and submit adoption')
+            alert('Successfully submitted, check your profile to see your adoptions.')
         } else {
-            try {
-                let hasBeenInterviewed = false
-                let hasPaid = false
-
-                const data = await axios.post('http://localhost:5000/api/users/submitAdoption', {
-                    animalId, applicantName, email, contactNo, address, applicantImg, validId, animalName, animalBreed,
-                    animalType, animalGender, animalColor, animalImg, adoptionStatus, date, applicationStatus, hasBeenInterviewed, hasPaid
-                }, config)
-
-                console.log(data)
-                alert('Successfully submitted, check your profile to see your adoptions.')
-            } catch (error) {
-                console.log(error)
-                alert(error)
-            }
-
-            try {                
-                const data = await axios.put(`http://localhost:5000/api/admins/updateAdoptionStatus/${animalId}`, { adoptionStatus })
-                // console.log(data)
-            } catch (error) {
-                console.log(error)
-            }
-
+            console.log('submit adoption')
+            alert('Successfully submitted, check your profile to see your adoptions.')
         }
+        // setLoading(true)
 
-        setLoading(false)
+        // const config = {
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //         Authorization: `Bearer ${storedCredentials.token}`
+        //     }
+        // }
         
-        setTimeout(() => {
-            navigation.navigate('Browse')
-        }, 500)
+        // if(!applicantName || !email || !contactNo || !address) {
+        //     alert('Please fill out all the necessary fields')
+        //     setLoading(false)
+        //     return
+        // } else if(!validId) {
+        //     alert('Please attach your valid I.D.')
+        //     setLoading(false)
+        //     return
+        // } else if(contactNo.match(/[^$,.\d]/)) {
+        //     alert('Invalid contact number, please enter a valid contact number.')
+        //     setLoading(false)
+        //     return 
+        // } else {
+        //     try {
+        //         let hasBeenInterviewed = false
+        //         let hasPaid = false
+
+        //         const data = await axios.post('http://localhost:5000/api/users/submitAdoption', {
+        //             animalId, applicantName, email, contactNo, address, applicantImg, validId, animalName, animalBreed,
+        //             animalType, animalGender, animalColor, animalImg, adoptionStatus, date, applicationStatus, hasBeenInterviewed, hasPaid
+        //         }, config)
+
+        //         console.log(data)
+        //         alert('Successfully submitted, check your profile to see your adoptions.')
+        //     } catch (error) {
+        //         console.log(error)
+        //         alert(error)
+        //     }
+
+        //     try {                
+        //         const data = await axios.put(`http://localhost:5000/api/admins/updateAdoptionStatus/${animalId}`, { adoptionStatus })
+        //         // console.log(data)
+        //     } catch (error) {
+        //         console.log(error)
+        //     }
+
+        // }
+
+        // setLoading(false)
+        
+        // setTimeout(() => {
+        //     navigation.navigate('Browse')
+        // }, 500)
     }
     
     useEffect(() => {
@@ -236,32 +240,6 @@ const AdoptionForm = ({ route, navigation }) => {
                         <Text style={styles.fileName}>{fileName}</Text>
                     </View>
 
-                    {/* <Text style={styles.animalInfoHeader}>Animal's Information</Text>
-                    <Text style={styles.animalInfoLabel}>Animal's Name</Text>
-                    <View style={styles.animalInfoInput}>
-                        <Text style={styles.animalInfoInputText}>{animalName}</Text>
-                    </View>
-
-                    <Text style={styles.animalInfoLabel}>Animal's Breed</Text>
-                    <View style={styles.animalInfoInput}>
-                        <Text style={styles.animalInfoInputText}>{animalBreed}</Text>
-                    </View>
-
-                    <Text style={styles.animalInfoLabel}>Animal Type</Text>
-                    <View style={styles.animalInfoInputHalf}>
-                        <Text style={styles.animalInfoInputText}>{animalType}</Text>
-                    </View>
-
-                    <Text style={styles.animalInfoLabel}>Gender</Text>
-                    <View style={styles.animalInfoInputHalf}>
-                        <Text style={styles.animalInfoInputText}>{animalGender}</Text>
-                    </View>
-
-                    <Text style={styles.animalInfoLabel}>Color</Text>
-                    <View style={styles.animalInfoInputHalf}>
-                        <Text style={styles.animalInfoInputText}>{animalColor}</Text>
-                    </View>
-
                     <Text style={styles.isCitizenLabel}>Are you a citizen of Marikina City?</Text>
                     <View style={styles.citizenCheckBoxContainer}>
                         <View style={isCitizen ? styles.citizenYesContainerActive : styles.citizenYesContainer}>
@@ -291,7 +269,7 @@ const AdoptionForm = ({ route, navigation }) => {
                     
                     {isCitizen ?
                         <View style={styles.petRegistrationContainer}>
-                            <Text style={styles.petRegistrationHeader}>Do you want to register the animal to the city pound?</Text>
+                            <Text style={styles.petRegistrationHeader}>Do you want to register the animal to the city pound upon adoption?</Text>
 
                             <View style={styles.petRegCheckBoxContainer}>
                                 <View style={styles.petRegYesContainer}>
@@ -328,6 +306,15 @@ const AdoptionForm = ({ route, navigation }) => {
                                     <Text style={styles.petRegRequirements}>Photo of the pet in 3R size (Whole body, Side view)</Text>
                                     <Text style={styles.petRegRequirements}>Certificate or proof of Anti-Rabies Vaccination</Text>
                                     <Text style={styles.petRegRequirements}>Photocopy of the certificate that the pet has already been vaccinated for anti-rabies.</Text>
+
+                                    <Text style={styles.petRegLabelLength}>Length of Stay in the city</Text>
+                                    <TextInput
+                                        value={lengthOfStay}
+                                        onChangeText={setLengthOfStay}
+                                        style={lengthOfStay ? styles.lengthOfStayInputActive : styles.lengthOfStayInput}
+                                        onFocus={() => setLengthOfStayFocused(true)}
+                                        onBlur={() => setLengthOfStayFocused(false)} 
+                                    />
                                 </>
                                 :
                                 <></>
@@ -335,7 +322,7 @@ const AdoptionForm = ({ route, navigation }) => {
                         </View>
                         :
                         <></>
-                    } */}
+                    }
 
                     <TouchableOpacity style={styles.submitBtn} onPress={() => submit()}>
                         {loading ?
@@ -571,7 +558,7 @@ const styles = StyleSheet.create({
     },
 
     petRegCheckBoxContainer: {
-        marginTop: 15,
+        marginTop: 25,
     },
 
     petRegYesContainer: {
@@ -622,7 +609,7 @@ const styles = StyleSheet.create({
         fontFamily: 'PoppinsRegular',
         color: 'white',
         fontSize: 15,
-        marginTop: 20,
+        marginTop: 27,
         marginBottom: 5,
     },
 
@@ -631,6 +618,46 @@ const styles = StyleSheet.create({
         fontFamily: 'PoppinsExtraLight',
         fontSize: 13.5,
         marginTop: 10,
+    },
+
+    petRegLabelLength: {
+        fontSize: 14.5,
+        marginTop: 40,
+        fontFamily: 'PoppinsRegular',
+        color: 'white',
+    },
+
+    lengthOfStayInput: {
+        height: 40,
+        width: '100%',
+        borderRadius: 5,
+        borderColor: '#f1f3f7',
+        borderWidth: 3,
+        backgroundColor: '#f3f5f9',
+        color: '#8c8c8e',
+        fontFamily: 'PoppinsRegular',
+        fontSize: 11.5,
+        paddingLeft: 10,
+        paddingRight: 10,
+        marginTop: 8,
+        marginBottom: 15,
+    },
+
+    lengthOfStayInputActive: {
+        height: 40,
+        width: '100%',
+        borderRadius: 5,
+        borderColor: '#fff',
+        borderWidth: 3,
+        backgroundColor: '#ffffff',
+        color: '#111',
+        fontFamily: 'PoppinsRegular',
+        fontSize: 11.5,
+        paddingLeft: 10,
+        paddingRight: 10,
+        marginTop: 8,
+        marginBottom: 15,
+
     },
 
     // animalInfoHeader: {
@@ -686,7 +713,7 @@ const styles = StyleSheet.create({
         height: 60,
         backgroundColor: '#111',
         borderRadius: 5,
-        marginTop: 160,
+        marginTop: 50,
         marginBottom: 20,
         justifyContent: 'center',
         alignItems: 'center',

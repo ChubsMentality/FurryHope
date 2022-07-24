@@ -21,34 +21,38 @@ const DonationItem = (props) => {
 
 const styles = StyleSheet.create({
     itemContainer: {
-        // backgroundColor: '#111',
-        borderRadius: 1,
+        backgroundColor: '#111',
+        borderRadius: 5,
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginTop: 10,
-        marginRight: 'auto',
-        marginLeft: 'auto',
-        padding: 15,
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 1,
-            height: 3,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 10,
-        width: '77%',
+        marginTop: 15,
+        marginRight: 35,
+        marginLeft: 35,
+        paddingTop: 10,
+        paddingRight: 15,
+        paddingBottom: 10,
+        paddingLeft: 15,
+        // shadowColor: '#000',
+        // shadowOffset: {
+        //     width: 1,
+        //     height: 3,
+        // },
+        // shadowOpacity: 0.25,
+        // shadowRadius: 10,
+        width: '82.5%',
     },
 
     itemLabel: {
-        // color: 'white',
-        fontFamily: 'Poppins_500Medium',
-        fontSize: 14,
+        color: 'white',
+        fontFamily: 'PoppinsMedium',
+        fontSize: 13,
     },
 
     itemValue: {
-        fontFamily: 'Poppins_200ExtraLight',
+        color: 'white',
+        fontFamily: 'PoppinsLight',
     },
 
     deleteIcon: {

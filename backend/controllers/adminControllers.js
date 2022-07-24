@@ -107,6 +107,40 @@ const getFeedbacks = asyncHandler(async (req, res) => {
     res.json(feedbacks);
 })
 
+const getFeedback = asyncHandler(async (req, res) => {
+    const feedback = await UserFeedback.findById(req.params.id)
+
+    if(feedback) {
+        res.json(feedback)
+    } else {
+        res.status(404)
+        throw new Error(`Couldn't find feedback.`)
+    }
+})
+
+const deleteFeedback = asyncHandler(async (req, res) => {
+    const feedback = await UserFeedback.findById(req.params.id)
+
+    if(feedback) {
+        await feedback.remove()
+        res.json({ message: 'Successfully removed'})
+    }
+})
+
+const updateFeedbackRead = asyncHandler(async (req, res) => {
+    const feedback = await UserFeedback.findById(req.params.id)
+    const viewed = true
+    
+    if(feedback) {
+        feedback.viewed = viewed
+        const updated = feedback.save()
+        res.json(updated)
+    } else {
+        res.status(404)
+        throw new Error('Could not find specific feedback (Invalid ID)')
+    }
+})
+
 const getReports = asyncHandler(async (req, res) => {
     const reports = await StrayAnimalReport.find()
     res.json(reports)
@@ -223,6 +257,36 @@ const updateAdoptionStatus = asyncHandler(async (req, res) => {
     }
 })
 
+const updateAdmin = asyncHandler(async (req, res) => {
+    const { fullName, email, contactNo, address, jobPosition, role, profilePicture } = req.body
+    const admin = await Admin.findById(req.params.id)
+
+    if(admin) {
+        admin.fullName = fullName || admin.fullName
+        admin.email = email || admin.email
+        admin.contactNo = contactNo || admin.contactNo
+        admin.address = address || admin.address
+        admin.jobPosition = jobPosition || admin.jobPosition
+        admin.role = role || admin.role
+        admin.profilePicture = profilePicture || admin.profilePicture
+
+        const updatedAdmin = await admin.save()
+
+        res.json({
+            _id: updatedAdmin._id,
+            fullName: updatedAdmin.fullName,
+            email: updatedAdmin.email,
+            address: updatedAdmin.address,
+            jobPosition: updatedAdmin.jobPosition,
+            role: updatedAdmin.role,
+            profilePicture: updatedAdmin.profilePicture
+        })
+    } else {
+        res.status(404)
+        throw new Error('Admin was not found')
+    }
+})
+
 const updateApplicationStatus = asyncHandler(async (req, res) => {
     const { adoptionStatus, applicationStatus } = req.body
 
@@ -310,6 +374,20 @@ const createInterviewSched = asyncHandler(async (req, res) => {
             console.log(`Email was sent to: ${info.response}`)
         }
     })
+})
+
+const updateHasBeenInterviewed = asyncHandler(async (req, res) => {
+    const adoption = await Adoption.findById(req.params.id)
+    const hasBeenInterviewed = true
+
+    if(adoption) {
+        adoption.hasBeenInterviewed = hasBeenInterviewed
+        const updated = adoption.save()
+        res.json(updated)
+    } else {
+        res.status(404)
+        throw new Error(`An error has occurred, couldn't find adoption.`)
+    }
 })
 
 const getInterviewSched = asyncHandler(async (req, res) => {
@@ -410,20 +488,21 @@ const receivedDonation = asyncHandler(async (req, res) => {
 })
 
 const addToInventory = asyncHandler(async (req, res) => {
-    const { dataItems, donatedBy, dateOfDonation } = req.body
+    const { dataItems, donatedBy, donatedByPicture, dateOfDonation } = req.body
 
     if(!dataItems || !donatedBy || !dateOfDonation)  {
         res.status(400)
         throw new Error('')
     } else {
         const addToInventorySubmission = await DonationInventory.create({
-            dataItems, donatedBy, dateOfDonation
+            dataItems, donatedBy, donatedByPicture, dateOfDonation
         })
 
         if(addToInventorySubmission) {
             res.status(201).json({
                 dataItems: addToInventorySubmission.dataItems,
                 donatedBy: addToInventorySubmission.donatedBy,
+                donatedByPicture: addToInventorySubmission.donatedByPicture,
                 dateOfDonation: addToInventorySubmission.dateOfDonation
             })
         } else {
@@ -438,11 +517,23 @@ const getDonationInventory = asyncHandler(async (req, res) => {
     res.json(inventoryList)
 })
 
+const deleteFromInventory = asyncHandler(async (req, res) => {
+    const inventory = await DonationInventory.findById(req.params.id)
+
+    if(inventory) {
+        await inventory.remove()
+        res.json({ message: 'removed from donation inventory '})
+    }
+})
+
 module.exports = {
     registerAdmin,
     authAdmin,
     getAdminInfo,
     getFeedbacks,
+    getFeedback,
+    deleteFeedback,
+    updateFeedbackRead,
     getReports,
     getSpecificReport,
     dismissReport,
@@ -469,4 +560,7 @@ module.exports = {
     receivedDonation,
     addToInventory,
     getDonationInventory,
+    updateHasBeenInterviewed,
+    updateAdmin,
+    deleteFromInventory,
 };

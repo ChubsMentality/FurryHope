@@ -31,6 +31,12 @@ const {
     receivedDonation,
     addToInventory,
     getDonationInventory,
+    updateHasBeenInterviewed,
+    updateAdmin,
+    deleteFromInventory,
+    getFeedback,
+    deleteFeedback,
+    updateFeedbackRead,
 } = require('../controllers/adminControllers.js');
 
 // Routes (/api/admins)
@@ -44,6 +50,10 @@ router.route('/adminAccounts').get(getAdminAccounts)
 
 router.route('/getFeedbacks').get(getFeedbacks)
 
+router.route('/getFeedback/:id').get(getFeedback).delete(deleteFeedback)
+
+router.route('/feedbackRead/:id').put(updateFeedbackRead)
+
 router.route('/getReports').get(getReports)
 router.route('/getReports/:id').get(getSpecificReport)
 router.route('/dismissReport/:id').put(dismissReport)
@@ -54,6 +64,8 @@ router.route('/deleteAdmin/:id').delete(deleteAdminAccount)
 
 // endpoint when trying in postman (/api/admins/loginAdmin)
 router.route('/loginAdmin').post(authAdmin) // To login
+
+router.route('/updateAdmin/:id').put(updateAdmin)
 
 router.route('/createInterviewSched/:id').post(createInterviewSched)
 
@@ -75,6 +87,8 @@ router.route('/addToDonationInventory').post(addToInventory)
 
 router.route('/getDonationInventory').get(getDonationInventory)
 
+router.route('/removeFromInventory/:id').delete(deleteFromInventory)
+
 router.route('/adoptions').get(getAdoptionSubmissions)
 
 router.route('/adoptionsPerAnimal/:id').get(getAdoptionSubmissionPerAnimal)
@@ -82,6 +96,8 @@ router.route('/adoptionsPerAnimal/:id').get(getAdoptionSubmissionPerAnimal)
 router.route('/adoptions/:id').get(getAdoptionById).delete(deleteAdoptionById)
 
 router.route('/updateAdoptionStatus/:id').put(updateAdoptionStatus)
+
+router.route('/hasBeenInterviewed/:id').put(updateHasBeenInterviewed)
 
 router.route('/getAllRegistrations').get(getAllRegistrations)
 

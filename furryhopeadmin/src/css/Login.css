@@ -14,6 +14,7 @@
   align-items: center;
   font-family: "Poppins", sans-serif;
   position: relative;
+  overflow: hidden;
 }
 
 .leftpaw {
@@ -41,13 +42,20 @@
   width: 50%;
 }
 
+.login-right-column {
+  height: 100%;
+  width: 50%;
+}
+
 .login-form {
   height: 720px;
-  width: 541px;
+  width: 520px;
   background-color: white;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, .2);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, .05);
   margin: 150px auto 0 auto;
   padding-top: 60px;
+  border: .5px solid #ededed;
+  border-radius: 5px;
 }
 
 .login-header {
@@ -67,17 +75,24 @@
 .login-label {
   font-size: 25px;
   font-weight: 400;
-  margin: 0 0 0 55px;
+  margin: 0 0 0 50px;
+}
+
+.login-input:focus {
+  background-color: white;
+  border: 2px solid rgba(0, 0, 0, 1);
 }
 
 .login-input {
-  margin: 5px 0 0 55px;
+  margin: 5px 50px 0 50px;
   padding: 0 12px;
-  height: 63px;
-  width: 408px;
+  height: 55px;
+  width: 390px;
   font-size: 18px;
   font-weight: 200;
-  border: 1px solid rgba(0, 0, 0, .45);
+  background-color: #f3f5f9;
+  border: 3px solid #f1f3f7;
+  border-radius: 5px;
 }
 
 .login-input.username-input {
@@ -87,7 +102,7 @@
 .btn-login {
   position: relative;
   height: 85px;
-  width: 275px;
+  width: 420px;
   background-color: #111;
   outline: none;
   border: none;
@@ -95,7 +110,7 @@
   cursor: pointer;
   color: white;
   transition: .2s ease-in;
-  margin: 170px 0 0 0;
+  margin: 170px auto 0 auto;
   padding-left: 55px;
   font-size: 30px;
   font-weight: 600;
@@ -105,8 +120,8 @@
   position: absolute;
   height: 45px;
   width: 45px;
-  top: 18px;
-  left: 50px;
+  top: 20px;
+  left: 120px;
 }
 
 .btn-login:hover {
@@ -146,33 +161,50 @@
 }
 
 @media screen and (max-width: 1919px) {
-  .leftPaw {
-    height: 250px;
-    width: 250px;
+  .leftpaw {
+    height: 400px;
+    width: 400px;
   }
 
-  .rightPaw {
-    height: 250px;
-    width: 250px;
+  .rightpaw {
+    height: 500px;
+    width: 500px;
   }
 
   .login-form {
-    height: 660px;
-    width: 470px;
+    height: 570px;
+    width: 400px;
     margin: 130px auto 0 auto;
+    padding-top: 40px;
   }
 
   .login-header {
-    margin: 0 0 70px 50px;
+    margin: 0 0 70px 35px;
   }
 
   .login-label {
-    margin: 0 0 0 50px;
+    margin: 0 0 0 35px;
+    font-size: 1.25rem;
   }
 
   .login-input {
-    margin: 5px 0 0 50px;
-    width: 360px;
+    margin: 5px 0 0 35px;
+    width: 300px;
+    height: 45px;
+    font-size: .95rem;
+  }
+
+  .btn-login {
+    height: 65px;
+    width: 330px;
+    margin: 140px auto 0 auto;
+  }
+
+  .btn-login-icon {
+    height: 40px;
+    width: 40px;
+    top: 13px;
+    left: 80px;
   }
 
   .right-column-header {
@@ -181,26 +213,37 @@
   }
 
   .right-column-subHeader {
-    font-size: 2rem;
+    font-size: 1.75rem;
     margin: -15px 0 20px 25px;
   }
 
   .right-column-vector {
-    height: 567px;
-    width: 639px;
+    height: 475px;
+    width: 575px;
   }
 }
 
+/* 1440 x 900 */
 @media screen and (max-width: 1440px) {
+  .leftpaw {
+    height: 350px;
+    width: 350px;
+  }
+
+  .rightpaw {
+    height: 440px;
+    width: 440px;
+  }
+
   .login-form {
-    height: 600px;
-    width: 410px;
+    height: 540px;
+    width: 380px;
     margin: 130px auto 0 auto;
-    padding-top: 50px;
+    padding-top: 40px;
   }
 
   .login-header {
-    margin: 0 0 70px 40px;
+    margin: 0 0 70px 30px;
   }
 
   .login-header-img {
@@ -209,30 +252,33 @@
   }
 
   .login-header-text { 
-    font-size: 1.1rem;
+    font-size: .95rem;
   }
 
   .login-label {
-    font-size: 1.4rem;
-    margin: 0 0 0 40px;
+    font-size: 1.15rem;
+    margin: 0 0 0 30px;
   }
 
   .login-input {
-    margin: 5px 0 0 40px;
-    height: 50px;
-    width: 305px;
+    margin: 5px 0 0 30px;
+    height: 42px;
+    width: 290px;
+    font-size: .9rem;
   }
 
   .btn-login {
-    width: 80%;
-    height: 75px;
-    margin: 150px 40px 0 40px;
+    width: 320px;
+    height: 63px;
+    margin: 130px 30px 0 30px;
     padding-left: 40px;
   }
 
   .btn-login-icon {
-    top: 15px;
-    left: 65px;
+    top: 14px;
+    left: 75px;
+    height: 35px;
+    width: 35px;
   }
 
   .right-column-header {
@@ -240,18 +286,33 @@
     margin: 120px 0 20px 0;
   }
 
+  .right-column-sup {
+    font-size: 2rem;
+  }
+
   .right-column-subHeader {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     margin: -25px 0 20px 0;
   }
 
   .right-column-vector {
-    height: 530px;
-    width: 570px;
+    height: 420px;
+    width: 520px;
   }
 }
 
+/* 1280 x 1024 */
 @media screen and (max-width: 1280px) {
+  .leftpaw {
+    height: 300px;
+    width: 300px;
+  }
+
+  .rightpaw {
+    height: 390px;
+    width: 390px;
+  }
+
   .login-form {
     height: 480px;
     margin: 150px auto 0 auto;
@@ -273,7 +334,7 @@
   }
 
   .login-label {
-    font-size: 1.1rem;
+    font-size: 1rem;
     margin: 0 0 0 30px;
   }
 
@@ -282,21 +343,23 @@
     padding: 0 10px;
     height: 38px;
     width: 245px;
-    font-size: .85rem;
+    font-size: .8rem;
     font-weight: 100;
   }
 
   .btn-login {
-    margin: 115px 30px 0 25px;
-    height: 58px;
+    margin: 108px 30px 0 30px;
+    width: 270px;
+    height: 55px;
     font-size: 1.45rem;
     padding-left: 35px;
   }
 
   .btn-login-icon {
-    height: 34px;
-    width: 34px;
+    height: 30px;
+    width: 30px;
     top: 12px;
+    left: 65px;
   }
   
   .right-column-header {
@@ -308,20 +371,20 @@
   }
 
   .right-column-vector {
-    height: 420px;
-    width: 510px;
+    height: 400px;
+    width: 490px;
   }
 }
-
+/* 1024 x 768 */
 @media screen and (max-width: 1024px) {
   .login-form {
-    height: 410px;
+    height: 400px;
     width: 285px;
-    margin: 120px auto 0 auto;
+    margin: 150px auto 0 auto;
   }
 
   .login-header {
-    margin: 0 0 40px 25px;
+    margin: 0 0 40px 30px;
   }
 
   .login-header-text {
@@ -340,12 +403,13 @@
   }
 
   .login-input {
-    height: 35px;
+    height: 33px;
     width: 205px;
   }
 
   .btn-login {
-    margin: 90px 30px 0 28px;
+    margin: 80px 30px 0 30px;
+    width: 235px; 
     height: 48px;
     font-size: 1.25rem;
     padding-left: 30px;
@@ -360,20 +424,20 @@
 
   .right-column-header {
     font-size: 2.4rem;
-    margin: 120px 0 0 0;
+    margin: 150px 0 0 0;
   }
 
   .right-column-sup {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
   }
 
   .right-column-subHeader {
     margin: -5px 0 20px 0;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
   }
 
   .right-column-vector {
-    height: 390px;
-    width: 480px;
+    height: 320px;
+    width: 420px;
   }
 }

@@ -1,16 +1,15 @@
-import { ActivityIndicator, Image, Text, TextInput, TouchableOpacity, useWindowDimensions, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
+import { ActivityIndicator, Image, Pressable, Text, TextInput, TouchableOpacity, useWindowDimensions, SafeAreaView, ScrollView, StyleSheet, View, KeyboardAvoidingView } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { Picker } from '@react-native-picker/picker'
 import { CredentialsContext } from './CredentialsContext'
+import Ionicons from 'react-native-vector-icons/Ionicons'
 import DonationItem from './SubComponents/DonationItem'
 import uuid from 'react-native-uuid'
 import axios from 'axios'
 import BottomNav from './SubComponents/BottomNav'
-import returnIcon from '../assets/Icons/returnIcon.svg'
-import closeModalIcon from '../assets/UserPreference/closeModalRed.svg'
 import addIcon from '../assets/Icons/add-icon-plus.png'
-
+import TopNav from './SubComponents/TopNav'
 
 const Donate = () => {
     const navigation = useNavigation() 
@@ -20,7 +19,14 @@ const Donate = () => {
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [contactNo, setContactNo] = useState('')
+    const [profilePicture, setProfilePicture] = useState()
     const [loading, setLoading] = useState(false)
+
+    const [nameFocused, setNameFocused] = useState(false)
+    const [emailFocused, setEmailFocused] = useState(false)
+    const [contactNoFocused, setContactNoFocused] = useState(false)
+    const [itemNameFocused, setItemNameFocused] = useState(false)
+    const [quantityFocused, setQuantityFocused] = useState(false)
 
     // Date of Donation
     const [selectedMonth, setSelectedMonth] = useState('January')
@@ -99,7 +105,7 @@ const Donate = () => {
 
             try {
                 const { data } = await axios.post('http://localhost:5000/api/users/submitDonation', 
-                { dateOfDonation, time, name, email, contactNo, items }, config)
+                { dateOfDonation, time, name, email, contactNo, items, profilePicture }, config)
 
                 console.log(data)
                 alert('Thank you for donating, it will help the animals.')
@@ -107,24 +113,33 @@ const Donate = () => {
                 console.log(error)
             }
 
-            setName('')
-            setEmail('')
-            setContactNo('')
             setItems([])
         }
 
         setLoading(false)
     }
 
-    // console.log(items)
+    const getUser = async () => {
+        try {
+            const { data } = await axios.get(`http://localhost:5000/api/users/getUserById/${storedCredentials.id}`)
+            console.log(data.profilePicture)
+            setName(data.fullName)
+            setEmail(data.email)
+            setContactNo(data.contactNo)
+            setProfilePicture(data.profilePicture)
+        } catch (error) {
+            console.log(error)            
+        }
+    }
+
+    useEffect(() => {
+        getUser()
+    }, [])
 
     return (
         <SafeAreaView style={styles.body}>
             <ScrollView>
-                <TouchableOpacity style={styles.backBtn} onPress={() => navigation.goBack()}>
-                    <Image style={styles.backIcon} source={returnIcon} />
-                    <Text style={styles.backText}>Back</Text>
-                </TouchableOpacity>
+                <TopNav ScreenName='Donate' />
 
                 <Text style={[styles.label, styles.date]}>Date of Donation</Text>
                 <View style={styles.dateContainer}>
@@ -320,24 +335,30 @@ const Donate = () => {
 
                 <Text style={[styles.label, styles.name]}>Name</Text>
                 <TextInput
-                    style={styles.input}
+                    style={nameFocused ? styles.inputFocused : styles.input}
                     value={name}
                     onChangeText={setName}
+                    onFocus={() => setNameFocused(true)}
+                    onBlur={() => setNameFocused(false)}
                 />
 
                 <Text style={styles.label}>Email</Text>
                 <TextInput
-                    style={styles.input}
+                    style={emailFocused ? styles.inputFocused : styles.input}
                     value={email}
                     onChangeText={setEmail}
+                    onFocus={() => setEmailFocused(true)}
+                    onBlur={() => setEmailFocused(false)}
                 />
 
                 <Text style={styles.label}>Contact Number</Text>
                 <TextInput
-                    style={styles.input}
+                    style={contactNoFocused ? styles.inputFocused : styles.input}
                     value={contactNo}
                     onChangeText={setContactNo}
                     maxLength={11}
+                    onFocus={() => setContactNoFocused(true)}
+                    onBlur={() => setContactNoFocused(false)}
                 />
 
                 <View style={styles.addItemContainer}>
@@ -368,47 +389,70 @@ const Donate = () => {
                 </TouchableOpacity>
             </ScrollView>
 
-            <BottomNav />
-
             {addItemModal &&
                 <View style={styles.addItemModal}>
-                    <TouchableOpacity style={styles.closeModalBtn} onPress={() => toggleModal()}>
-                        <Image style={styles.closeModalIcon} source={closeModalIcon} />
-                    </TouchableOpacity>
+                    <View style={styles.addItemHeaderContainer}>
+                        <Text style={styles.addItemLabel}>Add an Item</Text>
 
-                    <Text style={styles.addItemLabel}>Add an Item</Text>
+                        <TouchableOpacity style={styles.closeModalBtn} onPress={() => toggleModal()}>
+                            {/* <Image style={styles.closeModalIcon} source={closeModalIcon} /> */}
+                            <Ionicons name='ios-close' size={23} color='#111' />
+                        </TouchableOpacity>
+                    </View>
+
                     <TextInput
-                        style={[styles.input, styles.inputItemName]}
+                        style={itemNameFocused ? [styles.inputFocused, styles.inputItemName] : [styles.input, styles.inputItemName]}
                         value={itemName}
                         onChangeText={setItemName}
+                        onFocus={() => setItemNameFocused(true)}
+                        onBlur={() => setItemNameFocused(false)}
                         placeholder='Item Name (e.g. Dog Treats)' 
                     />
 
                     <TextInput 
-                        style={[styles.input, styles.inputQuantity]}
+                        style={quantityFocused ? [styles.inputFocused, styles.inputQuantity] : [styles.input, styles.inputQuantity]}
                         value={quantity}
                         onChangeText={setQuantity}
+                        onFocus={() => setQuantityFocused(true)}
+                        onBlur={() => setQuantityFocused(false)}
                         placeholder='Quantity'
                     />
 
-                    <TouchableOpacity style={styles.addToItemsBtn} onPress={() => addToItemsHandler()}>
-                        <Text style={styles.addToItemsText}>ADD</Text>
-                    </TouchableOpacity>
+                    <View 
+                        style={{ 
+                            flexDirection: 'row', 
+                            justifyContent: 'space-between', 
+                            alignItems: 'center', marginTop: 50, 
+                            marginRight: 35, marginLeft: 35 
+                        }}
+                    >
+                        <TouchableOpacity style={styles.cancelItemsBtn} onPress={() => toggleAddItemModal()}>
+                            <Text style={styles.cancelItemsTxt}>Cancel</Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={styles.addToItemsBtn} onPress={() => addToItemsHandler()}>
+                            <Text style={styles.addToItemsText}>Add</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             }
 
             {overlay &&
-                <View style={{
-                    width: window.width, 
-                    height: window.height, 
-                    backgroundColor: '#111',
-                    opacity: .5,
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    zIndex: 5
-                }}></View>
+                <Pressable 
+                    style={{
+                        width: window.width, 
+                        height: window.height, 
+                        backgroundColor: '#111',
+                        opacity: .5,
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        zIndex: 5
+                    }}
+                    onPress={() => toggleModal()}
+                ></Pressable>
             }
+            <BottomNav />
         </SafeAreaView>
     )
 }
@@ -420,30 +464,11 @@ const styles = StyleSheet.create({
         position: 'relative',
     },
 
-    backBtn: {
-        display: 'flex',
-        flexDirection: 'row',
-        marginTop: 25,
-        marginLeft: 20,
-    },
-
-    backIcon: {
-        height: 23,
-        width: 23,
-    },
-
-    backText: {
-        fontFamily: 'Poppins_500Medium',
-        fontSize: 14.5,
-        marginTop: 2,
-        marginLeft: 7,
-    },
-
     label: {
-        fontFamily: 'Poppins_400Regular',
+        fontFamily: 'PoppinsRegular',
         fontSize: 16,
         marginBottom: 4,
-        marginLeft: 46,
+        marginLeft: 35,
     },
 
     name: {
@@ -451,46 +476,67 @@ const styles = StyleSheet.create({
     },
 
     input: {
-        borderColor: '#b0b0b0',
-        borderStyle: 'solid',
-        borderWidth: 1,
-        width: '77%',
-        height: 40,
-        fontFamily: 'Poppins_400Regular',
+        borderRadius: 5,
+        borderColor: '#f1f3f7',
+        borderWidth: 3,
+        backgroundColor: '#f3f5f9',
+        color: '#8c8c8e',
+        width: '82.5%',
+        height: 45,
+        fontFamily: 'PoppinsRegular',
+        fontSize: 13,
         marginBottom: 20,
-        marginRight: 'auto',
-        marginLeft: 'auto',
+        marginRight: 35,
+        marginLeft: 35,
         paddingTop: 5,
-        paddingRight: 7,
         paddingBottom : 5,
-        paddingLeft: 7,
+        paddingLeft: 10,
+        paddingRight: 10,
+    },
+
+    inputFocused: {
+        backgroundColor: 'white',
+        borderRadius: 5,
+        borderColor: '#111',
+        borderWidth: 1,
+        width: '82.5%',
+        height: 45,
+        fontFamily: 'PoppinsRegular',
+        fontSize: 13,
+        marginBottom: 20,
+        marginRight: 35,
+        marginLeft: 35,
+        paddingTop: 5,
+        paddingBottom : 5,
+        paddingLeft: 10,
+        paddingRight: 10,
     },
 
     date: {
-        marginTop: 45,
+        marginTop: 40,
     }, 
     
     time: {
-        marginTop: 10,
+        marginTop: 15,
     },
 
     dateContainer: {
         display: 'flex',
         flexDirection: 'row',
-        marginRight: 46,
-        marginLeft: 46,
+        marginRight: 35,
+        marginLeft: 35,
     },
 
     timeContainer: {
         display: 'flex',
         flexDirection: 'row',
-        marginRight: 46,
-        marginLeft: 46,
+        marginRight: 35,
+        marginLeft: 35,
     },
 
     picker: {
         fontSize: 14,
-        fontFamily: 'Poppins_300Light',
+        fontFamily: 'PoppinsLight',
         paddingTop: 2,
         paddingRight: 5,
         paddingBottom: 2,
@@ -503,37 +549,37 @@ const styles = StyleSheet.create({
     },
 
     pickerItem: {
-        fontFamily: 'Poppins_300Light',
+        fontFamily: 'PoppinsLight',
         fontSize: 11,
     },
 
     addItemContainer: {
         marginTop: 40,
-        marginRight: 46,
+        marginRight: 35,
         marginBottom: 10,
-        marginLeft: 46,
+        marginLeft: 35,
         display: 'flex',
         justifyContent: 'space-between',
         flexDirection: 'row',
-        width: '77%',
     },
 
     itemsLabel: {
-        fontFamily: 'Poppins_500Medium',
+        fontFamily: 'PoppinsMedium',
         fontSize: 16,
     },
 
     toggleAddItemModal: {
         backgroundColor: '#111',
-        borderRadius: 25,
+        borderRadius: 5,
+        justifyContent: 'space-around',
         alignSelf: 'flex-start',
         alignItems: 'center',
         display: 'flex',
         flexDirection: 'row',
-        paddingTop: 5,
-        paddingRight: 10,
-        paddingBottom: 5,
-        paddingLeft: 10,
+        paddingTop: 8,
+        paddingRight: 20,
+        paddingBottom: 8,
+        paddingLeft: 20,
     },
 
     addIcon: {
@@ -546,30 +592,33 @@ const styles = StyleSheet.create({
         color: 'white',
         marginLeft: 1,
         fontSize: 13,
-        fontFamily: 'Poppins_500Medium'
+        fontFamily: 'PoppinsMedium'
     },
 
     addItemModal: {
-        position: 'fixed',
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
         zIndex: 10,
         backgroundColor: 'white',
-        borderRadius: 5,
-        top: '25%',
-        left: '50%',
-        transform: [{
-            translateX: '-50%',
-            translateY: '-25%',
-        }],
-        height: 300,
-        width: 300,
+        borderTopLeftRadius: 25,
+        borderTopRightRadius: 25,
+        height: 320,
+        width: '100%',
         paddingTop: 10,
         paddingBottom: 10,
     },
 
+    addItemHeaderContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginRight: 35,
+        marginLeft: 35,
+    },
+
     closeModalBtn: {
-        display: 'flex',
-        alignSelf: 'flex-end',
-        marginRight: 12,
+       
     },
 
     closeModalIcon: {
@@ -581,55 +630,69 @@ const styles = StyleSheet.create({
     addItemLabel: {
         marginTop: 15,
         marginBottom: 5,
-        marginLeft: 35,
-        fontFamily: 'Poppins_400Regular',
+        fontFamily: 'PoppinsMedium',
         fontSize: 16,
     },
 
     inputItemName: {
-        marginTop: 3,
+        marginTop: 20,
         marginBottom: 0,
     },
 
     inputQuantity: {
-        marginTop: 10,
+        marginTop: 20,
         marginBottom: 0,
     },
 
+    cancelItemsBtn: {
+        width: '48%',
+        height: 45,
+        backgroundColor: 'transparent',
+        borderColor: '#111',
+        borderWidth: 1,
+        borderRadius: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+
+    cancelItemsTxt: {
+        fontFamily: 'PoppinsMedium',
+        fontSize: 20,
+        color: '#111',
+    },
+
     addToItemsBtn: {
-        width: '77%',
+        width: '48%',
         height: 45,
         backgroundColor: '#111',
-        marginTop: 45,
-        marginRight: 'auto',
-        marginLeft: 'auto',
+        borderRadius: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 
     addToItemsText: {
-        fontFamily: 'Poppins_500Medium',
+        fontFamily: 'PoppinsMedium',
         fontSize: 20,
-        textAlign: 'center',
         color: 'white',
-        marginTop: 'auto',
-        marginBottom: 'auto',
     },
 
     submitBtn: {
-        width: '77%',
-        height: 50,
-        marginRight: 'auto',
-        marginLeft: 'auto',
-        backgroundColor: '#111',
+        width: '82.5%',
+        height: 60,
         marginTop: 60,
+        marginRight: 35,
         marginBottom: 100,
+        marginLeft: 35,
+        backgroundColor: '#111',
+        borderRadius: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 
     submitText: {
-        fontFamily: 'Poppins_500Medium',
+        fontFamily: 'PoppinsMedium',
         fontSize: 21,
         color: 'white',
-        textAlign: 'center',
-        marginTop: 8,
     }, 
 })
 

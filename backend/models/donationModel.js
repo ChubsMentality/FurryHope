@@ -37,6 +37,10 @@ const donationSchema = mongoose.Schema(
             default: 'Not Received',
         },
 
+        profilePicture: {
+            type: String,
+        },
+
         user: {
             type: mongoose.Schema.Types.ObjectId,
             required: true,

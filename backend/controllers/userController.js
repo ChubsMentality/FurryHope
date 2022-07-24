@@ -32,6 +32,11 @@ const loginUser = asyncHandler(async (req, res) => {
             contactNo: userAcc.contactNo,
             address: userAcc.address,
             profilePicture: userAcc.profilePicture,
+            animalPreference: userAcc.animalPreference,
+            breedPreferences: userAcc.breedPreferences,
+            colorPreferences: userAcc.colorPreferences,
+            genderPreference: userAcc.genderPreference,
+            sizePreference: userAcc.sizePreference,
             token: generateToken(userAcc.id),
         });
     } else {
@@ -330,19 +335,25 @@ const updatePassword = asyncHandler(async (req, res) => {
 // Baguhin nalang kung may dapat na baguhin like
 // kung maassociate yung feedback mismo sa user.
 const submitFeedback = asyncHandler(async (req, res) => {
-    const { fullName, email, message } = req.body;
+    const { fullName, email, message, profilePicture, date, rating } = req.body;
 
     const createFeedback = await UserFeedback.create({
         fullName,
         email,
-        message
+        message,
+        profilePicture,
+        date,
+        rating,
     })
 
     if(createFeedback) {
         res.status(201).json({
             fullName: createFeedback.fullName,
             email: createFeedback.email,
-            message: createFeedback.message
+            message: createFeedback.message,
+            profilePicture: createFeedback.profilePicture,
+            date: createFeedback.date, 
+            rating: createFeedback.rating,
         });
     } else {
         res.status(400);
@@ -352,18 +363,21 @@ const submitFeedback = asyncHandler(async (req, res) => {
     res.json({
         fullName,
         email,
-        message
+        message,
+        profilePicture,
+        date,
+        rating,
     });
 });
 
 const submitReport = asyncHandler(async (req, res) => {
-    const { description, image } = req.body
+    const { date, location, description, image } = req.body
     /*
     if(!description || !image) {
         res.status(400)
         throw new Error('Please fill out the necessary information')
     } else {
-        const report = new StrayAnimalReport({ description, image })
+        const report = new StrayAnimalReport({ date, location, description, image })
         const createdReport = await report.save()
 
         res.status(201).json(createdReport)
@@ -371,6 +385,8 @@ const submitReport = asyncHandler(async (req, res) => {
     */
 
     const report = await StrayAnimalReport.create({
+        date,
+        location,
         description, 
         image,
     })
@@ -378,6 +394,8 @@ const submitReport = asyncHandler(async (req, res) => {
     if(report) {
         res.status(201).json({
             id: report.id,
+            date: report.date,
+            location: report.location,
             description: report.description,
             image: report.image,
         })
@@ -401,20 +419,20 @@ const getSpecificRegistrations = asyncHandler(async (req, res) => {
 
 const submitAnimalRegistration = asyncHandler(async (req, res) => {
     const { 
-        animalType, registrationType, name, contactNo, lengthOfStay, address,
-        animalName, animalBreed, animalAge, animalColor, animalGender, date, email
+        animalType, registrationType, applicantImg, name, contactNo, lengthOfStay, address,
+        animalName, animalBreed, animalAge, animalColor, animalGender, tagNo, date, email
     } = req.body
 
     if(
-        !animalType || !registrationType || !name || !contactNo || !lengthOfStay || !address ||
-        !animalName || !animalBreed || !animalAge || !animalColor || !animalGender || !date || !email
+        !animalType || !registrationType || !applicantImg || !name || !contactNo || !lengthOfStay || !address ||
+        !animalName || !animalBreed || !animalAge || !animalColor || !animalGender || !tagNo || !date || !email
     ) {
         res.status(400)
         throw new Error('Please fill out all necessary fields')
     } else {
         const newRegistration = new RegisterAnimal({
-            animalType, registrationType, name, contactNo, lengthOfStay, address,
-            animalName, animalBreed, animalAge, animalColor, animalGender, date, email, user: req.user._id
+            animalType, registrationType, applicantImg, name, contactNo, lengthOfStay, address,
+            animalName, animalBreed, animalAge, animalColor, animalGender, tagNo, date, email, user: req.user._id
         })
         // The 'user: req.user._id' comes from the validated token of the user in authMiddleware.js
 
@@ -471,16 +489,16 @@ const getSpecificAdoptions = asyncHandler(async (req, res) => {
 })
 
 const updatePreference = asyncHandler(async (req, res) => {
-    const { animalPreferences, breedPreferences, colorPreferences, animalTypePreferences, animalGenderPreferences } = req.body
+    const { animalPreference, breedPreferences, colorPreferences, genderPreference, sizePreference } = req.body
 
     const user = await User.findById(req.params.id)
     
     if(user) {
-        user.animalPreferences = animalPreferences
+        user.animalPreference = animalPreference
         user.breedPreferences = breedPreferences
         user.colorPreferences = colorPreferences
-        user.animalTypePreferences = animalTypePreferences
-        user.animalGenderPreferences = animalGenderPreferences
+        user.genderPreference = genderPreference
+        user.sizePreference = sizePreference
         const updatedUser = await user.save()
         res.json(updatedUser)
     } else {
@@ -490,14 +508,14 @@ const updatePreference = asyncHandler(async (req, res) => {
 })
 
 const submitDonation = asyncHandler(async (req, res) => {
-    const { dateOfDonation, time, name, email, contactNo, items } = req.body
+    const { dateOfDonation, time, name, email, contactNo, items, profilePicture } = req.body
 
-    if(!dateOfDonation || !time || !name || !email || !contactNo || !items) {
+    if(!dateOfDonation || !time || !name || !email || !contactNo || !items || !profilePicture) {
         res.status(400)
         throw new Error('Please fill out all the necessary fields.')
     } else {
         const donation = new Donation({
-            dateOfDonation, time, name, email, contactNo, items, user: req.user.id
+            dateOfDonation, time, name, email, contactNo, items, profilePicture, user: req.user.id
         })
 
         const createdDonation = await donation.save()

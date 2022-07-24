@@ -1,0 +1,185 @@
+.viewUser-modal {
+    height: 710px;
+    width: 975px;
+    background-color: #fff;
+    border-radius: 5px;
+    z-index: 10;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+}
+
+.viewUser-closeModal {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    height: 40px;
+    width: 40px;
+}
+
+.viewUser-left,
+.viewUser-right {
+    height: 100%;
+    width: 50%;
+}
+
+.viewUser-left {
+    padding: 40px 0 40px 50px;
+}
+
+.viewUser-right {
+    padding: 50px 0 0 0;
+}
+
+.viewUser-label {
+    display: block;
+    font-size: 1.2rem;
+    margin: 10px 0 0 0;
+}
+
+.viewUser-input {
+    border-radius: 5px;
+    padding: 13px 0 13px 15px;
+    width: 350px;
+    background-color: #f3f5f9;
+    border: 3px solid #f1f3f7;
+    display: block;
+    font-size: 1.2rem;
+    margin: 10px 0 0 0;
+}
+
+.viewUser-input:focus {
+    background-color: white;
+    border: 3px solid black
+}
+
+.viewUser-label-right {
+    display: block;
+    font-size: 1.2rem;
+    margin: 10px 0 0 0;
+    position: relative;
+}
+
+.viewUser-select {
+    font-size: 1.2rem;
+    margin: 5px 0 20px 0;
+    padding: 5px 20px;
+}
+
+.viewUser-profPic {
+    display: block;
+    margin: 5px 0 0 0;
+}
+
+.viewUser-preview {
+    height: 200px;
+    width: 200px;
+    margin: 20px 0 0 0;
+    border-radius: 100%;
+}
+
+.viewUser-close {
+    font-size: 1.5rem;
+    font-weight: 500;
+    padding: 10px 25px;
+    position: absolute;
+    bottom: 70px;
+    right: 70px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* 1600 x 900 */
+@media screen and (max-width: 1919px) {
+    .viewUser-modal {
+        height: 600px;
+        width: 880px;
+    }
+
+    .viewUser-left {
+        padding: 30px 0 30px 50px;
+    }
+
+    .viewUser-right {
+        padding: 30px 0 0 0;
+    }
+
+    .viewUser-label {
+        font-size: 1rem;
+    }
+
+    .viewUser-input {
+        width: 330px;
+        font-size: 1rem;
+        margin: 5px 0 0 0;
+        padding: 10px;
+    }
+
+    .viewUser-label-right {
+        font-size: 1rem;
+    }
+
+    .viewUser-preview {
+        height: 150px;
+        width: 150px;
+    }
+
+    .viewUser-close {
+        font-size: 1.3rem;
+        bottom: 60px;
+    }
+}
+
+/* 1440 x 900 */
+@media screen and (max-width: 1440px) {
+
+}
+
+/* 1360 x 768 */
+@media screen and (max-width: 1360px) {
+    .viewUser-modal {
+        height: 560px;
+        width: 800px;
+    }
+
+    .viewUser-left {
+        padding: 15px 0 15px 45px;
+    }
+
+    .viewUser-right {
+        padding: 25px 0 0 50px;
+    }
+
+    .viewUser-name {
+        margin-top: 20px;
+    }
+
+    .viewUser-label {
+        font-size: .9rem;
+    }
+
+    .viewUser-input {
+        font-size: .9rem;
+    }
+
+    .viewUser-label-right {
+        font-size: .9rem;
+    }
+
+    .viewUser-close {
+        font-size: 1.1rem;
+        bottom: 40px;
+    }
+}
+
+/* 1280 x 1024 */
+@media screen and (max-width: 1280px) {
+
+}
+
+/* 1024 x 768 */
+@media screen and (max-width: 1024px) {
+
+}

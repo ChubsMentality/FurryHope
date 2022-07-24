@@ -1,6 +1,7 @@
 .adoptions-table {
-  margin: 50px 105px 0 105px;
+  width: 100%;
   border-collapse: collapse;
+  margin-top: 20px;
 }
 
 /* 
@@ -10,27 +11,93 @@
 */
 
 .adoptions-table-row {
-  background-color: rgb(248, 248, 248);
+  width: 100%;
 }
 
 .adoptions-row-head {
-  color: rgb(164, 166, 172);
   height: 50px;
-  width: 230px;
-  font-size: 1.45rem;
+  width: 20%;
+  font-size: 1.1rem;
+}
+
+.adoptionHisHead-applicant {
+  width: 25%;
+}
+
+.adoptionHisHead-address {
+  width: 25%;
+}
+
+.adoptionHisHead-contactNo {
+  width: 14%;
+}
+
+.adoptionHisHead-status, .adoptionHisHead-actions {
+  width: 18%;
 }
 
 .adoptions-table-body-row {
-  height: 100px;
+  height: 90px;
 }
 
 .adoptions-row-body {
   padding: 10px 15px;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
+}
+
+.adoptionHis-applicant {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90px;
+}
+
+.adoptionHis-applicantImg {
+  height: 55px;
+  width: 55px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.adoptionHis-applicantName {
+  font-size: 1.1rem;
 }
 
 .adoptions-row-center {
   text-align: center;
+}
+
+.adoptionHis-currentStatus-pending {
+  background-color: #efab54;
+  border-radius: 5px;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 500;
+  width: fit-content;
+  padding: 8px 20px;
+  margin: 0 auto;
+}
+
+.adoptionHis-currentStatus-rejected {
+  background-color: #ed5e68;
+  border-radius: 5px;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 500;
+  width: fit-content;
+  padding: 8px 20px;
+  margin: 0 auto;
+}
+
+.adoptionHis-currentStatus-accepted {
+  background-color: green;
+  border-radius: 5px;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 500;
+  width: fit-content;
+  padding: 8px 20px;
+  display: block;
 }
 
 .adoptions-row-body-actions {
@@ -38,73 +105,224 @@
 }
 
 .adoptions-body-view-btn {
-  padding: 8px 15px;
-  display: block;
-  margin: 0 auto;
-  font-size: 1rem;
+  text-decoration: none;
+  color: black;
   cursor: pointer;
+  background-color: #e8e8e8;
+  width: fit-content;
+  padding: 11px 35px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  border-radius: 5px;
+  border: none;
 }
 
 /* 1600 x 1200 */
 @media screen and (max-width: 1919px) {
-  .adoptions-row-head {
-    width: 200px;
-    font-size: 1.2rem;
+  .adoptions-table {
+    margin-top: 15px;
+    margin-bottom: 5px;
   }
 
-  .adoptions-row-body {
+  .adoptions-row-head {
     font-size: 1rem;
+  }
+
+  .adoptions-table-body-row {
+    height: 70px;
+  }
+
+  .adoptionHis-applicant {
+    height: 70px;
+  }
+
+  .adoptionHis-applicantImg {
+    height: 50px;
+    width: 50px;
+  }
+
+  .adoptionHis-applicantName {
+    font-size: .9rem;
+  }
+
+  .adoptionHis-address {
+    font-size: .9rem;
+  }
+
+  .adoptionHis-contactNo {
+    font-size: .9rem;
+  }
+
+  .adoptionHis-currentStatus-pending {
+    font-size: .9rem;
+  }
+
+  .adoptionHis-currentStatus-rejected {
+    font-size: .9rem;
+  }
+
+  .adoptionHis-currentStatus-accepted {
+    font-size: .9rem;
   }
 
   .adoptions-body-view-btn {
     font-size: .95rem;
-    padding: 9px 18px;
   }
 }
 
 /* 1440 x 900 */
 @media screen and (max-width: 1440px) {
-  .adoptions-row-head {
-    font-size: 1.15rem;
+  .adoptions-table {
+
   }
 
-  .adoptions-row-body {
-    font-size: .85rem;
+  .adoptions-row-head {
+    font-size: .9rem;
+  }
+
+  .adoption-table-body-row {
+    height: 60px;
+  }
+  
+  .adoptionHis-applicant {
+    height: 60px;
+  }
+
+  .adoptionHis-applicantImg {
+    height: 45px;
+    width: 45px;
+  }
+
+  .adoptionHis-applicantName {
+    font-size: .8rem;
+  }
+
+  .adoptionHis-address { 
+    font-size: .8rem;
+  }
+
+  .adoptionHis-contactNo {
+    font-size: .8rem;
+  }
+
+  .adoptionHis-currentStatus-pending {
+    font-size: .8rem;
+    padding: 6px 18px;
+  }
+
+  .adoptionHis-currentStatus-rejected {
+    font-size: .8rem;
+    padding: 6px 18px;
+  }
+
+  .adoptionHis-currentStatus-accepted {
+    font-size: .8rem;
+    padding: 6px 18px;
   }
 
   .adoptions-body-view-btn {
-    font-size: .85rem;
-    padding: 6px 15px;
+    font-size: .8rem;
+    padding: 10px 30px;
   }
 }
 
 /* 1280 x 1024 */
 @media screen and (max-width: 1280px) {
+  .adoptions-table {
+    margin-top: 10px;
+    margin-bottom: 5px;
+  }
+
   .adoptions-row-head {
-    font-size: 1.05rem;
-  }
-
-  .adoptions-row-body {
     font-size: .8rem;
   }
 
-  .adoptions-body-view-btn {
-    font-size: .8rem;
+  .adoption-table-body-row {
+    height: 50px;
+  }
+
+  .adoptionHis-applicant {
+    height: 50px;
+  }
+
+  .adoptionHis-applicantImg {
+    height: 40px;
+    width: 40px;
+  }
+
+  .adoptionHis-applicantName {
+    font-size: .72rem;
+  }
+
+  .adoptionHis-address {
+    font-size: .72rem;
+  }
+
+  .adoptionHis-contactNo {
+    font-size: .72rem;
+  }
+
+  .adoptionHis-currentStatus-pending {
+    font-size: .72rem;
     padding: 6px 18px;
+  }
+
+  .adoptionHis-currentStatus-rejected {
+    font-size: .72rem;
+    padding: 6px 18px;
+  }
+
+  .adoptionHis-currentStatus-accepted {
+    font-size: .72rem;
+    padding: 6px 18px;
+  }
+
+  .adoption-body-view-btn {
+    font-size: .72rem;
+    padding: 8px 25px;
   }
 }
 
 /* 1024 x 768 */
 @media screen and (max-width: 1024px) {
   .adoptions-row-head {
-    font-size: .97rem;
+    font-size: .7rem;
   }
 
-  .adoptions-row-body {
-    font-size: .75rem;
+  .adoptionHis-applicantImg {
+    height: 35px;
+    width: 35px;
   }
 
-  .adoptions-body-view-btn {
-    font-size: .75rem;
+  .adoptionHis-applicantName {
+    font-size: .65rem;
+  }
+
+  .adoptionHis-address {
+    font-size: .65rem;
+  }
+
+  .adoptionHis-contactNo {
+    font-size: .65rem;
+  }
+
+  .adoptionHis-currentStatus-pending {
+    font-size: .65rem;
+    padding: 6px 18px;
+  }
+
+  .adoptionHis-currentStatus-rejected {
+    font-size: .65rem;
+    padding: 6px 18px;
+  }
+
+  .adoptionHis-currentStatus-accepted {
+    font-size: .65rem;
+    padding: 6px 18px;
+  }
+
+  .adoption-body-view-btn {
+    font-size: .55rem;
+    padding: 5px 17px;
   }
 }

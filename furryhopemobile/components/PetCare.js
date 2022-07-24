@@ -125,7 +125,7 @@ const PetCare = () => {
                     style={{ width: '100%', height: 470 }}
                     source={require('../assets/PetCare/petCare-hero-section.png')}
                 >
-                    <TopNav ScreenName='Pet Care' color='white' />
+                    <TopNav ScreenName='Pet Care' />
                 </ImageBackground>
 
                 <Text style={styles.heading}>TIPS ON HOW TO TAKE {'\n'}CARE OF YOUR PETS</Text>
@@ -207,7 +207,16 @@ const PetCare = () => {
                 </View>
 
                 <View style={styles.petQuoteContainer}>
+                    <Text style={styles.petQuote}>
+                        The greatness of a nation and its {'\n'}
+                        moral progress can be judged by the {'\n'}
+                        way its animals are treated. {'\n'}
+                    </Text>
 
+                    <Text style={styles.quotedBy}>~ Mahatma Gandhi</Text>
+
+                    <View style={styles.quoteVectorLeft}></View>
+                    <View style={styles.quoteVectorRight}></View>
                 </View>
 
                 <View style={styles.RA8485Container}>
@@ -310,12 +319,13 @@ const styles = StyleSheet.create({
 
     cardTitle: {
         color: 'white',
-        fontFamily: 'PoppinsMedium',
-        fontSize: 16,
+        fontFamily: 'PoppinsSemiBold',
+        fontSize: 24,
         marginTop: 'auto',
-        marginRight: 8,
+        marginRight: 10,
         marginBottom: 60,
-        marginLeft: 8,
+        marginLeft: 10,
+        lineHeight: 30,
     },
 
     viewMoreBtn: {
@@ -328,13 +338,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         position: 'absolute',
         bottom: 25,
-        left: 9
+        left: 10
     },
 
     viewMoreTxt: {
         color: 'white',
         fontFamily: 'PoppinsLight',
-        fontSize: 10,
+        fontSize: 12,
     },
 
     petQuoteContainer: {
@@ -346,6 +356,47 @@ const styles = StyleSheet.create({
         marginTop: 80,
         marginRight: 30,
         marginLeft: 30,
+        backgroundColor: '#ffff88',
+        overflow: 'hidden',
+    },
+
+    petQuote: {
+        fontFamily: 'PlayfairMedium',
+        fontSize: 19.5,
+        marginTop: 'auto',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        lineHeight: 30,
+    },
+
+    quotedBy: {
+        fontFamily: 'PoppinsLight',
+        fontSize: 15,
+        marginTop: 15,
+        marginBottom: 'auto',
+        marginLeft: 15,
+    },
+
+    quoteVectorLeft: {
+        height: 80,
+        width: 80,
+        position: 'absolute',
+        top: -20,
+        left: -20,
+        backgroundColor: '#FFF066',
+        borderRadius: 100,
+        zIndex: -1,
+    },
+
+    quoteVectorRight: {
+        height: 140,
+        width: 140,
+        position: 'absolute',
+        bottom: -35,
+        right: -35,
+        backgroundColor: '#FFF066',
+        borderRadius: 100,
+        zIndex: -1,
     },
 
     RA8485Container: {

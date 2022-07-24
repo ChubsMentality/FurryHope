@@ -1,17 +1,23 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { getAnimalRegistrations, registerAnimal } from '../actions/adminActions'
+import { MdDelete } from 'react-icons/md'
+import { IoClose } from 'react-icons/io5'
+import ReactPaginate from 'react-paginate'
 import Loading from './SubComponents/Loading'
 import Overlay from './SubComponents/Overlay'
 import axios from 'axios'
 import Sidebar from './Sidebar'
-import closeModalIcon from '../assets/Icons/close-modal.svg'
+import Switch from 'react-switch'
 import '../css/AnimalRegistration.css'
 
 const AnimalRegistration = () => {
     const dispatch = useDispatch()
     // const registrations = useSelector(state => state.getRegistrations)
     // const { animalRegistrations, loading } = registrations
+
+    const adminState = useSelector((state) => state.adminLogin)
+    const { adminInfo } = adminState
 
     const registeredState = useSelector(state => state.animalRegister)
     const { success, registerLoading } = registeredState
@@ -22,6 +28,7 @@ const AnimalRegistration = () => {
     const [animalRegistrations, setAnimalRegistrations] = useState()
     const [loading, setLoading] = useState(false)
     const [active, setActive] = useState('')
+    const [activeState, setActiveState] = useState(true)
     const [activeArr, setActiveArr] = useState()
     const [registered, setRegistered] = useState()
     const [notRegistered, setNotRegistered] = useState()
@@ -35,10 +42,12 @@ const AnimalRegistration = () => {
     }
 
     const openModal = async (id) => {
-        const { data } = await axios.get(`http://localhost:5000/api/users/animalRegistration/${id}`)
-        setModalData(data)
-
-        console.log(data)
+        try {
+            const { data } = await axios.get(`http://localhost:5000/api/users/animalRegistration/${id}`)
+            setModalData(data)
+        } catch (error) {
+            console.log(error)            
+        }
 
         setOverlay(true)
         setModal(true)
@@ -53,13 +62,13 @@ const AnimalRegistration = () => {
         try {
             setLoading(true)
             const { data } = await axios.get('http://localhost:5000/api/admins/getAllRegistrations')
+            console.log(data)
             setAnimalRegistrations(data)
             setRegistered(data.filter(filterRegistered))
             setNotRegistered(data.filter(filterNotRegistered))
             setLoading(false)
             setActiveArr(data.filter(filterNotRegistered))
             setActive('Not Registered')
-
         } catch (error) {
             console.log(error)
         }
@@ -79,11 +88,21 @@ const AnimalRegistration = () => {
         setModal(false)
     }
 
-    useEffect(() => {
-        getAnimalHandler()
-
-    }, [dispatch, success])
-
+    
+    const handleSwitch = () => {
+        if(active === 'Not Registered') {
+            setActive('Registered')
+            setActiveArr(registered)
+            setActiveState(false)
+            console.log('Not Registered')
+        } else {
+            setActive('Not Registered')
+            setActiveArr(notRegistered)
+            setActiveState(true)
+            console.log('Registered')
+        }
+    }
+    
     const deleteHandler = (id) => {        
         if(window.confirm('Are you sure you want to delete?')) {
             axios.delete(`http://localhost:5000/api/users/animalRegistration/${id}`)
@@ -91,113 +110,189 @@ const AnimalRegistration = () => {
                     console.log(response)
                 })
                 .catch(error => console.log(error))
+            }
+    }
+
+    const RegistrationsContainer = ({ currentRegistrations }) => {
+        return (
+            <>
+                {currentRegistrations &&
+                    currentRegistrations.map((registration) => (
+                        <div className="specReg-container" key={registration._id}>
+                            <div className="specReg-applicant specReg-column">
+                                <img src={registration.applicantImg} alt="Applicant's Image" className="specReg-applicantImg" />
+                                <p className="specReg-applicantName">{registration.name}</p>
+                            </div>
+
+                            <div className="specReg-pet specReg-column">
+                                <p className="specReg-petName">{registration.animalName}</p>
+                                <p className="specReg-petBreed">{registration.animalBreed}</p>
+                            </div>
+
+                            <div className="specReg-regType specReg-column">
+                                <p className="specRegType">{registration.registrationType}</p>
+                            </div>
+
+                            <div className="specReg-status specReg-column">
+                                {registration.registered === 'Registered' ?
+                                    <p className="specRegStatus-registered">{registration.registered}</p>
+                                    :
+                                    <p className="specRegStatus-notRegistered">{registration.registered}</p>
+                                }
+                            </div>
+
+                            <div className="specReg-actions specReg-column">
+                                <button className="specReg-viewData" onClick={() => openModal(registration._id)}>
+                                    View Registration
+                                </button>
+
+                                <MdDelete className='specReg-deleteReg' color='#ed5e68' onClick={() => deleteHandler(registration._id)} />
+                            </div>
+                        </div>
+                    ))
+                }
+            </>
+        )
+    }
+
+    const PaginatedRegistrations = ({ registrationsPerPage }) => {
+        const [currentRegistrations, setCurrentRegistrations] = useState(null)
+        const [pageCount, setPageCount] = useState(0)
+
+        // Here we use item offsets; we could also use page offsets
+        // following the API or data you're working with.
+        const [itemOffset, setItemOffset] = useState(0)
+
+        useEffect(() => {
+            // Fetch items from another resources.
+            const endOffset = itemOffset + registrationsPerPage
+            // console.log(`Loading items from ${itemOffset} to ${endOffset}`)
+        
+            activeArr && setCurrentRegistrations(activeArr.slice(itemOffset, endOffset))
+            activeArr && setPageCount(Math.ceil(activeArr.length / registrationsPerPage))
+        }, [itemOffset, registrationsPerPage])
+
+        // Invoke when user click to request another page.
+        const handlePageClick = (event) => {
+            const newOffset = (event.selected * registrationsPerPage) % activeArr.length;
+            // console.log(`User requested page number ${event.selected}, which is offset ${newOffset}`)
+            setItemOffset(newOffset);
         }
+
+        return (
+            <>
+                <RegistrationsContainer currentRegistrations={currentRegistrations} />
+                <ReactPaginate
+                    activeClassName='active-li'
+                    activeLinkClassName='active-a'
+                    className='pagination-container'
+                    pageClassName='pagination-page-li'
+                    pageLinkClassName='pagination-link-a'
+                    nextClassName='next-li'
+                    nextLinkClassName='next-a'
+                    previousClassName='prev-li'
+                    previousLinkClassName='prev-a'
+                    breakClassName='page-break-li'
+                    breakLinkClassName='page-break-a'
+                    breakLabel='...'
+                    nextLabel='>'
+                    onPageChange={handlePageClick}
+                    pageRangeDisplayed={5}
+                    pageCount={pageCount}
+                    previousLabel='<'
+                    renderOnZeroPageCount={null}
+                />
+            </>
+        )
     }
-
-    const toggleNotRegistered = () => {
-        setActive('Not Registered')
-        setActiveArr(notRegistered)
-    }
-
-    const toggleRegistered = () => {
-        setActive('Registered')
-        setActiveArr(registered)
-    }
-
-    const isNotRegisteredActive = active === 'Not Registered'
-    const isRegisteredActive = active === 'Registered'
-
+    
+    useEffect(() => {
+        getAnimalHandler()
+    }, [dispatch, success])
+    
     return (
         <div className='animalRegistration-body'>
             <Sidebar />
-            {loading && <Loading />}
-            {loading && <Overlay />}
+
             <div className='animalRegistration-content'>
-                <p className='animalRegistration-header'>ANIMAL REGISTRATIONS</p>
+                <div className="animalRegistration-headerContainer">
+                    <p className='animalRegistration-header'>PET REGISTRATION</p>
 
-                <div className="toggleRegistrationsBtnContainer">
-                    <button className={isNotRegisteredActive ? 'toggle-reg-btn notReg-active' : 'toggle-reg-btn notReg-inactive'} onClick={() => toggleNotRegistered()}>Not Registered</button>
-                    <button className={isRegisteredActive ? 'toggle-reg-btn reg-active' : 'toggle-reg-btn reg-inactive'} onClick={() => toggleRegistered()}>Registered</button>
+                    <div className="animalReg-adminInfo">
+                        <div className="animalReg-adminInfo-left">
+                            <h3 className="animalReg-adminName">{adminInfo.fullName}</h3>
+                            <p className="animalReg-adminPos">{adminInfo.jobPosition}</p>
+                        </div>
+
+                        <img src={adminInfo.profilePicture} alt="admin's profile picture" className="animalReg-adminProfile" />
+                    </div>
                 </div>
-                {
-                    activeArr && activeArr.length === 0 ?
-                        <p>There are no registrations!</p>
-                    :
-                        <table className='registration-table'>
-                            <thead>
-                                <tr>
-                                    <th className='registration-header registration-owner'>Owner's Name</th>
-                                    <th className='registration-header registration-address'>Address</th>
-                                    <th className='registration-header registration-contact'>Contact Number</th>
-                                    <th className='registration-header registration-registered'>Registered</th>
-                                    <th className='registration-header registration-actions'></th>
-                                </tr>
-                            </thead>
 
-                            <tbody>
-                            {
-                                activeArr && activeArr.map((item) => (
-                                    <tr key={item._id} className='registration-data-row'>
-                                        <td className='registration-data data-owner'>{item.name}</td>
-                                        <td className='registration-data data-address'>{item.address}</td>
-                                        <td className='registration-data data-contact'>{item.contactNo}</td>
-                                        <td className='registration-data data-registered'>{item.registered}</td>
-                                        <td className='registration-data data-btns'>
-                                            <button className='registration-btns registration-view' onClick={() => openModal(item._id)}>View</button>
-                                            <button className='registration-btns registration-delete' onClick={() => deleteHandler(item._id)}>Delete</button>
-                                        </td>
-                                    </tr>
-                                ))
-                            }
-                            </tbody>
-                        </table>
-                }
+                <div className="animalRegSwitch">
+                    {active === 'Registered' ? (
+                        <div className='animalReg-switch-container'>
+                            <div className='switch-container'>
+                                <p className='switch-reg'>Registered</p>
+                                <label>
+                                    <Switch
+                                        onChange={handleSwitch}
+                                        checked={activeState}
+                                        offColor='#808080'
+                                        onColor='#808080'
+                                        checkedIcon={false}
+                                        uncheckedIcon={false}
+                                        className='switch-accounts'
+                                    />
+                                </label>
+                                <p className='switch-notReg'>Not Registered</p>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className='animalReg-switch-container'>
+
+                            <div className='switch-container'>
+                                <p className='switch-reg'>Registered</p>
+                                <label>
+                                    <Switch
+                                        onChange={handleSwitch}
+                                        checked={activeState}
+                                        offColor='#808080'
+                                        onColor='#808080'
+                                        size={5}
+                                        checkedIcon={false}
+                                        uncheckedIcon={false}
+                                    />
+                                </label>
+                                <p className='switch-notReg'>Not Registered</p>
+                            </div>
+                        </div>
+                    )}
+                </div>
+
+                <div className='animalReg-container'>
+                    <div className="animalReg-label-container">
+                        <p className="animalReg-label animalReg-label-applicant">Applicant</p>
+                        <p className="animalReg-label animalReg-label-pet">Pet</p>
+                        <p className="animalReg-label animalReg-label-regType">Registration Type</p>
+                        <p className="animalReg-label animalReg-label-status">Status</p>
+                        <p className="animalReg-label animalReg-label-actions">Actions</p>
+                    </div>
+
+                    <PaginatedRegistrations registrationsPerPage={5} /> 
+                </div>
             </div>
 
-            {modal && 
-                <div className='viewRegistration-modal'>
-                    <img src={closeModalIcon} className='close-modal-icon' onClick={() => closeModal()} />
-                    <h1 className='viewRegistration-modal-header'>ANIMAL REGISTRATION</h1>
-                    <p className='modalLabel-date'>Date:<span className='modalValue'>{modalData.date}</span></p>
+            {modal && <Overlay />}
 
-                    {/* <p className='owner-information-header'>Owner's Information</p> */}
-                    <p className='modalLabel'>Animal Type:
-                        <span className='modalValue'>{modalData.animalType}</span>
-                    </p>
-                    <p className='modalLabel'>Registration Type:
-                        <span className='modalValue'>{modalData.registrationType}</span>
-                    </p>
-                    <p className='modalLabel'>Owner's Name:
-                        <span className='modalValue'>{modalData.name}</span>
-                    </p>
-                    <p className='modalLabel'>Email:
-                        <span className='modalValue'>{modalData.email}</span>
-                    </p>
-                    <p className='modalLabel'>Contact Number: 
-                        <span className='modalValue'>{modalData.contactNo}</span>
-                    </p>
-                    <p className='modalLabel-address'>Address:</p>
-                    <p className='modalValue-address'>{modalData.address}</p>
-                    
-                    {/* <p className='animal-information-header'>Animal's Information</p>  */}
-                    <p className='modalLabel'>Animal's Name: 
-                        <span className='modalValue'>{modalData.animalName}</span>
-                    </p>
-                    <p className='modalLabel'>Animal's Breed: 
-                        <span className='modalValue'>{modalData.animalBreed}</span>
-                    </p>
-                    <p className='modalLabel'>Animal's Age: 
-                        <span className='modalValue'>{modalData.animalAge}</span>
-                    </p>
-                    <p className='modalLabel'>Animal's Sex: 
-                        <span className='modalValue'>{modalData.animalSex}</span>
-                    </p>
+            {modal &&
+                <div className='animalReg-modal-container'>
+                    <IoClose className='animalReg-closeModal' onClick={() => closeModal()} />
 
-                    <button className="registerAnimalBtn" onClick={() => registerAnimalHandler(modalData._id, modalData.email, modalData.name, modalData.animalName)}>REGISTER</button>
                 </div>
             }
 
-            {overlay && <div className='viewRegistration-overlay'></div>}
+            {loading && <Loading />}
+            {loading && <Overlay />}
         </div>
     )
 }

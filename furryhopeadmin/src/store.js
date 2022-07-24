@@ -18,9 +18,13 @@ import {
     sendInterviewMessageReducer, 
     getDonationsReducer,
     deleteDonationReducer,
+    hasBeenInterviewedReducer,
     receivedDonationReducer,
     addtoInventoryReducer,
     getInventoryReducer,
+    getFeedbacksReducer,
+    deleteFeedbackReducer,
+    feedbackViewedReducer,
 } from './reducers/adminReducers'
 import { animalCreateReducer, animalDataReducer, animalDeleteReducer, animalUpdateReducer } from './reducers/animalReducer'
 
@@ -46,9 +50,13 @@ const reducer = combineReducers({
     sendInterviewMessageState: sendInterviewMessageReducer,
     getDonationsState: getDonationsReducer,
     donationDelete: deleteDonationReducer, 
+    interviewedState: hasBeenInterviewedReducer,
     receivedDonation: receivedDonationReducer,
     addToInventoryState: addtoInventoryReducer,
     donationInventoryState: getInventoryReducer,
+    feedbacksState: getFeedbacksReducer,
+    deleteFeedbackState: deleteFeedbackReducer,
+    feedbackViewedState: feedbackViewedReducer,
 })
 
 // Gets the admin info from the local storage

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { FlatList, Image, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, Touchable, TouchableOpacity, useWindowDimensions, View } from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import axios from 'axios'
+import AnimalCard from './SubComponents/AnimalCard'
 import AnimalList from './SubComponents/AnimalList'
 
 const ListOfDogs = ({ navigation }) => {
@@ -10,7 +11,7 @@ const ListOfDogs = ({ navigation }) => {
     const [sortBy, setSortBy] = useState('')
     const [sortByModal, setSortByModal] = useState(false)
     const [overlay, setOverlay] = useState(false)
-    const [sortedList, setSortedList] = useState([])
+    const [sortBtnsActive, setSortBtnsActive] = useState(false)
     const [dogs, setDogs] = useState()
     const [currentList, setCurrentList] = useState()
     const [searchQuery, setSearchQuery] = useState('')
@@ -70,15 +71,8 @@ const ListOfDogs = ({ navigation }) => {
         setCurrentList(searchResult)
     }
 
-    const dogList = ({ item }) => {
-        return (
-            <AnimalList 
-                _id={item._id}
-                animalImg={item.animalImg}
-                name={item.name}
-                breed={item.breed}
-            />
-        )
+    const toggleSortBtns = () => {
+        setSortBtnsActive(!sortBtnsActive)
     }
 
     const toggleSortByModal = () => {
@@ -94,24 +88,6 @@ const ListOfDogs = ({ navigation }) => {
     useEffect(() => {
         fetchDogs()
     }, [])
-
-    // useEffect(() => {
-    //     if(sortBy === 'name') {
-    //         setCurrentList(prevState => sortArray(prevState, 0, prevState.length - 1, 'name'))
-    //         console.log(currentList)
-    //     } else if(sortBy === 'breed') {
-    //         setCurrentList(prevState => sortArray(prevState, 0, prevState.length - 1, 'breed'))
-    //         console.log(currentList)
-    //     } else if(sortBy === 'color') {
-    //         setCurrentList(prevState => sortArray(prevState, 0, prevState.length - 1, 'color'))
-    //         console.log(currentList)
-    //     } else if(sortBy === 'size') {
-    //         setCurrentList(prevState => sortArray(prevState, 0, prevState.length - 1, 'size'))
-    //         console.log(currentList)
-    //     } else if(sortBy === '') {
-    //         setCurrentList(dogs)
-    //     }
-    // }, [sortBy, currentList])
 
     const sortByNameHandler = () => {
         setSortBy('name')
@@ -136,7 +112,7 @@ const ListOfDogs = ({ navigation }) => {
     }
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: 'white', paddingTop: 150, }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: 'white', paddingTop: 150, paddingBottom: 300 }}>
             <View style={styles.screenHeadingContainer}>
                 <View style={styles.navigationContainer}>
                     <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -161,143 +137,65 @@ const ListOfDogs = ({ navigation }) => {
                         </TouchableOpacity>  
                     </View>
 
-                    <TouchableOpacity style={styles.optionsBtn} onPress={() => toggleSortByModal()}>
-                        <Ionicons name='ios-options-outline' color='#111' size={26} />
-                    </TouchableOpacity>
+                    {sortBtnsActive ? 
+                        <TouchableOpacity style={styles.optionsBtnDark} onPress={() => toggleSortBtns()}>
+                            <Ionicons name='ios-options-outline' color='#fff' size={26} />
+                        </TouchableOpacity>
+                    :
+                        <TouchableOpacity style={styles.optionsBtn} onPress={() => toggleSortBtns()}>
+                            <Ionicons name='ios-options-outline' color='#111' size={26} />
+                        </TouchableOpacity>
+                    }
                 </View>
             </View>
+            
+            {sortBtnsActive ?
+                <>
+                    <Text style={styles.sortByHeader}>Sort By</Text>
+                    <View style={styles.sortBtnsContainer}>
+                        <TouchableOpacity style={sortBy === 'name' ? styles.sortByBtnActive : styles.sortByBtn} onPress={() => sortByNameHandler()}>
+                            <Text style={sortBy === 'name' ? styles.sortByTxtActive : styles.sortByTxt}>Name</Text>
+                        </TouchableOpacity>
 
-            <View>
-                <TouchableOpacity onPress={() => sortByNameHandler()}>
-                    <Text>Name</Text>
-                </TouchableOpacity>
+                        <TouchableOpacity style={sortBy === 'breed' ? styles.sortByBtnActive : styles.sortByBtn} onPress={() => sortByBreedHandler()}>
+                            <Text style={sortBy === 'breed' ? styles.sortByTxtActive : styles.sortByTxt}>Breed</Text>
+                        </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => sortByBreedHandler()}>
-                    <Text>Breed</Text>
-                </TouchableOpacity>
+                        <TouchableOpacity style={sortBy === 'color' ? styles.sortByBtnActive : styles.sortByBtn} onPress={() => sortByColorHandler()}>
+                            <Text style={sortBy === 'color' ? styles.sortByTxtActive : styles.sortByTxt}>Color</Text>
+                        </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => sortByColorHandler()}>
-                    <Text>Color</Text>
-                </TouchableOpacity>
+                        <TouchableOpacity style={sortBy === 'size' ? styles.sortByBtnActive : styles.sortByBtn} onPress={() => sortBySizeHandler()}>
+                            <Text style={sortBy === 'size' ? styles.sortByTxtActive : styles.sortByTxt}>Size</Text>
+                        </TouchableOpacity>
+                    </View>
+                </>
+            :
+                <></>
+            }
 
-                <TouchableOpacity onPress={() => sortBySizeHandler()}>
-                    <Text>Size</Text>
-                </TouchableOpacity>
+            <View style={styles.dogsContainer}>
+                {currentList && currentList.filter((animals) => {
+                    if(searchQuery === '') {
+                        return animals
+                    } else if(animals.breed.toLowerCase().includes(searchQuery.toLowerCase())) {
+                        return animals
+                    }
+                }).map((item) => (
+                    <AnimalCard 
+                        key={item._id}
+                        _id={item._id}
+                        animalImg={item.animalImg}
+                        name={item.name}
+                        breed={item.breed}
+                    />
+                ))}
             </View>
-
-            {currentList && currentList.filter((animals) => {
-                if(searchQuery === '') {
-                    return animals
-                } else if(animals.breed.toLowerCase().includes(searchQuery.toLowerCase())) {
-                    return animals
-                }
-            }).map((item) => (
-                <AnimalList 
-                    key={item._id}
-                    _id={item._id}
-                    animalImg={item.animalImg}
-                    name={item.name}
-                    breed={item.breed}
-                />
-            ))}
-
+            
+            <View style={{ marginTop: 150 }}></View>
             {/* <TouchableOpacity style={styles.scrollUpCta}>
                 <Ionicons name='arrow-up' size={26} color='white' />
             </TouchableOpacity> */}
-
-            {sortByModal &&
-                <View style={styles.sortByModal}>
-                    <View style={styles.sortByHeaderContainer}>
-                        <Text style={styles.sortByHeader}>Sort By</Text>
-
-                        <TouchableOpacity onPress={() => toggleSortByModal()}>
-                            <Ionicons name='md-close' size={27} color='#111' />
-                        </TouchableOpacity>
-                    </View>
-
-                    <View style={styles.sortOptionsContainer}>
-                        <TouchableOpacity style={styles.sortBtnContainer} onPress={() => setSortBy('name')}>
-                            <TouchableOpacity style={styles.sortByBtn}>
-                                <Text style={sortBy === 'name' ? styles.sortByTxtActive : styles.sortByTxt}>Name</Text>
-                            </TouchableOpacity>
-                            
-                            <View style={styles.checkedBox}>
-                                {sortBy === 'name' ?
-                                    <Ionicons name='checkmark-outline' size={20} color='green' />
-                                    :
-                                    <View></View>
-                                }
-                            </View>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity style={styles.sortBtnContainer} onPress={() => setSortBy('breed')}>
-                            <TouchableOpacity style={styles.sortByBtn}>
-                                <Text style={sortBy === 'breed' ? styles.sortByTxtActive : styles.sortByTxt}>Breed</Text>
-                            </TouchableOpacity>
-                            
-                            <View style={styles.checkedBox}>
-                                {sortBy === 'breed' ? 
-                                    <Ionicons name='checkmark-outline' size={20} color='green' />
-                                    :
-                                    <View></View>
-                                }
-                            </View>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity style={styles.sortBtnContainer} onPress={() => setSortBy('color')}>
-                            <TouchableOpacity style={styles.sortByBtn}>
-                                <Text style={sortBy === 'color' ? styles.sortByTxtActive : styles.sortByTxt}>Color</Text>
-                            </TouchableOpacity>
-                            
-                            <View style={styles.checkedBox}>
-                                {sortBy === 'color' ?
-                                    <Ionicons name='checkmark-outline' size={20} color='green' />
-                                    :
-                                    <View></View>
-                                }
-                            </View>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity style={styles.sortBtnContainer} onPress={() => setSortBy('size')}>
-                            <TouchableOpacity style={styles.sortByBtn}>
-                                <Text style={sortBy === 'size' ? styles.sortByTxtActive : styles.sortByTxt}>Size</Text>
-                            </TouchableOpacity>
-                            
-                            <View style={styles.checkedBox}>
-                                {sortBy === 'size' ?
-                                    <Ionicons name='checkmark-outline' size={20} color='green' />
-                                    :
-                                    <View></View>
-                                }
-                            </View>
-                        </TouchableOpacity>
-                    </View>
-
-                    <View style={styles.sortByModalEnd}>
-                        <TouchableOpacity style={styles.resetBtn} onPress={() => setSortBy('')}>
-                            <Text style={[styles.modalEndTxt, styles.resetTxt]}>Reset</Text>
-                        </TouchableOpacity>
-                        
-                        <TouchableOpacity style={styles.doneBtn} onPress={() => sortHandler()}>
-                            <Text style={[styles.modalEndTxt, styles.doneTxt]}>Done</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-            }
-
-            {overlay &&
-                <Pressable onPress={() => toggleSortByModal()} style={{
-                    width: window.width, 
-                    height: window.height, 
-                    backgroundColor: '#111',
-                    opacity: .5,
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    zIndex: 11,
-                }}></Pressable>
-            }
-            
         </SafeAreaView>
     )
 }
@@ -324,6 +222,7 @@ const styles = StyleSheet.create({
 
     navigationContainer: {
         flexDirection: 'row',
+        alignItems: 'center',
         marginTop: 25,
         paddingLeft: 30,
     },
@@ -375,6 +274,85 @@ const styles = StyleSheet.create({
         height: 40,
     },
 
+    optionsBtnDark: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 5,
+        borderColor: '#111',
+        borderWidth: .01,
+        borderRadius: 5,
+        height: 40,
+        backgroundColor: '#111',
+    },
+
+    sortByHeader: {
+        fontFamily: 'PoppinsSemiBold',
+        marginTop: 20,
+        marginLeft: 30,
+        fontSize: 16,
+    },
+
+    sortBtnsContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: 8,
+        marginRight: 30,
+        marginBottom: 10,
+        marginLeft: 30,
+    },
+
+    sortByBtn: {
+        alignSelf: 'flex-start',
+        borderColor: '#808080',
+        borderWidth: 1,
+        borderRadius: 25,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingTop: 3,
+        paddingRight: 15,
+        paddingBottom: 3,
+        paddingLeft: 15,
+        marginRight: 10,
+    },
+
+    sortByTxt: {
+        fontFamily: 'PoppinsLight',
+        color: '#808080',
+        fontSize: 12,
+    },
+
+    sortByBtnActive: {
+        alignSelf: 'flex-start',
+        borderColor: '#111',
+        borderWidth: 1,
+        borderRadius: 25,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingTop: 3,
+        paddingRight: 15,
+        paddingBottom: 3,
+        paddingLeft: 15,
+        backgroundColor: '#111',
+        marginRight: 10,
+    },
+    
+    sortByTxtActive: {
+        color: 'white',
+        fontFamily: 'PoppinsMedium',
+        fontSize: 12,
+    },
+
+    dogsContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        flexWrap: 'wrap',
+        gap: 11,
+        marginTop: 30,
+        marginRight: 30,
+        marginLeft: 30,
+    },
+
     scrollUpCta: {
         position: 'absolute',
         bottom: 35,
@@ -388,100 +366,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
 
-    sortByModal: {
-        zIndex: 15,
-        backgroundColor: 'white',
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        width: '100%',
-    },
-
-    sortByHeaderContainer: {
-        height: 40,
-        width: '100%',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        borderBottomWidth: 1,
-        borderBottomColor: '#b0b0b0',
-        paddingTop: 25,
-        paddingRight: 20,
-        paddingBottom: 25,
-        paddingLeft: 20,
-    },
-
-    sortByHeader: {
-        fontFamily: 'PoppinsMedium',
-        fontSize: 17,
-    },
-
-    sortBtnContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        paddingRight: 20,
-        paddingLeft: 20,
-        height: 65,
-        borderBottomColor: 'gray',
-    },
-
-    sortByTxt: {
-        fontFamily: 'PoppinsLight',
-        fontSize: 15,
-    },
-
-    sortByTxtActive: {
-        fontFamily: 'PoppinsMedium',
-        fontSize: 15,
-    },
-
-    checkedBox: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: 30,
-        width: 30,
-        borderWidth: 1,
-        borderRadius: 5,
-        borderColor: '#808080',
-    },
-
-    sortByModalEnd: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        paddingTop: 30,
-        paddingRight: 20,
-        paddingBottom: 30,
-        paddingLeft: 20,
-    },
-
-    resetBtn: {
-        height: 45,
-        width: '47%',
-        backgroundColor: '#e6e6e6',
-        borderRadius: 5,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-
-    doneBtn: {
-        height: 45,
-        width: '47%',
-        backgroundColor: '#111',
-        borderRadius: 5,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-
-    doneTxt: {
-        color: 'white',
-    },
-
-    modalEndTxt: {
-        fontFamily: 'PoppinsMedium',
-        fontSize: 17,
-    },
 
     /* Animal List Card */
     cardBody: {

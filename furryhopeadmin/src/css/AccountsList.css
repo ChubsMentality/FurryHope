@@ -186,7 +186,7 @@
 }
 
 .specAccount-delete {
-    margin-left: 10px;
+    margin-left: 20px;
 }
 
 .specAccount-btn-container {
@@ -211,6 +211,12 @@
     border-radius: 50%;
 }
 
+.specAccount-btn {
+    height: 35px;
+    width: 35px;
+    cursor: pointer;
+}
+
 .no-admin-accounts, .no-user-accounts {
     margin: 100px 0 0 0;
     font-size: 3rem;
@@ -219,27 +225,451 @@
 
 /* 1600 x 1200 */
 @media screen and (max-width: 1919px) {
-   
+    .accounts-content {
+        margin-left: 310px;
+        padding: 60px 0;
+    }
+
+    .accounts-header {
+        font-size: 1.7rem;
+    }
+
+    .accounts-adminName {
+        font-size: 1.05rem;
+    }
+
+    .accounts-adminPos {
+        font-size: .95rem;
+    }
+
+    .accounts-adminProfile {
+        height: 60px;
+        width: 60px;
+    }
+
+    .accounts-container {
+        height: 700px;
+        /* margin: 30px 90px 0 90px; */
+    }
+
+    .accounts-subHeader {
+        padding: 25px 40px 0 40px;
+    }
+
+    .accounts-admins-header, .accounts-users-header {
+        font-size: 1.1rem;
+    }
+
+    .accounts-add-admin {
+        font-size: .9rem;
+        padding: 6px 12px;
+    }
+
+    .switch-admins, .switch-users {
+        font-size: 1.1rem;
+    }
+
+    .switch-admins {
+        margin-left: 15px;
+    }
+
+    .switch-accounts {
+        height: 22px;
+        width: 45px;
+    }
+
+    .accounts-table-label {
+        /* background-color: aqua; */
+        height: 15px;
+        margin: 20px 0 0 0;
+    }
+
+    .accounts-label {
+        font-size: .95rem;
+    }
+
+    .specAccount-container {
+        height: 70px;
+        padding: 12px 0;
+    }
+
+    .specAccount-name-profPic {
+        height: 48px;
+        width: 48px;
+    }
+
+    .specAccount-name-head {
+        font-size: .9rem;
+    }
+    
+    .specAccount-name-subHead {
+        font-size: .9rem;
+    }
+
+    .specAccount-name-head-user {
+        font-size: .9rem;
+    }
+
+    .specAccount-email-info, .specAccount-contactNo-info, .specAccount-verified-info {
+        font-size: .9rem;
+    }
+
+    .specAccount-btn {
+        height: 30px;
+        width: 30px;
+    }
 }
 
 /* 1440 x 900 */
 @media screen and (max-width: 1440px) {
-   
+    .accounts-content {
+        margin-left: 305px;
+        padding: 70px 0;
+    }
+    .accounts-header-container {
+        margin: 0 70px;
+    }
+
+    .accounts-header {
+        font-size: 1.6rem;
+    }
+
+    .accounts-adminName {
+        font-size: 1rem;
+    }
+
+    .accounts-adminPos {
+        font-size: .85rem;
+    }
+
+    .accounts-adminProfile {
+        height: 56px;
+        width: 56px;
+    }
+
+    .accounts-container {
+        margin: 30px 70px 0 70px;
+        height: 625px;
+    }
+
+    .accounts-subHeader {
+        padding: 25px 40px 0 40px;
+    }
+
+    .accounts-admins-header, .accounts-users-header {
+        font-size: 1.05rem;
+    }
+
+    .accounts-add-admin {
+    /*  font-size: .9rem;
+        padding: 6px 12px; */
+    }
+
+    .switch-admins, .switch-users {
+        font-size: 1rem;
+    }
+
+    .switch-accounts {
+        height: 20px;
+        width: 47px;
+    }
+
+    .accounts-table-label {
+        /* background: green; */
+
+    }
+
+    .accounts-label {
+        font-size: .9rem;
+    }
+
+    .specAccount-container {
+        height: 60px;
+    }
+
+    .specAccount-name-profPic {
+        height: 40px;
+        width: 40px;
+    }
+
+    .specAccount-name-head {
+        font-size: .83rem;
+    }
+
+    .specAccount-name-subHead {
+        font-size: .83rem;
+    }
+
+    .specAccount-name-head-user{ 
+        font-size: .83rem;
+    }
+
+    .specAccount-email-info, .specAccount-contactNo-info, .specAccount-verified-info {
+        font-size: .83rem;
+    }
+
+    .specAccount-btn {
+        height: 25px;
+        width: 25px;
+    }
+
+    .specAccount-delete {
+        margin-left: 15px;
+    }
 }
 
 /* 1360 x 900 */
 @media screen and (max-width: 1360px) {
-   
+    .accounts-content {
+        margin-left: 275px;
+        padding-top: 55px;
+        padding-bottom: 0;
+    }
+
+    .accounts-header-container {
+        /* margin: 0 70px */
+    }
+
+    .accounts-header {
+        font-size: 1.55rem;
+    }
+
+    .accounts-adminName {
+        /* font-size: 1rem; */
+    }
+
+    .accounts-adminPos {
+        margin-top: -3px;
+        /* font-size: .85rem; */
+    }
+
+    .accounts-adminProfile {
+        height: 54px;
+        width: 54px;
+    }
+
+    .accounts-container {
+        height: 580px;
+        /* margin: 30px 70px 0 70px; */
+    }
+
+    .accounts-subHeader {
+        padding: 23px 40px 0 40px;
+    }
+
+    .accounts-admins-header, .accounts-users-header {
+        font-size: 1rem;
+    }
+
+    .accounts-add-admin {
+        font-size: .8rem;
+        /* padding: 6px 12px */
+    }
+/* 
+    .switch-accounts {
+        height: 18px;
+        width: 30px;
+    } */
+
+    .switch-admins, .switch-users {
+        font-size: .9rem;
+    }
+
+    .switch-admins {
+        margin-left: 20px;
+    }
+
+    .accounts-table-label {
+        margin: 20px 0 0 0;
+        height: 15px;
+        padding: 15px 40px;
+    }
+
+    .accounts-label {
+        font-size: .85rem;
+    }
+
+    .specAccount-container {
+        /* outline: 1px solid green; */
+        height: 58px;
+        padding: 10px 0;
+    }
+
+    .specAccount-name-profPic {
+        height: 38px;
+        width: 38px;
+    }
+
+    .specAccount-name-head {
+        font-size: .78rem;
+    }
+
+    .specAccount-name-subHead {
+        font-size: .78rem;
+    }
+
+    .specAccount-name-head-user {
+        font-size: .78rem;
+    }
+
+    .specAccount-email-info, .specAccount-contactNo-info, .specAccount-verified-info {
+        font-size: .78rem;
+    }
+
+    .specAccount-btn {
+        height: 23px;
+        height: 23px;
+    }
 }
 
 /* 1280 x 1024 */
 @media screen and (max-width: 1280px) {
-  
+    .accounts-content {
+        margin-left: 260px;
+    }
+
+    .accounts-header-container {
+        margin: 0 65px;
+    }
+
+    /* .accounts-header {
+        font-size: 1.55rem;
+    }
+
+    .accounts-adminName {
+        font-size: 1rem;
+    }
+
+    .accounts-adminPos {
+        margin-top: -3px;
+        font-size: .85rem;
+    }
+
+    .accounts-adminProfile {
+        height: 54px;
+        width: 54px;
+    } */
+
+    .accounts-container {
+        /* height: 580px; */
+        margin: 30px 60px 0 60px;
+    }
+
+    .accounts-subHeader {
+        padding: 23px 30px 0 30px;
+    }
+
+    .accounts-admins-header,
+    .accounts-users-header {
+        font-size: 1rem;
+    }
+
+    .accounts-add-admin {
+        font-size: .8rem;
+        /* padding: 6px 12px */
+    }
+
+    .switch-admins, .switch-users {
+        font-size: .88rem;
+    }
+
+    .accounts-table-label {
+        padding: 15px 30px;
+    }
+
+    .accounts-label {
+        font-size: .75rem;
+    }
+
+    .specAccount-container {
+        /* outline: 1px solid green; */
+    }
+
+    .specAccount-name {
+        margin-left: 30px;
+    }
+
+    .specAccount-name-profPic {
+        height: 33px;
+        width: 33px;
+    }
+
+    .specAccount-name-head,
+    .specAccount-name-subHead,
+    .specAccount-name-head-user,
+    .specAccount-email-info,
+    .specAccount-contactNo-info,
+    .specAccount-verified-info {
+        font-size: .73rem;
+    }
+
+    .specAccount-btn {
+        height: 23px;
+        width: 23px;
+    }
 }
 
 /* 1024 x 768 */
 @media screen and (max-width: 1024px) {
-   
+   .accounts-content {
+        margin-left: 240px;
+   }
+
+   .accounts-header {
+        font-size: 1.35rem;
+   }
+
+   .accounts-adminName {
+        font-size: .9rem;
+   }
+
+   .accounts-adminPos {
+        font-size: .75rem;
+   }
+
+   .accounts-adminProfile {
+        height: 48px;
+        width: 48px;
+   }
+
+   .accounts-container {
+
+   }
+
+   .accounsts-admins-header, .accounts-users-header {
+        font-size: .9rem;
+   }
+
+   .accounts-add-admin {
+    font-size: .75rem
+   }
+
+   .switch-admins, .switch-users {
+    font-size: .75rem
+   }
+
+   .accounts-label {
+    font-size: .73rem;
+   }
+
+   .specAccount-container {
+   }
+
+   .specAccount-name-profPic {
+    height: 30px;
+    width: 30px;
+   }
+
+   .specAccount-name-head,
+   .specAccount-name-subHead,
+   .specAccount-name-head-user,
+   .specAccount-email-info,
+   .specAccount-contactNo-info,
+   .specAccount-verified-info {
+       font-size: .55rem;
+   }
+
+
 }
 
 /* pagination rulesets */
@@ -269,6 +699,7 @@
 .pagination-link-a {
     font-size: 1.55rem;
     padding: 4px;
+    cursor: pointer
 }
 
 .next-li {
@@ -279,6 +710,7 @@
 .next-a {
     font-size: 1.8rem;
     font-weight: 500;
+    cursor: pointer
 }
 
 .prev-li {
@@ -289,6 +721,7 @@
 .prev-a {
     font-size: 1.8rem;
     font-weight: 500;
+    cursor: pointer
 }
 
 .active-li {
@@ -301,4 +734,47 @@
     color: black;
     font-weight: 600;
     font-family: 'Poppins', sans-serif;
+    cursor: pointer
 }
+
+/* Pagination Media Queries */
+
+/* 1600 x 900 */
+@media screen and (max-width: 1919px) {
+    .pagination-container {
+        bottom: 28px;
+    }
+
+    .pagination-page-li {
+        padding: 3px 5px;
+    }
+
+    .pagination-link-a {
+        font-size: 1.4rem;
+    }
+}
+
+/* 1440 x 900 */
+@media screen and (max-width: 1440px) {
+    .pagination-container {
+        bottom: 14px
+    }
+
+    .pagination-link-a {
+        font-size: 1.2rem;
+    }
+}
+
+/* 1360 x 900 */
+@media screen and (max-width: 1360px) {
+}
+
+/* 1280 x 1024 */
+@media screen and (max-width: 1280px) {
+    .pagination-link-a {
+        font-size: 1.1rem;
+    }
+}
+
+/* 1024 x 768 */
+@media screen and (max-width: 1024px) {}

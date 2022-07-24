@@ -48,6 +48,9 @@ import {
     DELETE_DONATION_REQUEST,
     DELETE_DONATION_SUCCESS,
     DELETE_DONATION_FAIL,
+    HAS_BEEN_INTERVIEWED_REQUEST,
+    HAS_BEEN_INTERVIEWED_SUCCESS,
+    HAS_BEEN_INTERVIEWED_FAIL,
     RECEIVED_DONATION_REQUEST,
     RECEIVED_DONATION_SUCCESS,
     RECEIVED_DONATION_FAIL,
@@ -57,6 +60,18 @@ import {
     GET_INVENTORY_REQUEST,
     GET_INVENTORY_SUCCESS,
     GET_INVENTORY_FAIL,
+    GET_FEEDBACKS_REQUEST,
+    GET_FEEDBACKS_SUCCESS,
+    GET_FEEDBACKS_FAIL,
+    GET_SPECFEEDBACK_REQUEST,
+    GET_SPECFEEDBACK_SUCCESS,
+    GET_SPECFEEDBACK_FAIL,
+    DELETE_FEEDBACK_REQUEST,
+    DELETE_FEEDBACK_SUCCESS,
+    DELETE_FEEDBACK_FAIL,
+    FEEDBACK_VIEWED_REQUEST,
+    FEEDBACK_VIEWED_SUCCESS,
+    FEEDBACK_VIEWED_FAIL,
 } from '../constants/adminConstants'
 
 export const adminLoginReducer = (state={}, action) => {
@@ -279,6 +294,20 @@ export const deleteDonationReducer = (state = {}, action) => {
     }
 }
 
+export const hasBeenInterviewedReducer = (state = {}, action) => {
+    switch(action.type) {
+        case HAS_BEEN_INTERVIEWED_REQUEST:
+            return { loading: true }
+        case HAS_BEEN_INTERVIEWED_SUCCESS:
+            return { loading: false, success: true }
+        case HAS_BEEN_INTERVIEWED_FAIL:
+            return { loading: false, success: false, error: action.payload}
+
+        default:
+            return state
+    }
+}
+
 export const receivedDonationReducer = (state = {}, action) => {
     switch(action.type) {
         case RECEIVED_DONATION_REQUEST:
@@ -320,3 +349,54 @@ export const getInventoryReducer = (state = { inventoryList: [] }, action) => {
             return state
     }
 }
+
+export const getFeedbacksReducer = (state = { feedbackList: [] }, action) => {
+    switch(action.type) {
+        case GET_FEEDBACKS_REQUEST:
+            return { loading: true }
+        case GET_FEEDBACKS_SUCCESS:
+            return { loading: false, feedbackList: action.payload }
+        case GET_FEEDBACKS_FAIL:
+            return { loading: false, error: action.payload }
+
+        default:
+            return state
+    }
+}
+
+export const deleteFeedbackReducer = (state = {}, action) => {
+    switch(action.type) {
+        case DELETE_FEEDBACK_REQUEST:
+            return { loading: true }
+        case DELETE_FEEDBACK_SUCCESS:
+            return { loading: false, success: true }
+        case DELETE_FEEDBACK_FAIL: 
+            return { loading: false, success: false, error: action.payload }
+
+        default: 
+            return state
+    }    
+}
+
+export const feedbackViewedReducer = (state = {}, action) => {
+    switch(action.type) {
+        case FEEDBACK_VIEWED_REQUEST:
+            return { loading: true }
+        case FEEDBACK_VIEWED_SUCCESS: 
+            return { loading: false, success: true }
+        case FEEDBACK_VIEWED_FAIL:
+            return { loading: false, success: false, error: action.payload }
+
+        default:
+            return state
+    }
+}
+
+// export const getSpecFeedbackReducer = (state = {}, action) => {
+//     switch(action.type) {
+//         case GET_SPECFEEDBACK_REQUEST:
+//             return { loading: true }
+//         case GET_SPECFEEDBACK_SUCCESS:
+//             return { loading: false, }
+//     }
+// }

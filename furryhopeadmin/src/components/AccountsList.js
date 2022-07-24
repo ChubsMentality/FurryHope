@@ -4,20 +4,25 @@ import { useDispatch, useSelector } from "react-redux"
 import { deleteAdminAccount, deleteUserAccount } from "../actions/adminActions"
 import { Link } from 'react-router-dom'
 import { FaUserEdit } from 'react-icons/fa'
+import { IoPersonCircle } from 'react-icons/io5'
 import { MdDelete } from 'react-icons/md'
+import { HiEye } from 'react-icons/hi'
+import EditAdmin from "./Modals/EditAdmin"
 import Switch from "react-switch"
 import axios from "axios"
 import Overlay from "./SubComponents/Overlay"
 import Loading from "./SubComponents/Loading"
 import Sidebar from "./Sidebar"
 import "../css/AccountsList.css"
+import ViewUser from "./Modals/ViewUser"
 
 const AccountsList = () => {
     const [userAccounts, setUserAccounts] = useState()
     const [adminAccounts, setAdminAccounts] = useState()
     const [accounts, setAccounts] = useState()
     const [activeAccounts, setActiveAccounts] = useState(false)
-
+    const [editAdmin, setEditAdmin] = useState(false)
+    const [viewUser, setViewUser] = useState(false)
     const dispatch = useDispatch()
     const adminState = useSelector((state) => state.adminLogin)
     const { adminInfo } = adminState
@@ -27,6 +32,27 @@ const AccountsList = () => {
 
     const userDelete = useSelector((state) => state.userAccDelete)
     const { success: userDeleteSuccess } = userDelete
+
+    const [adminId, setAdminId] = useState('')
+    const [userId, setUserId] = useState('')
+
+    const openEditAdmin = (id) => {
+        setEditAdmin(true)
+        setAdminId(id)
+    }
+
+    const toggleEditAdmin = () => {
+        setEditAdmin(!editAdmin)
+    }
+
+    const openViewUser = (id) => {
+        setViewUser(true)
+        setUserId(id)
+    }
+
+    const toggleViewUser = () => {
+        setViewUser(!viewUser)
+    }
 
     const getUserAccounts = async () => {
         try {
@@ -104,13 +130,19 @@ const AccountsList = () => {
                             </div>
 
                             <div className="specAccount-actions specAccount-column">
-                                <button className="specAccount-btn-container specAccount-edit">
-                                    <FaUserEdit size={35} />
+                                <button className="specAccount-btn-container specAccount-edit" onClick={() => openEditAdmin(admin._id)}>
+                                    <FaUserEdit className='specAccount-btn' />
                                 </button>
 
-                                <button className="specAccount-btn-container specAccount-delete">
-                                    <MdDelete size={35} color='red' />
-                                </button>
+                                {activeAccounts ?
+                                    <button className="specAccount-btn-container specAccount-delete" onClick={() => deleteAdminHandler(admin._id)}>
+                                        <MdDelete color='red' className='specAccount-btn' />
+                                    </button>
+                                    :
+                                    <button className="specAccount-btn-container specAccount-delete">
+                                        <MdDelete color='red' className='specAccount-btn' />
+                                    </button>
+                                }
                             </div>
                         </div>
                 ))}
@@ -189,13 +221,19 @@ const AccountsList = () => {
                             </div>
 
                             <div className="specAccount-actions specAccount-column">
-                                <button className="specAccount-btn-container specAccount-edit">
-                                    <FaUserEdit size={35} />
+                                <button className="specAccount-btn-container specAccount-edit" onClick={() => openViewUser(user._id)}>
+                                    <HiEye className="specAccount-btn" />
                                 </button>
 
-                                <button className="specAccount-btn-container specAccount-delete">
-                                    <MdDelete size={35} color='red' />
-                                </button>
+                                {activeAccounts ?
+                                    <button className="specAccount-btn-container specAccount-delete">
+                                        <MdDelete color='red' className='specAccount-btn' />
+                                    </button>
+                                    :
+                                    <button className="specAccount-btn-container specAccount-delete" onClick={() => deleteUserHandler(user._id)}>
+                                        <MdDelete color='red' className='specAccount-btn' />
+                                    </button>
+                                }
                             </div>
                         </div>
                 ))}
@@ -353,6 +391,28 @@ const AccountsList = () => {
                     }
                 </div>
             </div>
+
+            {editAdmin &&
+                <EditAdmin
+                    id={adminId} 
+                    editAdmin={editAdmin}
+                    setEditAdmin={setEditAdmin}
+                    toggleModal={toggleEditAdmin}
+                />
+            }
+
+            {editAdmin && <Overlay />}
+
+            {viewUser &&
+                <ViewUser
+                    id={userId}
+                    setViewUser={setViewUser}
+                    viewUser={viewUser}
+                    toggleModal={toggleViewUser}
+                />
+            }
+
+            {viewUser && <Overlay />}
         </div>
     )
 }

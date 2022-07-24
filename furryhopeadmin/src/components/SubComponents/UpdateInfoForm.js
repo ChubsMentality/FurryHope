@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { updateAnimalAction } from '../../actions/animalActions'
 import { useDispatch } from 'react-redux'
-import '../../css/UpdateData.css'
+import '../../css/UpdateInfoForm.css'
 import axios from 'axios'
 import { useHistory } from 'react-router-dom'
 
@@ -121,8 +121,8 @@ const UpdateInfoForm = (props) => {
                 */}
             </div>
             <div className='update-data-right-column'>
-                <div className="imgUploadContainer">
-                    <label htmlFor="imgUpload" className="lbl-imgUpload lbl-update">Image Upload</label><br />
+                <div className="update-imgUploadContainer">
+                    <label htmlFor="imgUpload" className="lbl-update-imgUpload lbl-update">Image Upload</label><br />
                     <input type="file" className="update-imgUpload" name="imgUpload" onChange={(e) => uploadImg(e.target.files[0])} />
                 </div>
                 

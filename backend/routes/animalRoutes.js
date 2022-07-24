@@ -9,13 +9,15 @@ const {
     deleteAnimal,
     getTotalCount,
     addTotalCount,
-    updateTotalCount 
+    updateTotalCount, 
+    getBoth
 } = require('../controllers/animalController');
 const router = express.Router();
 
 // Route to get all the animals - /api/animals
 router.route('/').get(getAnimals);
 
+router.route('/getBoth').get(getBoth)
 router.route('/getDogs').get(getDogs)
 router.route('/getCats').get(getCats)
 

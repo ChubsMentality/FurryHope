@@ -10,6 +10,7 @@ import { BiDonateHeart } from 'react-icons/bi'
 import { RiLogoutBoxLine } from 'react-icons/ri'
 import { AiFillAlert } from 'react-icons/ai'
 import { MdPets } from 'react-icons/md'
+import { VscFeedback } from 'react-icons/vsc'
 import logo from "../assets/Sidebar/logo-black.svg"
 
 const Sidebar = () => {
@@ -79,7 +80,7 @@ const Sidebar = () => {
                         <li className='sidebar-li'>
                             <NavLink to='/reports' className='sidebar-a'>
                                 <AiFillAlert className="sidebar-icons" />
-                                Stray animal reports
+                                Stray Animal Reports
                             </NavLink>
                         </li>
                         
@@ -87,6 +88,13 @@ const Sidebar = () => {
                             <NavLink to='/donations' className='sidebar-a'>
                                 <BiDonateHeart className="sidebar-icons" />
                                 Donations
+                            </NavLink>
+                        </li>
+
+                        <li className='sidebar-li'>
+                            <NavLink to='/feedbacks' className='sidebar-a'>
+                                <VscFeedback className="sidebar-icons" />
+                                User Feedback
                             </NavLink>
                         </li>
 

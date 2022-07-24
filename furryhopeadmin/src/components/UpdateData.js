@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
+import { IoArrowBack } from 'react-icons/io5'
 import AdoptionHistory from './SubComponents/AdoptionHistory'
 import UpdateInfoForm from './SubComponents/UpdateInfoForm'
 import Sidebar from './Sidebar'
@@ -20,32 +22,36 @@ const UpdateData = ({ match }) => {
         <div className="body-update">
             <Sidebar />
             <div className='update-content'>
-                {/* <p className='update-data-header'>UPDATING DATA</p>
-                <p className='update-data-sub'>{name}'s data</p> */}
+                <Link to='/manage' className="update-back-btn">
+                    <IoArrowBack className='update-back-icon' />
+                    <p className="update-back-txt">Back</p>
+                </Link>
                 
-                <div className="tabPages-container">
+                <div className="update-container">
+                    <div className="tabPages-container">
+                        {activeTabIsUpdate ?
+                            <>
+                                <button className="update-active-tab update-tab" onClick={() => switchToUpdateInfo()}>Update Info</button>
+                                <button className="update-inactive-tab update-tab" onClick={() => switchToAdoptionHistory()}>Adoption History</button>
+                            </>
+                            :
+                            <>
+                                <button className="update-inactive-tab update-tab" onClick={() => switchToUpdateInfo()}>Update Info</button>
+                                <button className="update-active-tab update-tab" onClick={() => switchToAdoptionHistory()}>Adoption History</button>
+                            </>
+                        }
+                    </div>
+
                     {activeTabIsUpdate ?
-                        <>
-                            <button className="active-tab update-tab" onClick={() => switchToUpdateInfo()}>Update Info</button>
-                            <button className="inactive-tab" onClick={() => switchToAdoptionHistory()}>Adoption History</button>
-                        </>
+                        <UpdateInfoForm
+                            paramId={match.params.id}
+                        />
                         :
-                        <>
-                            <button className="inactive-tab update-tab" onClick={() => switchToUpdateInfo()}>Update Info</button>
-                            <button className="active-tab" onClick={() => switchToAdoptionHistory()}>Adoption History</button>
-                        </>
+                        <AdoptionHistory
+                            paramId={match.params.id} 
+                        />
                     }
                 </div>
-
-                {activeTabIsUpdate ?
-                    <UpdateInfoForm
-                        paramId={match.params.id}
-                    />
-                    :
-                    <AdoptionHistory
-                        paramId={match.params.id} 
-                    />
-                }
             </div>
         </div>
     )

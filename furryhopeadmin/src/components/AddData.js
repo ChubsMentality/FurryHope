@@ -3,6 +3,8 @@ import '../css/AddData.css'
 import { useDispatch, useSelector} from 'react-redux'
 import { createAnimalAction } from '../actions/animalActions'
 import { css } from '@emotion/css'
+import { IoArrowBackOutline } from 'react-icons/io5'
+import { Link } from 'react-router-dom'
 import axios from 'axios'
 import ClipLoader from 'react-spinners/ClipLoader'
 import Sidebar from './Sidebar'
@@ -110,10 +112,16 @@ const AddData = () => {
             <Sidebar />
             <div className='addData-content'>
                 {error && window.alert(error)}
-                <p className='add-data-header'>ADD A NEW ANIMAL</p>
+                <div className="addData-backBtnContainer">
+                    <Link to='/manage' className="addData-backBtn">
+                        <IoArrowBackOutline className='addData-backIcon' />
+                        <p className="addData-backTxt">Back</p>
+                    </Link>
+                    <p className='add-data-header'>ADD A NEW ANIMAL</p>
+                </div>
                 <form className="addData-form-container" onSubmit={submitHandler}>
                     <div className='addData-form-left-column'>
-                        <label htmlFor="name" className="lbl-name lbl-addData">Name</label><br />
+                        <label htmlFor="name" className="lbl-add-name lbl-addData">Name</label><br />
                         <input type="text" name="name" className="addName input-add-data" required value={name} onChange={(e) => setName(e.target.value)}/><br />
 
                         <br />
@@ -123,13 +131,13 @@ const AddData = () => {
 
                         <br />
 
-                        <label htmlFor="desc" className="lbl-breed lbl-addData">Description (optional)</label><br />
-                        <textarea name="desc" className="addDesc" value={description} onChange={(e) => setDescription(e.target.value)}></textarea><br />
+                        <label htmlFor="color" className='lbl-color lbl-addData'>Color</label><br />
+                        <input type="text" name="color" className="addColor" value={color} onChange={(e) => setColor(e.target.value)} /><br />
 
                         <br />
 
-                        <label htmlFor="color" className='lbl-color lbl-addData'>Color</label><br />
-                        <input type="text" name="color" className="addColor" value={color} onChange={(e) => setColor(e.target.value)} /><br />
+                        <label htmlFor="desc" className="lbl-breed lbl-addData">Description (optional)</label><br />
+                        <textarea name="desc" className="addDesc" value={description} onChange={(e) => setDescription(e.target.value)}></textarea><br />
 
                         <br />
 
@@ -151,7 +159,7 @@ const AddData = () => {
 
                         <br />
 
-                        <label htmlFor="select" className="lbl-select lbl-add">Size of the animal</label>
+                        <label htmlFor="select" className="lbl-select lbl-addData">Size of the animal</label>
                         <select className="addData-select" name="select" required value={size} onChange={(e) => setSize(e.target.value)}>
                             <option value="" defaultValue>Select here</option>
                             <option value="Small">Small</option>

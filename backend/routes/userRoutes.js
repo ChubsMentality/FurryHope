@@ -70,12 +70,12 @@ router.route('/submitDonation').post(authenticate, submitDonation)
 // getting a specific registration from a specific user's submission - using their token
 router.route('/getSpecificRegistrations').get(authenticate, getSpecificRegistrations)
 
+router.route('/updatePreference/:id').put(updatePreference)
 
 router.route('/animalRegistration/:id')
 .put()
 .get(getAnimalRegistrationById)
 .delete(deleteAnimalRegistration)
 
-router.route('/updatePreference/:id').put(updatePreference)
 
 module.exports = router;

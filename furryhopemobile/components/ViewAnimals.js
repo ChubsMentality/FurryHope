@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import { ActivityIndicator, FlatList, Image, ImageBackground, RefreshControl, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { quickSort } from './SubComponents/QuickSort'
 import { CredentialsContext } from './CredentialsContext'
+import SuggestedCard from './SubComponents/SuggestedCard'
 import TopNav from './SubComponents/TopNav'
 import BottomNav from './SubComponents/BottomNav'
 import EmptyList from '../assets/Images/empty-adoption-list.png'
@@ -16,56 +17,72 @@ const ViewAnimals = ({ navigation }) => {
     // const [currentTab, setCurrentTab] = useState('Browse')
     const [browseActive, setBrowseActive] = useState(true)
     // const [suggestedActive, setSuggestedActive] = useState(false)
-    
-    const [breedOptions, setBreedOptions] = useState()
-    const [colorOptions, setColorOptions] = useState()
-    const [animalTypeOptions, setAnimalTypeOptions] = useState()
-    const [genderOptions, setGenderOptions] = useState()
 
     const [animalPreferences, setAnimalPreferences] = useState()
     const [breedPreference, setBreedPreference] = useState()
-    const [colorPreference, setColorPreference] = useState()
-    const [animals, setAnimals] = useState([])
+    const [colorPreferences, setColorPreferences] = useState()
+    const [genderPreference, setGenderPreference] = useState()
+    const [sizePreference, setSizePreference] = useState()
     const [notAdopted, setNotAdopted] = useState([])
 
     const [list, setList] = useState([])
-
-    const filterNotAdopted = (arr) => {
-        return arr.adoptionStatus === 'Not Adopted'
-    }
+    const [breedList, setBreedList] = useState([])
+    const [colorList, setColorList] = useState([])
+    const [genderList, setGenderList] = useState([])
+    const [sizeList, setSizeList] = useState([])
 
     const filterPreferences = async () => {
+        let user = {}
+
         try {
-            const { data:userData } = await axios.get(`http://localhost:5000/api/users/getUserById/${storedCredentials.id}`)
-            const { data:animalData } = await axios.get('http://localhost:5000/api/animals')
-            setAnimalPreferences(userData.animalPreference)
-            setBreedPreference(userData.breedPreferences)
-            setColorPreference(userData.colorPreferences)
-            console.log(userData)
-            setAnimals(animalData)
-            setNotAdopted(animalData.filter(filterNotAdopted))
-
-            let breeds = []
-            let colors = []
-            let animalType = []
-            let animalGender = []
-            
-            animalData.forEach((item) => {
-                breeds.push(item.breed)
-                colors.push(item.color)
-                animalType.push(item.type)
-                animalGender.push(item.gender)
-                // result = breeds.concat(colors, animalType, animalGender)    
-            })
-
-            // Removes duplicate values - using Set and the spread operator.
-            // Each value only occurs once.
-            setBreedOptions([...new Set(breeds)])
-            setColorOptions([...new Set(colors)])
-            setAnimalTypeOptions([...new Set(animalType)])
-            setGenderOptions([...new Set(animalGender)])
+            const { data } = await axios.get(`http://localhost:5000/api/users/getUserById/${storedCredentials.id}`)
+            user = data
         } catch (error) {
             console.log(error)
+        }
+
+        if(user && user.animalPreference === 'Dog') {
+            console.log('get dogs')
+            try {
+                const { data:userData } = await axios.get(`http://localhost:5000/api/users/getUserById/${storedCredentials.id}`)
+                const { data:animalData } = await axios.get('http://localhost:5000/api/animals/getDogs')
+                setAnimalPreferences(userData.animalPreference)
+                setBreedPreference(userData.breedPreferences)
+                setColorPreferences(userData.colorPreferences)
+                setGenderPreference(userData.genderPreference)
+                setSizePreference(userData.sizePreference)
+                setNotAdopted(animalData)
+            } catch (error) {
+                console.log(error)
+            }
+        } else if(user && user.animalPreference === 'Cat') {
+            console.log('get cats')
+            try {
+                const { data:userData } = await axios.get(`http://localhost:5000/api/users/getUserById/${storedCredentials.id}`)
+                const { data:animalData } = await axios.get('http://localhost:5000/api/animals/getCats')
+                setAnimalPreferences(userData.animalPreference)
+                setBreedPreference(userData.breedPreferences)
+                setColorPreferences(userData.colorPreferences)
+                setGenderPreference(userData.genderPreference)
+                setSizePreference(userData.sizePreference)
+                setNotAdopted(animalData)
+            } catch (error) {
+                console.log(error)
+            }
+        } else if(user && user.animalPreference === 'Both') {
+            console.log('get both')
+            try {
+                const { data:userData } = await axios.get(`http://localhost:5000/api/users/getUserById/${storedCredentials.id}`)
+                const { data:animalData } = await axios.get('http://localhost:5000/api/animals/getBoth')
+                setAnimalPreferences(userData.animalPreference)
+                setBreedPreference(userData.breedPreferences)
+                setColorPreferences(userData.colorPreferences)
+                setGenderPreference(userData.genderPreference)
+                setSizePreference(userData.sizePreference)
+                setNotAdopted(animalData)
+            } catch (error) {
+                console.log(error)
+            }
         }
     }
 
@@ -73,7 +90,7 @@ const ViewAnimals = ({ navigation }) => {
         // console.log(breedPreference && breedPreference)
         // console.log(colorPreference && colorPreference)
 
-        if(list.length >= 1) {
+        if(breedList.length >= 1) {
             console.log('List has already been set')
             return
         } else {
@@ -90,56 +107,50 @@ const ViewAnimals = ({ navigation }) => {
             let uniqueBreeds = [...new Set(breeds)]
             let uniqueColors = [...new Set(colors)]
             let uniqueAnimalGender = [...new Set(animalGender)]
-    
+
             breedPreference && breedPreference.forEach((pref) => {
                 if(uniqueBreeds.includes(pref)) {
                     let filteredBreed = notAdopted.filter(animal => animal.breed === pref)
-                    setList(...list, filteredBreed)
+                    setBreedList(...breedList, filteredBreed)
                     console.log(filteredBreed)
                 } 
             })
-    
-            colorPreference && colorPreference.forEach((pref) => {
+
+            colorPreferences && colorPreferences.forEach((pref) => {
                 if(uniqueColors.includes(pref)) {
-                    let filteredColor = notAdopted.filter(animal => animal.color === pref)
-                    setList(...list, filteredColor)
-                    console.log(filteredColor)
+                    let filtered = notAdopted.filter(animal => animal.color === pref)
+                    setColorList(...colorList, filtered)
                 }
             })
+
+            let filteredGender = notAdopted.filter(animal => animal.gender === genderPreference)
+            setGenderList(...genderList, filteredGender)
+
+            let filteredSize = notAdopted.filter(animal => animal.size === sizePreference)
+            setSizeList(...sizeList, filteredSize)
         }
+    }
 
-
-        // animalPreferences.forEach(preference => {
-        //     if (uniqueBreeds.includes(preference)) {
-        //         // console.log(preference)
-        //         let filteredBreed = notAdopted.filter(animal => animal.breed === preference)
-        //         setList(...list, filteredBreed)
-        //         console.log(filteredBreed)
-        //     } 
-
-        // })
-
-        // animalPreferences.forEach(preference => {
-        //     if (uniqueColors.includes(preference)) {
-        //         // console.log(preference)
-        //         let filteredColor = notAdopted.filter(animal => animal.color === preference)
-        //         setList(...list, filteredColor)
-        //     } 
-        // })
+    const getUser = async () => {
+        try {
+            const { data } = await axios.get(`http://localhost:5000/api/users/getUserById/${storedCredentials.id}`)
+            let split = data.fullName.split(' ')
+            let firstName = split[0]
+            setFName(firstName)
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     useEffect(() => {
         filterPreferences()
-    }, [])
-
-    useEffect(() => {
-        let split = storedCredentials.fullName.split(' ')
-        let firstName = split[0]
-        setFName(firstName)
+        getUser()
     }, [])
 
     // useEffect(() => {
-    //     renderPreferences()
+    //     let split = storedCredentials.fullName.split(' ')
+    //     let firstName = split[0]
+    //     setFName(firstName)
     // }, [])
 
     const toggleBrowse = () => {
@@ -193,7 +204,7 @@ const ViewAnimals = ({ navigation }) => {
         <SafeAreaView style={styles.body}>
             <ScrollView style={styles.flexContainer}>
                 <View style={styles.topNavContainer}>
-                    <TopNav ScreenName='View Animals' color='#111' />
+                    <TopNav ScreenName='Animals' color='#111' />
 
                     <View style={styles.toggleTabContainer}>
                         <TouchableOpacity style={browseActive ? styles.toggleTabActive : styles.toggleTab} onPress={() => toggleBrowse()}>
@@ -206,14 +217,6 @@ const ViewAnimals = ({ navigation }) => {
                     </View>
                 </View>
                 <View style={styles.top_margin}></View>
-
-                {/* <FlatList 
-                    data={notAdopted}
-                    renderItem={renderData}
-                    keyExtractor={(item, index) => index.toString()}
-                    ListEmptyComponent={emptyList}
-                    //ListFooterComponent={renderLoadMore}
-                /> */}
 
                 {browseActive ?
                     <View>
@@ -233,10 +236,95 @@ const ViewAnimals = ({ navigation }) => {
                     </View>
                     :   
                     <View>
-                        {list && list.map((item) => (
-                            <Text key={item._id}>{item._id}</Text>
-                        ))}
-                        {list && console.log(list)}
+                        <Text style={{ fontSize: 25, fontFamily: 'PoppinsBold', marginLeft: 30, marginRight: 30 ,marginBottom: 15, }}>Animals suggested for you</Text>
+
+                        <Text style={styles.suggestedLabel}>Based on breed</Text>
+                        <ScrollView horizontal={true}>
+                            <View style={styles.suggestedContainer}>
+                                {breedList && breedList.map((item) => (
+                                    <SuggestedCard
+                                        key={item._id}
+                                        _id={item._id}
+                                        animalImg={item.animalImg}
+                                        name={item.name}
+                                        breed={item.breed} 
+                                    />
+                                ))}
+
+                                {breedList && breedList.length === 0 &&
+                                    <>
+                                        <Text style={{ textAlign: 'center' }}>No animals</Text>
+                                    </>
+
+                                }
+                                </View>
+                        </ScrollView>
+
+                        <Text style={styles.suggestedLabel}>Based on color</Text>
+                        <ScrollView horizontal={true}>
+                            <View style={styles.suggestedContainer}>
+                                {colorList && colorList.map((item) => (
+                                    <SuggestedCard
+                                        key={item._id}
+                                        _id={item._id}
+                                        animalImg={item.animalImg}
+                                        name={item.name}
+                                        breed={item.breed}
+                                    />
+                                ))}
+
+                                {colorList && colorList.length === 0 &&
+                                    <>
+                                        <Text style={{ textAlign: 'center' }}>No animals</Text>
+                                    </>
+
+                                }
+                            </View>
+                        </ScrollView>
+
+                        <Text style={styles.suggestedLabel}>Based on gender</Text>
+                        <ScrollView horizontal={true}>
+                            <View style={styles.suggestedContainer}>
+                                {genderList && genderList.map((item) => (
+                                    <SuggestedCard
+                                        key={item._id}
+                                        _id={item._id}
+                                        animalImg={item.animalImg}
+                                        name={item.name}
+                                        breed={item.breed}
+                                    />
+                                ))}
+
+                                {genderList && genderList.length === 0 &&
+                                    <>
+                                        <Text style={{ textAlign: 'center' }}>No animals</Text>
+                                    </>
+
+                                }
+                            </View>
+                        </ScrollView>
+
+                        <Text style={styles.suggestedLabel}>Based on size</Text>
+                        <ScrollView horizontal={true}>
+                            <View style={styles.suggestedContainer}>
+                                {sizeList && sizeList.map((item) => (
+                                    <SuggestedCard
+                                        key={item._id}
+                                        _id={item._id}
+                                        animalImg={item.animalImg}
+                                        name={item.name}
+                                        breed={item.breed}
+                                    />
+                                ))}
+
+                                {sizeList && sizeList.length === 0 &&
+                                    <>
+                                        <Text style={{ textAlign: 'center' }}>No animals</Text>
+                                    </>
+
+                                }
+                            </View>
+                        </ScrollView>
                     </View>
                 }
                 
@@ -288,6 +376,27 @@ const styles = StyleSheet.create({
         paddingBottom: 7,
     },
 
+    suggestedLabel: {
+        marginTop: 25,
+        marginLeft: 30,
+        marginBottom: 10,
+        fontFamily: 'PoppinsMedium',
+        fontSize: 12.5,
+        backgroundColor: '#e6e6e6',
+        borderRadius: 5,
+        alignSelf: 'flex-start',
+        padding: 5,
+    },
+
+    suggestedContainer: {
+        flexDirection: 'row',
+        // marginRight: 30,
+        alignItems: 'center',
+        gap: 12,
+        marginLeft: 30,
+        marginBottom: 12,
+    },
+
     toggleTabTxt: {
         textAlign: 'center',
     },
@@ -310,6 +419,7 @@ const styles = StyleSheet.create({
     subHeading: {
         fontFamily: 'PoppinsLight',
         fontSize: 21,
+        marginTop: -10,
         marginLeft: 30,
     },
 
@@ -375,305 +485,3 @@ const styles = StyleSheet.create({
 })
 
 export default ViewAnimals
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import React, { useState, useEffect, useCallback } from 'react'
-// import { ActivityIndicator, FlatList, Image, RefreshControl, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-// import { quickSort } from './SubComponents/QuickSort'
-// import TopNav from './SubComponents/TopNav'
-// import BottomNav from './SubComponents/BottomNav'
-// import AnimalCard from './SubComponents/AnimalCard'
-// import EmptyList from '../assets/Images/empty-adoption-list.png'
-// import axios from 'axios'
-
-// const ViewAnimals = () => {
-//     const [animals, setAnimals] = useState([])
-//     const [modalId, setModalId] = useState('')
-//     const [notAdopted, setNotAdopted] = useState([])
-
-//     const [refreshing, setRefreshing] = useState(false)
-
-//     const filterNotAdopted = (arr) => {
-//         return arr.adoptionStatus === 'Not Adopted'
-//     }
-
-//     const getAnimals = async () => {
-//         try {
-//             const { data } = await axios.get('http://localhost:5000/api/animals');
- 
-//             // Quicksort implementation
-//             const sortedData = quickSort(data, 0, data.length - 1)
-//             setAnimals(sortedData)
-//             console.log(sortedData)
-
-//             setNotAdopted(sortedData.filter(filterNotAdopted))
-//         } catch (error) {
-//             console.log(error)
-//         }  
-//     }
-
-//     useEffect(() => {
-//         getAnimals()
-//     }, [])
-
-//     // Design - Sort by JS sort()
-//     const [activeSort, setActiveSort] = useState('None')
-//     const clearActive = activeSort === 'None'
-//     const sortedNameActive = activeSort === 'Name'
-//     const sortedBreedActive = activeSort === 'Breed'
-//     const sortedColorActive = activeSort === 'Color'
-//     const sortedTypeActive = activeSort === 'Type'
-//     console.log(activeSort)
-//     // The array changes without any separate state because the JS sort() alters the original array.
-
-//     const clearSort = () => {
-//         getAnimals()
-//         setActiveSort('None')
-//     }
-
-//     const sortByName = () => {
-//         let sortNameArr = notAdopted.sort((a, b) => {
-//             return a.name.localeCompare(b.name)
-//         })
-
-//         setActiveSort('Name')
-//     }
-
-//     const sortByBreed = () => {
-//         let sortBreedArr = notAdopted.sort((a,b) => {
-//             return a.breed.localeCompare(b.breed)
-//         })
-
-//         setActiveSort('Breed')
-//     }
-
-//     const sortByColor = () => {
-//         let sortColorArr = notAdopted.sort((a,b) => {
-//             return a.color.localeCompare(b.color)
-//         })
-
-//         setActiveSort('Color')
-//     }
-
-//     const sortByAnimalType = () => {
-//         let sortAnimalTypeArr = notAdopted.sort((a,b) => {
-//             return a.type.localeCompare(b.type)
-//         })
-
-//         setActiveSort('Type')
-//     }
-
-//     // const wait = (timeout) => {
-//     //     return new Promise(resolve => setTimeout(resolve, timeout))
-//     // }
-
-//     const refresh = useCallback(() => {
-//         setRefreshing(true)
-
-//         wait(2000).then(() => {
-//             getAnimals()
-//             setRefreshing(false)
-//         })
-//     }, [refreshing])
-
-//     const renderData = ({item}) => {
-//         return (
-//             <AnimalCard
-//                 key={item._id}
-//                 _id={item._id}
-//                 animalImg={item.animalImg}
-//                 name={item.name}
-//                 breed={item.breed}
-//             />
-//         )
-//     }
-
-//     const emptyList = () => {
-//         return (
-//             <div style={{
-//                 display: 'flex',
-//                 flexDirection: 'column',
-//                 justifyContent: 'center',
-//                 alignItems: 'center',
-//             }}>
-//                 <Image
-//                     style={{
-//                         width: 300,
-//                         height: 300,
-//                         marginLeft: 'auto',
-//                         marginRight: 'auto',
-//                     }}
-//                     source={EmptyList}
-//                 />
-//                 <Text
-//                     style={{
-//                         textAlign: 'center',
-//                         fontSize: 18,
-//                         fontFamily: 'Poppins_300Light',
-//                     }}
-//                 >
-//                     Oh, it seems like there are no animals{'\n'}
-//                     for adoption. All our animals have{'\n'}
-//                     been adopted.
-//                 </Text>
-//             </div>
-//         )
-//     }
-
-//     const renderLoadMore = () => {
-//         return (
-//             <ActivityIndicator size='large' color='#111' style={styles.loadMoreIndicator}/>
-//         )
-//     }
-
-//     return (
-//         <SafeAreaView style={styles.body}>
-//             <ScrollView
-//                 style={styles.flexContainer}
-//                 // refreshControl={
-//                 //     <RefreshControl
-//                 //         refreshing={refreshing}
-//                 //         onRefresh={refresh}
-//                 //     />
-//                 // }
-//             >
-//                 <TopNav ScreenName='View Animals' id={modalId} />
-//                 <View style={styles.top_margin}></View>
-
-//                 <View style={styles.sortByContainer}>
-//                     <Text style={styles.sortByLabel}>Sort By</Text>
-
-//                     <View style={styles.sortByBtns}>
-//                         <TouchableOpacity style={clearActive ? styles.activeSortBtn : styles.inactiveSortBtn} onPress={() => clearSort()}>
-//                             <Text style={clearActive ? styles.activeSortTxt : styles.inactiveSortTxt}>None</Text>
-//                         </TouchableOpacity>
-
-//                         <TouchableOpacity style={sortedNameActive ? styles.activeSortBtn : styles.inactiveSortBtn} onPress={() => sortByName()}>
-//                             <Text style={sortedNameActive ? styles.activeSortTxt : styles.inactiveSortTxt}>Name</Text>
-//                         </TouchableOpacity>
-
-//                         <TouchableOpacity style={sortedBreedActive ? styles.activeSortBtn : styles.inactiveSortBtn} onPress={() => sortByBreed()}>
-//                             <Text style={sortedBreedActive ? styles.activeSortTxt : styles.inactiveSortTxt}>Breed</Text>
-//                         </TouchableOpacity>
-
-//                         <TouchableOpacity style={sortedColorActive ? styles.activeSortBtn : styles.inactiveSortBtn} onPress={() => sortByColor()}>
-//                             <Text style={sortedColorActive ? styles.activeSortTxt : styles.inactiveSortTxt}>Color</Text>
-//                         </TouchableOpacity>
-
-//                         <TouchableOpacity style={sortedTypeActive ? styles.activeSortBtn : styles.inactiveSortBtn} onPress={() => sortByAnimalType()}>
-//                             <Text style={sortedTypeActive ? styles.activeSortTxt : styles.inactiveSortTxt}>Type</Text>
-//                         </TouchableOpacity>
-//                     </View>
-//                 </View>
-                
-//                 <FlatList 
-//                     data={notAdopted}
-//                     renderItem={renderData}
-//                     keyExtractor={(item, index) => index.toString()}
-//                     ListEmptyComponent={emptyList}
-//                     //ListFooterComponent={renderLoadMore}
-//                 />
-                
-//                 <View style={styles.bot_margin}></View>
-//             </ScrollView>
-//             <BottomNav />
-//         </SafeAreaView>
-//     )
-// }
-
-// const styles = StyleSheet.create({
-//     body: {
-//         flex: 1,
-//         backgroundColor: '#ffffff',
-//         position: 'relative',
-//     },
-    
-//     top_margin: {
-//         marginTop: 55,
-//     },
-
-//     sortByContainer: {
-//         display: 'flex',
-//         marginTop: 20,
-//         marginRight: 60,
-//         marginBottom: 20,
-//         marginLeft: 60,
-//     },
-
-//     sortByLabel: {
-//         fontFamily: 'Poppins_500Medium',
-//         fontSize: 16,
-//         marginBottom: 10,
-//     },
-
-//     sortByBtns: {
-//         display: 'flex',
-//         flexDirection: 'row',
-//         justifyContent: 'flex-start'
-//     },
-
-//     activeSortBtn: {
-//         backgroundColor: '#111',
-//         borderRadius: 50,
-//         paddingTop: 3,
-//         paddingRight: 10,
-//         paddingBottom: 3,
-//         paddingLeft: 10,
-//         marginRight: 5,
-//     },
-
-//     activeSortTxt: {
-//         color: 'white',
-//         fontSize: 13.5,
-//     },
-
-//     inactiveSortBtn: {
-//         backgroundColor: 'transparent',
-//         borderRadius: 50,
-//         borderWidth: 1,
-//         borderColor: 'black',
-//         paddingTop: 3,
-//         paddingRight: 10,
-//         paddingBottom: 3,
-//         paddingLeft: 10,
-//         marginRight: 5,
-//     },
-
-//     inactiveSortTxt: {
-//         fontSize: 13.5,
-//     },
-
-//     bot_margin: {
-//         marginBottom: 100,
-//     },
-
-//     loadMoreIndicator: {
-//         marginTop: 15,
-//         marginBottom: 20,
-//     },
-// })
-
-// export default ViewAnimals
-
-

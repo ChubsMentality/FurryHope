@@ -87,15 +87,6 @@ const AddAdmin = ({ history }) => {
             setJobPosition('')
             setRole('')
             setProfilePicture('https://res.cloudinary.com/drvd7jh0b/image/upload/v1650026769/tcgfy3tbaoowhjfufvob.png')
-            // console.log(fullName)
-            // console.log(email)
-            // console.log(contactNo)
-            // console.log(address)
-            // console.log(password)
-            // console.log(confirmPassword)
-            // console.log(jobPosition)
-            // console.log(role)
-            // console.log(profilePicture)
         }
     }
 
@@ -107,12 +98,12 @@ const AddAdmin = ({ history }) => {
         <div className="body">
             <Sidebar />
             <div className='add-admin-content'>
-                <div className='add-admin-header'>
-                    <Link to='/accountsList' className='add-admin-return-btn'>
-                        <AiOutlineArrowLeft size={35} color='#111' style={{ position: 'absolute', top: 0, left: 0, }} />
+                <Link to='/accountsList' className='add-admin-header'>
+                    <AiOutlineArrowLeft className='add-admin-return-icon' color='#111' />
+                    <p className='add-admin-return-btn'>
                         Back
-                    </Link>
-                </div>
+                    </p>
+                </Link>
                 
                 {/* FullName, email, password, contactNo, address, role, jobPosition, profilePicture */}
                 <form className="addAdmin-form-container" onSubmit={submitAdmin}>   
@@ -144,7 +135,7 @@ const AddAdmin = ({ history }) => {
 
                         <br />
 
-                        <label htmlFor='select-role' className='=lbl-addAdmin-role lbl-add-admin'>Role</label><br />
+                        <label htmlFor='select-role' className='lbl-addAdmin-role lbl-add-admin'>Role</label><br />
                         <select className='add-admin-select' value={role} onChange={(e) => setRole(e.target.value)}>
                             <option value='Admin'>Admin</option>
                             <option value='Staff'>Staff</option>

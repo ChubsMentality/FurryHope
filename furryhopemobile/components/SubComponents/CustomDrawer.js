@@ -31,6 +31,12 @@ const CustomDrawer = (props) => {
             <View style={styles.profilePicContainer}>
                 <Image style={styles.profilePic} source={profilePicture} />
                 <Text style={styles.profileFullName}>{storedCredentials.fullName}</Text>
+
+                <View style={styles.profilePicVector}></View>
+                <View style={styles.profilePicVector2}></View>
+                <View style={styles.profilePicVector3}></View>
+                <View style={styles.profilePicVector4}></View>
+                <View style={styles.profilePicVector5}></View>
             </View>
             <DrawerItemList {...props} />
 
@@ -48,18 +54,20 @@ const CustomDrawer = (props) => {
 const styles = StyleSheet.create({
     drawerContainer: {
         position: 'relative',
+        padding: 0,
     },    
 
     profilePicContainer: {
-        marginTop: 40,
-        marginRight: 10,
+        backgroundColor: '#ffff88',
+        marginTop: -4,
         marginBottom: 30,
-        borderBottomColor: '#B0B0B0',
-        borderBottomWidth: .1,
+        paddingTop: 40,
         flex: 1,
+        overflow: 'hidden',
     },
 
     profilePic: {
+        marginTop: 20,
         height: 95,
         width: 95,
         borderRadius: 50,
@@ -72,6 +80,61 @@ const styles = StyleSheet.create({
         marginTop: 13,
         marginBottom: 25,
         marginLeft: 16,
+    },
+
+    profilePicVector: {
+        position: 'absolute',
+        top: 20,
+        left: -130,
+        height: 300,
+        width: 300,
+        backgroundColor: 'white',
+        borderRadius: 120,
+        zIndex: -1
+    },
+
+    profilePicVector2: {
+        position: 'absolute',
+        top: 20,
+        left: -110,
+        height: 300,
+        width: 300,
+        backgroundColor: '#fff066',
+        borderRadius: 120,
+        zIndex: -2
+    },
+
+    profilePicVector3: {
+        position: 'absolute',
+        top: 20,
+        left: -90,
+        height: 300,
+        width: 300,
+        backgroundColor: '#FFED4F',
+        borderRadius: 120,
+        zIndex: -3
+    },
+
+    profilePicVector4: {
+        position: 'absolute',
+        top: 20,
+        left: -70,
+        height: 300,
+        width: 300,
+        // backgroundColor: '#ffeb33',
+        borderRadius: 120,
+        zIndex: -3
+    },
+
+    profilePicVector5: {
+        position: 'absolute',
+        top: 20,
+        left: -50,
+        height: 300,
+        width: 300,
+        // backgroundColor: '#ffe81a',
+        borderRadius: 120,
+        zIndex: -3
     },
 
     profileBtn: {
@@ -94,8 +157,8 @@ const styles = StyleSheet.create({
 
     logoutContainer: {
         borderTopWidth: .5,
-        borderTopColor: '#b0b0b0',
-        marginTop: 140,
+        borderTopColor: '#e6e6e6',
+        marginTop: 75,
     },
 
     logoutBtn: {
@@ -112,7 +175,7 @@ const styles = StyleSheet.create({
     },
 
     logoutTxt: {
-        fontSize: 18,
+        fontSize: 16,
         fontFamily: 'PoppinsLight',
         marginLeft: 10,
     },

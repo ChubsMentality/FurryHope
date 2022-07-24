@@ -12,6 +12,10 @@ registerAnimalSchema = mongoose.Schema(
             required: true,
         },
 
+        applicantImg: {
+            type: String,
+        },
+
         name: {
             type: String,
             required: true,
@@ -57,6 +61,10 @@ registerAnimalSchema = mongoose.Schema(
             required: true,
         },
 
+        tagNo: {
+            type: String,
+        },
+
         date: {
             type: String,
             required: true,
@@ -64,12 +72,42 @@ registerAnimalSchema = mongoose.Schema(
 
         registered: {
             type: String,
-            default: 'Not Registered',
+            default: 'Processing',
         },
 
         email: {
             type: String,
             required: true,
+        },
+
+        regFeeComplete: {
+            type: Boolean,
+            default: false,
+        },
+
+        certOfResidencyComplete: {
+            type: Boolean,
+            default: false,
+        },
+
+        ownerPictureComplete: {
+            type: Boolean,
+            default: false,
+        },
+
+        petPhotoComplete: {
+            type: Boolean,
+            default: false,
+        },
+
+        proofOfAntiRabiesComplete: {
+            type: Boolean,
+            default: false,
+        },
+
+        photocopyCertOfAntiRabiesComplete: {
+            type: Boolean,
+            default: false,
         },
         
         user: {

@@ -55,6 +55,7 @@ const Profile = () => {
         try {
             const { data } = await axios.get('http://localhost:5000/api/users/getSpecificRegistrations', config)
             setRegistrations(quickSort(data, 0, data.length - 1))
+            console.log(data)
         } catch (error) {
             console.log(error)
         }
@@ -98,8 +99,27 @@ const Profile = () => {
 
     const AdoptListItem = ({ item }) => {
         return (
-            <View>
-                <Text>Hello</Text>
+            <View style={styles.adoptionListContainer} key={item._id}>
+                <View style={styles.adoptionListLeft}>
+                    <Image source={item.animalImg} style={styles.animalImg} />
+
+                    <View style={styles.adoptionInfo}>
+                        <Text style={styles.animalName}>{item.animalName}</Text>
+                        <Text style={styles.animalBreed}>{item.animalBreed}</Text>
+                    </View>
+                </View>
+
+                {item.adoptionStatus === 'Pending' &&
+                    <Text style={styles.pending}>{item.adoptionStatus}</Text>
+                }
+
+                {item.adoptionStatus === 'Accepted' &&
+                    <Text style={styles.accepted}>{item.adoptionStatus}</Text>
+                }
+
+                {item.adoptionStatus === 'Rejected' &&
+                    <Text style={styles.rejected}>{item.adoptionStatus}</Text>
+                }
             </View>
         )
     }
@@ -121,24 +141,24 @@ const Profile = () => {
     return (
         <SafeAreaView style={styles.body}>
             <ScrollView>
-                <TopNav ScreenName='Profile' color='#111' />
-                
-                <Image source={profilePicturePreview} style={styles.profilePicture} />
-                <View style={styles.container}>
+                <View style={styles.profileHeaderContainer}>
+                    <TopNav ScreenName='Profile' color='#111' />
+                    
+                    <View style={styles.profileVector}></View>
+                    <View style={styles.profileVector2}></View>
                     <Text style={styles.userName}>{userData && userData.fullName}</Text>
-
-                    <View style={styles.profileBtnsContainer}>
-                        <TouchableOpacity style={styles.editProfileBtn} onPress={() => navigation.navigate('Edit Profile', { id: storedCredentials.id, successUpdateProfile: successUpdateProfile })}>
-                            <Text style={styles.editProfileTxt}>EDIT PROFILE</Text>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity style={styles.moreOptionsBtn} onPress={() => openMoreOptions()}>
-                            <Ionicons name='ios-ellipsis-vertical' size={18} color='#111' />
-                        </TouchableOpacity>
-                    </View>
                 </View>
 
-                <View style={{ height: .05, width: '85.5%', marginTop: 10, marginRight: 30, marginLeft: 30, borderColor: '#B0B0B0', borderWidth: .05}}></View>
+                <Image source={profilePicturePreview} style={styles.profilePicture} />
+                <View style={styles.profileBtnsContainer}>
+                    <TouchableOpacity style={styles.editProfileBtn} onPress={() => navigation.navigate('Edit Profile', { id: storedCredentials.id, successUpdateProfile: successUpdateProfile })}>
+                        <Text style={styles.editProfileTxt}>EDIT PROFILE</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.moreOptionsBtn} onPress={() => openMoreOptions()}>
+                        <Ionicons name='ios-ellipsis-vertical' size={18} color='white' />
+                    </TouchableOpacity>
+                </View>
             
                 <View style={styles.toggleBtnContainer}>
                     <TouchableOpacity style={toggleBtnActive === 'Adoptions' ? styles.toggleBtn : styles.toggleBtnInactive} onPress={() => setToggleBtnActive('Adoptions')}>
@@ -149,7 +169,7 @@ const Profile = () => {
                     </TouchableOpacity>
                 </View>
 
-                <ScrollView>
+                <ScrollView style={styles.myPetsContainer}>
                     {toggleBtnActive === 'Adoptions' ? 
                         <FlatList
                             data={adoptions}
@@ -195,33 +215,64 @@ const styles = StyleSheet.create({
         position: 'relative',
     },
 
-    profilePicture: {
-        height: 120,
-        width: 120,
-        borderRadius: 100,
-        marginTop: 50,
-        marginLeft: 27,
+    profileHeaderContainer: {
+        width: '100%',
+        height: 210,
+        backgroundColor: '#ffff88',
+        position: 'relative',
+        overflow: 'hidden',
     },
 
-    container: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginTop: 20,
-        marginRight: 30,
-        marginLeft: 30,
+    profileVector: {
+        position: 'absolute',
+        bottom: -70,
+        left: -70,
+        height: 200,
+        width: 200,
+        backgroundColor: '#fff066',
+        borderRadius: 100,
+    },
+
+    profileVector2: {
+        position: 'absolute',
+        top: -130,
+        right: -130,
+        height: 300,
+        width: 300,
+        backgroundColor: '#fff066',
+        borderRadius: 150,
+    },
+
+    profilePicture: {
+        height: 130,
+        width: 130,
+        borderRadius: 100,
+        position: 'absolute',
+        top: 130,
+        left: 20,
+        borderColor: 'white',
+        borderWidth: 7,
     },
 
     userName: {
         fontFamily: 'PoppinsSemiBold',
-        fontSize: 16,
+        fontSize: 18,
+        position: 'absolute',
+        bottom: 10,
+        left: 160,
     },
 
     profileBtnsContainer: {
         flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 18,
+        marginLeft: 35,
     },
 
     editProfileBtn: {
         alignSelf: 'flex-start',
+        backgroundColor: '#111',
         borderColor: '#111',
         borderRadius: 5,
         borderWidth: .5,
@@ -237,7 +288,7 @@ const styles = StyleSheet.create({
     },
 
     editProfileTxt: {
-        color: '#111',
+        color: 'white',
         textAlign: 'center',
         fontFamily: 'PoppinsRegular',
         fontSize: 13,
@@ -245,6 +296,7 @@ const styles = StyleSheet.create({
 
     moreOptionsBtn: {
         alignSelf: 'flex-start',
+        backgroundColor: '#111',
         borderColor: '#111',
         borderRadius: 5,
         borderWidth: .5,
@@ -256,7 +308,7 @@ const styles = StyleSheet.create({
     },
 
     toggleBtnContainer: {
-        marginTop: 15,
+        marginTop: 35,
         marginRight: 30,
         marginLeft: 30,
         flexDirection: 'row',
@@ -310,6 +362,74 @@ const styles = StyleSheet.create({
         fontFamily: 'PoppinsMedium',
         fontSize: 15,
         marginLeft: 30,
+    },
+
+    myPetsContainer: {
+        marginRight: 30,
+        marginLeft: 30,
+        width: '85.5%',
+        height: 415,
+    },
+
+    adoptionListContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        borderBottomColor: '#b0b0b0',
+        borderBottomWidth: 1,
+        paddingTop: 18,
+        paddingBottom: 18,
+        // backgroundColor: 'aqua'
+    },
+
+    adoptionListLeft: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+
+    animalImg: {
+        height: 40,
+        width: 40,
+        borderRadius: 50
+    },
+
+    adoptionInfo: {
+        marginLeft: 5,
+    },
+
+    animalName: {
+        fontFamily: 'PoppinsMedium',
+        fontSize: 14,
+    },
+
+    animalBreed: {
+        fontFamily: 'PoppinsLight',
+        fontSize: 12,
+    },
+
+    pending: {
+        fontSize: 12,
+        fontFamily: 'PoppinsMedium',
+        backgroundColor: '#f4d952',
+        padding: 5,
+        overflow: 'hidden',
+    },
+
+    accepted: {
+        fontSize: 12,
+        fontFamily: 'PoppinsMedium',
+        backgroundColor: '#ed5e68',
+        padding: 5,
+        overflow: 'hidden',
+    },
+
+    rejected: {
+        fontSize: 12,
+        fontFamily: 'PoppinsMedium',
+        backgroundColor: 'green',
+        padding: 5,
+        borderRadius: 5,
+        overflow: 'hidden',
     },
 })
 

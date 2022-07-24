@@ -8,6 +8,11 @@ const getAnimals = asyncHandler(async (req, res) => {
     res.json(animals);
 });
 
+const getBoth = asyncHandler(async (req, res) => {
+    const animals = await Animal.find({ adoptionStatus: 'Not Adopted' })
+    res.json(animals)
+})
+
 const getDogs = asyncHandler(async (req, res) => {
     const dogs = await Animal.find({ type: 'Dog', adoptionStatus: 'Not Adopted' })
     res.json(dogs)
@@ -115,7 +120,8 @@ const updateTotalCount = asyncHandler(async (req, res) => {
 })
 
 module.exports = { 
-    getAnimals, 
+    getAnimals,
+    getBoth, 
     getDogs,
     getCats,
     createAnimal, 

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getSpecificAdoption, getInterviewSchedule, submitInterviewSchedule, updateAdoptionApplication } from '../actions/adminActions'
-import returnIcon from '../assets/Icons/returnIcon.svg'
+import { getSpecificAdoption, getInterviewSchedule, submitInterviewSchedule, updateBeenInterviewed, updateAdoptionApplication } from '../actions/adminActions'
 import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css";
 import TimePicker from 'react-time-picker'
@@ -10,14 +9,17 @@ import Loading from './SubComponents/Loading'
 import Overlay from './SubComponents/Overlay'
 import '../css/Adoption.css' 
 import axios from 'axios'
-import closeModal from '../assets/Icons/close-modal.svg'
 
-import { IoArrowBack, IoClose } from 'react-icons/io5'
+import { IoArrowBack, IoClose, IoSend } from 'react-icons/io5'
+import { FaCheck } from 'react-icons/fa'
 
 const Adoption = ({ match, history }) => {
     const dispatch = useDispatch()
     const sAdoption = useSelector(state => state.specificAdoptionState)
     const { loading, error, specificAdoption } = sAdoption
+
+    const hBInterviewed = useSelector(state => state.interviewedState)
+    const { success:sInterviewed } = hBInterviewed
 
     // const iSchedState = useSelector(state => state.getInterviewSchedState)
     // const { interviewSched } = iSchedState
@@ -27,10 +29,12 @@ const Adoption = ({ match, history }) => {
     const [acceptAdoptionOverlay, setAcceptAdoptionOverlay] = useState(false)
     const [recipientEmail, setRecipientEmail] = useState('')
     const [message, setMessage] = useState('')
-    const [date, setDate] = useState()
+    const [selectedDate, setSelectedDate] = useState('')
+    const [acceptedAdoption, setAcceptedAdoption] = useState(false)
+    const [rejectedAdoption, setRejectedAdoption] = useState(false)
 
     const [email, setEmail] = useState()
-    const [pickupDate, setPickupDate] = useState('')
+    const [tempPickupDate, setTempPickupDate] = useState('')
     const [pickupTime, setPickupTime] = useState('')
     const [pickupHour, setPickupHour] = useState('1')
     const [pickupMinute, setPickupMinute] = useState('00')
@@ -65,6 +69,8 @@ const Adoption = ({ match, history }) => {
 
     const submitInterviewSched = async () => { 
         let time = `${selectedHour}:${selectedMinute} ${selectedTimePeriod}`
+        let dateToString = selectedDate.toString()
+        let date = dateToString.substring(4,15)
         
         if(recipientEmail === '' || date === '' || time === '') {
             alert('Please fill out all the necessary fields')
@@ -73,11 +79,14 @@ const Adoption = ({ match, history }) => {
                 const { data } = await axios.post(`http://localhost:5000/api/admins/createInterviewSched/${match.params.id}`, { recipientEmail, date, time })
                 alert('Successfully sent the email.')
                 
-                toggleSchedOverlay()
+                toggleInterviewSched()
             } catch (error) {
                 console.log(error)
             }
         }
+        // console.log(recipientEmail)
+        // console.log(date)
+        // console.log(time)
     }
 
     const toggleSchedOverlay = () => {
@@ -91,7 +100,7 @@ const Adoption = ({ match, history }) => {
         setEmail(specificAdoption.email)
         console.log(adopterName)
     }
-    
+
     const rejectApplication = async (email, adopterName, animalName, animalId, adoptionId) => {
         const adoptionStatus = 'Not Adopted'
         const applicationStatus = 'Rejected'
@@ -107,11 +116,16 @@ const Adoption = ({ match, history }) => {
                 console.log(error)
             }
         }
+
+        setRejectedAdoption(!rejectedAdoption)
     }
 
-    const acceptApplication = async (animalId, adoptionId, email, pickupDate, pickupHour, pickupMinute, pickupTimePeriod, animalName, adopterName ) => {
+    const acceptApplication = async (animalId, adoptionId, email, tempPickupDate, pickupHour, pickupMinute, pickupTimePeriod, animalName, adopterName ) => {
         const adoptionStatus = 'Adopted'
         const applicationStatus = 'Accepted'
+
+        const dateToString = tempPickupDate.toString()
+        let pickupDate = dateToString.substring(4,15) 
 
         let pickupTime = `${pickupHour}:${pickupMinute} ${pickupTimePeriod}`
         console.log(pickupTime)
@@ -128,14 +142,22 @@ const Adoption = ({ match, history }) => {
         } catch (error) {
             console.log(error) 
         }  
+
+        setAcceptedAdoption(!acceptedAdoption)
+        setAcceptAdoptionOverlay(!acceptAdoptionOverlay)
     }
  
     useEffect(() => {
         dispatch(getSpecificAdoption(match.params.id))
-    }, [match.params.id])
+    }, [match.params.id, sInterviewed, acceptedAdoption, rejectedAdoption])
 
     useEffect(() => {
         getInterviewSched()
+    }, [])
+
+    useEffect(() => {
+        specificAdoption && setRecipientEmail(specificAdoption.email)
+        specificAdoption && setEmail(specificAdoption.email)
     }, [])
 
     specificAdoption && console.log(specificAdoption)
@@ -231,23 +253,88 @@ const Adoption = ({ match, history }) => {
                     <div className="specAdoption-setInterviewSched-container specAdoption-info-container">
                         {interviewSched && interviewSched.length >= 1 ?
                             <>
-                                <p></p>
+                                <p className='specAdoption-sched-header'>Adoption interview details</p>
+                                <p className='specAdoption-sched-label'>To: <span>{interviewSched[0].recipientEmail}</span></p>
+                                <p className='specAdoption-sched-label'>Date: <span>{interviewSched[0].date}</span></p>
+                                <p className='specAdoption-sched-label'>Time: <span>{interviewSched[0].time}</span></p>
+                                {/* <input type="checkbox" name="isInterviewed" id="" className="specAdoption-sched-isInterviewed" onClick={console.log('clicked')} /> */}
+
+                                {specificAdoption && specificAdoption.hasBeenInterviewed === true ?
+                                    <>
+                                        <div className="hasBeenInterviewedContainer">
+                                            <div className="hasBeenInterviewedChecked">
+                                                <FaCheck className='hasBeenInterviewedCheckedIcon' color='white' />
+                                            </div>
+                                            <p className="hasBeenInterviewedTxt">Has been interviewed</p>
+                                        </div>
+                                    </>
+                                    :
+                                    <>
+                                        <div className="hasBeenInterviewedContainer">
+                                            <input 
+                                                type="checkbox" 
+                                                name="hasBeenInterviewed"
+                                                className="hasBeenInterviewedCheckBox"
+                                                value={specificAdoption && specificAdoption.hasBeenInterviewed}
+                                                onClick={() => dispatch(updateBeenInterviewed(specificAdoption._id))}
+                                            />
+                                            <p className="hasBeenInterviewedTxt">Has been interviewed</p>
+                                        </div>
+                                    </>
+                                }
                             </>
                             :
                             <>
                                 <p className="specAdoption-setInterviewSched-header">
-
+                                    Set a schedule for the interview of the applicant.
                                 </p>
-                                <button className='specAdoption-setInterviewSched-btn'>Set Interview Schedule</button>
+                                <button className='specAdoption-setInterviewSched-btn' onClick={() => toggleInterviewSched()}>Set Interview Schedule</button>
                             </>
                         }
-                       
                     </div>
 
                     <div className="specAdoption-adoptionActions-container specAdoption-info-container">
-                        <p>Buttons</p>
-                        <button className="specAdoption-acceptAdoptionBtn">ACCEPT</button>
-                        <button className="specAdoption-rejectAdoptionBtn">REJECT</button>
+                        {specificAdoption && specificAdoption.hasBeenInterviewed ? 
+                            <>
+                                {specificAdoption && specificAdoption.applicationStatus === 'Accepted' &&
+                                    <>
+                                        <p className="specAdoption-adoptBtns-header">Accept or reject the adoption.</p>
+                                        <div className="specAdoption-adoptBtnsContainer">
+                                            <button className="specAdoption-disabledBtn" disabled>ACCEPT</button>
+                                            <button className="specAdoption-disabledBtn" disabled>REJECT</button>
+                                        </div>
+                                    </>
+                                }
+
+                                {specificAdoption && specificAdoption.applicationStatus === 'Rejected' &&
+                                    <>
+                                        <p className="specAdoption-adoptBtns-header">Accept or reject the adoption.</p>
+                                        <div className="specAdoption-adoptBtnsContainer">
+                                            <button className="specAdoption-disabledBtn" disabled>ACCEPT</button>
+                                            <button className="specAdoption-disabledBtn" disabled>REJECT</button>
+                                        </div>
+                                    </>
+                                }
+
+                                {specificAdoption && specificAdoption.applicationStatus === 'Pending' &&
+                                    <>
+                                        <p className="specAdoption-adoptBtns-header">Accept or reject the adoption.</p>
+                                        <div className="specAdoption-adoptBtnsContainer">
+                                            <button className="specAdoption-acceptAdoptionBtn" onClick={() => toggleAcceptOverlay()}>ACCEPT</button>
+                                            <button className="specAdoption-rejectAdoptionBtn" onClick={() => rejectApplication(specificAdoption.email, specificAdoption.applicantName, specificAdoption.animalName, specificAdoption.animalId, specificAdoption._id)}>REJECT</button>
+                                        </div>
+                                    </>
+                                }
+                            </>
+                            : 
+                            <>
+                                <p className="specAdoption-adoptBtns-header">Accept or reject the adoption.</p>
+                                <div className="specAdoption-adoptBtnsContainer">
+                                    <button className="specAdoption-disabledBtn" disabled>ACCEPT</button>
+                                    <button className="specAdoption-disabledBtn" disabled>REJECT</button>
+                                </div>
+                            </>
+                        }
                     </div>
                 </div>
             </div>
@@ -265,481 +352,243 @@ const Adoption = ({ match, history }) => {
 
             {schedOverlayVisible &&
                 <div className='specAdoption-setSchedModal'>
+                    <IoClose className='specAdoption-setSchedModal-closeIcon' color='#111' onClick={() => toggleInterviewSched()} />
+                    
+                    <form className="set-sched-form">
+                        <label className='set-sched-label' htmlFor='recipientEmail'>Recipient's Email</label>
+                        <input className='set-sched-input' type="text" name="recipientEmail" value={recipientEmail} onChange={(e) => setRecipientEmail(e.target.value)}/>
+
+
+                        {/* <label className='set-sched-label' htmlFor='message'>Message</label>
+                        <textarea className='sched-message' placeholder='Enter the details of the interview, (Where, when) will the interview will be held' value={message} onChange={(e) => setMessage(e.target.value)}></textarea>
+
+                        <br /> */}
+
+                        <label className='set-sched-label' htmlFor='datePicker'>Date</label>
+                        <DatePicker className='set-sched-date-picker set-sched-input' name='datePicker' selected={selectedDate} onChange={(selectedDate) => setSelectedDate(selectedDate)} />
+
+
+                        <label className='set-sched-label sched-time-picker' htmlFor='timePicker'>Time</label>
+                        <div className="time-picker-container">
+                            <select className='set-sched-hour set-sched-time' value={selectedHour} onChange={(e) => setSelectedHour(e.target.value)}>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                            </select>
+
+                            <select className='set-sched-minute-picker set-sched-time' value={selectedMinute} onChange={(e) => setSelectedMinute(e.target.value)}>
+                                <option value="00">00</option>
+                                <option value="01">01</option>
+                                <option value="02">02</option>
+                                <option value="03">03</option>
+                                <option value="04">04</option>
+                                <option value="05">05</option>
+                                <option value="06">06</option>
+                                <option value="07">07</option>
+                                <option value="08">08</option>
+                                <option value="09">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                                <option value="23">23</option>
+                                <option value="24">24</option>
+                                <option value="25">25</option>
+                                <option value="26">26</option>
+                                <option value="27">27</option>
+                                <option value="28">28</option>
+                                <option value="29">29</option>
+                                <option value="30">30</option>
+                                <option value="31">31</option>
+                                <option value="32">32</option>
+                                <option value="33">33</option>                                     
+                                <option value="34">34</option>
+                                <option value="35">35</option>
+                                <option value="36">36</option>                                     
+                                <option value="37">37</option>
+                                <option value="38">38</option>
+                                <option value="39">39</option>
+                                <option value="40">40</option>
+                                <option value="41">41</option>
+                                <option value="42">42</option>
+                                <option value="43">43</option>
+                                <option value="44">44</option>
+                                <option value="45">45</option>
+                                <option value="46">46</option>
+                                <option value="47">47</option>                                     
+                                <option value="48">48</option>
+                                <option value="49">49</option>
+                                <option value="50">50</option>                                     
+                                <option value="51">51</option>
+                                <option value="52">52</option>
+                                <option value="53">53</option>
+                                <option value="54">54</option>
+                                <option value="55">55</option>
+                                <option value="56">56</option>
+                                <option value="57">57</option>
+                                <option value="58">58</option>
+                                <option value="59">59</option>
+                            </select>
+
+                            <select className='set-sched-timePeriod set-sched-time' value={selectedTimePeriod} onChange={(e) => setSelectedTimePeriod(e.target.value)}>
+                                <option value="AM">AM</option>
+                                <option value="PM">PM</option>                                 
+                            </select>
+                        </div>
+                    </form>
+
+                    <button 
+                        className='set-sched-btn' 
+                        onClick={() => submitInterviewSched()}
+                    >
+                        <IoSend className='set-sched-btn-icon' color='#ffffff' />
+                        Send
+                    </button>
                 </div>
             }
 
             {schedOverlayVisible &&
                 <Overlay />
             }
+
+            {acceptAdoptionOverlay &&
+                <div className="specAdoption-acceptAdoptionModal">
+                    <IoClose className='specAdoption-acceptModal-closeIcon' color='#111' onClick={() => setAcceptAdoptionOverlay(!acceptAdoptionOverlay)} />
+
+                    {/* <p className='accept-adoption-header'>Set Pickup time for the adoption</p> */}
+                    <label className='accept-adoption-label'>Email</label>
+                    <input className='accept-adoption-input' type='text' name='accept-email' value={email} onChange={(e) => setEmail(e.target.value)} />
+
+                    <label className='accept-adoption-label'>Pickup Date</label>
+                    <DatePicker className='accept-adoption-date-picker accept-adoption-input' selected={tempPickupDate} value={tempPickupDate} onChange={(date) => setTempPickupDate(date)} />
+
+                    <label className='accept-adoption-label'>Pickup Time</label>
+                    <div className="time-picker-container">
+                        <select className='accept-set-sched-time set-sched-hour' value={pickupHour} onChange={(e) => setPickupHour(e.target.value)}>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                        </select>
+
+                        <select className='accept-set-sched-time' value={pickupMinute} onChange={(e) => setPickupMinute(e.target.value)}>
+                            <option value="00">00</option>
+                            <option value="01">01</option>
+                            <option value="02">02</option>
+                            <option value="03">03</option>
+                            <option value="04">04</option>
+                            <option value="05">05</option>
+                            <option value="06">06</option>
+                            <option value="07">07</option>
+                            <option value="08">08</option>
+                            <option value="09">09</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                            <option value="13">13</option>
+                            <option value="14">14</option>
+                            <option value="15">15</option>
+                            <option value="16">16</option>
+                            <option value="17">17</option>
+                            <option value="18">18</option>
+                            <option value="19">19</option>
+                            <option value="20">20</option>
+                            <option value="21">21</option>
+                            <option value="22">22</option>
+                            <option value="23">23</option>
+                            <option value="24">24</option>
+                            <option value="25">25</option>
+                            <option value="26">26</option>
+                            <option value="27">27</option>
+                            <option value="28">28</option>
+                            <option value="29">29</option>
+                            <option value="30">30</option>
+                            <option value="31">31</option>
+                            <option value="32">32</option>
+                            <option value="33">33</option>
+                            <option value="34">34</option>
+                            <option value="35">35</option>
+                            <option value="36">36</option>
+                            <option value="37">37</option>
+                            <option value="38">38</option>
+                            <option value="39">39</option>
+                            <option value="40">40</option>
+                            <option value="41">41</option>
+                            <option value="42">42</option>
+                            <option value="43">43</option>
+                            <option value="44">44</option>
+                            <option value="45">45</option>
+                            <option value="46">46</option>
+                            <option value="47">47</option>
+                            <option value="48">48</option>
+                            <option value="49">49</option>
+                            <option value="50">50</option>
+                            <option value="51">51</option>
+                            <option value="52">52</option>
+                            <option value="53">53</option>
+                            <option value="54">54</option>
+                            <option value="55">55</option>
+                            <option value="56">56</option>
+                            <option value="57">57</option>
+                            <option value="58">58</option>
+                            <option value="59">59</option>
+                        </select>
+
+                        <select className='accept-set-sched-time' value={pickupTimePeriod} onChange={(e) => setPickupTimePeriod(e.target.value)}>
+                            <option value="AM">AM</option>
+                            <option value="PM">PM</option>
+                        </select>
+                    </div>
+
+                    <button className='accept-adoption-btn'
+                        onClick={() => acceptApplication(
+                            specificAdoption.animalId, 
+                            specificAdoption._id,
+                            email,
+                            tempPickupDate,
+                            pickupHour,
+                            pickupMinute,
+                            pickupTimePeriod,
+                            specificAdoption.animalName,
+                            specificAdoption.applicantName,
+                        )}
+                    >
+                        Accept Adoption
+                    </button>
+                </div>
+            }
+
+            {acceptAdoptionOverlay &&
+                <Overlay />
+            }
         </div>
     )
 }
-
-// const Adoption = ({ match, history }) => {
-//     const dispatch = useDispatch()
-//     const sAdoption = useSelector(state => state.specificAdoptionState)
-//     const { loading, error, specificAdoption } = sAdoption
-
-//     // const iSchedState = useSelector(state => state.getInterviewSchedState)
-//     // const { interviewSched } = iSchedState
-
-//     const [interviewSched, setInterviewSched] = useState()
-//     const [schedOverlayVisible, setSchedOverlayVisible] = useState(false)
-//     const [acceptAdoptionOverlay, setAcceptAdoptionOverlay] = useState(false)
-//     const [recipientEmail, setRecipientEmail] = useState('')
-//     const [message, setMessage] = useState('')
-//     const [date, setDate] = useState()
-
-//     const [email, setEmail] = useState()
-//     const [pickupDate, setPickupDate] = useState('')
-//     const [pickupTime, setPickupTime] = useState('')
-//     const [pickupHour, setPickupHour] = useState('1')
-//     const [pickupMinute, setPickupMinute] = useState('00')
-//     const [pickupTimePeriod, setPickupTimePeriod] = useState('AM')
-//     const [animalName, setAnimalName] = useState('')
-//     const [adopterName, setAdopterName] = useState('')
-
-//     const [selectedHour, setSelectedHour] = useState('1')
-//     const [selectedMinute, setSelectedMinute] = useState('00')
-//     const [selectedTimePeriod, setSelectedTimePeriod] = useState('AM')
-
-
-//     const getInterviewSched = async () => {
-//         try {
-//             const { data } = await axios.get(`http://localhost:5000/api/admins/getInterviewSched/${match.params.id}`)
-//             setInterviewSched(data)
-//         } catch (error) {
-//             console.log(error)
-//         }
-//     }
-
-//     const submitInterviewSched = async () => { 
-//         let time = `${selectedHour}:${selectedMinute} ${selectedTimePeriod}`
-        
-//         if(recipientEmail === '' || date === '' || time === '') {
-//             alert('Please fill out all the necessary fields')
-//         } else {
-//             try {
-//                 const { data } = await axios.post(`http://localhost:5000/api/admins/createInterviewSched/${match.params.id}`, { recipientEmail, date, time })
-//                 alert('Successfully sent the email.')
-                
-//                 toggleSchedOverlay()
-//             } catch (error) {
-//                 console.log(error)
-//             }
-//         }
-//     }
-
-//     const toggleSchedOverlay = () => {
-//         setSchedOverlayVisible(!schedOverlayVisible)
-//         setRecipientEmail(specificAdoption.email)
-//     }
-
-//     const toggleAcceptOverlay = () => {
-//         setAcceptAdoptionOverlay(!acceptAdoptionOverlay)
-//         setAdopterName(specificAdoption.adopterName)
-//         setEmail(specificAdoption.email)
-//         console.log(adopterName)
-//     }
-    
-//     const rejectApplication = async (email, adopterName, animalName, animalId, adoptionId) => {
-//         const adoptionStatus = 'Not Adopted'
-//         const applicationStatus = 'Rejected'
-
-//         if(window.confirm('Are you sure you want to reject this adoption?')) {
-//             dispatch(updateAdoptionApplication(animalId, adoptionId, adoptionStatus, applicationStatus))
-
-//             try {
-//                 const { data } = await axios.post('http://localhost:5000/api/admins/sendRejectMessage', {email, adopterName, animalName})
-//                 console.log(data)
-//                 alert('Message Sent')
-//             } catch (error) {
-//                 console.log(error)
-//             }
-//         }
-//     }
-
-//     const acceptApplication = async (animalId, adoptionId, email, pickupDate, pickupHour, pickupMinute, pickupTimePeriod, animalName, adopterName ) => {
-//         const adoptionStatus = 'Adopted'
-//         const applicationStatus = 'Accepted'
-
-//         let pickupTime = `${pickupHour}:${pickupMinute} ${pickupTimePeriod}`
-//         console.log(pickupTime)
-//         dispatch(updateAdoptionApplication(animalId, adoptionId, adoptionStatus, applicationStatus))
-
-//         try {
-//             if(!email || !pickupDate || !pickupTime || !animalName || !adopterName) {
-//                 alert('Please fill out all the necessary fields')
-//             } else {
-//                 const { data } = await axios.post('http://localhost:5000/api/admins/sendPickupMessage', { email, pickupDate, pickupTime, animalName, adopterName })
-//                 alert('Successfully sent the message')
-//                 setAcceptAdoptionOverlay(!acceptAdoptionOverlay)
-//             }
-//         } catch (error) {
-//             console.log(error) 
-//         }  
-//     }
- 
-//     useEffect(() => {
-//         dispatch(getSpecificAdoption(match.params.id))
-//     }, [match.params.id])
-
-//     useEffect(() => {
-//         getInterviewSched()
-//     }, [])
-
-//     specificAdoption && console.log(specificAdoption)
-
-//     const isInterviewSchedEmpty = interviewSched && interviewSched.length === 0
-//     const hideAdoptionButtons = specificAdoption && specificAdoption.applicationStatus === 'Rejected' || specificAdoption && specificAdoption.applicationStatus === 'Accepted'
-
-//     return (
-//         <div className='specAdoption-body'>
-//             <Sidebar />
-//             <div className="specAdoption-content">
-//                 <p className='specAdoption-back-btn' onClick={() => history.goBack()}>
-//                     <img className='specAdoption-back-icon' src={returnIcon} />
-//                     Back
-//                 </p>
-
-               
-//                 {specificAdoption && 
-//                     <details className='specAdoption-details'>
-//                         <summary className='specAdoption-details-header'>Adoption Details</summary>
-//                         <div className="specAdoption-information-container">
-//                             <div className="specAdoption-userInfo">
-//                                 <p className='specAdoption-userInfo-header'>Adopter's Information</p>
-//                                 <p className='specAdoption-userInfo-label'>
-//                                     Name: 
-//                                     <span className='specAdoption-userInfo-value'>{specificAdoption.adopterName}</span>
-//                                 </p>
-
-//                                 <p className='specAdoption-userInfo-label'>
-//                                     Email: 
-//                                     <span className='specAdoption-userInfo-value'>{specificAdoption.email}</span>
-//                                 </p>
-
-//                                 <p className='specAdoption-userInfo-label'>
-//                                     Contact Number: 
-//                                     <span className='specAdoption-userInfo-value'>{specificAdoption.contactNo}</span>
-//                                 </p>
-
-//                                 <p className='specAdoption-userInfo-label'>Address</p>
-//                                 <p className='specAdoption-userInfo-address'>{specificAdoption.address}</p>
-
-//                                 <p className='specAdoption-userInfo-label-validId'>Valid Id</p>
-//                                 <img className='specAdoption-valid-id' src={specificAdoption.validId} />
-//                             </div>
-
-//                             <div className="specAdoption-animalInfo">
-//                                 <p className='specAdoption-animalInfo-header'>Animal's Information</p>
-//                                 <p className='specAdoption-animalInfo-label'>
-//                                     Name: 
-//                                     <span className='specAdoption-animalInfo-value'>{specificAdoption.animalName}</span>
-//                                 </p>
-
-//                                 <p className='specAdoption-animalInfo-label'>
-//                                     Type: 
-//                                     <span className='specAdoption-animalInfo-value'>{specificAdoption.animalType}</span>
-//                                 </p>
-
-//                                 <p className='specAdoption-animalInfo-label'>
-//                                     Breed: 
-//                                     <span className='specAdoption-animalInfo-value'>{specificAdoption.animalBreed}</span>
-//                                 </p>
-
-//                                 <p className='specAdoption-animalInfo-label'>
-//                                     Color: 
-//                                     <span className='specAdoption-animalInfo-value'>{specificAdoption.animalColor}</span>
-//                                 </p>
-
-//                                 <p className='specAdoption-animalInfo-label'>
-//                                     Adoption Status: 
-//                                     <span className='specAdoption-animalInfo-value'>{specificAdoption.adoptionStatus}</span>
-//                                 </p>
-
-//                                 <p className='specAdoption-animalInfo-label-image'>Image</p>
-//                                 <img className='specAdoption-img' src={specificAdoption.animalImg} />
-//                             </div>
-//                         </div>
-//                     </details>
-//                 }
-
-
-//                 {specificAdoption && 
-//                     <details className='specAdoption-schedule'>
-//                         <summary className='specAdoption-schedule-header'>Send message for interview</summary>
-//                         <div className="specAdoption-schedule-content">
-//                             {interviewSched && interviewSched.map((sched) => (
-//                                 <div className='specAdoption-details-container' key={sched._id}>
-//                                     <p className='specAdoption-details-label'>Email: <span className='specAdoption-details-value'>{sched.recipientEmail}</span></p>
-//                                     <p className='specAdoption-details-label'>Date: <span className='specAdoption-details-value'>{sched.date}</span></p>
-//                                     <p className='specAdoption-details-label'>Time: <span className='specAdoption-details-value'>{sched.time}</span></p>
-//                                 </div>
-//                             ))}
-
-//                             {isInterviewSchedEmpty &&
-//                                 <div className="specAdoption-no-schedule">
-//                                     <p className='specAdoption-no-schedule-header'>Not scheduled for an interview yet</p>
-//                                     <button className='specAdoption-set-sched-btn' onClick={() => toggleSchedOverlay()}>Set schedule</button>
-//                                 </div>
-//                             }
-//                         </div>
-//                     </details>
-//                 }
-
-//                 {specificAdoption && interviewSched && interviewSched.length === 0 ?
-//                     <div style={{display: 'none'}}></div>
-//                     :
-//                     hideAdoptionButtons ?
-//                         <div style={{display: 'none'}}></div>
-//                     :
-//                         <div className="specAdoption-btns-container">
-//                             <button className='specAdoption-reject-btn' onClick={() => rejectApplication(specificAdoption.email, specificAdoption.adopterName, specificAdoption.animalName, specificAdoption.animalId, specificAdoption._id)}>REJECT</button>
-//                             <button className='specAdoption-accept-btn' onClick={() => toggleAcceptOverlay()}>ACCEPT</button>
-//                         </div> 
-//                 }
-//             </div>
-
-//             {loading && <Loading />}
-//             {loading && <Overlay />}
-
-//             {schedOverlayVisible && 
-//                 <div className='specAdoption-set-sched-container'>
-//                     <img className='specAdoption-close-modal' src={closeModal} onClick={() => toggleSchedOverlay()} />
-//                     <p className='specAdoption-set-sched-header'>Send an email</p>
-//                     <form className="set-sched-form">
-//                             <label className='set-sched-label' htmlFor='recipientEmail'>Recipient's Email</label>
-//                             <input className='set-sched-input' type="text" name="recipientEmail" value={recipientEmail} onChange={(e) => setRecipientEmail(e.target.value)}/>
-
-//                             <br />
-
-//                             {/* <label className='set-sched-label' htmlFor='message'>Message</label>
-//                             <textarea className='sched-message' placeholder='Enter the details of the interview, (Where, when) will the interview will be held' value={message} onChange={(e) => setMessage(e.target.value)}></textarea>
-
-//                             <br /> */}
-        
-//                             <label className='set-sched-label' htmlFor='datePicker'>Date</label>
-//                             <DatePicker className='set-sched-date-picker' name='datePicker' selected={date} onChange={(date) => setDate(date)} />
-
-//                             <br />
-
-//                             <label className='set-sched-label sched-time-picker' htmlFor='timePicker'>Time</label>
-//                             <div className="time-picker-container">
-//                                 <select className='set-sched-hour' value={selectedHour} onChange={(e) => setSelectedHour(e.target.value)}>
-//                                     <option value="1">1</option>
-//                                     <option value="2">2</option>
-//                                     <option value="3">3</option>
-//                                     <option value="4">4</option>
-//                                     <option value="5">5</option>
-//                                     <option value="6">6</option>
-//                                     <option value="7">7</option>
-//                                     <option value="8">8</option>
-//                                     <option value="9">9</option>
-//                                     <option value="10">10</option>
-//                                     <option value="11">11</option>
-//                                     <option value="12">12</option>
-//                                 </select>
-
-//                                 <select className='set-sched-minute-picker' value={selectedMinute} onChange={(e) => setSelectedMinute(e.target.value)}>
-//                                     <option value="00">00</option>
-//                                     <option value="01">01</option>
-//                                     <option value="02">02</option>
-//                                     <option value="03">03</option>
-//                                     <option value="04">04</option>
-//                                     <option value="05">05</option>
-//                                     <option value="06">06</option>
-//                                     <option value="07">07</option>
-//                                     <option value="08">08</option>
-//                                     <option value="09">09</option>
-//                                     <option value="10">10</option>
-//                                     <option value="11">11</option>
-//                                     <option value="12">12</option>
-//                                     <option value="13">13</option>
-//                                     <option value="14">14</option>
-//                                     <option value="15">15</option>
-//                                     <option value="16">16</option>
-//                                     <option value="17">17</option>
-//                                     <option value="18">18</option>
-//                                     <option value="19">19</option>
-//                                     <option value="20">20</option>
-//                                     <option value="21">21</option>
-//                                     <option value="22">22</option>
-//                                     <option value="23">23</option>
-//                                     <option value="24">24</option>
-//                                     <option value="25">25</option>
-//                                     <option value="26">26</option>
-//                                     <option value="27">27</option>
-//                                     <option value="28">28</option>
-//                                     <option value="29">29</option>
-//                                     <option value="30">30</option>
-//                                     <option value="31">31</option>
-//                                     <option value="32">32</option>
-//                                     <option value="33">33</option>
-//                                     <option value="34">34</option>
-//                                     <option value="35">35</option>
-//                                     <option value="36">36</option>
-//                                     <option value="37">37</option>
-//                                     <option value="38">38</option>
-//                                     <option value="39">39</option>
-//                                     <option value="40">40</option>
-//                                     <option value="41">41</option>
-//                                     <option value="42">42</option>
-//                                     <option value="43">43</option>
-//                                     <option value="44">44</option>
-//                                     <option value="45">45</option>
-//                                     <option value="46">46</option>
-//                                     <option value="47">47</option>
-//                                     <option value="48">48</option>
-//                                     <option value="49">49</option>
-//                                     <option value="50">50</option>
-//                                     <option value="51">51</option>
-//                                     <option value="52">52</option>
-//                                     <option value="53">53</option>
-//                                     <option value="54">54</option>
-//                                     <option value="55">55</option>
-//                                     <option value="56">56</option>
-//                                     <option value="57">57</option>
-//                                     <option value="58">58</option>
-//                                     <option value="59">59</option>
-//                                 </select>
-
-//                                 <select className='set-sched-timePeriod' value={selectedTimePeriod} onChange={(e) => setSelectedTimePeriod(e.target.value)}>
-//                                     <option value="AM">AM</option>
-//                                     <option value="PM">PM</option>
-//                                 </select>
-//                             </div>
-//                     </form>
-
-//                     <button 
-//                         className='set-sched-btn' 
-//                         onClick={() => submitInterviewSched()}
-//                     >
-//                         Send Message
-//                     </button>
-//                 </div>
-//             }
-
-//             {schedOverlayVisible && <Overlay />}
-
-
-//             {acceptAdoptionOverlay &&
-//                 <div className="specAdoption-accept-overlay">
-//                     <img className='specAdoption-close-modal' src={closeModal} onClick={() => toggleAcceptOverlay()} />
-//                     <p className='accept-adoption-header'>Set Pickup time for the adoption</p>
-//                     <label className='accept-adoption-label'>Email</label>
-//                     <input className='accept-adoption-input' type='text' name='accept-email' value={email} onChange={(e) => setEmail(e.target.value)} />
-
-//                     <label className='accept-adoption-label'>Pickup Date</label>
-//                     <DatePicker className='accept-adoption-date-picker' selected={pickupDate} value={pickupDate} onChange={(date) => setPickupDate(date)} />
-
-//                     <label className='accept-adoption-label'>Pickup Time</label>
-//                     <div className="time-picker-container">
-//                         <select className='set-sched-hour' value={pickupHour} onChange={(e) => setPickupHour(e.target.value)}>
-//                             <option value="1">1</option>
-//                             <option value="2">2</option>
-//                             <option value="3">3</option>
-//                             <option value="4">4</option>
-//                             <option value="5">5</option>
-//                             <option value="6">6</option>
-//                             <option value="7">7</option>
-//                             <option value="8">8</option>
-//                             <option value="9">9</option>
-//                             <option value="10">10</option>
-//                             <option value="11">11</option>
-//                             <option value="12">12</option>
-//                         </select>
-
-//                         <select className='set-sched-minute-picker' value={pickupMinute} onChange={(e) => setPickupMinute(e.target.value)}>
-//                             <option value="00">00</option>
-//                             <option value="01">01</option>
-//                             <option value="02">02</option>
-//                             <option value="03">03</option>
-//                             <option value="04">04</option>
-//                             <option value="05">05</option>
-//                             <option value="06">06</option>
-//                             <option value="07">07</option>
-//                             <option value="08">08</option>
-//                             <option value="09">09</option>
-//                             <option value="10">10</option>
-//                             <option value="11">11</option>
-//                             <option value="12">12</option>
-//                             <option value="13">13</option>
-//                             <option value="14">14</option>
-//                             <option value="15">15</option>
-//                             <option value="16">16</option>
-//                             <option value="17">17</option>
-//                             <option value="18">18</option>
-//                             <option value="19">19</option>
-//                             <option value="20">20</option>
-//                             <option value="21">21</option>
-//                             <option value="22">22</option>
-//                             <option value="23">23</option>
-//                             <option value="24">24</option>
-//                             <option value="25">25</option>
-//                             <option value="26">26</option>
-//                             <option value="27">27</option>
-//                             <option value="28">28</option>
-//                             <option value="29">29</option>
-//                             <option value="30">30</option>
-//                             <option value="31">31</option>
-//                             <option value="32">32</option>
-//                             <option value="33">33</option>
-//                             <option value="34">34</option>
-//                             <option value="35">35</option>
-//                             <option value="36">36</option>
-//                             <option value="37">37</option>
-//                             <option value="38">38</option>
-//                             <option value="39">39</option>
-//                             <option value="40">40</option>
-//                             <option value="41">41</option>
-//                             <option value="42">42</option>
-//                             <option value="43">43</option>
-//                             <option value="44">44</option>
-//                             <option value="45">45</option>
-//                             <option value="46">46</option>
-//                             <option value="47">47</option>
-//                             <option value="48">48</option>
-//                             <option value="49">49</option>
-//                             <option value="50">50</option>
-//                             <option value="51">51</option>
-//                             <option value="52">52</option>
-//                             <option value="53">53</option>
-//                             <option value="54">54</option>
-//                             <option value="55">55</option>
-//                             <option value="56">56</option>
-//                             <option value="57">57</option>
-//                             <option value="58">58</option>
-//                             <option value="59">59</option>
-//                         </select>
-
-//                         <select className='set-sched-timePeriod' value={pickupTimePeriod} onChange={(e) => setPickupTimePeriod(e.target.value)}>
-//                             <option value="AM">AM</option>
-//                             <option value="PM">PM</option>
-//                         </select>
-//                     </div>
-
-//                     <button className='accept-adoption-btn'
-//                         onClick={() => acceptApplication(
-//                                 specificAdoption.animalId, 
-//                                 specificAdoption._id,
-//                                 email,
-//                                 pickupDate,
-//                                 pickupHour,
-//                                 pickupMinute,
-//                                 pickupTimePeriod,
-//                                 specificAdoption.animalName,
-//                                 specificAdoption.adopterName,
-//                             )}
-//                     >
-//                         Accept Adoption
-//                     </button>
-//                 </div>
-//             }
-
-//             {acceptAdoptionOverlay && <Overlay />}
-//         </div>
-//     )
-// }
 
 export default Adoption

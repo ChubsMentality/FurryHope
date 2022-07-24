@@ -14,6 +14,7 @@ import Adoption from './Adoption'
 import StrayAnimalReports from './StrayAnimalReports'
 import Donations from './Donations'
 import Error from '../components/Error404'
+import UserFeedback from './UserFeedback'
 
 import '../css/App.css'
 
@@ -42,6 +43,7 @@ const App = () => {
                     <Route path="/update/:id" component={UpdateData} />
                     <Route path="/reports" component={StrayAnimalReports} />
                     <Route path="/donations" component={Donations} />
+                    <Route path='/feedbacks' component={UserFeedback} />
                     <Route path="*" component={Error} />
                 </Switch>  
             </Router>

@@ -42,6 +42,9 @@ import {
     SEND_INTERVIEW_MESSAGE_REQUEST,
     SEND_INTERVIEW_MESSAGE_SUCCESS,
     SEND_INTERVIEW_MESSAGE_FAIL,
+    HAS_BEEN_INTERVIEWED_REQUEST,
+    HAS_BEEN_INTERVIEWED_SUCCESS,
+    HAS_BEEN_INTERVIEWED_FAIL,
     GET_DONATIONS_REQUEST,
     GET_DONATIONS_SUCCESS,
     GET_DONATIONS_FAIL,
@@ -57,6 +60,15 @@ import {
     GET_INVENTORY_REQUEST,
     GET_INVENTORY_SUCCESS,
     GET_INVENTORY_FAIL,
+    GET_FEEDBACKS_REQUEST,
+    GET_FEEDBACKS_SUCCESS,
+    GET_FEEDBACKS_FAIL,
+    DELETE_FEEDBACK_REQUEST,
+    DELETE_FEEDBACK_SUCCESS,
+    DELETE_FEEDBACK_FAIL,
+    FEEDBACK_VIEWED_REQUEST,
+    FEEDBACK_VIEWED_SUCCESS,
+    FEEDBACK_VIEWED_FAIL,
 } from '../constants/adminConstants'
 import axios from 'axios'
 
@@ -496,6 +508,30 @@ export const deleteDonationHandler = (id) => async (dispatch) => {
     }
 }
 
+export const updateBeenInterviewed = (id) => async (dispatch) => {
+    try {
+        dispatch({
+            type: HAS_BEEN_INTERVIEWED_REQUEST
+        })
+
+        const { data } = await axios.put(`http://localhost:5000/api/admins/hasBeenInterviewed/${id}`)
+
+        dispatch({
+            type: HAS_BEEN_INTERVIEWED_SUCCESS,
+        })
+    } catch (error) {
+        const message = 
+            error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message
+
+        dispatch({
+            type: HAS_BEEN_INTERVIEWED_FAIL,
+            payload: message,
+        })
+    }
+}
+
 export const receivedDonation = (id) => async (dispatch) => {
     try {
         dispatch({
@@ -520,13 +556,13 @@ export const receivedDonation = (id) => async (dispatch) => {
     }
 }
 
-export const addToInventory = (dataItems, donatedBy, dateOfDonation) => async (dispatch) => {
+export const addToInventory = (dataItems, donatedBy, donatedByPicture,dateOfDonation) => async (dispatch) => {
     try {
         dispatch({
             type: ADD_TO_INVENTORY_REQUEST
         })
 
-        const { data } = await axios.post('http://localhost:5000/api/admins/addToDonationInventory', { dataItems, donatedBy, dateOfDonation })
+        const { data } = await axios.post('http://localhost:5000/api/admins/addToDonationInventory', { dataItems, donatedBy, donatedByPicture, dateOfDonation })
 
         dispatch({
             type: ADD_TO_INVENTORY_SUCCESS,
@@ -567,5 +603,78 @@ export const getDonationInventory = () => async (dispatch) => {
             type: GET_INVENTORY_FAIL,
             payload: message
         })    
+    }
+}
+
+export const getFeedbacks = () => async (dispatch) => {
+    try {
+        dispatch({
+            type: GET_FEEDBACKS_REQUEST
+        })
+
+        const { data } = await axios.get('http://localhost:5000/api/admins/getFeedbacks')
+
+        dispatch({
+            type: GET_FEEDBACKS_SUCCESS,
+            payload: data
+        })
+    } catch (error) {
+        const message = 
+            error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message
+
+        dispatch({
+            type: GET_FEEDBACKS_FAIL,
+            payload: message
+        })   
+    }
+}
+
+export const deleteFeedback = (id) => async (dispatch) => {
+    try {
+        dispatch({
+            type: DELETE_FEEDBACK_REQUEST,
+        })
+
+        const { data } = await axios.delete(`http://localhost:5000/api/admins/getFeedback/${id}`)
+
+        dispatch({
+            type: DELETE_FEEDBACK_SUCCESS
+        })
+    } catch (error) {
+        const message = 
+            error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message
+
+        dispatch({
+            type: DELETE_FEEDBACK_FAIL,
+            payload: message
+        })
+    }
+}
+
+export const feedbackHasBeenRead = (id) => async (dispatch) => {
+    try {
+        dispatch({
+            type: FEEDBACK_VIEWED_REQUEST
+        })
+
+        const { data } = await axios.put(`http://localhost:5000/api/admins/feedBackRead/${id}`)
+
+        dispatch({
+            type: FEEDBACK_VIEWED_SUCCESS
+        })
+    } catch (error) {
+        const message = 
+            error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message
+
+        dispatch({
+            type: FEEDBACK_VIEWED_FAIL,
+            payload: message
+        })
     }
 }

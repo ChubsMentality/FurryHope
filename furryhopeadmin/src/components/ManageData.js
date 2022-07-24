@@ -110,12 +110,14 @@ const ManageData = () => {
                             </div>
 
                             <div className="specAnimal-actions specAnimal-column">
-                                <button className="specAnimal-btn-container specAnimal-edit">
-                                    <AiTwotoneEdit size={35} />
-                                </button>
+                                <Link to={`update/${animal._id}`}>
+                                    <button className="specAnimal-btn-container specAnimal-edit">
+                                        <AiTwotoneEdit  className='specAnimal-btn' />
+                                    </button>
+                                </Link>
 
-                                <button className="specAnimal-btn-container specAnimal-delete">
-                                    <MdDelete size={35} color='red' />
+                                <button className="specAnimal-btn-container specAnimal-delete" onClick={() => deleteHandler()}>
+                                    <MdDelete color='red' className='specAnimal-btn' />
                                 </button>
                             </div>
                         </div>

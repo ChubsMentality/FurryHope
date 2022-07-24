@@ -151,7 +151,11 @@ const App = () => {
     PoppinsSemiBold: require('./assets/Fonts/Poppins-SemiBold.ttf'),
     PoppinsBold: require('./assets/Fonts/Poppins-Bold.ttf'),
     PoppinsExtraBold: require('./assets/Fonts/Poppins-ExtraBold.ttf'),
-    PoppinsBlack: require('./assets/Fonts/Poppins-Black.ttf')
+    PoppinsBlack: require('./assets/Fonts/Poppins-Black.ttf'),
+    PlayfairBold: require('./assets/Fonts/PlayFairDisplay-Bold.ttf'),
+    PlayfairSemiBold: require('./assets/Fonts/PlayFairDisplay-SemiBold.ttf'),
+    PlayfairMedium: require('./assets/Fonts/PlayFairDisplay-Medium.ttf'),
+    PlayfairRegular: require('./assets/Fonts/PlayFairDisplay-Regular.ttf'),
   })
 
   if(!loaded) {
@@ -207,8 +211,8 @@ const App = () => {
               {storedCredentials ? (
                 // Screens available if a user has logged in
                 <Stack.Group>
-                  <Stack.Screen name='Dogs' component={ListOfDogs} options={{ headerShown: false }} />
                   <Stack.Screen name='DrawerContainer' component={DrawerContainer} options={{ headerShown: false }} />
+                  <Stack.Screen name='Dogs' component={ListOfDogs} options={{ headerShown: false }} />
                   <Stack.Screen name='Cats' component={ListOfCats} options={{ headerShown: false }} />
                   <Stack.Screen name='Tips for Adopting' component={ThingsToConsider} />
                   <Stack.Screen name='Adoption Benefits' component={Benefits} />

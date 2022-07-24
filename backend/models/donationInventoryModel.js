@@ -11,6 +11,10 @@ const inventorySchema = mongoose.Schema(
             required: true,
         },
 
+        donatedByPicture: {
+            type: String,
+        },
+
         dateOfDonation: {
             type: String,
             required: true,

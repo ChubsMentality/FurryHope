@@ -8,9 +8,9 @@ const TopNav = (props) => {
     const navigation = useNavigation();
 
     return (
-        <View style={{ height: 'auto', width: '100%', flexDirection: 'row', alignItems: 'center' }}>
+        <View style={{ height: 'auto', width: '100%', flexDirection: 'row', alignItems: 'center', zIndex: 5, }}>
             <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
-                <Ionicons name='md-menu-outline' size={30} style={{ marginTop: 30, marginLeft: 27 }} color={props.color} />
+                <Ionicons name='ios-menu-sharp' size={30} style={{ marginTop: 27, marginLeft: 27 }} color={props.color} />
             </TouchableOpacity>
             <Text style={{ color: `${props.color}`, fontFamily: 'PoppinsMedium', fontSize: 12.8, marginTop: 27, marginLeft: 10 }}>{props.ScreenName}</Text> 
         </View>

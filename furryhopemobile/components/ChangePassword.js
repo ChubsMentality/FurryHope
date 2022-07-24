@@ -39,8 +39,8 @@ const ChangePassword = ({ navigation, route }) => {
 
     return (
         <SafeAreaView style={{ backgroundColor: 'white', flex: 1 }}>
-            <Text>Your password must be different from your old one.</Text>
-            <Text>We suggest that you use a combination of capital letters, numbers, special characters, etc., for your password to make it more secure.</Text>
+            <Text style={styles.changePwdHeader}>Your password must be different from your old one.</Text>
+            <Text style={styles.changePwdSubHeader}>We suggest that you use a combination of capital letters, numbers, special characters, etc., for your password to make it more secure.</Text>
 
             <Text style={[styles.pwdLabel, styles.password]}>Password</Text>
             <TextInput
@@ -76,6 +76,24 @@ const ChangePassword = ({ navigation, route }) => {
 export default ChangePassword
 
 const styles = StyleSheet.create({
+    changePwdHeader: {
+        marginTop: 35,
+        marginRight: 35,
+        marginLeft: 35,
+        fontFamily: 'PoppinsBold',
+        fontSize: 24,
+    }, 
+
+    changePwdSubHeader: {
+        marginTop: 5,
+        marginRight: 35,
+        marginLeft: 35,
+        fontFamily: 'PoppinsLight',
+        fontSize: 14,
+        lineHeight: 28,
+
+    },
+
     password: {
         marginTop: 50,
     },
@@ -90,21 +108,23 @@ const styles = StyleSheet.create({
     pwdInput: {
         height: 45,
         width: '80%',
-        borderRadius: 5,
         marginLeft: 35,
         marginBottom: 20,
-        backgroundColor: '#E8E8E8',
         fontFamily: 'PoppinsLight',
         fontSize: 13,
         paddingLeft: 10,
         paddingRight: 10,
+        borderRadius: 5,
+        borderColor: '#f1f3f7',
+        borderWidth: 3,
+        backgroundColor: '#f3f5f9',
     },
 
     pwdInputFocused: {
         height: 46,
         width: '80%',
         borderRadius: 5,
-        borderWidth: 1.5,
+        borderWidth: 1,
         borderColor: 'black',
         marginLeft: 35,
         marginBottom: 20,

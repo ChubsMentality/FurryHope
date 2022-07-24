@@ -32,11 +32,8 @@ const SuggestedCard = (props) => {
 
 const styles = StyleSheet.create({
     cardBody: {
-        height: 290,
-        width: 190,
-        marginRight: 'auto',
-        marginBottom: 25,
-        marginLeft: 'auto',
+        height: 230,
+        width: 150,
         shadowColor: '#000',
         shadowOffset: {
             width: 1,
@@ -47,7 +44,6 @@ const styles = StyleSheet.create({
         position: 'relative',
         overflow: 'hidden',
         borderRadius: 5,
-        marginRight: 10,
     },
 
     overlay: {
@@ -62,7 +58,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginTop: 218,
+        marginTop: 160,
     },
 
     animalDescription: {
@@ -70,14 +66,14 @@ const styles = StyleSheet.create({
     },
 
     animalName: {
-        fontFamily: 'Poppins_600SemiBold',
-        fontSize: 25,
+        fontFamily: 'PoppinsSemiBold',
+        fontSize: 24,
         color: 'white',
     },
 
     animalBreed: {
-        fontFamily: 'Poppins_200ExtraLight',
-        fontSize: 15,
+        fontFamily: 'PoppinsExtraLight',
+        fontSize: 16,
         color: 'white',
         marginTop: -3,
     },

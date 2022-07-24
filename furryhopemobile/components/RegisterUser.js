@@ -508,9 +508,9 @@ const RegisterUser = ({ navigation }) => {
                                 <Text style={genderPreference === 'Female' ? styles.choiceTxtActive : styles.animalChoiceTxt}>Female</Text>
                             </TouchableOpacity>
 
-                            <TouchableOpacity style={styles.animalChoiceBtn} onPress={() => toggleBoth()}>
+                            {/* <TouchableOpacity style={styles.animalChoiceBtn} onPress={() => toggleBoth()}>
                                 <Text style={genderPreference === 'Both' ? styles.choiceTxtActive : styles.animalChoiceTxt}>Both</Text>
-                            </TouchableOpacity>
+                            </TouchableOpacity> */}
                         </View>
 
                         <Text style={[styles.animalChoiceLabel, styles.sizeChoiceLabel]}>Size</Text>
@@ -625,10 +625,12 @@ const styles = StyleSheet.create({
     input: {
         height: 46,
         width: '80%',
-        borderRadius: 5,
+        borderColor: '#f1f3f7',
+        borderWidth: 3,
+        backgroundColor: '#f3f5f9',
+        color: '#8c8c8e',
         marginLeft: 40,
         marginBottom: 20,
-        backgroundColor: '#E8E8E8',
         fontFamily: 'PoppinsLight',
         fontSize: 13,
         paddingLeft: 10,
@@ -651,8 +653,10 @@ const styles = StyleSheet.create({
     },
 
     continueBtn: {
-        backgroundColor: '#111111',
+        backgroundColor: '#111',
         borderRadius: 5,
+        borderColor: '#111',
+        borderWidth: 1,
         width: 328.8,
         height: 66,
         marginTop: 50,

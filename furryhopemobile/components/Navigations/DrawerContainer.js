@@ -6,6 +6,7 @@ import Profile from '../Profile'
 import AnimalCare from '../AnimalCare'
 import PetCare from '../PetCare';
 import ViewAnimals from '../ViewAnimals'
+import UserFeedback from '../Forms/UserFeedback';
 import UserPreferences from '../UserPreferences';
 import ReportAnimal from '../Forms/ReportAnimal'
 import RegisterAnimal from '../Forms/RegisterAnimal'
@@ -55,24 +56,18 @@ const DrawerContainer = () => {
                 )}} 
             />
 
-            {/* <Drawer.Screen name='Pet Care Tips' component={AnimalCare} options={{
-                drawerIcon: ({color}) => (
-                    <Ionicon name='information-circle-outline' size={20} color={color} />
-                )}} 
-            /> */}
-
             <Drawer.Screen name='Pet Care' component={PetCare} options={{
                 drawerIcon: ({color}) => (
                     <Ionicon name='information-circle-outline' size={20} color={color} />
                 )}} 
             />
 
-            {/* <Drawer.Screen name='View Animals' component={ViewAnimals} options={{
-
-                }} 
-            /> */}
-
-            {/* <Drawer.Screen name='Give a Feedback' component={UserFeedback} /> */}
+            {/* open-outline, ios-thumbs-up */}
+            <Drawer.Screen name='Give a Feedback' component={UserFeedback} options={{
+                drawerIcon: ({color}) => (
+                    <Ionicon name='ios-thumbs-up' size={20} color={color} />
+                )
+            }} /> 
 
             <Drawer.Screen name='Report an Animal' component={ReportAnimal} options={{
                 drawerIcon: ({color}) => (
@@ -80,7 +75,7 @@ const DrawerContainer = () => {
                 )}} 
             />
 
-            <Drawer.Screen name='Register an Animal' component={RegisterAnimal} options={{
+            <Drawer.Screen name='Pet Registration' component={RegisterAnimal} options={{
                 drawerIcon: ({color}) => (
                     <Ionicon name='ios-reader-sharp' size={20} color={color} />
                 )}} 

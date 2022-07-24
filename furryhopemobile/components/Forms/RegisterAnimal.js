@@ -3,13 +3,14 @@ import { ActivityIndicator, Image, SafeAreaView, ScrollView, StyleSheet, View, T
 import { RadioButton } from 'react-native-paper'
 import { Picker } from '@react-native-picker/picker'
 import { CredentialsContext } from '../CredentialsContext'
+import TopNav from '../SubComponents/TopNav'
 import BottomNav from '../SubComponents/BottomNav'
 import axios from 'axios'
 import StepIndicator from 'react-native-step-indicator'
 import returnIcon from '../../assets/Icons/returnIcon.svg'
 import nextStepIcon from '../../assets/RegisterAnimal/nextStep.svg'
 import prevStep from '../../assets/RegisterAnimal/prevStep.svg'
-import pawBlack from '../../assets/AnimalCare/text-paw-unfilled-black.svg'
+import Ionicons from 'react-native-vector-icons/Ionicons'
 
 const RegisterAnimal = ({ navigation }) => {
     const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext)
@@ -19,9 +20,12 @@ const RegisterAnimal = ({ navigation }) => {
     var day = d.getDate()
     var year = d.getFullYear()
     var currentDate = `${month} ${day}, ${year}`
+    var d = new Date()
+    // console.log(d.toLocaleDateString())
 
     const [animalType, setAnimalType] = useState('Dog')
     const [registrationType, setRegistrationType] = useState('New')
+    const [applicantImg, setApplicantImg] = useState('')
     const [name, setName] = useState('')
     const [contactNo, setContactNo] = useState('')
     const [lengthOfStay, setLengthOfStay] = useState('')
@@ -30,10 +34,22 @@ const RegisterAnimal = ({ navigation }) => {
     const [animalBreed, setAnimalBreed] = useState('')
     const [animalAge, setAnimalAge] = useState('')
     const [animalColor, setAnimalColor] = useState('')
-    const [animalSex, setAnimalSex] = useState('Choose')
+    const [tagNo, setTagNo] = useState('')
+    const [animalGender, setAnimalGender] = useState('Choose')
     const [date, setDate] = useState(d.toLocaleDateString())
     const [email, setEmail] = useState('')
     const [loading, setLoading] = useState(false)
+
+    const [nameFocused, setNameFocused] = useState(false)
+    const [emailFocused, setEmailFocused] = useState(false)
+    const [contactNoFocused, setContactNoFocused] = useState(false)
+    const [lengthOfStayFocused, setLengthOfStayFocused] = useState(false)
+    const [addressFocused, setAddressFocused] = useState(false)
+    const [animalNameFocused, setAnimalNameFocused] = useState(false)
+    const [animalBreedFocused, setAnimalBreedFocused] = useState(false)
+    const [animalAgeFocused, setAnimalAgeFocused] = useState(false)
+    const [animalColorFocused, setAnimalColorFocused] = useState(false)
+    const [tagNoFocused, setTagNoFocused] = useState(false)
 
     // Step Indicator
     const [currentStep, setCurrentStep] = useState(0)
@@ -69,7 +85,7 @@ const RegisterAnimal = ({ navigation }) => {
     }
 
     const goToThirdStep = () => {
-        if(!name || !contactNo || !lengthOfStay || !address) {
+        if(!name || !email || !contactNo || !lengthOfStay || !address) {
             alert('Please fill out all the necessary fields')
             return
         } else if(contactNo.match(/[^$,.\d]/)) {
@@ -92,15 +108,15 @@ const RegisterAnimal = ({ navigation }) => {
             alert('Please fill out all the necessary fields')
             setLoading(false)
             return
-        } else if(animalSex === 'Choose') {
+        } else if(animalGender === 'Choose') {
             alert('Please choose an appropriate sex of the animal')
             setLoading(false)
             return
         } else {
             try {
                 const { data } = await axios.post('http://localhost:5000/api/users/registerAnimal', {
-                    animalType, registrationType, name, contactNo, lengthOfStay, address,
-                    animalName, animalBreed, animalAge, animalColor, animalSex, date, email
+                    animalType, registrationType, applicantImg, name, contactNo, lengthOfStay, address,
+                    animalName, animalBreed, animalAge, animalColor, animalGender, tagNo, date, email
                 }, config)
 
                 alert('Submitted the Registration, Check your emails for updates soon.')
@@ -112,7 +128,6 @@ const RegisterAnimal = ({ navigation }) => {
         }
 
         setLoading(false)
-
         setAnimalType('Dog')
         setRegistrationType('New')
         setName('')
@@ -123,24 +138,27 @@ const RegisterAnimal = ({ navigation }) => {
         setAnimalBreed('')
         setAnimalAge('')
         setAnimalColor('')
-        setAnimalSex('Choose')
+        setAnimalGender('Choose')
         setEmail('')
         setTimeout(() => {
             setCurrentStep(0)
         }, 2000)
     }
+
+    useEffect(() => {
+        setApplicantImg(storedCredentials.profilePicture)
+        setName(storedCredentials.fullName)
+        setEmail(storedCredentials.email)
+        setContactNo(storedCredentials.contactNo)
+        setAddress(storedCredentials.address)
+    }, [])
     
     return (
         <SafeAreaView style={styles.body}>
             <ScrollView>
-                <View style={styles.backBtn}>
-                    <TouchableOpacity onPress={() => navigation.goBack()}>
-                        <Image style={styles.icon} source={returnIcon}/>
-                    </TouchableOpacity>
+                <TopNav ScreenName='Pet Registration' />
 
-                    <Text style={styles.backBtnText}>Back</Text>
-                </View>
-
+                <View style={{ marginTop: 50 }}></View>                
                 <StepIndicator 
                     customStyles={stepIndicatorStyle}
                     currentPosition={currentStep}
@@ -151,8 +169,9 @@ const RegisterAnimal = ({ navigation }) => {
 
                 {currentStep_0 &&
                     <View style={styles.secondStep}>
-                        <Text style={styles.dateLabel}>DATE: <Text style={styles.dateValue}>{currentDate}</Text></Text>
+                        {/* <Text style={styles.dateLabel}>DATE: <Text style={styles.dateValue}>{currentDate}</Text></Text> */}
 
+                        <Text style={[styles.radioBtnsContainerLabel, { marginTop: 35 }]}>Type of Animal</Text>
                         <View style={styles.radioBtns}>
                             <View style={styles.dogRadioBtn}>
                                 <Text style={styles.radioBtnLabel}>Dog</Text>
@@ -177,6 +196,7 @@ const RegisterAnimal = ({ navigation }) => {
                             </View>
                         </View>
 
+                        <Text style={[styles.radioBtnsContainerLabel, { marginTop: 20, }]}>Registration Type</Text>
                         <View style={styles.radioBtns}>
                             <View style={styles.newRadioBtn}>
                                 <Text style={styles.radioBtnLabel}>New</Text>
@@ -203,54 +223,91 @@ const RegisterAnimal = ({ navigation }) => {
 
                         <Text style={[styles.formLabel, styles.nameLabel]}>Name of Owner</Text>
                         <TextInput 
-                            style={styles.formInput}
+                            style={nameFocused ? styles.formInputFocused : styles.formInput}
                             value={name}
                             onChangeText={setName}
+                            onFocus={() => setNameFocused(true)}
+                            onBlur={() => setNameFocused(false)}
                         />
 
                         <Text style={styles.formLabel}>Email</Text>
                         <TextInput 
-                            style={styles.formInput}
+                            style={emailFocused ? styles.formInputFocused : styles.formInput}
                             value={email}
                             onChangeText={setEmail}
+                            onFocus={() => setEmailFocused(true)}
+                            onBlur={() => setEmailFocused(false)}
                         />
 
                         <Text style={styles.formLabel}>Contact Number</Text>
                         <TextInput 
-                            style={styles.formInput}
+                            style={contactNoFocused ? styles.formInputFocused : styles.formInput}
                             keyboardType='numeric'
                             value={contactNo}
                             onChangeText={setContactNo}
                             maxLength={11}
-                        />
-
-                        <Text style={styles.formLabel}>Length of Stay in the City</Text>
-                        <TextInput 
-                            style={styles.formInput}
-                            value={lengthOfStay}
-                            onChangeText={setLengthOfStay}
+                            onFocus={() => setContactNoFocused(true)}
+                            onBlur={() => setContactNoFocused(false)}
                         />
 
                         <Text style={styles.formLabel}>Address</Text>
                         <TextInput 
-                            style={styles.formInputAddress}
+                            style={addressFocused ? styles.formInputFocused : styles.formInput}
                             value={address}
                             onChangeText={setAddress}
-                            multiline={true}
-                            numberOfLines={5}
+                            onFocus={() => setAddressFocused(true)}
+                            onBlur={() => setAddressFocused(false)}
                         />
 
-                        <View style={[styles.stepBtns, styles.firstButtons]}>
+                        <Text style={styles.formLabel}>Length of Stay in the City</Text>
+                        <TextInput 
+                            style={lengthOfStayFocused ? styles.formInputFocused : styles.formInput}
+                            value={lengthOfStay}
+                            onChangeText={setLengthOfStay}
+                            onFocus={() => setLengthOfStayFocused(true)}
+                            onBlur={() => setLengthOfStayFocused(false)}
+                        />
+
+                        <View style={styles.petRegistrationContainer}>
+                            <Text style={styles.petRegReqHeader}>
+                                Requirements for registering a pet:
+                                </Text>
+                            <Text style={styles.petRegRequirements}>
+                                <Ionicons name='ios-paw-sharp' color='white' size={13} style={{ marginRight: 7 }} />
+                                Registration fee of ₱ 75.00
+                                </Text>
+                            <Text style={styles.petRegRequirements}>
+                                <Ionicons name='ios-paw-sharp' color='white' size={13} style={{ marginRight: 7 }} />
+                                Certificate of Residency issued by barangay or any valid ID.
+                                </Text>
+                            <Text style={styles.petRegRequirements}>
+                                <Ionicons name='ios-paw-sharp' color='white' size={13} style={{ marginRight: 7 }} />
+                                Two (2) pcs of 2x2 picture of owner
+                            </Text>
+                            <Text style={styles.petRegRequirements}>
+                                <Ionicons name='ios-paw-sharp' color='white' size={13} style={{ marginRight: 7 }} />
+                                Photo of the pet in 3R size (Whole body, Side view)
+                            </Text>
+                            <Text style={styles.petRegRequirements}>
+                                <Ionicons name='ios-paw-sharp' color='white' size={13} style={{ marginRight: 7 }} />
+                                Certificate or proof of Anti-Rabies Vaccination
+                            </Text>
+                            <Text style={styles.petRegRequirements}>
+                                <Ionicons name='ios-paw-sharp' color='white' size={13} style={{ marginRight: 7 }} />
+                                Photocopy of the certificate that the pet has already been vaccinated for anti-rabies.
+                            </Text>
+                        </View>
+
+                        
                             {/* <TouchableOpacity style={styles.prevStepBtn} onPress={() => setCurrentStep(0)}>
                                 <Image style={styles.prevStepIcon} source={prevStep} />
                                 <Text style={styles.prevStepText}>PREVIOUS</Text>
                             </TouchableOpacity> */}
 
-                            <TouchableOpacity style={styles.goToThirdStep} onPress={() => goToThirdStep()}>
+                            <TouchableOpacity style={styles.nextStepBtn} onPress={() => goToThirdStep()}>
                                 <Text style={styles.nextStepText}>NEXT</Text>
-                                <Image style={styles.nextStepIcon} source={nextStepIcon} />
                             </TouchableOpacity>
-                        </View>
+                        
                     </View>
                 }
 
@@ -258,39 +315,56 @@ const RegisterAnimal = ({ navigation }) => {
                     <View style={styles.thirdStep}>
                         <Text style={[styles.formLabel, styles.animalNameLabel]}>Animal's Name</Text>
                         <TextInput 
-                            style={styles.formInput}
+                            style={animalNameFocused ? styles.formInputFocused : styles.formInput}
                             value={animalName}
                             onChangeText={setAnimalName}
+                            onFocus={() => setAnimalNameFocused(true)}
+                            onBlur={() => setAnimalNameFocused(false)}
                         />
 
                         <Text style={styles.formLabel}>Animal's Breed</Text>
                         <TextInput 
-                            style={styles.formInput}
+                            style={animalBreedFocused ? styles.formInputFocused : styles.formInput}
                             value={animalBreed}
                             onChangeText={setAnimalBreed}
+                            onFocus={() => setAnimalBreedFocused(true)}
+                            onBlur={() => setAnimalBreedFocused(false)}
                         />
 
                         <Text style={styles.formLabel}>Age</Text>
                         <TextInput 
-                            style={styles.formInputHalf}
+                            style={animalAgeFocused ? styles.formInputFocused : styles.formInput}
                             value={animalAge}
                             onChangeText={setAnimalAge}
+                            onFocus={() => setAnimalAgeFocused(true)}
+                            onBlur={() => setAnimalAgeFocused(false)}
                         />
 
                         <Text style={styles.formLabel}>Color</Text>
                         <TextInput 
-                            style={styles.formInputHalf}
+                            style={animalColorFocused ? styles.formInputFocused : styles.formInput}
                             value={animalColor}
                             onChangeText={setAnimalColor}
+                            onFocus={() => setAnimalColorFocused(true)}
+                            onBlur={() => setAnimalColorFocused(false)}
                         />
 
-                        <Text style={styles.formLabel}>Sex</Text>
+                        <Text style={styles.formLabel}>Tag No.</Text>
+                        <TextInput 
+                            style={tagNoFocused ? styles.formInputFocused : styles.formInput}
+                            value={tagNo}
+                            onChangeText={setTagNo}
+                            onFocus={() => setTagNoFocused(true)}
+                            onBlur={() => setTagNoFocused(false)}
+                        />
+
+                        <Text style={styles.formLabel}>Gender</Text>
                         <Picker
                             itemStyle={styles.animalSexPickerLabel}
                             style={styles.animalSexPicker}
-                            selectedValue={animalSex}
+                            selectedValue={animalGender}
                             onValueChange={(itemValue, itemIndex) =>
-                                setAnimalSex(itemValue)
+                                setAnimalGender(itemValue)
                             }
                         >
                             <Picker.Item label='Choose' value='Choose' />
@@ -329,26 +403,41 @@ const styles = StyleSheet.create({
     },
 
     formLabel: {
-        fontFamily: 'Poppins_400Regular',
+        fontFamily: 'PoppinsRegular',
         fontSize: 16,
-        marginBottom: 4,
-        marginLeft: 46,
+        marginBottom: 5,
+        marginLeft: 35,
     },
 
     formInput: {
+        height: 45,
+        width: '83%',
+        borderRadius: 5,
+        borderColor: '#f1f3f7',
+        borderWidth: 3,
+        backgroundColor: '#f3f5f9',
+        color: '#8c8c8e',
+        fontFamily: 'PoppinsRegular',
+        fontSize: 13,
+        marginBottom: 25,
+        marginLeft: 35,
+        paddingLeft: 10,
+        paddingRight: 10,
+    },
+
+    formInputFocused: {
+        height: 45,
+        width: '83%',
         borderColor: '#111',
-        borderStyle: 'solid',
         borderWidth: 1,
-        width: '77%',
-        height: 40,
-        fontFamily: 'Poppins_400Regular',
-        marginBottom: 20,
-        marginRight: 'auto',
-        marginLeft: 'auto',
-        paddingTop: 5,
-        paddingRight: 7,
-        paddingBottom : 5,
-        paddingLeft: 7,
+        borderRadius: 5,
+        backgroundColor: 'white',
+        fontFamily: 'PoppinsRegular',
+        fontSize: 13,
+        marginBottom: 25,
+        marginLeft: 35,
+        paddingLeft: 10,
+        paddingRight: 10,
     },
 
     formInputAddress: {
@@ -357,7 +446,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         width: '77%',
         height: 100,
-        fontFamily: 'Poppins_400Regular',
+        fontFamily: 'PoppinsRegular',
         marginBottom: 20,
         marginRight: 'auto',
         marginLeft: 'auto',
@@ -373,7 +462,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         width: '43.5%',
         height: 40,
-        fontFamily: 'Poppins_400Regular',
+        fontFamily: 'PoppinsRegular',
         marginBottom: 20,
         marginRight: 46,
         marginLeft: 46,
@@ -387,79 +476,8 @@ const styles = StyleSheet.create({
         marginTop: 50,
     },
 
-    backBtn: {
-        display: 'flex',
-        flexDirection: 'row',
-        marginTop: 25,
-        marginBottom: 70,
-        marginLeft: 20,
-    },
-
-    icon: {
-        width: 23,
-        height: 23,
-    },
-
-    backBtnText: {
-        fontFamily: 'Poppins_500Medium',
-        fontSize: 14.5,
-        marginTop: 2,
-        marginLeft: 7,
-    },
-
-    firstStepHeader: {
-        borderRadius: 25,
-        fontFamily: 'Poppins_400Regular',
-        fontSize: 12,
-        backgroundColor: '#FFF9B5',
-        alignSelf: 'flex-start',
-        marginTop: 50,
-        marginBottom: 5,
-        marginLeft: 35,
-        paddingTop: 3,
-        paddingRight: 7,
-        paddingBottom: 3,
-        paddingLeft: 7,
-    },
-
-    firstStepSubHeader: {
-        fontFamily: 'Poppins_400Regular',
-        fontSize: 15,
-        lineHeight: 26,
-        marginRight: 40,
-        marginLeft: 40,
-    },
-
-    reqHeader: {
-        fontFamily: 'Poppins_600SemiBold',
-        fontSize: 15,
-        marginTop: 35,
-        marginLeft: 40,
-    },
-
-    reqContent: {
-        display: 'flex',
-        flexDirection: 'row',
-        marginRight: 40,
-        marginLeft: 40,
-    },
-
-    pawFilled: {
-        width: 18,
-        height: 15,
-        marginTop: 12,
-    },
-
-    requirements: {
-        fontFamily: 'Poppins_400Regular',
-        fontSize: 14,
-        marginTop: 10,
-        marginLeft: 5,
-    },
-
-
     dateLabel: {
-        fontFamily: 'Poppins_500Medium',
+        fontFamily: 'PoppinsMedium',
         fontSize: 16,
         marginTop: 40,
         marginBottom: 15,
@@ -467,20 +485,27 @@ const styles = StyleSheet.create({
     },
 
     dateValue: {
-        fontFamily: 'Poppins_300Light',
+        fontFamily: 'PoppinsLight',
         fontSize: 16,
         marginLeft: 5,
+    },
+
+    radioBtnsContainerLabel: {
+        marginBottom: 5,
+        marginLeft: 35,
+        fontSize: 16,
+        fontFamily: 'PoppinsMedium',
     },
 
     radioBtns: {
         display: 'flex',
         flexDirection: 'row',
-        marginLeft: 46,
+        marginLeft: 35,
     },
 
     radioBtnLabel: {
-        fontFamily: 'Poppins_400Regular',
-        fontSize: 16,
+        fontFamily: 'PoppinsExtraLight',
+        fontSize: 14,
     },
 
     dogRadioBtn: {
@@ -509,48 +534,37 @@ const styles = StyleSheet.create({
 
     radioBtnLabel: {
         marginTop: 5,
-        fontFamily: 'Poppins_400Regular',
+        fontFamily: 'PoppinsRegular',
         fontSize: 16,
     },
 
     nextStepBtn: {
-        width: 130,
-        height: 45,
+        // width: 130,
+        // height: 45,
+        width: 133,
+        height: 48,
         backgroundColor: '#111',
         borderRadius: 5,
+        backgroundColor: '#111',
+        borderRadius: 5,
+        marginTop: 80,
+        marginRight: 35,
+        marginBottom: 130,
+        marginLeft: 'auto',
+        // paddingTop: 9,
+        // paddingRight: 28,
+        // paddingBottom: 9,
+        // paddingLeft: 28,
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'center',
-        alignSelf: 'flex-end',
-        paddingTop: 5,
-        marginTop: 70,
-        marginRight: 46,
-        marginBottom: 110
+        alignItems: 'center',
     },
 
     nextStepText: {
-        fontFamily: 'Poppins_500Medium',
-        fontSize: 23,
+        fontFamily: 'PoppinsRegular',
+        fontSize: 24,
         color: 'white',
-        marginLeft: 10,
-    },
-
-    nextStepIcon: {
-        width: 30,
-        height: 30,
-        marginTop: 2,
-        marginRight: 10,
-    },
-
-    goToThirdStep: {
-        width: 130,
-        height: 45,
-        backgroundColor: '#111',
-        borderRadius: 5,
-        paddingTop: 5,
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'center'
     },
 
     animalNameLabel: {
@@ -560,7 +574,7 @@ const styles = StyleSheet.create({
     animalSexPicker: {
         width: '43.5%',
         height: 40,
-        marginLeft: 46,
+        marginLeft: 35,
         paddingTop: 5,
         paddingRight: 7,
         paddingBottom: 5,
@@ -568,7 +582,7 @@ const styles = StyleSheet.create({
     },
 
     animalSexPickerLabel: {
-        fontFamily: 'Poppins_400Regular',
+        fontFamily: 'PoppinsRegular',
     },
 
     stepBtns: {
@@ -576,9 +590,9 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         marginTop: 90,
-        marginRight: 46,
+        marginRight: 35,
         marginBottom: 110,
-        marginLeft: 46,
+        marginLeft: 35,
     },
 
     firstButtons: {
@@ -591,19 +605,22 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'space-around',
-        paddingTop: 7,
+        justifyContent: 'space-evenly',
+        alignItems: 'center',
+        borderWidth: 1,
+        borderColor: '#111',
+        width: 133,
+        height: 48,
     },
 
     prevStepIcon: {
-        width: 25,
-        height: 25,
-        marginTop: 2,
+        width: 20,
+        height: 20,
     },
 
     prevStepText: {
-        fontFamily: 'Poppins_500Medium',
-        fontSize: 18,
+        fontFamily: 'PoppinsMedium',
+        fontSize: 16,
         marginLeft: 5,
     },
 
@@ -615,77 +632,42 @@ const styles = StyleSheet.create({
     },
 
     submitBtnText: {
-        fontFamily: 'Poppins_500Medium',
+        fontFamily: 'PoppinsMedium',
         fontSize: 21,
         letterSpacing: 2,
         textAlign: 'center',
         color: 'white',
         marginTop: 7,
     },
+
+    // 
+
+    petRegistrationContainer: {
+        backgroundColor: '#111',
+        padding: 20,
+        marginTop: 40,
+        overflow: 'hidden',
+        borderRadius: 5,
+        marginRight: 35,
+        marginLeft: 35,
+        paddingTop: 30,
+        paddingBottom: 30
+    },
+
+    petRegReqHeader: {
+        fontFamily: 'PoppinsMedium',
+        color: 'white',
+        fontSize: 25,
+        marginBottom: 8,
+    },
+
+    petRegRequirements: {
+        color: 'white',
+        fontFamily: 'PoppinsExtraLight',
+        fontSize: 13.5,
+        marginTop: 10,
+        lineHeight: 30
+    },
 })
 
 export default RegisterAnimal
-
-            /* {currentStep_0 &&
-                    <View style={styles.firstStep}>
-                        <Text style={styles.firstStepHeader}>Animal Registration</Text>
-                        <Text style={styles.firstStepSubHeader}>
-                            Register your animal to the City Veterinary{'\n'}
-                            Office. To register your animals there{'\n'}
-                            are requirements needed to process the{'\n'}
-                            registration of your pet.
-                        </Text>
-
-                        <Text style={styles.reqHeader}>Requirements</Text>
-
-                        <View style={styles.reqContent}>
-                            <Image style={styles.pawFilled} source={pawBlack} />
-                            <Text style={styles.requirements}>
-                                Application from CVO (City Veterinary Office)
-                            </Text>
-                        </View>
-
-                        <View style={styles.reqContent}>
-                            <Image style={styles.pawFilled} source={pawBlack} />
-                            <Text style={styles.requirements}>
-                                Certificate of residency issued by the barangay{'\n'}
-                                or any valid id 
-                            </Text>
-                        </View>
-
-                        <View style={styles.reqContent}>
-                            <Image style={styles.pawFilled} source={pawBlack} />
-                            <Text style={styles.requirements}>
-                                Two (2) pieces of 2x2 picture of owner
-                            </Text>
-                        </View>
-
-                        <View style={styles.reqContent}>
-                            <Image style={styles.pawFilled} source={pawBlack} />
-                            <Text style={styles.requirements}>
-                                Photo of the animal (3R in size, side-view and {'\n'}
-                                whole body)
-                            </Text>
-                        </View>
-
-                        <View style={styles.reqContent}>
-                            <Image style={styles.pawFilled} source={pawBlack} />
-                            <Text style={styles.requirements}>
-                                Registration fee of 75 pesos
-                            </Text>
-                        </View>
-                        
-                        <View style={styles.reqContent}>
-                            <Image style={styles.pawFilled} source={pawBlack} />
-                            <Text style={styles.requirements}>
-                                Photocopy of the vaccination certificate that{'\n'}
-                                proves that the animal is already vaccinated
-                            </Text>
-                        </View>
-
-                        <TouchableOpacity style={styles.nextStepBtn} onPress={() => setCurrentStep(1)}>
-                            <Text style={styles.nextStepText}>NEXT</Text>
-                            <Image style={styles.nextStepIcon} source={nextStepIcon} />
-                        </TouchableOpacity>
-                    </View>
-                } */

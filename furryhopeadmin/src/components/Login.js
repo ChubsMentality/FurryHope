@@ -60,6 +60,7 @@ const Login = ({history}) => {
         gsap.from(subHeaderRef.current, { opacity: 0, y: -60, delay: 1.25, ease: Power1.out })
 
         gsap.from(adoptImg.current, { opacity: 0, y: 60, delay: 1.25, ease: Power2.in })
+    
     }, [])
 
     return (
