@@ -742,7 +742,7 @@
 /* 1600 x 900 */
 @media screen and (max-width: 1919px) {
     .pagination-container {
-        bottom: 28px;
+        bottom: 20px;
     }
 
     .pagination-page-li {

@@ -141,9 +141,27 @@ const updateFeedbackRead = asyncHandler(async (req, res) => {
     }
 })
 
-const getReports = asyncHandler(async (req, res) => {
-    const reports = await StrayAnimalReport.find()
+const getPendingReports = asyncHandler(async (req, res) => {
+    const reports = await StrayAnimalReport.find({ status: 'Pending' })
     res.json(reports)
+})
+
+const getDismissedReports = asyncHandler(async (req, res) => {
+    const reports = await StrayAnimalReport.find({ status: 'Dismissed' })
+    res.json(reports)
+})
+
+const reportHasBeenRead = asyncHandler(async (req, res) => {
+    const report = await StrayAnimalReport.findById(req.params.id)
+
+    if(report) {
+        report.viewed = true
+        const updated = report.save()
+        res.json(updated)
+    } else {
+        res.status(404)
+        throw new Error('Could not find report. (Possible Invalid ID)')
+    }
 })
 
 const getSpecificReport = asyncHandler(async (req, res) => {
@@ -170,9 +188,58 @@ const dismissReport = asyncHandler(async (req, res) => {
     }
 })
 
+const deleteReport = asyncHandler(async (req, res) => {
+    const report = await StrayAnimalReport.findById(req.params.id)
+
+    if(report) {
+        await report.remove()
+        res.json({ message: 'Successfully removed'})
+    }
+})
+
 const getAllRegistrations = asyncHandler(async (req, res) => {
     const registrations = await RegisterAnimal.find()
     res.json(registrations)
+})
+
+const getRegistration = asyncHandler(async (req, res) => {
+    const registration = await RegisterAnimal.findById(req.params.id)
+
+    if(registration) {
+        res.json(registration)
+    } else {
+        res.status(404)
+        throw new Error('Could not find registration (Invalid ID)')
+    }
+})
+
+const getPendingRegistrations = asyncHandler(async (req, res) => {
+    const registrations = await RegisterAnimal.find({ registrationStatus: 'Pending' })
+    res.json(registrations)
+})
+
+const getRegisteredPets = asyncHandler(async (req, res) => {
+    const registrations = await RegisterAnimal.find({ registrationStatus: 'Registered' })
+    res.json(registrations)
+})
+
+const getNotRegisteredPets = asyncHandler(async (req, res) => {
+    const registrations = await RegisterAnimal.find({ registrationStatus: 'Not Registered' })
+    res.json(registrations)
+})
+
+// const updateRegRequirements = asyncHandler(async (req, res) => {
+//     const { } = req.body
+//     const registration = await RegisterAnimal.findById(req.params.id)
+// })
+
+const deleteRegistration = asyncHandler(async (req, res) => {
+    const registration = await RegisterAnimal.findById(req.params.id)
+
+    if(registration) {
+        await registration.remove()
+        res.json({ message: 'Successfully removed'})
+    }
 })
 
 const registerAnimal = asyncHandler(async (req, res) => {
@@ -284,6 +351,38 @@ const updateAdmin = asyncHandler(async (req, res) => {
     } else {
         res.status(404)
         throw new Error('Admin was not found')
+    }
+})
+
+const updateRequirements = asyncHandler(async (req, res) => {
+    const { regFeeComplete, certOfResidencyComplete, ownerPictureComplete, petPhotoComplete, proofOfAntiRabiesComplete, photocopyCertOfAntiRabiesComplete } = req.body
+    const registration = await RegisterAnimal.findById(req.params.id)
+
+    if(registration) {
+        registration.regFeeComplete = regFeeComplete || registration.regFeeComplete
+        registration.certOfResidencyComplete = certOfResidencyComplete || registration.certOfResidencyComplete
+        registration.ownerPictureComplete = ownerPictureComplete || registration.ownerPictureComplete
+        registration.petPhotoComplete = petPhotoComplete || registration.petPhotoComplete
+        registration.proofOfAntiRabiesComplete = proofOfAntiRabiesComplete || registration.proofOfAntiRabiesComplete
+        registration.photocopyCertOfAntiRabiesComplete = photocopyCertOfAntiRabiesComplete || registration.photocopyCertOfAntiRabiesComplete
+    
+        const updated = await registration.save()
+        res.json(updated)
+    } else {
+        res.status(404)
+        throw new Error('Could not find registration. Invalid ID')
+    }
+})
+
+const rejectRegistration = asyncHandler(async (req, res) => {
+    const registration = await RegisterAnimal.findById(req.params.id)
+    const registrationStatus = 'Not Registered'
+
+    if(registration) {
+        registration.registrationStatus = registrationStatus
+
+        const updated = await registration.save()
+        res.json(updated)
     }
 })
 
@@ -534,9 +633,14 @@ module.exports = {
     getFeedback,
     deleteFeedback,
     updateFeedbackRead,
-    getReports,
+    updateRequirements,
+    getPendingReports,
+    getRegistration,
+    getDismissedReports,
     getSpecificReport,
+    reportHasBeenRead,
     dismissReport,
+    deleteReport,
     getAllRegistrations,
     registerAnimal,
     sendRegisteredMessage,
@@ -563,4 +667,9 @@ module.exports = {
     updateHasBeenInterviewed,
     updateAdmin,
     deleteFromInventory,
+    getPendingRegistrations,
+    getRegisteredPets,
+    getNotRegisteredPets,
+    deleteRegistration,
+    rejectRegistration,
 };

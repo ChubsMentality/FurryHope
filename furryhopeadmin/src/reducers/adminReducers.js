@@ -33,6 +33,12 @@ import {
     GET_STRAY_REPORTS_REQUEST,
     GET_STRAY_REPORTS_SUCCESS,
     GET_STRAY_REPORTS_FAIL,
+    GET_DISMISSED_REPORTS_REQUEST,
+    GET_DISMISSED_REPORTS_SUCCESS,
+    GET_DISMISSED_REPORTS_FAIL,
+    DELETE_REPORT_REQUEST,
+    DELETE_REPORT_SUCCESS,
+    DELETE_REPORT_FAIL,
     DISMISS_STRAY_REPORT_REQUEST,
     DISMISS_STRAY_REPORT_SUCCESS,
     DISMISS_STRAY_REPORT_FAIL,
@@ -72,6 +78,27 @@ import {
     FEEDBACK_VIEWED_REQUEST,
     FEEDBACK_VIEWED_SUCCESS,
     FEEDBACK_VIEWED_FAIL,
+    REPORT_VIEWED_REQUEST,
+    REPORT_VIEWED_SUCCESS,
+    REPORT_VIEWED_FAIL,
+    GET_PENDING_PETS_REQUEST,
+    GET_PENDING_PETS_SUCCESS,
+    GET_PENDING_PETS_FAIL,
+    GET_REGISTERED_PETS_REQUEST,
+    GET_REGISTERED_PETS_SUCCESS,
+    GET_REGISTERED_PETS_FAIL,
+    GET_NOTREGISTERED_PETS_REQUEST,
+    GET_NOTREGISTERED_PETS_SUCCESS,
+    GET_NOTREGISTERED_PETS_FAIL,
+    DELETE_REGISTRATION_REQUEST,
+    DELETE_REGISTRATION_SUCCESS,
+    DELETE_REGISTRATION_FAIL,
+    SAVE_REQUIREMENTS_REQUEST,
+    SAVE_REQUIREMENTS_SUCCESS,
+    SAVE_REQUIREMENTS_FAIL,
+    REJECT_REGISTRATION_REQUEST,
+    REJECT_REGISTRATION_SUCCESS,
+    REJECT_REGISTRATION_FAIL,
 } from '../constants/adminConstants'
 
 export const adminLoginReducer = (state={}, action) => {
@@ -210,16 +237,58 @@ export const deleteUserAccReducer = (state = {}, action) => {
     }
 }
 
-export const strayAnimalReportsReducer = (state = { strayReportList: [] }, action) => {
+export const strayAnimalReportsReducer = (state = { pendingReports: [] }, action) => {
     switch(action.type) {
         case GET_STRAY_REPORTS_REQUEST:
             return { loading: true }
         case GET_STRAY_REPORTS_SUCCESS:
-            return { loading: false, strayReportList: action.payload }
+            return { loading: false, pendingReports: action.payload }
         case GET_STRAY_REPORTS_FAIL:
             return { loading: false, error: action.payload }
 
         default:
+            return state
+    }
+}
+
+export const dismissedReportsReducer = (state = { dismissedReports: [] }, action) => {
+    switch(action.type) {
+        case GET_DISMISSED_REPORTS_REQUEST:
+            return { loading: true }
+        case GET_DISMISSED_REPORTS_SUCCESS:
+            return { loading: false, dismissedReports: action.payload }
+        case GET_DISMISSED_REPORTS_FAIL:
+            return { loading: false, error: action.payload }
+
+        default: 
+            return state
+    }
+}
+
+export const deleteReportReducer = (state = {}, action) => {
+    switch(action.type) {
+        case DELETE_REPORT_REQUEST: 
+            return { loading: true }
+        case DELETE_REPORT_SUCCESS:
+            return { loading: false, success: true }
+        case DELETE_REPORT_FAIL:
+            return { loading: false, success: false, error: action.payload }
+
+        default: 
+            return state
+    }
+} 
+
+export const reportViewedReducer = (state = {}, action) => {
+    switch(action.type) {
+        case REPORT_VIEWED_REQUEST:
+            return { loading: true }
+        case REPORT_VIEWED_SUCCESS:
+            return { loading: false, success: true }
+        case REPORT_VIEWED_FAIL:
+            return { loading: false, success: false, error: action.payload }
+
+        default: 
             return state
     }
 }
@@ -400,3 +469,81 @@ export const feedbackViewedReducer = (state = {}, action) => {
 //             return { loading: false, }
 //     }
 // }
+
+export const getPendingRegistrationsReducer = (state = { pendingRegistrations: [] }, action) => {
+    switch(action.type) {
+        case GET_PENDING_PETS_REQUEST:
+            return { loading: true }
+        case GET_PENDING_PETS_SUCCESS:
+            return { loading: false, pendingRegistrations: action.payload }
+        case GET_PENDING_PETS_FAIL:
+            return { loading: false, error: action.payload }
+        default: 
+            return state
+    }
+}
+
+export const getRegisteredPetsReducer = (state = { registeredPets: [] }, action) => {
+    switch(action.type) {
+        case GET_REGISTERED_PETS_REQUEST:
+            return { loading: false }
+        case GET_REGISTERED_PETS_SUCCESS:
+            return { loading: false, registeredPets: action.payload }
+        case GET_REGISTERED_PETS_FAIL:
+            return { loading: false, error: action.payload }
+        default: 
+            return state
+    }
+}
+
+export const getNotRegisteredPetsReducer = (state = { notRegisteredPets: [] }, action) => {
+    switch(action.type) {
+        case GET_NOTREGISTERED_PETS_REQUEST:
+            return { loading: true }
+        case GET_NOTREGISTERED_PETS_SUCCESS:
+            return { loading: false, notRegisteredPets: action.payload }
+        case GET_NOTREGISTERED_PETS_FAIL:
+            return { loading: false, error: action.payload }
+        default: 
+            return state
+    }
+}
+
+export const deleteRegistrationReducer = (state = {}, action) => {
+    switch(action.type) {
+        case DELETE_REGISTRATION_REQUEST:
+            return { loading: true }
+        case DELETE_REGISTRATION_SUCCESS:
+            return { loading: false, success: true }
+        case DELETE_REGISTRATION_FAIL: 
+            return { loading: false, success: false, error: action.payload }
+        default:
+            return state
+    }
+}
+
+export const updateReqReducer = (state = {}, action) => {
+    switch(action.type) {
+        case SAVE_REQUIREMENTS_REQUEST:
+            return { loading: true }
+        case SAVE_REQUIREMENTS_SUCCESS:
+            return { loading: false, success: true }
+        case SAVE_REQUIREMENTS_FAIL: 
+            return { loading: false, success: false, error: action.payload }
+        default:
+            return state
+    }
+}
+
+export const rejectRegistrationReducer = (state = {}, action) => {
+    switch(action.type) {
+        case REJECT_REGISTRATION_REQUEST:
+            return { loading: true }
+        case REJECT_REGISTRATION_SUCCESS:
+            return { loading: false, success: true }
+        case REJECT_REGISTRATION_FAIL:
+            return { loading: false, success: false, error: action.payload }
+        default: 
+            return state
+    }
+}

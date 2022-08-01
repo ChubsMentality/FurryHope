@@ -17,7 +17,6 @@ const ReportAnimal = () => {
     const [description, setDescription] = useState('')
     const [img, setImg] = useState('http://res.cloudinary.com/drvd7jh0b/image/upload/v1640256598/hyr5slabmcd9zf8xddrv.png')
     const [image, setImage] = useState('http://res.cloudinary.com/drvd7jh0b/image/upload/v1640256598/hyr5slabmcd9zf8xddrv.png')
-   
 
     const pickAnImage_Gallery = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -80,8 +79,7 @@ const ReportAnimal = () => {
 
     useEffect(() => {
         let d = new Date()
-        console.log(d.toLocaleDateString())
-        setDate(d.toLocaleDateString())
+        setDate(d.toLocaleDateString(undefined, { day: '2-digit', month: '2-digit', year: 'numeric' }))
     }, [])
 
     const submitReport = async () => {

@@ -1,26 +1,26 @@
 import React, { useState, useEffect } from 'react'
+import { IoClose } from 'react-icons/io5'
 import axios from 'axios'
 import '../../css/ViewUser.css'
 
 const ViewUser = (props) => {
     const [user, setUser] = useState()
-    const [fullName, setFullName] = useState()
-    const [email, setEmail] = useState()
-    const [contactNo, setContactNo] = useState()
-    const [address, setAddress] = useState()
-    const [verified, setVerified] = useState()
-    const [profilePicture, setProfilePicture] = useState()
+    const [animalPreference, setAnimalPreference] = useState()
+    const [sizePreference, setSizePreference] = useState()
+    const [genderPreference, setGenderPreference] = useState()
+    const [colorPreferences, setColorPreferences] = useState()
+    const [breedPreferences, setBreedPreferences] = useState()
 
     const getUser = async () => {
         try {
             const { data } = await axios.get(`http://localhost:5000/api/users/getUserById/${props.id}`)
             setUser(data)
-            setFullName(data.fullName)
-            setEmail(data.email)
-            setContactNo(data.contactNo)
-            setAddress(data.address)
-            setVerified(data.verified)
-            setProfilePicture(data.profilePicture)
+            setAnimalPreference(data.animalPreference)
+            setSizePreference(data.sizePreference)
+            setGenderPreference(data.genderPreference)
+            setBreedPreferences(data.breedPreferences)
+            setColorPreferences(data.colorPreferences)
+            console.log(data)
         } catch (error) {
             console.log(error)
         }
@@ -34,39 +34,71 @@ const ViewUser = (props) => {
 
     return (
         <div className='viewUser-modal'>
+            <IoClose className='viewUser-closeModal' color='#111' onClick={() => props.toggleModal()}/>
             <div className="viewUser-left">
-                <label htmlFor="name" className="viewUser-label viewUser-name">Name</label>
-                <input type="text" name="name" className="viewUser-input" value={fullName} disabled />
+                <div className="viewUser-profContainer">
+                    <img src={user && user.profilePicture} alt="User's Profile Picture" className="viewUser-profilePic" />
 
-                <br />
+                    <div className="viewUser-userInfo-container">
+                        <p className="userInfo-name">{user && user.fullName}</p>
+                        <p className="userInfo-id">ID:
+                            <span>{user && user._id}</span>
+                        </p>
+                    </div>
+                </div>
 
-                <label htmlFor="name" className="viewUser-label">Email</label>
-                <input type="text" name="name" className="viewUser-input" value={email} disabled />
+                <p className="userInfo-label">Email:
+                    <span className="userInfo-value">{user && user.email}</span>
+                </p>
 
-                <br />
+                <p className="userInfo-label">Contact Number:
+                    <span className="userInfo-value">{user && user.contactNo}</span>
+                </p>
 
-                <label htmlFor="name" className="viewUser-label">Contact Number</label>
-                <input type="text" name="name" className="viewUser-input" value={contactNo} disabled />
+                <p className="userInfo-label">Verified:
+                    {user && user.verified === true ?
+                        <span className="userInfo-value userInfo-verified-true">Verified</span>
+                        :
+                        <span className="userInfo-value userInfo-verified-false">Not Verified</span>
+                    }
+                </p>
 
-                <br />
-                
-                <label htmlFor="name" className="viewUser-label">Address</label>
-                <input type="text" name="name" className="viewUser-input" value={address} disabled />
-
-                <br />
-
-                <label htmlFor="name" className="viewUser-label">Verified</label>
-                <input type="text" name="name" className="viewUser-input" value={verified} disabled />
+                <p className="userInfo-label-address">Address</p>
+                <div className="userInfo-value-address">{user && user.address}</div>
             </div>
 
             <div className="viewUser-right">
-                <label htmlFor="" style={{ marginTop: 10 }} className="viewUser-label">Profile Picture</label>
-                <img src={user && user.profilePicture} alt="" className="viewUser-preview" />
+                <p className="viewUser-right-header">Preferences</p>
 
-                <button className="viewUser-close" onClick={() => props.toggleModal()}>CLOSE</button>
+                <p className="userInfo-label-right">Animal:
+                    <span className="userInfo-value-right">{animalPreference}</span>
+                </p>
+
+                <p className="userInfo-label-right">Gender:
+                    <span className="userInfo-value-right">{genderPreference}</span>
+                </p>
+
+                <p className="userInfo-label-right">Size:
+                    <span className="userInfo-value-right">{sizePreference}</span>
+                </p>
+
+                <p className="userInfo-pref">Breeds</p>
+                <div className="breedsPrefContainer">
+                    {breedPreferences && breedPreferences.map((breed) => (
+                        <p className='breedPrefItem'>{breed}</p>
+                    ))}
+                </div>
+
+                <p className="userInfo-pref">Colors</p>
+                <div className="colorsPrefContainer">
+                    {colorPreferences && colorPreferences.map((color) => (
+                        <p className='colorPrefItem'>{color}</p>
+                    ))}
+                </div>
             </div>
         </div>
     )
 }
+{/* <button className="viewUser-close" onClick={() => props.toggleModal()}>CLOSE</button> */}
 
 export default ViewUser

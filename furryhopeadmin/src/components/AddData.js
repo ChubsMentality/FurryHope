@@ -117,82 +117,76 @@ const AddData = () => {
                         <IoArrowBackOutline className='addData-backIcon' />
                         <p className="addData-backTxt">Back</p>
                     </Link>
-                    <p className='add-data-header'>ADD A NEW ANIMAL</p>
+                    {/* <p className='add-data-header'>ADD A NEW ANIMAL</p> */}
                 </div>
                 <form className="addData-form-container" onSubmit={submitHandler}>
                     <div className='addData-form-left-column'>
                         <label htmlFor="name" className="lbl-add-name lbl-addData">Name</label><br />
                         <input type="text" name="name" className="addName input-add-data" required value={name} onChange={(e) => setName(e.target.value)}/><br />
 
-                        <br />
-
                         <label htmlFor="breed" className="lbl-breed lbl-addData">Breed</label><br />
                         <input type="text" name="breed" className="addBreed input-add-data" value={breed} onChange={(e) => setBreed(e.target.value)}/><br />
-
-                        <br />
 
                         <label htmlFor="color" className='lbl-color lbl-addData'>Color</label><br />
                         <input type="text" name="color" className="addColor" value={color} onChange={(e) => setColor(e.target.value)} /><br />
 
-                        <br />
-
                         <label htmlFor="desc" className="lbl-breed lbl-addData">Description (optional)</label><br />
                         <textarea name="desc" className="addDesc" value={description} onChange={(e) => setDescription(e.target.value)}></textarea><br />
 
-                        <br />
+                        <div className="addData-selectContainer">
+                            <div className='addData-selectDiv'>
+                                <label htmlFor="select" className="lbl-select lbl-addData">Gender</label>
+                                <select className="addData-select" name="select-gender" required value={gender} onChange={(e) => setGender(e.target.value)}>
+                                    <option value="" defaultValue>Select here</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                </select>
+                            </div>
 
-                        <label htmlFor="select" className="lbl-select lbl-addData">Gender</label>
-                        <select className="addData-select" name="select-gender" required value={gender} onChange={(e) => setGender(e.target.value)}>
-                            <option value="" defaultValue>Select here</option>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                        </select>
+                            <br />
 
-                        <br />
+                            <div className='addData-selectDiv'>
+                                <label htmlFor="select" className="lbl-select lbl-addData">Animal Type</label>
+                                <select className="addData-select" name="select" required value={animalType} onChange={(e) => setAnimalType(e.target.value)}>
+                                    <option value="" defaultValue>Select here</option>
+                                    <option value="Dog">Dog</option>
+                                    <option value="Cat">Cat</option>
+                                </select>
+                            </div>
 
-                        <label htmlFor="select" className="lbl-select lbl-addData">Animal Type</label>
-                        <select className="addData-select" name="select" required value={animalType} onChange={(e) => setAnimalType(e.target.value)}>
-                            <option value="" defaultValue>Select here</option>
-                            <option value="Dog">Dog</option>
-                            <option value="Cat">Cat</option>
-                        </select>
+                            <br />
 
-                        <br />
-
-                        <label htmlFor="select" className="lbl-select lbl-addData">Size of the animal</label>
-                        <select className="addData-select" name="select" required value={size} onChange={(e) => setSize(e.target.value)}>
-                            <option value="" defaultValue>Select here</option>
-                            <option value="Small">Small</option>
-                            <option value="Medium">Medium</option>
-                            <option value="Large">Large</option>
-                        </select>
-
-                        <br />
+                            <div className='addData-selectDiv'>
+                                <label htmlFor="select" className="lbl-select lbl-addData">Size of the animal</label>
+                                <select className="addData-select addData-sizeSelect" name="select" required value={size} onChange={(e) => setSize(e.target.value)}>
+                                    <option value="" defaultValue>Select here</option>
+                                    <option value="Small">Small</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="Large">Large</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                     <div className='addData-form-right-column'>
+                        <label htmlFor="date" className="lbl-add-availUntil">Available Until</label><br/>
+                        <input type="date" name="date" id="date" className='add-data-availUntil' />
+
+
                         <div className="add-data-imgUploadContainer">
-                            <label htmlFor="imgUpload" className="lbl-select lbl-imgUpload">Image Upload</label>
+                            <label htmlFor="imgUpload" className="lbl-select lbl-add-imgUpload">Image Upload</label><br/>
                             <input type="file" className="add-data-imgUpload" name="imgUpload" onChange={(e) => uploadImg(e.target.files[0])} />
                         </div>
-
+                        
                         <p className='add-data-preview-txt'>Preview</p>
-                        <br />
+
                         <img src={selectedImg} className='add-data-imgUpload-preview' />
-                        <br />
+
                         <button className="btn-add" >{loading ? <ClipLoader color={spinnrColor} css={override} loading={loading} size={35} /> : <p className='add-data-text'>SUBMIT</p>}</button>
                     </div>
                 </form>
             </div>
         </div>
     )
-
 }
 
 export default AddData;
-
-/*
-<div className="imgUploadContainer">
-                    <label htmlFor="imgUpload" className="lbl-imgUpload lbl-add">Image Upload</label><br />
-                    <input type="file" className="imgUpload" name="imgUpload" onChange={(e) => uploadImg(e.target.files[0])} />
-                </div>
-*/

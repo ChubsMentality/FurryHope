@@ -15,6 +15,7 @@ import StrayAnimalReports from './StrayAnimalReports'
 import Donations from './Donations'
 import Error from '../components/Error404'
 import UserFeedback from './UserFeedback'
+import SpecRegistration from './SpecRegistration'
 
 import '../css/App.css'
 
@@ -37,6 +38,7 @@ const App = () => {
                     <Route path="/add" component={AddData} />
                     <Route path="/addAdmin" component={AddAdmin} />
                     <Route path="/animalRegistration" component={AnimalRegistration} />
+                    <Route path='/specReg/:id' component={SpecRegistration} />
                     {/* <Route path="/adoptions" component={AdoptionApplications} /> */}
                     <Route path="/adoptions" component={Adoptions} />
                     <Route path="/adoption/:id" component={Adoption} />

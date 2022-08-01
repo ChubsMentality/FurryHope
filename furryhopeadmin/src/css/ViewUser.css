@@ -1,9 +1,9 @@
 .viewUser-modal {
-    height: 710px;
-    width: 975px;
+    height: 550px;
+    width: 850px;
     background-color: #fff;
     border-radius: 5px;
-    z-index: 10;
+    z-index: 30;
     position: fixed;
     top: 50%;
     left: 50%;
@@ -17,119 +17,103 @@
     right: 15px;
     height: 40px;
     width: 40px;
+    cursor: pointer;
 }
 
 .viewUser-left,
 .viewUser-right {
     height: 100%;
     width: 50%;
+    padding: 50px;
 }
 
 .viewUser-left {
-    padding: 40px 0 40px 50px;
 }
 
 .viewUser-right {
-    padding: 50px 0 0 0;
 }
 
-.viewUser-label {
-    display: block;
-    font-size: 1.2rem;
-    margin: 10px 0 0 0;
+.viewUser-profContainer {
+    display: flex;
+    align-items: center;
+    margin: 0 0 30px 0;
 }
 
-.viewUser-input {
-    border-radius: 5px;
-    padding: 13px 0 13px 15px;
-    width: 350px;
-    background-color: #f3f5f9;
-    border: 3px solid #f1f3f7;
-    display: block;
-    font-size: 1.2rem;
-    margin: 10px 0 0 0;
+.viewUser-profilePic {
+    height: 80px;
+    width: 80px;
 }
 
-.viewUser-input:focus {
-    background-color: white;
-    border: 3px solid black
+.viewUser-userInfo-container {
+    margin-left: 10px;
 }
 
-.viewUser-label-right {
-    display: block;
-    font-size: 1.2rem;
-    margin: 10px 0 0 0;
-    position: relative;
-}
-
-.viewUser-select {
-    font-size: 1.2rem;
-    margin: 5px 0 20px 0;
-    padding: 5px 20px;
-}
-
-.viewUser-profPic {
-    display: block;
-    margin: 5px 0 0 0;
-}
-
-.viewUser-preview {
-    height: 200px;
-    width: 200px;
-    margin: 20px 0 0 0;
-    border-radius: 100%;
-}
-
-.viewUser-close {
+.userInfo-name {
     font-size: 1.5rem;
     font-weight: 500;
-    padding: 10px 25px;
-    position: absolute;
-    bottom: 70px;
-    right: 70px;
+}
+
+.userInfo-id {
+    font-weight: 300;
+    font-size: .9rem;
+}
+
+.userInfo-id span {
+    margin-left: 5px;
+}
+
+.userInfo-label, .userInfo-label-right {
+    font-size: 1.1rem;
+    margin: 0 0 15px 0;
+}
+
+.userInfo-value, .userInfo-value-right {
+    font-size: 1rem;
+    margin-left: 5px;
+    font-weight: 300;
+}
+
+.userInfo-label-address {
+    font-size: 1.2rem;
+    margin: 0 0 5px;
+}
+
+.userInfo-value-address {
+    font-size: 1rem;
+    font-weight: 300;
+}
+
+.viewUser-right-header {
+    font-size: 1.4rem;
+    font-weight: 500;
+    margin: 0 0 15px 0;
+}
+
+.userInfo-pref {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+}
+
+.breedsPrefContainer, .colorsPrefContainer {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    row-gap: 6px;
+    margin: 0 0 20px 0
+}
+
+.breedPrefItem, .colorPrefItem {
+    font-size: .9rem;
+    background-color: #111;
+    color: white;
+    padding: 5px 10px;
     border-radius: 5px;
-    cursor: pointer;
+    margin-right: 10px;
 }
 
 /* 1600 x 900 */
 @media screen and (max-width: 1919px) {
-    .viewUser-modal {
-        height: 600px;
-        width: 880px;
-    }
-
-    .viewUser-left {
-        padding: 30px 0 30px 50px;
-    }
-
-    .viewUser-right {
-        padding: 30px 0 0 0;
-    }
-
-    .viewUser-label {
-        font-size: 1rem;
-    }
-
-    .viewUser-input {
-        width: 330px;
-        font-size: 1rem;
-        margin: 5px 0 0 0;
-        padding: 10px;
-    }
-
-    .viewUser-label-right {
-        font-size: 1rem;
-    }
-
-    .viewUser-preview {
-        height: 150px;
-        width: 150px;
-    }
-
-    .viewUser-close {
-        font-size: 1.3rem;
-        bottom: 60px;
-    }
+    
 }
 
 /* 1440 x 900 */
@@ -139,44 +123,90 @@
 
 /* 1360 x 768 */
 @media screen and (max-width: 1360px) {
-    .viewUser-modal {
-        height: 560px;
-        width: 800px;
-    }
-
-    .viewUser-left {
-        padding: 15px 0 15px 45px;
-    }
-
-    .viewUser-right {
-        padding: 25px 0 0 50px;
-    }
-
-    .viewUser-name {
-        margin-top: 20px;
-    }
-
-    .viewUser-label {
-        font-size: .9rem;
-    }
-
-    .viewUser-input {
-        font-size: .9rem;
-    }
-
-    .viewUser-label-right {
-        font-size: .9rem;
-    }
-
-    .viewUser-close {
-        font-size: 1.1rem;
-        bottom: 40px;
-    }
+    
 }
 
 /* 1280 x 1024 */
 @media screen and (max-width: 1280px) {
+    .viewUser-modal {
+        height: 500px;
+        width: 780px;
+    }
 
+    .viewUser-closeModal {
+        height: 30px;
+        width: 30px;
+    }
+
+    .viewUser-profContainer {
+        margin: 0 0 30px 0;
+    }
+
+    .viewUser-profilePic {
+        height: 70px;
+        width: 70px;
+    }
+
+    .userInfo-name {
+        font-size: 1.2rem;
+    }
+
+    .userInfo-id {
+        font-size: .75rem;
+    }
+
+    .userInfo-label,
+    .userInfo-label-right {
+        font-size: 1rem;
+        margin: 0 0 15px 0;
+    }
+
+    .userInfo-value,
+    .userInfo-value-right {
+        font-size: .93rem;
+        margin-left: 5px;
+        font-weight: 300;
+    }
+
+    .userInfo-label-address {
+        font-size: 1rem;
+        margin: 0 0 5px;
+    }
+
+    .userInfo-value-address {
+        font-size: .93rem;
+        font-weight: 300;
+    }
+
+    .viewUser-right-header {
+        font-size: 1.2rem;
+        font-weight: 500;
+        margin: 0 0 15px 0;
+    }
+
+    .userInfo-pref {
+        font-size: 1rem;
+        margin-bottom: 10px;
+    }
+
+    .breedsPrefContainer,
+    .colorsPrefContainer {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        row-gap: 6px;
+        margin: 0 0 20px 0
+    }
+
+    .breedPrefItem,
+    .colorPrefItem {
+        font-size: .8rem;
+        background-color: #111;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 5px;
+        margin-right: 10px;
+    }
 }
 
 /* 1024 x 768 */

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getAdoptionApplications, deleteAdoptionApplication } from '../actions/adminActions'
 import { Link } from 'react-router-dom'
 import { MdDelete } from 'react-icons/md'
+import { AiOutlineSearch } from 'react-icons/ai'
 import ReactPaginate from 'react-paginate'
 import axios from 'axios'
 import Sidebar from './Sidebar'
@@ -10,6 +11,8 @@ import '../css/Adoptions.css'
 
 const Adoptions = () => {
     const dispatch = useDispatch()
+    const [searchQuery, setSearchQuery] = useState('')
+
     const adminState = useSelector((state) => state.adminLogin)
     const { adminInfo } = adminState
 
@@ -65,48 +68,52 @@ const Adoptions = () => {
     const PaginatedAdoptions = ({ currentAdoptions }) => {
         return (
             <>
-                {currentAdoptions &&
-                    currentAdoptions.map((adoption) => (
-                        <div className="adoptionContainer" key={adoption._id}>
-                            <div className="applicantContainer adoptionContainerColumn">
-                                <img src={adoption.applicantImg} alt="Applicant's Picture" className="adoptionApplicantImg" />
-                                <p className="adoptionApplicantName">{adoption.applicantName}</p>
+                {currentAdoptions && currentAdoptions.filter((adoption) => {
+                    if(searchQuery === '') {
+                        return adoption
+                    } else if(adoption.applicantName.toLowerCase().includes(searchQuery.toLowerCase())) {
+                        return adoption
+                    }
+
+                }).map((adoption) => (
+                    <div className="adoptionContainer" key={adoption._id}>
+                        <div className="applicantContainer adoptionContainerColumn">
+                            <img src={adoption.applicantImg} alt="Applicant's Picture" className="adoptionApplicantImg" />
+                            <p className="adoptionApplicantName">{adoption.applicantName}</p>
+                        </div>
+
+                        <div className="applyingForContainer adoptionContainerColumn">
+                            <img src={adoption.animalImg} alt="Animal's Picture" className="adoptionAnimalImg" />
+                            <div className="applyingForAnimalDetails">
+                                <p className="adoptionAnimalName">{adoption.animalName}</p>
+                                <p className="adoptionAnimalBreed">{adoption.animalBreed}</p>
                             </div>
+                        </div>
 
-                            <div className="applyingForContainer adoptionContainerColumn">
-                                <img src={adoption.animalImg} alt="Animal's Picture" className="adoptionAnimalImg" />
-                                <div className="applyingForAnimalDetails">
-                                    <p className="adoptionAnimalName">{adoption.animalName}</p>
-                                    <p className="adoptionAnimalBreed">{adoption.animalBreed}</p>
-                                </div>
-                            </div>
+                        <div className="adoptionStatusContainer adoptionContainerColumn">
+                            {adoption.applicationStatus === 'Pending' &&
+                                <p className="currentAdoptionStatusPending">{adoption.applicationStatus}</p>
+                            }
 
-                            <div className="adoptionStatusContainer adoptionContainerColumn">
-                                {adoption.applicationStatus === 'Pending' &&
-                                    <p className="currentAdoptionStatusPending">{adoption.applicationStatus}</p>
-                                }
+                            {adoption.applicationStatus === 'Rejected' &&
+                                <p className="currentAdoptionStatusRejected">{adoption.applicationStatus}</p>
+                            }
 
-                                {adoption.applicationStatus === 'Rejected' &&
-                                    <p className="currentAdoptionStatusRejected">{adoption.applicationStatus}</p>
-                                }
+                            {adoption.applicationStatus === 'Accepted' &&
+                                <p className="currentAdoptionStatusAccepted">{adoption.applicationStatus}</p>
+                            }
+                        </div>
 
-                                {adoption.applicationStatus === 'Accepted' &&
-                                    <p className="currentAdoptionStatusAccepted">{adoption.applicationStatus}</p>
-                                }
-                            </div>
-
-                            <div className="adoptionContainerBtns adoptionContainerColumn">
-                                <Link style={{ textDecoration: 'none' }} to={`adoption/${adoption._id}`}>
-                                    <p className='adoptionViewBtn'>View Details</p>
-                                </Link>
-                                <button className='adoptionsDeleteBtn' onClick={() => deleteHandler(adoption._id)}>
-                                    <MdDelete className='adoptionsDeleteBtnTxt' color='red' />
-                                </button>
-                            </div>
-                        </div> 
-                    ))
-
-                }
+                        <div className="adoptionContainerBtns adoptionContainerColumn">
+                            <Link style={{ textDecoration: 'none' }} to={`adoption/${adoption._id}`}>
+                                <p className='adoptionViewBtn'>View Details</p>
+                            </Link>
+                            <button className='adoptionsDeleteBtn' onClick={() => deleteHandler(adoption._id)}>
+                                <MdDelete className='adoptionsDeleteBtnTxt' color='red' />
+                            </button>
+                        </div>
+                    </div> 
+                ))}
             </>
         )
     }
@@ -174,7 +181,10 @@ const Adoptions = () => {
 
                 <div className="adoptionsAdmin-container">
                     <div className="adoptionsAdmin-subHeader">
-                        <p className="adoptionsAdmin-container-header">ADOPTIONS</p>
+                        <div className="manage-searchContainer">
+                            <AiOutlineSearch className='manage-searchIcon' color='#111' />
+                            <input type="text" className="manage-searchTxt" placeholder='Enter name of applicant' value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
+                        </div>
 
                         <div className="adoptionsAdmin-right">
                             <p className="adoptionAdmin-filter-label">Filter By</p>

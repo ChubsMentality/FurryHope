@@ -70,14 +70,23 @@ registerAnimalSchema = mongoose.Schema(
             required: true,
         },
 
-        registered: {
+        registrationStatus: {
             type: String,
-            default: 'Processing',
         },
 
         email: {
             type: String,
             required: true,
+        },
+
+        adoptionReference: {
+            type: String,
+            required: true
+        },
+
+        isFromAdoption: {
+            type: Boolean,
+            required: true
         },
 
         regFeeComplete: {
@@ -115,6 +124,7 @@ registerAnimalSchema = mongoose.Schema(
             required: true,
             ref: 'User',
         },
+
     },
     {
         timestamps: true,

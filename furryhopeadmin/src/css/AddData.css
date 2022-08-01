@@ -51,10 +51,11 @@
   align-items: center;
   background-color: white;
   border-radius: 10px;
-  box-shadow: 0px 0px 25px 0 rgba(0, 0, 0, .05);
+  /* box-shadow: 0px 0px 25px 0 rgba(0, 0, 0, .05); */
   display: flex;
-  margin: 50px 90px 0 90px;
-  padding: 70px;
+  margin: 40px 0 0 90px;
+  padding: 50px 50px;
+  width: 1010px;
   position: relative;
 }
 
@@ -64,16 +65,18 @@
 }
 
 .addData-form-right-column {
-  width: 50%;
+  width: auto;
   height: 100%;
   margin-bottom: auto;
+  padding-left: 50px;
+  position: relative;
 }
 
 .lbl-addData {
   display: block;
   font-size: 1.3rem;
   font-weight: 500;
-  margin: -20px 0 -20px 0;
+  margin: 0 0 -15px 0;
 }
 
 .input-add-data {
@@ -81,16 +84,16 @@
   border-radius: 5px;
   background-color: #f3f5f9;
   border: 3px solid #f1f3f7;
-  height: 55px;
+  height: 50px;
   width: 440px;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 200;
+  padding: 0 12px;
   margin-bottom: 10px;
-  padding: 0 15px;
 }
 
 .input-add-data:focus {
-  border: 3px solid #111;
+  border: 1px solid #111;
   background-color: white;
 } 
 
@@ -101,10 +104,10 @@
   border: 3px solid #f1f3f7;
   height: 55px;
   width: 440px;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 200;
   margin-bottom: 10px;
-  padding: 0 15px;
+  padding: 0 12px;
 }
 
 .addColor:focus {
@@ -116,11 +119,11 @@
   background-color: #f3f5f9;
   border: 3px solid #f1f3f7;
   border-radius: 5px;
-  width: 73%;
+  width: 445px;
   height: 250px;
-  margin: 5px 0 20px 0;
-  font-size: 1.2rem;
-  padding: 7px 10px;
+  margin: 0 0 25px 0;
+  font-size: 1.1rem;
+  padding: 10px 10px;
   font-weight: 300;
   font-family: "Poppins", sans-serif;
   display: block;
@@ -131,50 +134,76 @@
   border: 3px solid #111;
 }
 
+.addData-selectContainer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 10px;
+}
+
 .lbl-select {
   display: block;
-  font-size: 1.3rem;
+  font-size: 1.1rem;
   font-weight: 500;
-  margin-bottom: 0px;
+  margin-bottom: 0;
 }
 
 .addData-select {
   cursor: pointer;
   width: 120px;
   height: 40px;
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-family: "Poppins", sans-serif;
-  margin: 5px 0 25px 0;
+  margin: 5px 0 0 0;
   display: block;
+}
+
+.addData-sizeSelect {
+}
+
+.lbl-add-availUntil {
+  display: block;
+  font-size: 1.3rem;
+  font-weight: 500;
+  margin: 0px 0 -15px 0;
+}
+
+.add-data-availUntil {
+  font-size: 1.1rem;
+  display: block;
+  margin-bottom: 20px;
+  cursor: pointer;
 }
 
 .add-data-imgUploadContainer {
   display: flex;
-  margin: -15px 0 30px 0;
+  margin: 40px 0 30px 0;
+  flex-direction: column;
 }
 
 .add-data-imgUpload {
-  margin: 0 0 0 15px;
   font-size: 1.1rem;
   display: block;
   cursor: pointer;
+  margin-top: -13px;
 }
 
 .add-data-preview-txt {
   font-size: 1.4rem;
   font-weight: 500;
+  margin: 40px 0 0 0;
 }
 
 .add-data-imgUpload-preview {
-  width: 490px;
-  height: 440px;
-  margin: 5px 0 0 0;
+  width: 464px;
+  height: 400px;
+  margin: 7px 0 0 0;
   -webkit-user-drag: none;
   aspect-ratio: 1 / 1;
 }
 
 .btn-add {
-  width: 220px;
+  width: 190px;
   height: 70px;
   background-color: #ffef3d;
   outline: none;
@@ -184,9 +213,10 @@
   font-weight: 700;
   font-family: 'Poppins', sans-serif;
   margin-top: 100px;
-  margin-left: 270px;
+  margin-left: auto;
   cursor: pointer;
-  display: inline-block;
+  display: block;
+  
 }
 
 .btn-add:hover {
@@ -204,12 +234,12 @@
   }
 
   .addData-backIcon {
-    height: 34px;
-    width: 34px;
+    height: 28px;
+    width: 28px;
   }
 
   .addData-backTxt {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
   }
 
   .add-data-header {
@@ -217,46 +247,64 @@
   }
 
   .addData-form-container {
-    padding: 65px 55px;
+    padding: 40px;
+    width: 920px;
+  }
+
+  .addData-form-left-column {
+    margin-bottom: auto;
   }
 
   .lbl-addData {
-    font-size: 1.15rem;
-    margin: -20px 0 -15px 0;
+    font-size: 1rem;
+    margin: 0px 0 -15px 0;
   }
 
   .input-add-data {
-    height: 43px;
-    font-size: 1rem;
-    width: 390px;
+    height: 42px;
+    font-size: .9rem;
+    width: 370px;
     padding: 0 12px;
+    margin-bottom: 0;
   }
 
   .addColor {
-    height: 43px;
-    width: 390px;
+    height: 42px;
+    width: 370px;
     padding: 0 12px;
+    font-size: .9rem;
   }
 
   .addDesc {
-    width: 78%;
-    font-size: 1rem;
+    width: 90%;
+    font-size: .9rem;
     padding: 12px;
-    height: 230px;
+    height: 180px;
+  }
+
+  .addData-selectContainer {
+    row-gap: 30px;
   }
 
   .lbl-select {
-    font-size: 1.1rem;
+    font-size: 1rem;
+    margin-bottom: -10px;
   }
 
   .addData-select {
-    margin: 15px 0 25px 0;
+    margin: 15px 0 0 0;
+    font-size: .86rem;
+    padding: 0;
+  }
+
+  .lbl-add-availUntil {
     font-size: 1rem;
+    margin: 0px 0 -15px 0;
   }
 
   .add-data-imgUpload {
     font-size: 1rem;
-    margin: 0 0 0 15px;
+    margin: -5px 0 0 0;
   }
 
   .add-data-preview-txt {
@@ -264,6 +312,14 @@
   }
   
   .add-data-imgUpload-preview {
+    height: 380px;
+  }
+
+  .btn-add {
+    font-size: 1.4rem;
+    width: auto;
+    height: auto;
+    padding: 10px 30px;
   }
 }
 
@@ -274,12 +330,12 @@
   }
 
   .addData-backIcon {
-    height: 32px;
-    width: 32px;
+    height: 26px;
+    width: 26px;
   }
 
   .addData-backTxt{ 
-    font-size: 1.4rem;
+    font-size: 1.2rem;
   }
 
   .add-data-header {
@@ -288,62 +344,69 @@
   }
 
   .addData-form-container {
-    padding: 55px 45px;
+    margin-top: 30px;
+    padding: 35px;
+    width: 780px;
   }
 
   .lbl-addData {
-    font-size: 1.05rem;
-    margin: -20px 0 -18px 0;
+    font-size: .95rem;
   }
 
   .input-add-data {
-    height: 40px;
-    width: 350px;
-    font-size: .88rem;
+    height: 37px;
+    font-size: .85rem;
+    padding: 0 10px;
+    width: 340px;
   }
 
   .addColor {
-    height: 40px;
-    width: 350px;
-    font-size: .88rem;
+    width: 340px;
+    font-size: .85rem;
+    padding: 0 10px;
   }
 
   .addDesc {
-    width: 80%;
-    font-size: .9rem;
-    height: 190px;
+    width: 340px;
+    height: 150px;
+  }
+
+  .addData-selectContainer {
+    row-gap: 20px;
   }
 
   .lbl-select {
-    font-size: 1rem;
+    font-size: .95rem;
   }
 
-  .addData-select {
-    margin: 25px 0 25px 0;
+  .addData-select{
+    font-size: .8rem;
   }
 
-  .lbl-imgUpload {
-    font-size: 1.05rem;
+  .lbl-add-availUntil {
+    font-size: .95rem;
+  }
+
+  .add-data-availUntil {
+    font-size: .85rem;
   }
 
   .add-data-imgUpload {
-    margin: 0 0 0 15px;
-    font-size: .9rem;
+    font-size: .85rem;
   }
 
-  .add-data-preview-txt{ 
-    font-size: 1.1rem;
+  .add-data-preview-txt {
+    font-size: .95rem;
   }
 
   .add-data-imgUpload-preview {
-    height: 330px;
-    width: 430px;
+    height: 300px;
+    width: 350px;
   }
 
   .btn-add {
-    height: 65px;
-    width: 200px;
-    margin-left: 230px;
+    font-size: 1.35rem;
+    padding: 10px 30px;
   }
 }
 
@@ -356,12 +419,12 @@
   }
 
   .addData-backIcon {
-    height: 30px;
-    width: 30px;
+    height: 24px;
+    width: 24px;
   }
 
   .addData-backTxt {
-    font-size: 1.3rem;
+    font-size: 1.1rem;
   }
 
   .add-data-header {
@@ -369,58 +432,71 @@
   }
 
   .addData-form-container {
-    padding: 55px 35px;
+    margin-top: 25px;
+    padding: 30px;
+    width: 700px;
   }
 
   .lbl-addData {
-    font-size: 1rem;
+    font-size: .85rem;
   }
 
   .input-add-data {
-    height: 37px;
-    width: 330px;
-    font-size: .83rem;
+    height: 33px;
+    width: 300px;
+    padding: 0 10px;
   }
-
+ 
   .addColor {
-    height: 37px;
-    width: 330px;
-    font-size: .83rem
+    height: 33px;
+    width: 300px;
+    font-size: .85rem;
   }
 
   .addDesc {
-    font-size: .85rem;
-    height: 170px; 
-    width: 79%;
+    width: 300px;
+    height: 130px;
+    font-size: .75rem;
   }
-  
-  .addData-select {
-    font-size: 1rem;
+
+  .addData-selectContainer {
+    row-gap: 15px;
   }
 
   .lbl-select {
-    font-size: 1rem;
+    font-size: .85rem;
+  }
+
+  .addData-select {
+    font-size: .7rem;
+    height: auto;
+    width: auto;
+    padding: 3px;
+  }
+
+  .lbl-add-availUntil {
+    font-size: .85rem;
+  }
+
+  .add-data-availUntil {
+    font-size: .85rem;
   }
 
   .add-data-imgUpload {
-    font-size: .9rem;
-    margin: 2px 0 0 20px;
+    font-size: .85rem;
   }
 
   .add-data-preview-txt {
-    font-size: 1rem;
+    font-size: .85rem;
   }
 
   .add-data-imgUpload-preview {
-    height: 290px;
-    width: 420px;
+    width: 300px;
+    height: 250px;
   }
 
   .btn-add {
-    margin-left: 237px;
-    font-size: 1.45rem;
-    height: 60px;
-    width: 185px;
+    font-size: 1.2rem;
   }
 }
 
@@ -451,68 +527,8 @@
 
   .addData-form-container {
     margin: 40px 70px 0 70px;
-    padding: 65px 33px 0 33px;
+    padding: 30px;
   }
-
-  .lbl-addData {
-    font-size: .85rem;
-    margin: -30px 0 -20px 0;
-  }
-
-  .input-add-data {
-    font-size: .75rem;
-    height: 35px;
-    width: 305px;
-  }
-
-  .input-add-data:focus {
-    border: 3px solid black;
-  }
-
-  .addColor {
-    height: 33px;
-    width: 305px;
-    font-size: .75rem;
-  }
-
-  .addDesc {
-    font-size: .75rem;
-    padding: 10px;
-    height: 150px;
-    width: 76%;
-  }
-
-  .addData-select {
-    font-size: .85rem;
-    height: 33px;
-  }
-
-  .lbl-imgUpload {
-    font-size: .85rem;
-  }
-
-  .add-data-imgUpload {
-    font-size: .7rem;
-    margin: 2px 0 0 20px;
-  }
-
-  .add-data-preview-txt {
-    font-size: .85rem;
-  }
-
-  .add-data-imgUpload-preview {
-    height: 270px;
-    width: 405px;
-    margin-top: -10px;
-  }
-
-  .btn-add {
-    font-size: 1.25rem;
-    height: 50px;
-    width: 160px;
-    margin-left: 245px;
-  }
-
 }
 
 /* 1024 x 768 */
@@ -523,16 +539,16 @@
   }
 
   .addData-backBtnContainer {
-    margin: 0 0 0 65px;
+    margin: 0 0 0 50px;
   }
 
   .addData-backIcon {
-    height: 24px;
-    width: 24px;
+    height: 20px;
+    width: 20px;
   }
 
   .addData-backTxt {
-    font-size: 1.1rem;
+    font-size: .9rem;
   }
 
   .add-data-header {
@@ -541,50 +557,59 @@
   }
 
   .addData-form-container {
-    margin: 40px 65px 0 65px;
+    padding: 25px;
+    margin: 30px 0 0 50px;
+    width: 580px;
+  }
+
+  .addData-form-right-column {
+    padding-left: 30px;
   }
 
   .lbl-addData {
     font-size: .75rem;
-    margin: -35px 0 -20px 0;
   }
 
-  .input-add-data {
+  .input-add-data, .addColor {
+    height: 30px;
+    width: 250px;
+    margin-top: -4px;
     font-size: .65rem;
-    height: 28px;
-    width: 230px;
-    padding: 0 8px;
-  }
-
-  .addColor {
-    height: 28px;
-    width: 230px;
-    font-size: .65rem;
-    padding: 0 8px;
   }
 
   .addDesc {
+    width: 250px;
+    height: 110px;
     font-size: .65rem;
-    height: 120px;
-    width: 77.5%;
+    margin-bottom: 10px;
+  }
+
+  .addData-selectContainer {
+    margin-bottom: 0;
+  }
+
+  .lbl-select {
+    font-size: .75rem;
   }
 
   .addData-select {
     font-size: .65rem;
-    height: 30px;
   }
 
-  .lbl-imgUpload {
-    font-size: .65rem;
+  .lbl-add-availUntil {
+    font-size: .75rem;
   }
 
-  .add-data-imgUploadContainer {
-    margin: -30px 0 30px 0;
+  .add-data-availUntil {
+    font-size: .75rem;
   }
 
   .add-data-imgUpload {
-    font-size: .55rem;
-    margin: 0 0 0 15px;
+    font-size: .65rem;
+  }
+
+  .add-data-preview-txt {
+    font-size: .75rem;
   }
 
   .add-data-imgUpload-preview {
@@ -592,20 +617,9 @@
     width: 250px;
   }
 
-  .add-data-preview-txt {
-    font-size: .65rem;
-  }
-
-  .add-data-imgUpload-preview {
-    margin-top: -20px;
-    height: 220px;
-    width: 290px;
-  }
-
   .btn-add {
-    margin-left: 170px;
-    font-size: .85rem;
-    height: 40px;
-    width: 120px;
+    font-size: 1rem;
+    padding: 8px 20px;
+    margin-top: 80px;
   }
 }

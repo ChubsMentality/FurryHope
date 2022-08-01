@@ -420,19 +420,21 @@ const getSpecificRegistrations = asyncHandler(async (req, res) => {
 const submitAnimalRegistration = asyncHandler(async (req, res) => {
     const { 
         animalType, registrationType, applicantImg, name, contactNo, lengthOfStay, address,
-        animalName, animalBreed, animalAge, animalColor, animalGender, tagNo, date, email
+        animalName, animalBreed, animalAge, animalColor, animalGender, tagNo, date, registrationStatus, email, adoptionReference, isFromAdoption, regFeeComplete, certOfResidencyComplete, ownerPictureComplete, petPhotoComplete,
+        proofOfAntiRabiesComplete, photocopyCertOfAntiRabiesComplete,
     } = req.body
 
     if(
         !animalType || !registrationType || !applicantImg || !name || !contactNo || !lengthOfStay || !address ||
-        !animalName || !animalBreed || !animalAge || !animalColor || !animalGender || !tagNo || !date || !email
+        !animalName || !animalBreed || !animalAge || !animalColor || !animalGender || !tagNo || !date || !email || !adoptionReference
     ) {
         res.status(400)
         throw new Error('Please fill out all necessary fields')
     } else {
         const newRegistration = new RegisterAnimal({
             animalType, registrationType, applicantImg, name, contactNo, lengthOfStay, address,
-            animalName, animalBreed, animalAge, animalColor, animalGender, tagNo, date, email, user: req.user._id
+            animalName, animalBreed, animalAge, animalColor, animalGender, tagNo, date, registrationStatus, email, adoptionReference, isFromAdoption, 
+            regFeeComplete, certOfResidencyComplete, ownerPictureComplete, petPhotoComplete, proofOfAntiRabiesComplete, photocopyCertOfAntiRabiesComplete, user: req.user._id
         })
         // The 'user: req.user._id' comes from the validated token of the user in authMiddleware.js
 
@@ -463,7 +465,7 @@ const deleteAnimalRegistration = asyncHandler(async (req, res) => {
 
 const submitAdoption = asyncHandler(async (req, res) => {
     const { animalId, applicantName, email, contactNo, address, applicantImg, validId, animalName, animalBreed,
-            animalType, animalGender, animalColor, animalImg, adoptionStatus, date, applicationStatus, hasBeenInterviewed, hasPaid
+            animalType, animalGender, animalColor, animalImg, adoptionStatus, date, applicationStatus, hasBeenInterviewed, hasPaid, adoptionReference,
     } = req.body
 
     if(!applicantName || !email || !contactNo || !address || !validId || !animalName || !animalBreed ||
@@ -474,7 +476,7 @@ const submitAdoption = asyncHandler(async (req, res) => {
     } else {
         const adoptionSubmission = new Adoption({
             animalId, applicantName, email, contactNo, address, applicantImg, validId, animalName, animalBreed, animalType,
-            animalGender, animalColor, animalImg, adoptionStatus, date, applicationStatus, hasBeenInterviewed, hasPaid, user: req.user.id
+            animalGender, animalColor, animalImg, adoptionStatus, date, applicationStatus, hasBeenInterviewed, hasPaid, adoptionReference, user: req.user.id
         })
 
         const newSubmission = await adoptionSubmission.save()

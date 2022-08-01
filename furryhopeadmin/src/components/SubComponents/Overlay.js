@@ -8,7 +8,7 @@ const Overlay = () => {
                 width: '100vw',
                 height: '100vh',
                 backgroundColor: 'rgba(17, 17, 17, .6)',
-                zIndex: 5,
+                zIndex: 25,
                 position: 'fixed',
                 top: 0,
                 left: 0,

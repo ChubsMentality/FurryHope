@@ -126,6 +126,9 @@ const UpdateInfoForm = (props) => {
                     <input type="file" className="update-imgUpload" name="imgUpload" onChange={(e) => uploadImg(e.target.files[0])} />
                 </div>
                 
+                <label htmlFor="availUntil" className="lbl-update lbl-update-availUntil">Available Until</label>
+                <input type="date" name="availUntil" id="" className="update-availUntil" />
+                
                 <p className='update-img-preview-txt'>Preview</p>
                 <img src={selectedImg} className='update-img-preview' />
 

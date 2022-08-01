@@ -14,15 +14,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 
 const RegisterAnimal = ({ navigation }) => {
     const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext)
-    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-    var d = new Date()
-    var month = months[d.getMonth()]
-    var day = d.getDate()
-    var year = d.getFullYear()
-    var currentDate = `${month} ${day}, ${year}`
-    var d = new Date()
-    // console.log(d.toLocaleDateString())
-
     const [animalType, setAnimalType] = useState('Dog')
     const [registrationType, setRegistrationType] = useState('New')
     const [applicantImg, setApplicantImg] = useState('')
@@ -36,7 +27,7 @@ const RegisterAnimal = ({ navigation }) => {
     const [animalColor, setAnimalColor] = useState('')
     const [tagNo, setTagNo] = useState('')
     const [animalGender, setAnimalGender] = useState('Choose')
-    const [date, setDate] = useState(d.toLocaleDateString())
+    const [date, setDate] = useState()
     const [email, setEmail] = useState('')
     const [loading, setLoading] = useState(false)
 
@@ -109,37 +100,44 @@ const RegisterAnimal = ({ navigation }) => {
             setLoading(false)
             return
         } else if(animalGender === 'Choose') {
-            alert('Please choose an appropriate sex of the animal')
+            alert('Please choose an appropriate gender of the animal')
             setLoading(false)
             return
         } else {
             try {
+                const registrationStatus = 'Pending'
+                const adoptionReference = 'N / A'
+                const isFromAdoption = false
+                const regFeeComplete = false
+                const certOfResidencyComplete = false
+                const ownerPictureComplete = false
+                const petPhotoComplete = false
+                const proofOfAntiRabiesComplete = false
+                const photocopyCertOfAntiRabiesComplete = false
+
                 const { data } = await axios.post('http://localhost:5000/api/users/registerAnimal', {
                     animalType, registrationType, applicantImg, name, contactNo, lengthOfStay, address,
-                    animalName, animalBreed, animalAge, animalColor, animalGender, tagNo, date, email
+                    animalName, animalBreed, animalAge, animalColor, animalGender, tagNo, date, registrationStatus, email, adoptionReference, isFromAdoption,
+                    regFeeComplete, certOfResidencyComplete, ownerPictureComplete, petPhotoComplete, proofOfAntiRabiesComplete,
+                    photocopyCertOfAntiRabiesComplete
                 }, config)
 
                 alert('Submitted the Registration, Check your emails for updates soon.')
                 console.log(data)
             } catch (error) {
                 console.log(error)
-                alert(error)                
             }
         }
 
         setLoading(false)
         setAnimalType('Dog')
         setRegistrationType('New')
-        setName('')
-        setContactNo('')
-        setLengthOfStay('')
-        setAddress('')
         setAnimalName('')
         setAnimalBreed('')
         setAnimalAge('')
         setAnimalColor('')
         setAnimalGender('Choose')
-        setEmail('')
+        setTagNo('')
         setTimeout(() => {
             setCurrentStep(0)
         }, 2000)
@@ -151,6 +149,9 @@ const RegisterAnimal = ({ navigation }) => {
         setEmail(storedCredentials.email)
         setContactNo(storedCredentials.contactNo)
         setAddress(storedCredentials.address)
+        
+        var d = new Date()
+        setDate(d.toLocaleDateString(undefined, { day: '2-digit', month: '2-digit', year: 'numeric' }))
     }, [])
     
     return (

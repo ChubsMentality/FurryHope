@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { FlatList, Image, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, Touchable, TouchableOpacity, useWindowDimensions, View } from 'react-native'
+import { sortArray } from './SubComponents/QuickSortArrOfObjs'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import axios from 'axios'
 import AnimalCard from './SubComponents/AnimalCard'
 import AnimalList from './SubComponents/AnimalList'
 
 const ListOfDogs = ({ navigation }) => {
-
+    const scrollRef = useRef(null)
     const window = useWindowDimensions()
     const [sortBy, setSortBy] = useState('')
     const [sortByModal, setSortByModal] = useState(false)
@@ -15,47 +16,13 @@ const ListOfDogs = ({ navigation }) => {
     const [dogs, setDogs] = useState()
     const [currentList, setCurrentList] = useState()
     const [searchQuery, setSearchQuery] = useState('')
-
     const [searchResult, setSearchResult] = useState()
-    // const [sortedByName, setSortedByName] = useState()
-    // const [sortedByBreed, setSortedByBreed] = useState()
-    // const [sortedByColor, setSortedByColor] = useState()
-    // const [sortedBySize, setSortedBySize] = useState()
+    const [contentOffSet, setContentOffset] = useState(0)
+    const CONTENT_THRESHOLD = 1500
+    console.log(contentOffSet)
 
     const filterSearch = (arr) => {
         return arr.breed === searchQuery
-    }
-
-    const pivot = (nums, left, right, attributeToSort) => {
-        let p = right
-        let j = left
-        let i = left - 1
-    
-        while(j <= p) {
-            if(nums[j][attributeToSort] < nums[p][attributeToSort]) {
-                i++;
-                [nums[i], nums[j]] = [nums[j], nums[i]];
-                j++;
-            } else {
-                j++
-            }
-        }
-    
-        i++;
-        [nums[i], nums[p]] = [nums[p], nums[i]];
-    
-        return i
-    }
-
-    const sortArray = (nums, left = 0, right = nums.length - 1, attributeToSort) => {
-        if(left < right) { 
-            let pIdx = pivot(nums, left, right, attributeToSort); // Finds the pivot index
-        
-            sortArray(nums, left, pIdx - 1, attributeToSort); // Checks the values less than the index
-            sortArray(nums, pIdx + 1, right, attributeToSort); // Checks the values greater than the index
-        }
-    
-        return nums
     }
 
     const fetchDogs = async () => {
@@ -75,14 +42,8 @@ const ListOfDogs = ({ navigation }) => {
         setSortBtnsActive(!sortBtnsActive)
     }
 
-    const toggleSortByModal = () => {
-        setOverlay(!overlay)
-        setSortByModal(!sortByModal)
-    }
-
-    const sortHandler = () => {
-        setOverlay(!overlay)
-        setSortByModal(!sortByModal)
+    const getScrollPosition = (event) => {
+        setContentOffset(event.nativeEvent.contentOffset.y)
     }
 
     useEffect(() => {
@@ -112,7 +73,7 @@ const ListOfDogs = ({ navigation }) => {
     }
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: 'white', paddingTop: 150, paddingBottom: 300 }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: 'white', position: 'relative' }}>
             <View style={styles.screenHeadingContainer}>
                 <View style={styles.navigationContainer}>
                     <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -148,54 +109,66 @@ const ListOfDogs = ({ navigation }) => {
                     }
                 </View>
             </View>
-            
-            {sortBtnsActive ?
-                <>
-                    <Text style={styles.sortByHeader}>Sort By</Text>
-                    <View style={styles.sortBtnsContainer}>
-                        <TouchableOpacity style={sortBy === 'name' ? styles.sortByBtnActive : styles.sortByBtn} onPress={() => sortByNameHandler()}>
-                            <Text style={sortBy === 'name' ? styles.sortByTxtActive : styles.sortByTxt}>Name</Text>
-                        </TouchableOpacity>
 
-                        <TouchableOpacity style={sortBy === 'breed' ? styles.sortByBtnActive : styles.sortByBtn} onPress={() => sortByBreedHandler()}>
-                            <Text style={sortBy === 'breed' ? styles.sortByTxtActive : styles.sortByTxt}>Breed</Text>
-                        </TouchableOpacity>
+            <ScrollView 
+                style={{ flex: 1, paddingTop: 150 }}
+                onScroll={getScrollPosition}
+                scrollEventThrottle={1500}
+                ref={scrollRef}
+            >
+                {sortBtnsActive ?
+                    <>
+                        <Text style={styles.sortByHeader}>Sort By</Text>
+                        <View style={styles.sortBtnsContainer}>
+                            <TouchableOpacity style={sortBy === 'name' ? styles.sortByBtnActive : styles.sortByBtn} onPress={() => sortByNameHandler()}>
+                                <Text style={sortBy === 'name' ? styles.sortByTxtActive : styles.sortByTxt}>Name</Text>
+                            </TouchableOpacity>
 
-                        <TouchableOpacity style={sortBy === 'color' ? styles.sortByBtnActive : styles.sortByBtn} onPress={() => sortByColorHandler()}>
-                            <Text style={sortBy === 'color' ? styles.sortByTxtActive : styles.sortByTxt}>Color</Text>
-                        </TouchableOpacity>
+                            <TouchableOpacity style={sortBy === 'breed' ? styles.sortByBtnActive : styles.sortByBtn} onPress={() => sortByBreedHandler()}>
+                                <Text style={sortBy === 'breed' ? styles.sortByTxtActive : styles.sortByTxt}>Breed</Text>
+                            </TouchableOpacity>
 
-                        <TouchableOpacity style={sortBy === 'size' ? styles.sortByBtnActive : styles.sortByBtn} onPress={() => sortBySizeHandler()}>
-                            <Text style={sortBy === 'size' ? styles.sortByTxtActive : styles.sortByTxt}>Size</Text>
-                        </TouchableOpacity>
-                    </View>
-                </>
-            :
-                <></>
+                            <TouchableOpacity style={sortBy === 'color' ? styles.sortByBtnActive : styles.sortByBtn} onPress={() => sortByColorHandler()}>
+                                <Text style={sortBy === 'color' ? styles.sortByTxtActive : styles.sortByTxt}>Color</Text>
+                            </TouchableOpacity>
+
+                            <TouchableOpacity style={sortBy === 'size' ? styles.sortByBtnActive : styles.sortByBtn} onPress={() => sortBySizeHandler()}>
+                                <Text style={sortBy === 'size' ? styles.sortByTxtActive : styles.sortByTxt}>Size</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </>
+                :
+                    <></>
+                }
+
+                <View style={styles.dogsContainer}>
+                    {currentList && currentList.filter((animals) => {
+                        if(searchQuery === '') {
+                            return animals
+                        } else if(animals.breed.toLowerCase().includes(searchQuery.toLowerCase())) {
+                            return animals
+                        }
+                    }).map((item) => (
+                        <AnimalList 
+                            key={item._id}
+                            _id={item._id}
+                            animalImg={item.animalImg}
+                            name={item.name}
+                            breed={item.breed}
+                        />
+                    ))}
+                </View>
+                
+                <View style={{ marginTop: 50 }}></View>
+            </ScrollView>
+                
+            {contentOffSet > CONTENT_THRESHOLD &&
+                <TouchableOpacity style={styles.scrollUpCta}
+                    onPress={() => scrollRef.current.scrollTo({ top: 0, behavior: 'smooth' })}
+                >
+                    <Ionicons name='ios-arrow-up-sharp' size={26} color='white' />
+                </TouchableOpacity>
             }
-
-            <View style={styles.dogsContainer}>
-                {currentList && currentList.filter((animals) => {
-                    if(searchQuery === '') {
-                        return animals
-                    } else if(animals.breed.toLowerCase().includes(searchQuery.toLowerCase())) {
-                        return animals
-                    }
-                }).map((item) => (
-                    <AnimalCard 
-                        key={item._id}
-                        _id={item._id}
-                        animalImg={item.animalImg}
-                        name={item.name}
-                        breed={item.breed}
-                    />
-                ))}
-            </View>
-            
-            <View style={{ marginTop: 150 }}></View>
-            {/* <TouchableOpacity style={styles.scrollUpCta}>
-                <Ionicons name='arrow-up' size={26} color='white' />
-            </TouchableOpacity> */}
         </SafeAreaView>
     )
 }
@@ -305,13 +278,13 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-start',
         borderColor: '#808080',
         borderWidth: 1,
-        borderRadius: 25,
+        borderRadius: 5,
         justifyContent: 'center',
         alignItems: 'center',
         paddingTop: 3,
-        paddingRight: 15,
+        paddingRight: 10,
         paddingBottom: 3,
-        paddingLeft: 15,
+        paddingLeft: 10,
         marginRight: 10,
     },
 
@@ -325,13 +298,13 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-start',
         borderColor: '#111',
         borderWidth: 1,
-        borderRadius: 25,
+        borderRadius: 5,
         justifyContent: 'center',
         alignItems: 'center',
         paddingTop: 3,
-        paddingRight: 15,
+        paddingRight: 10,
         paddingBottom: 3,
-        paddingLeft: 15,
+        paddingLeft: 10,
         backgroundColor: '#111',
         marginRight: 10,
     },
@@ -355,12 +328,12 @@ const styles = StyleSheet.create({
 
     scrollUpCta: {
         position: 'absolute',
-        bottom: 35,
-        right: 15,
+        bottom: 30,
+        right: 20,
         zIndex: 5,
         width: 45,
         height: 45,
-        backgroundColor: '#111',
+        backgroundColor: '#d54851',
         borderRadius: 50,
         justifyContent: 'center',
         alignItems: 'center',

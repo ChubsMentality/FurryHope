@@ -33,6 +33,12 @@ import {
     GET_STRAY_REPORTS_REQUEST,
     GET_STRAY_REPORTS_SUCCESS,
     GET_STRAY_REPORTS_FAIL,
+    GET_DISMISSED_REPORTS_REQUEST,
+    GET_DISMISSED_REPORTS_SUCCESS,
+    GET_DISMISSED_REPORTS_FAIL,
+    DELETE_REPORT_REQUEST,
+    DELETE_REPORT_SUCCESS,
+    DELETE_REPORT_FAIL,
     DISMISS_STRAY_REPORT_REQUEST,
     DISMISS_STRAY_REPORT_SUCCESS,
     DISMISS_STRAY_REPORT_FAIL,
@@ -69,8 +75,53 @@ import {
     FEEDBACK_VIEWED_REQUEST,
     FEEDBACK_VIEWED_SUCCESS,
     FEEDBACK_VIEWED_FAIL,
+    REPORT_VIEWED_REQUEST,
+    REPORT_VIEWED_SUCCESS,
+    REPORT_VIEWED_FAIL,
+    GET_PENDING_PETS_REQUEST,
+    GET_PENDING_PETS_SUCCESS,
+    GET_PENDING_PETS_FAIL,
+    GET_REGISTERED_PETS_REQUEST,
+    GET_REGISTERED_PETS_SUCCESS,
+    GET_REGISTERED_PETS_FAIL,
+    GET_NOTREGISTERED_PETS_REQUEST,
+    GET_NOTREGISTERED_PETS_SUCCESS,
+    GET_NOTREGISTERED_PETS_FAIL,
+    DELETE_REGISTRATION_REQUEST,
+    DELETE_REGISTRATION_SUCCESS,
+    DELETE_REGISTRATION_FAIL,
+    SAVE_REQUIREMENTS_REQUEST,
+    SAVE_REQUIREMENTS_SUCCESS,
+    SAVE_REQUIREMENTS_FAIL,
+    REJECT_REGISTRATION_REQUEST,
+    REJECT_REGISTRATION_SUCCESS,
+    REJECT_REGISTRATION_FAIL,
 } from '../constants/adminConstants'
 import axios from 'axios'
+
+export const viewedReport = (id) => async (dispatch) => {
+    try {
+        dispatch({
+            type: REPORT_VIEWED_REQUEST
+        })
+
+        const { data } = await axios.put(`http://localhost:5000/api/admins/reportBeenRead/${id}`)
+
+        dispatch({
+            type: REPORT_VIEWED_SUCCESS
+        })
+    } catch (error) {
+        const message = 
+            error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message
+        
+        dispatch({
+            type: REPORT_VIEWED_FAIL,
+            payload: message
+        })
+    }
+}
 
 // Action to login the admin
 export const login = (email, password) => async (dispatch) => {
@@ -355,10 +406,6 @@ export const deleteUserAccount = (id) => async (dispatch) => {
 }
 
 export const getStrayAnimalReports = () => async (dispatch) => {
-    const filterPending = (arr) => {
-        return arr.status === 'Pending'
-    }
-
     try {
         dispatch({
             type: GET_STRAY_REPORTS_REQUEST
@@ -378,6 +425,55 @@ export const getStrayAnimalReports = () => async (dispatch) => {
 
         dispatch({
             type: GET_STRAY_REPORTS_FAIL,
+            payload: message
+        })
+    }
+}
+
+export const getDismissedReports = () => async (dispatch) => {
+    try {
+        dispatch({
+            type: GET_DISMISSED_REPORTS_REQUEST
+        })
+
+        const { data } = await axios.get('http://localhost:5000/api/admins/dismissedReports')
+
+        dispatch({
+            type: GET_DISMISSED_REPORTS_SUCCESS,
+            payload: data
+        })
+    } catch (error) {
+        const message = 
+            error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message
+
+        dispatch({
+            type: GET_DISMISSED_REPORTS_FAIL,
+            payload: message
+        })
+    }
+}
+
+export const deleteReport = (id) => async (dispatch) => {
+    try {
+        dispatch({
+            type: DELETE_REPORT_REQUEST
+        })
+
+        const { data } = await axios.delete(`http://localhost:5000/api/admins/deleteReport/${id}`)
+
+        dispatch({
+            type: DELETE_REPORT_SUCCESS
+        })
+    } catch (error) {
+        const message = 
+            error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message
+
+        dispatch({
+            type: GET_DISMISSED_REPORTS_FAIL,
             payload: message
         })
     }
@@ -676,5 +772,153 @@ export const feedbackHasBeenRead = (id) => async (dispatch) => {
             type: FEEDBACK_VIEWED_FAIL,
             payload: message
         })
+    }
+}
+
+export const getPendingRegistrations = () => async (dispatch) => {
+    try {
+        dispatch({
+            type: GET_PENDING_PETS_REQUEST,
+        })
+
+        const { data } = await axios.get('http://localhost:5000/api/admins/pendingRegistrations')
+
+        dispatch({
+            type: GET_PENDING_PETS_SUCCESS,
+            payload: data
+        })
+    } catch (error) {
+        const message = 
+            error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message
+
+        dispatch({
+            type: GET_PENDING_PETS_FAIL,
+            payload: message
+        })
+    }
+}
+
+export const getRegisteredPets = () => async (dispatch) => {
+    try {
+        dispatch({
+            type: GET_REGISTERED_PETS_REQUEST,
+        })
+
+        const { data } = await axios.get('http://localhost:5000/api/admins/getRegisteredPets')
+
+        dispatch({
+            type: GET_REGISTERED_PETS_SUCCESS,
+            payload: data
+        })
+    } catch (error) {
+        const message = 
+            error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message
+
+        dispatch({
+            type: GET_REGISTERED_PETS_FAIL,
+            payload: message
+        })
+    }
+}
+
+export const getNotRegisteredPets = () => async (dispatch) => {
+    try {
+        dispatch({
+            type: GET_NOTREGISTERED_PETS_REQUEST,
+        })
+
+        const { data } = await axios.get('http://localhost:5000/api/admins/getNotRegisteredPets')
+
+        dispatch({
+            type: GET_NOTREGISTERED_PETS_SUCCESS,
+            payload: data
+        })
+    } catch (error) {
+        const message = 
+            error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message
+
+        dispatch({
+            type: GET_NOTREGISTERED_PETS_FAIL,
+            payload: message
+        })        
+    }
+}
+
+export const deleteRegistration = (id) => async (dispatch) => {
+    try {
+        dispatch({
+            type: DELETE_REGISTRATION_REQUEST
+        })
+
+        const { data } = await axios.delete(`http://localhost:5000/api/admins/deleteRegistration/${id}`)
+
+        dispatch({
+            type: DELETE_REGISTRATION_SUCCESS
+        })
+    } catch (error) {
+        const message = 
+            error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message
+
+        dispatch({
+            type: DELETE_REGISTRATION_FAIL,
+            payload: message
+        })        
+    }
+}
+
+export const updateRequirements = (id, regFeeComplete, certOfResidencyComplete, ownerPictureComplete, petPhotoComplete, proofOfAntiRabiesComplete, photocopyCertOfAntiRabiesComplete) => async (dispatch) => {
+    try {
+        dispatch({
+            type: SAVE_REQUIREMENTS_REQUEST,
+        })
+
+        const { data } = await axios.put(`http://localhost:5000/api/admins/updateRequirements/${id}`, { regFeeComplete, certOfResidencyComplete, ownerPictureComplete, petPhotoComplete, proofOfAntiRabiesComplete, photocopyCertOfAntiRabiesComplete })
+
+        dispatch({
+            type: SAVE_REQUIREMENTS_SUCCESS,
+            payload: data
+        })
+    } catch (error) {
+        const message = 
+            error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message
+
+        dispatch({
+            type: SAVE_REQUIREMENTS_FAIL,
+            payload: message
+        })  
+    }
+}
+
+export const rejectRegistration = (id) => async (dispatch) => {
+    try {
+        dispatch({
+            type: REJECT_REGISTRATION_REQUEST
+        })
+
+        const { data } = await axios.put(`http://localhost:5000/api/admins/rejectRegistration/${id}`)
+
+        dispatch({
+            type: REJECT_REGISTRATION_SUCCESS
+        })
+    } catch (error) {
+        const message = 
+            error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message
+
+        dispatch({
+            type: REJECT_REGISTRATION_FAIL,
+            payload: message
+        }) 
     }
 }

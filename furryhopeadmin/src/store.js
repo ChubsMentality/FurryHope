@@ -25,6 +25,14 @@ import {
     getFeedbacksReducer,
     deleteFeedbackReducer,
     feedbackViewedReducer,
+    deleteReportReducer,
+    reportViewedReducer,
+    getPendingRegistrationsReducer,
+    getRegisteredPetsReducer,
+    getNotRegisteredPetsReducer,
+    deleteRegistrationReducer,
+    updateReqReducer,
+    rejectRegistrationReducer,
 } from './reducers/adminReducers'
 import { animalCreateReducer, animalDataReducer, animalDeleteReducer, animalUpdateReducer } from './reducers/animalReducer'
 
@@ -45,6 +53,8 @@ const reducer = combineReducers({
     adminAccDelete: deleteAdminAccReducer,
     userAccDelete: deleteUserAccReducer,
     strayReports: strayAnimalReportsReducer,
+    dismissedReportState: dismissReportReducer,
+    deleteReportState: deleteReportReducer,
     dismissReport: dismissReportReducer,
     getInterviewSchedState: getInterviewSchedReducer,
     sendInterviewMessageState: sendInterviewMessageReducer,
@@ -57,6 +67,13 @@ const reducer = combineReducers({
     feedbacksState: getFeedbacksReducer,
     deleteFeedbackState: deleteFeedbackReducer,
     feedbackViewedState: feedbackViewedReducer,
+    reportViewedState: reportViewedReducer,
+    pendingPetsState: getPendingRegistrationsReducer,
+    registeredPetsState: getRegisteredPetsReducer,
+    notRegisteredPetsState: getNotRegisteredPetsReducer,
+    deleteRegistrationState: deleteRegistrationReducer,
+    updateReqState: updateReqReducer,
+    rejectRegistrationState: rejectRegistrationReducer,
 })
 
 // Gets the admin info from the local storage

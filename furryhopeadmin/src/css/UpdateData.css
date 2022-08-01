@@ -54,6 +54,7 @@
   border-bottom-width: 1px;
   border-bottom-color: #111;
   border-bottom-style: solid;
+  cursor: pointer;
   transition: 0.1s ease-in-out;
   background-color: transparent;
 }
@@ -65,6 +66,7 @@
   padding: 15px;
   border-radius: 5px;
   border: none;
+  cursor: pointer;
   transition: 0.1s ease-in-out;
   background-color: transparent;
 }

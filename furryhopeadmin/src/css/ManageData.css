@@ -78,6 +78,36 @@
   font-weight: 600;
 }
 
+.manage-searchContainer {
+  display: flex;
+  align-items: center;
+  border: 1px solid #111;
+  border-radius: 5px;
+  background-color: white;
+  overflow: hidden;
+  padding: 10px 10px;
+}
+
+.manage-searchIcon {
+  height: 25px;
+  width: 25px;
+}
+
+.manage-searchTxt {
+  border: none;
+  height: 100%;
+  outline: none;
+  font-size: 1rem;
+  font-weight: 300;
+  margin-left: 10px;
+}
+
+.manage-searchTxt:focus {
+  border: none;
+  outline: none;
+}
+
+
 .manage-animals-right {
   display: flex;
   align-items: center;
@@ -254,6 +284,19 @@
   .manage-adminProfile {
     height: 70px;
     width: 70px;
+  }
+
+  .manage-searchContainer {
+    padding: 7px;
+  }
+
+  .manage-searchIcon {
+    height: 18px;
+    width: 18px;
+  }
+
+  .manage-searchTxt {
+    font-size: .8rem;
   }
 
   .manage-animals-container {
@@ -438,7 +481,54 @@
     margin-left: 265px;
   }
 
+  .manage-header-container {
+    margin: 0 60px;
+  }
+
+  .manage-header {
+    font-size: 1.4rem;
+  }
+
+  .manage-adminName {
+    font-size: .9rem;
+  }
+
+  .manage-adminPos {
+    font-size: .85rem;
+    margin-top: -2px;
+  }
+
+  .manage-adminProfile {
+    height: 50px;
+    width: 50px;
+    margin-left: 10px;
+  }
+
+  .manage-select {
+    font-size: .7rem;
+    padding: 3px;
+  }
+
+  .manage-add-animal {
+    font-size: .7rem;
+  }
+
+  .manage-searchContainer {
+    padding: 6px;
+  }
+
+  .manage-searchIcon {
+    height: 18px;
+    width: 18px;
+  }
+
+  .manage-searchTxt {
+    font-size: .75rem;
+  }
+
   .manage-animals-container {
+    margin: 30px 60px 0 60px;
+    height: 640px;
   }
 
   .specAnimal-container {

@@ -4,12 +4,14 @@ import { CredentialsContext } from '../CredentialsContext'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import * as DocumentPicker from 'expo-document-picker'
 import axios from 'axios'
+import uuid from 'react-native-uuid'
 
 const AdoptionForm = ({ route, navigation }) => {
     const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext)
     const d = new Date()
     const { animalId } = route.params
 
+    const [name, setName] = useState('')
     const [applicantName, setApplicantName] = useState('')
     const [email, setEmail] = useState('')
     const [contactNo, setContactNo] = useState('')
@@ -26,6 +28,7 @@ const AdoptionForm = ({ route, navigation }) => {
     const [date, setDate] = useState(d.toLocaleDateString(undefined, { day: '2-digit', month: '2-digit', year: 'numeric' }))
     const [applicantImg, setApplicantImg] = useState('')
     const [lengthOfStay, setLengthOfStay] = useState('')
+    const [adoptionReference, setAdoptionReference] = useState()
 
     const [loading, setLoading] = useState(false)
     const [applicantNameFocused, setApplicantNameFocused] = useState(false)
@@ -49,9 +52,19 @@ const AdoptionForm = ({ route, navigation }) => {
         setAnimalGender(data.gender)
         setAnimalColor(data.color)
         setAnimalImg(data.animalImg)
+
     }
 
-    
+    const getUserById = async () => {
+        const { data } = await axios.get(`http://localhost:5000/api/users/getUserById/${storedCredentials.id}`)
+        setName(data.fullName)
+        setApplicantName(data.fullName)
+        setEmail(data.email)
+        setContactNo(data.contactNo)
+        setAddress(data.address)
+        setApplicantImg(data.profilePicture)
+    }
+
     const pickDocument = async () => {
         let result = await DocumentPicker.getDocumentAsync({ type: '*/*', copyToCacheDirectory: true, base64: true})
             .then((response) => {
@@ -98,74 +111,117 @@ const AdoptionForm = ({ route, navigation }) => {
     }
     
     const submit = async () => {
-        if(regToPound) {
-            console.log('register and submit adoption')
-            alert('Successfully submitted, check your profile to see your adoptions.')
-        } else {
-            console.log('submit adoption')
-            alert('Successfully submitted, check your profile to see your adoptions.')
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${storedCredentials.token}`
+            }
         }
-        // setLoading(true)
 
-        // const config = {
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //         Authorization: `Bearer ${storedCredentials.token}`
-        //     }
-        // }
-        
-        // if(!applicantName || !email || !contactNo || !address) {
-        //     alert('Please fill out all the necessary fields')
-        //     setLoading(false)
-        //     return
-        // } else if(!validId) {
-        //     alert('Please attach your valid I.D.')
-        //     setLoading(false)
-        //     return
-        // } else if(contactNo.match(/[^$,.\d]/)) {
-        //     alert('Invalid contact number, please enter a valid contact number.')
-        //     setLoading(false)
-        //     return 
-        // } else {
-        //     try {
-        //         let hasBeenInterviewed = false
-        //         let hasPaid = false
+        setLoading(true)
 
-        //         const data = await axios.post('http://localhost:5000/api/users/submitAdoption', {
-        //             animalId, applicantName, email, contactNo, address, applicantImg, validId, animalName, animalBreed,
-        //             animalType, animalGender, animalColor, animalImg, adoptionStatus, date, applicationStatus, hasBeenInterviewed, hasPaid
-        //         }, config)
-
-        //         console.log(data)
-        //         alert('Successfully submitted, check your profile to see your adoptions.')
-        //     } catch (error) {
-        //         console.log(error)
-        //         alert(error)
-        //     }
-
-        //     try {                
-        //         const data = await axios.put(`http://localhost:5000/api/admins/updateAdoptionStatus/${animalId}`, { adoptionStatus })
-        //         // console.log(data)
-        //     } catch (error) {
-        //         console.log(error)
-        //     }
-
-        // }
-
-        // setLoading(false)
-        
-        // setTimeout(() => {
-        //     navigation.navigate('Browse')
-        // }, 500)
+        if(!applicantName || !email || !contactNo || !address) {
+            alert('Please fill out all the necessary fields')
+            setLoading(false)
+            return
+        } else if(!validId) {
+            alert('Please attach your valid I.D.')
+            setLoading(false)
+            return
+        } else if(contactNo.match(/[^$,.\d]/)) {
+            alert('Invalid contact number, please enter a valid contact number.')
+            setLoading(false)
+            return 
+        } else {
+            if(regToPound) {
+                console.log('register and submit adoption')
+                try {
+                    let hasBeenInterviewed = false
+                    let hasPaid = false
+                    
+    
+                    const data = await axios.post('http://localhost:5000/api/users/submitAdoption', {
+                        animalId, applicantName, email, contactNo, address, applicantImg, validId, animalName, animalBreed,
+                        animalType, animalGender, animalColor, animalImg, adoptionStatus, date, applicationStatus, hasBeenInterviewed, hasPaid, adoptionReference
+                    }, config)
+    
+                    console.log(data)
+                    alert('Successfully submitted, check your profile to see your adoptions and check your email for messages.')
+                } catch (error) {
+                    console.log(error)
+                }
+    
+                try {                
+                    const data = await axios.put(`http://localhost:5000/api/admins/updateAdoptionStatus/${animalId}`, { adoptionStatus })
+                    // console.log(data)
+                } catch (error) {
+                    console.log(error)
+                }
+    
+                try {
+                    const registrationType = 'New'
+                    const registrationStatus = 'Pending'
+                    const tagNo = 'N / A'
+                    const isFromAdoption = true
+                    const regFeeComplete = false
+                    const certOfResidencyComplete = false
+                    const ownerPictureComplete = false
+                    const petPhotoComplete = false
+                    const proofOfAntiRabiesComplete = false
+                    const photocopyCertOfAntiRabiesComplete = false
+                    const { data } = await axios.post('http://localhost:5000/api/users/registerAnimal', {
+                        animalType, registrationType, applicantImg, name, contactNo, lengthOfStay, address,
+                        animalName, animalBreed, animalAge, animalColor, animalGender, tagNo, date, registrationStatus, email, adoptionReference, isFromAdoption,
+                        regFeeComplete, certOfResidencyComplete, ownerPictureComplete, petPhotoComplete, proofOfAntiRabiesComplete, photocopyCertOfAntiRabiesComplete,
+                    }, config)
+                    console.log(data)
+                } catch (error) {
+                    console.log(error)
+                }
+    
+                setLoading(false)
+            
+                setTimeout(() => {
+                    navigation.navigate('Browse')
+                }, 500)
+            } else {
+                console.log('submit adoption')
+                alert('Successfully submitted, check your profile to see your adoptions.')
+                try {
+                    let hasBeenInterviewed = false
+                    let hasPaid = false
+    
+                    const data = await axios.post('http://localhost:5000/api/users/submitAdoption', {
+                        animalId, applicantName, email, contactNo, address, applicantImg, validId, animalName, animalBreed,
+                        animalType, animalGender, animalColor, animalImg, adoptionStatus, date, applicationStatus, hasBeenInterviewed, hasPaid, adoptionReference
+                    }, config)
+    
+                    console.log(data)
+                    alert('Successfully submitted, check your profile to see your adoptions.')
+                } catch (error) {
+                    console.log(error)
+                    alert(error)
+                }
+    
+                try {                
+                    const data = await axios.put(`http://localhost:5000/api/admins/updateAdoptionStatus/${animalId}`, { adoptionStatus })
+                    // console.log(data)
+                } catch (error) {
+                    console.log(error)
+                }
+    
+                setLoading(false)
+            
+                setTimeout(() => {
+                    navigation.navigate('Browse')
+                }, 500)
+            }
+        }
     }
     
     useEffect(() => {
-        setApplicantName(storedCredentials.fullName)
-        setEmail(storedCredentials.email)
-        setContactNo(storedCredentials.contactNo)
-        setAddress(storedCredentials.address)
-        setApplicantImg(storedCredentials.profilePicture)
-
+        setAdoptionReference(uuid.v4())
+        getUserById()
         getAnimalById()
     }, [animalId])
 

@@ -91,6 +91,10 @@ const adoptionSchema = mongoose.Schema(
             type: Boolean,
         },
 
+        adoptionReference: {
+            type: String,
+        },
+
         user: {
             type: mongoose.Schema.Types.ObjectId,
             required: true,

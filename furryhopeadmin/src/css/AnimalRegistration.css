@@ -1,5 +1,4 @@
 .animalRegistration-body {
-    position: relative;
     width: 100%;
     height: 100vh;
     font-family: 'Poppins', sans-serif;
@@ -18,6 +17,14 @@
     align-items: center;
     margin: 0 90px;
 }
+
+.animalReg-subContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 35px 90px 0 90px;
+}
+
 .animalRegistration-header {
     margin: 0 0 20px 0;
     font-size: 2.1rem;
@@ -48,8 +55,22 @@
     margin-left: 20px;
 }
 
-.animalReg-switch-container {
-    margin: 10px 0 0 90px;
+.animalReg-select-container {
+    display: flex;
+    align-items: center;
+    margin: 0;
+}
+
+.animalReg-select-label {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.animalReg-select {
+    font-size: .98rem;
+    padding: 5px 3px;
+    width: fit-content;
+    margin: 0 0 0 10px;
 }
 
 .animalReg-container {
@@ -70,23 +91,34 @@
     align-items: center;
 }
 
-.animalReg-switch-container {
-    margin-right: 50px;
+.specRegStatus-registered {
+    background-color: green;
+    border-radius: 5px;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 500;
+    width: fit-content;
+    padding: 8px 20px;
 }
 
-.switch-container {
-    display: flex;
-    align-items: center;
+.specRegStatus-notRegistered {
+    background-color: #ed5e68;
+    border-radius: 5px;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 500;
+    width: fit-content;
+    padding: 8px 20px;
 }
 
-.switch-reg {
-    margin-right: 10px;
-    font-size: 1rem;
-}
-
-.switch-notReg {
-    margin-left: 10px;
-    font-size: 1rem;
+.specRegStatus-pending {
+    background-color: #efab54;
+    border-radius: 5px;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 500;
+    width: fit-content;
+    padding: 8px 20px;
 }
 
 /* Animal Reg data table */
@@ -125,8 +157,12 @@
 .specReg-container {
     display: flex;
     align-items: center;
-    height: 80px;
+    height: 90px;
     padding: 15px 40px;
+}
+
+.specReg-container:nth-of-type(odd) {
+    background-color: #f5f5f5;
 }
 
 .specReg-applicant {
@@ -175,25 +211,6 @@
     font-weight: 500;
 }
 
-.specRegStatus-registered {
-    background-color: green;
-    border-radius: 5px;
-    color: white;
-    font-size: 1.1rem;
-    font-weight: 500;
-    width: fit-content;
-    padding: 8px 20px;
-}
-
-.specRegStatus-notRegistered {
-    background-color: #ed5e68;
-    border-radius: 5px;
-    color: white;
-    font-size: 1.1rem;
-    font-weight: 500;
-    width: fit-content;
-    padding: 8px 20px;
-}
 
 .specReg-actions {
     display: flex;
@@ -208,400 +225,326 @@
     padding: 8px 15px;
     font-size: 1rem;
     border-radius: 5px;
+    cursor: pointer
 }
 
 .specReg-deleteReg {
     height: 40px;
     width: 40px;
     margin-left: 10px;
-}
-
-/* Modal && Overlay rulesets */
-
-.animalReg-modal-container {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    height: 900px;
-    width: 1200px;
-    background-color: white;
-    border-radius: 5px;
-    z-index: 10;
-}
-
-.animalReg-closeModal {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    height: 35px;
-    width: 35px;
-}
-
-
-
-/* .viewRegistration-modal {
-    width: 33%;
-    height: 55em;
-    background-color: white;
-    border-radius: 5px;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 10;
-    margin: 0;
-    padding: 0;
-}
-
-.viewRegistration-overlay {
-    width: 100%;
-    height: 100%;
-    background-color: rgba(17, 17, 17, .5);
-    z-index: 5;
-    position: fixed;
-    top: 0;
-    left: 0;
-    pointer-events: all;
-}
-
-.close-modal-icon {
-    width: 40px;
-    height: 40px;
-    margin: 15px 20px 0 0;
     cursor: pointer;
-    position: absolute;
-    top: 0;
-    right: 0;
 }
-
-.viewRegistration-modal-header {
-    font-size: 2.3rem;
-    margin: 45px 0 0 50px;
-}
-
-.viewRegistration-id {
-    font-size: 1.2rem;
-    margin: 0 0 0 50px;
-    color: rgba(0, 0, 0, .5);
-}
-
-.modalLabel-date {
-    font-size: 1.3rem;
-    font-weight: 600;
-    margin: 15px 0 60px 50px;
-}
-
-.owner-information-header, .animal-information-header {
-    width: fit-content;
-    background-color: rgba(0, 0, 0, .07);
-    background-color: #FFF9B5;
-    border-radius: 5px;
-    font-size: 1rem;
-    font-weight: 500;
-    margin: -20px 0 20px 50px;
-    padding: 5px 7px;
-}
-
-.modalLabel, .modalLabel-address {
-    font-size: 1.3rem;
-    font-weight: 600;
-    margin: 0 0 15px 50px;
-}
-
-.modalValue {
-    font-size: 1.3rem;
-    font-weight: 400;
-    margin-left: 5px;
-}
-
-.modalValue-address {
-    font-size: 1.3rem;
-    margin: -10px 50px 50px 50px;
-}
-
-.registerAnimalBtn {
-    margin: 60px auto 0 auto;
-    padding: 10px 15px;
-    display: block;
-    font-size: 1.3rem;
-    font-weight: 600;
-    cursor: pointer;
-} */
-
-/**/
-
-
-/*
-.registrations-submissions {
-    text-align: center;
-    border: 1px solid black;
-    border-collapse: collapse;
-    padding: 0;
-    margin: 50px 0 0 20px;
-}
-
-.col-header {
-    border: 1px solid black;
-    font-size: 1.5rem;
-    padding: 5px 10px;
-}
-
-.col-header, .table-data {
-    width: 200px;
-}
-
-.table-data {
-    border: 1px solid black;
-    font-size: 1.3rem;
-    padding: 5px 10px;
-}
-
-tbody tr:nth-child(even) {
-    background-color: #fff799;
-}
-*/
 
 /* 1600 x 1200 */
 @media screen and (max-width: 1919px) {
     .animalRegistration-content {
-        margin-left: 390px;
+        margin-left: 310px;
+        padding-top: 60px;
     }
 
-    .animalRegistration-header {
-        margin-top: 110px;
-        font-size: 2.2rem;
+    .animalReg-select-container {
+        margin: 0;
     }
 
-    .registration-table {
-        width: 920px;
+    .animalReg-subContainer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 35px 90px 0 90px;
     }
 
-    .registration-header {
-        font-size: 1.15rem;
+    .animalReg-select-label {
+        font-size: .95rem;
     }
 
-    .registration-data, .registration-btns {
-        font-size: .98rem;
+    .animalReg-select {
+        font-size: .85rem;
     }
 
-    .viewRegistration-modal {
-        width: 34%;
+    .animalReg-container {
+        height: 660px;
+        margin: 30px 90px 0 90px;
     }
 
-    .viewRegistration-modal-header {
-        font-size: 2rem;
-        margin-top: 50px;
+    .animalReg-label-container {
+        height: 15px;
+        margin: 30px 0 0 0;
+        padding: 20px 40px;
+    }
+
+    .animalReg-label {
+        font-size: .95rem;
+    }
+
+    .specReg-container {
+        height: 70px;
+    }
+
+    .specReg-applicantImg {
+        height: 43px;
+        width: 43px;
+    }
+
+    .specReg-applicantName {
+        font-size: .9rem;
+    }
+
+    .specReg-petName {
+        font-size: .95rem;
+    }
+
+    .specReg-petBreed {
+        font-size: .88rem;
+    }
+
+    .specRegType {
+        font-size: .95rem;
+    }
+
+    .specRegStatus-registered, .specRegStatus-notRegistered, .specRegStatus-pending {
+        font-size: .85rem;
+        padding: 6px 15px;
+    }
+
+    .specReg-viewData {
+        font-size: .85rem;
+        padding: 7px 11px;
+    }
+
+    .specReg-deleteReg {
+        height: 35px;
+        width: 35px;
+        margin-left: 8px;
     }
 }
 
 /* 1440 x 900 */
 @media screen and (max-width: 1440px) {
     .animalRegistration-content {
-        margin-left: 320px;
+        margin-left: 305px;
+        padding-top: 70px;
     }
 
-    .animalRegistration-header {
-        font-size: 1.85rem;
-        margin-top: 90px;
+    .animalReg-subContainer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 20px 70px 0 70px;
     }
 
-    .toggle-reg-btn {
-        font-size: 1rem;
-        padding: 10px;
+    .animalReg-select-label {
+        font-size: .95rem;
     }
 
-    .registration-table {
-        width: 850px;
-    }
-
-    .registration-header {
-        font-size: 1rem;
-        padding: 6.5px;
-    }
-
-    .registration-data, .registration-btns {
+    .animalReg-select {
         font-size: .8rem;
     }
 
-    .viewRegistration-modal {
-        width: 35%;
-        height: 48em;
+    .animalReg-container {
+        height: 630px;
+        margin: 30px 70px 0 70px;
     }
 
-    .close-modal-icon {
-        height: 30px;
-        width: 30px;
+    .animalReg-label-container {
+        height: 20px;
+        margin: 30px 0 0 0;
+        padding: 20px 40px;
     }
 
-    .viewRegistration-modal-header {
-        font-size: 1.5rem;
-        margin: 50px 0 0 50px;
+    .animalReg-label {
+        font-size: .9rem;
     }
 
-    .modalLabel-date {
-        font-size: 1.02rem;
-        margin: 5px 0 50px 50px;
+    .specReg-container {
+        height: 67px;
     }
 
-    .modalLabel-date span {
-        font-size: 1.02rem;
+    .specReg-applicantImg {
+        height: 42px;
+        width: 42px;
     }
 
-    .owner-information-header, .animal-information-header {
+    .specReg-applicantName, .specReg-petName, .specRegType {
+        font-size: .85rem;
+    }
+
+    .specReg-petBreed {
         font-size: .8rem;
     }
 
-    .modalLabel, .modalLabel-address {
-        font-size: 1rem;
+    .specRegStatus-registered,
+    .specRegStatus-notRegistered,
+    .specRegStatus-pending {
+        font-size: .8rem;
+        padding: 5px 12px;
     }
 
-    .modalValue {
-        font-size: 1rem;
+    .specReg-viewData {
+        font-size: .73rem;
     }
 
-    .modalValue-address {
-        font-size: 1rem;
+    .specReg-deleteReg {
+        height: 32px;
+        width: 32px;
+        margin-left: 10px;
     }
 }
 
 /* 1360 x 768 */
 @media screen and (max-width: 1360px) {
     .animalRegistration-content {
-        margin-left: 290px;
+        margin-left: 275px;
+        padding-top: 50px;
+    }
+
+    .animalReg-select-label {
+        font-size: .85rem;
+    }
+
+    .animalReg-select {
+        font-size: .8rem;
+        padding: 2px;
+    }
+
+    .animalReg-container {
+        height: 570px;
+    }
+
+    .animalReg-label-container {
+        height: 14px;
+    }
+
+    .animalReg-label {
+        font-size: .835rem;
+    }
+
+    .specReg-container {
+        height: 57px;
+    }
+
+    .specReg-applicantImg {
+        height: 38px;
+        width: 38px;
+    }
+
+    .specReg-applicantName,
+    .specReg-petName,
+    .specRegType {
+        font-size: .76rem;
+    }
+
+    .specReg-petBreed {
+        font-size: .7rem;
+    }
+
+    .specRegStatus-registered,
+    .specRegStatus-notRegistered,
+    .specRegStatus-pending {
+        font-size: .7rem;
+        padding: 5px 12px;
+    }
+
+    .specReg-viewData {
+        font-size: .65rem;
+    }
+
+    .specReg-deleteReg {
+        height: 28px;
+        width: 28px;
+        margin-left: 10px;
     }
 }
 
 /* 1280 x 1024 */
 @media screen and (max-width: 1280px) {
     .animalRegistration-content {
-        margin-left: 270px;
+        margin-left: 260px;
     }
 
-    .animalRegistration-header {
-        font-size: 1.7rem;
+    .animalReg-subContainer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 20px 65px 0 65px;
+    }
+    
+    .specReg-viewData {
+        border: 1px solid #b0b0b0;
+        outline:none;
     }
 
-    .toggle-reg-btn {
-        font-size: .85rem;
-    }
-
-    .registration-table {
-        width: 820px;
-    }
-
-    .registration-header {
-        font-size: .83rem;
-        padding: 4.5px;
-    }
-
-    .registration-data, .registration-btns {
-        font-size: .75rem;
-    }
-
-    .viewRegistration-modal {
-        height: 43em;
-        width: 34.5%;
-    }
-
-    .close-modal-icon {
-        height: 28px;
-        width: 28px;
-    }
-
-    .viewRegistration-modal-header {
-        font-size: 1.3rem;
-    }
-
-    .modalLabel-date {
-        font-size: .92rem;
-        margin: 5px 0 35px 50px;
-    }
-
-    .modalLabel-date span {
-        font-size: .92rem;
-    }
-
-    .modalLabel, .modalLabel-address {
-        font-size: .92rem;
-    }
-
-    .modalValue {
-        font-size: .92rem;
-    }
-
-    .modalValue-address {
-        font-size: .92rem;
-    }
-
-    .registerAnimalBtn {
-        font-size: 1.1rem;
+    .animalReg-container {
+        margin: 30px 65px 0 65px;
     }
 }
 
 /* 1024 x 768 */
 @media screen and (max-width: 1024px) {
     .animalRegistration-content {
-        margin-left: 225px;
+        margin-left: 240px;
     }
 
-    .animalRegistration-header {
-        font-size: 1.45rem;
+    .animalReg-select-label {
+        font-size: .8rem;
     }
 
-    .toggle-reg-btn {
-        font-size: .75rem;
-    }
-
-    .registration-table {
-        width: 650px;
-    }
-
-    .registration-header {
-        font-size: .75rem;
-    }
-
-    .registration-data, .registration-actions {
+    .animalReg-select {
         font-size: .7rem;
-        padding: 5px;
     }
 
-    .viewRegistration-modal {
-        height: 40em;
-        width: 37%;
+    .animalReg-container {
+        height: 480px;
     }
 
-    .viewRegistration-modal-header {
-        font-size: 1.15rem;
-        margin: 50px 0 0 30px;
+    .animalReg-label-container {
+        height: 12px;
+        padding: 20px 30px;
     }
 
-    .modalLabel-date {
-        margin: 5px 0 30px 30px;
-        font-size: .85rem;
+    .animalReg-label {
+        font-size: .65rem;
     }
 
-    .modalLabel-date span {
-        font-size: .85rem;
+    .specReg-container {
+        height: 42px;
+        padding: 15px 30px;
     }
 
-    .modalLabel, .modalLabel-address {
-        margin: 0 0 15px 30px;
-        font-size: .85rem;
+    .specReg-applicantImg {
+        height: 30px;
+        width: 30px;
     }
 
-    .modalValue {
-        font-size: .85rem;
+    .specReg-applicantName {
+        margin-left: 6px;
     }
 
-    .modalValue-address {
-        font-size: .85rem;
-        margin: -10px 30px 30px 30px;
+    .specReg-applicantName,
+    .specReg-petName,
+    .specRegType {
+        font-size: .6rem;
     }
 
-    .registerAnimalBtn {
-        font-size: .98rem;
-        margin-top: 40px;
+    .specReg-petBreed {
+        font-size: .55rem;
+    }
+
+    .specRegStatus-registered,
+    .specRegStatus-notRegistered,
+    .specRegStatus-pending {
+        font-size: .55rem;
+        padding: 5px 10px;
+    }
+
+    .specReg-viewData {
+        font-size: .58rem;
+        padding: 5px
+    }
+
+    .specReg-deleteReg {
+        height: 24px;
+        width: 24px;
+        margin-left: 10px;
     }
 }
 

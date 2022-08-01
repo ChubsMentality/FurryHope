@@ -8,11 +8,14 @@ import Empty from './SubComponents/EmptyComponent'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAnimalData, deleteAnimalAction } from '../actions/animalActions.js'
 import { MdDelete } from 'react-icons/md'
+import { AiOutlineSearch } from 'react-icons/ai'
 import { Link } from 'react-router-dom'
 import { AiTwotoneEdit } from 'react-icons/ai'
 
 const ManageData = () => {
     const dispatch = useDispatch();
+    const [searchQuery, setSearchQuery] = useState('')
+
     const listOfAnimals = useSelector(state => state.animalData);
     const { loading, error, animalList } = listOfAnimals;
 
@@ -86,8 +89,13 @@ const ManageData = () => {
     const DataContainer = ({ currentAnimals }) => {
         return (
             <>
-                {currentAnimals && 
-                    currentAnimals.map((animal) => (
+                {currentAnimals && currentAnimals.filter((animals) => {
+                    if(searchQuery === '') {
+                        return animals
+                    } else if(animals.breed.toLowerCase().includes(searchQuery.toLowerCase())) {
+                        return animals
+                    }
+                }).map((animal) => (
                         <div className="specAnimal-container" key={animal._id}>
                             <div className="specAnimal-name specAnimal-column">
                                 <img src={animal.animalImg} className='specAnimal-name-profPic' />
@@ -202,8 +210,10 @@ const ManageData = () => {
 
                 <div className='manage-animals-container'>
                     <div className='manage-subHeader'>
-                        <p className='manage-animals-header'>Animals ({ filteredAnimals && filteredAnimals.length })</p>
-
+                        <div className="manage-searchContainer">
+                            <AiOutlineSearch className='manage-searchIcon' color='#111' />
+                            <input type="text" className="manage-searchTxt" placeholder='Search for a specific breed...' value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
+                        </div>
                         <div className="manage-animals-right">
                             <div className="manage-filter-animals">
                                 <p className="manage-filter-txt">Filter</p>
