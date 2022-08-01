@@ -11,7 +11,7 @@ import ForgotPassword from './Modals/ForgotPassword'
 const Login = ({history}) => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [modal, setModal] = useState(true)
+    const [modal, setModal] = useState(false)
 
     console.log(window.screen.availWidth)
 
@@ -79,7 +79,7 @@ const Login = ({history}) => {
                     <label htmlFor="password" className="loginLabel loginPassword">Password</label>
                     <input name='password' type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="loginInput loginInputEmail" />
 
-                    <p className="loginForgotPwdLink">Forgot Password?</p>
+                    <p className="loginForgotPwdLink" onClick={() => toggleModal()}>Forgot Password?</p>
 
                     <input type="submit" value="LOGIN" className="loginSubmitBtn" />
                 </form>
@@ -98,7 +98,7 @@ const Login = ({history}) => {
                 <p className="loginTagline" ref={tagline}>MARIKINA VETERINARY OFFICE</p>
             </div>
 
-            {modal && <ForgotPassword />}
+            {modal && <ForgotPassword modal={modal} toggleModal={toggleModal}/>}
             {modal && <Overlay />}
         </div>
     )
