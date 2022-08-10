@@ -124,7 +124,7 @@ const ManageData = () => {
                                     </button>
                                 </Link>
 
-                                <button className="specAnimal-btn-container specAnimal-delete" onClick={() => deleteHandler()}>
+                                <button className="specAnimal-btn-container specAnimal-delete" onClick={() => deleteHandler(animal._id)}>
                                     <MdDelete color='red' className='specAnimal-btn' />
                                 </button>
                             </div>
@@ -215,6 +215,16 @@ const ManageData = () => {
                             <input type="text" className="manage-searchTxt" placeholder='Search for a specific breed...' value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
                         </div>
                         <div className="manage-animals-right">
+                            <div className="manage-filter-animals">
+                                <p className="manage-filter-txt">Filter</p>
+                                <select className='manage-select' value={currentStatus} onChange={(e) => setCurrentStatus(e.target.value)}>
+                                    <option value='No Filter'>No Filter</option>
+                                    <option value='Not Adopted'>Not Adopted</option>
+                                    <option value='Pending'>Pending</option>
+                                    <option value='Adopted'>Adopted</option>
+                                </select>
+                            </div>
+
                             <div className="manage-filter-animals">
                                 <p className="manage-filter-txt">Filter</p>
                                 <select className='manage-select' value={currentStatus} onChange={(e) => setCurrentStatus(e.target.value)}>

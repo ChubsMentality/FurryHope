@@ -11,7 +11,6 @@ const { generateToken, generateResetPasswordToken } = require('../utils/generate
 const { generateCode, mailTransport, emailTransport, emailTemplate } = require('../utils/verifyUserUtils')
 const { generateResetPasswordTemplate, plainEmailTemplate } = require('../utils/resetPasswordUtil')
 
-
 const loginUser = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
 
@@ -129,6 +128,76 @@ const registerUser = asyncHandler(async (req, res) => {
     });
 });
 
+const reSendCode = asyncHandler(async (req, res) => {
+    const { email } = req.body
+
+    const user = await User.findOne({ email: email })
+
+    if(user.verified) {
+        throw new Error('Your account has already been verified.')
+    }
+
+    // const token = await VerificationToken.findOne({ owner: user._id })
+
+    // if(token) {
+    //     throw new Error(`Your code hasn't expired yet`)
+    // }
+
+    const code = generateCode()
+    const verificationToken = new VerificationToken({
+        owner: user._id,
+        token: code,
+    })
+
+    await verificationToken.save()
+
+    let mailOptions = {
+        from: 'furryhope.mail@gmail.com',
+        to: user.email,
+        subject: 'Account Verification - FurryHope',
+        html: emailTemplate(code)
+    }
+
+    emailTransport.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            console.log(error)
+        } else {
+            console.log(`Email was sent to: ${info.response}`)
+        }
+    })
+})
+
+const reVerifyUser = asyncHandler(async (req, res) => {
+    const { email, verificationCode } = req.body
+    const user = await User.findOne({ email: email })
+
+    const token = await VerificationToken.findOne({ owner: user._id })
+
+    if(!token) {
+        res.status(404)
+        throw new Error('You code has expired')
+    }
+
+    const tokensMatch = await token.compareToken(verificationCode)
+    if (!tokensMatch) {
+        throw new Error('Invalid Verification code, Please enter a valid verification code.')
+    }
+
+    user.verified = true
+    await VerificationToken.findByIdAndDelete(token._id)
+    await user.save()
+
+    res.json({
+        message: 'Account has been validated, you can now login and use the app.',
+        user: {
+            id: user._id,
+            email: user.email,
+            fullName: user.fullName,
+            verified: user.verified,
+        }
+    })
+})
+
 const verifyUser = asyncHandler(async (req, res) => {
     const { verificationCode } = req.body
 
@@ -145,7 +214,7 @@ const verifyUser = asyncHandler(async (req, res) => {
     // Get a verification token based on the user's id
     const token = await VerificationToken.findOne({ owner: user._id })
     if (!token) {
-        throw new Error('Cannot Find User.')
+        throw new Error('Cannot Find User / Code has expired.')
     }
 
     // Comparing the code that the user inputted to the one that is in the database.
@@ -173,7 +242,7 @@ const verifyUser = asyncHandler(async (req, res) => {
 const sendResetPassword = asyncHandler(async (req, res) => {
     const { email } = req.body
     if (!email) {
-        throw new Error('Please provide you email')
+        throw new Error('Please provide your email')
     }
 
     const user = await User.findOne({ email }) 
@@ -546,4 +615,6 @@ module.exports = {
     getSpecificAdoptions,
     updatePreference,
     submitDonation,
+    reSendCode,
+    reVerifyUser,
 };

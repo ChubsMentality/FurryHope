@@ -30,6 +30,8 @@ const AdoptionForm = ({ route, navigation }) => {
     const [lengthOfStay, setLengthOfStay] = useState('')
     const [adoptionReference, setAdoptionReference] = useState()
 
+    console.log(date)
+
     const [loading, setLoading] = useState(false)
     const [applicantNameFocused, setApplicantNameFocused] = useState(false)
     const [emailFocused, setEmailFocused] = useState(false)

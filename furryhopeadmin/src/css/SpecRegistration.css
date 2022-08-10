@@ -1,5 +1,5 @@
 .specReg-body {
-    height: 100vh;
+    height: 100%;
     width: 100%;
     font-family: 'Poppins', sans-serif;
     position: relative;
@@ -74,7 +74,7 @@
 
 .specReg-regInfoContainer {
     display: flex;
-    margin: 40px 90px 0 90px;
+    margin: 40px 90px;
 }
 
 .specReg-regInfo {
@@ -356,7 +356,7 @@
 }
 
 /* 1360 x 768 */
-@media screen and (max-width: 1360px) {
+@media screen and (max-width: 1366px) {
     .specReg-content {
         margin-left: 275px;
         padding-top: 50px;
@@ -473,6 +473,33 @@
     .regInfoBtn {
         font-size: .85rem;
         padding: 8px 12px;
+    }
+}
+
+@media screen and (width: 1366px) and (height: 625px) {
+    .specReg-content {
+        padding-top: 40px;
+    }
+
+    .specReg-back-icon {
+        height: 23px;
+        width: 23px;
+    }
+
+    .specReg-back-txt {
+        font-size: .9rem;
+    }
+
+    .specReg-currentStatus-pending,
+    .specReg-currentStatus-rejected,
+    .specReg-currentStatus-accepted {
+        padding: 4px 12px;
+        margin: 0 0 0 10px;
+        font-size: .7rem;
+    }
+
+    .specReg-regInfoContainer {
+        margin: 20px 70px 0 70px;
     }
 }
 

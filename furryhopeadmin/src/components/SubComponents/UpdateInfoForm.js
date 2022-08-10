@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux'
 import '../../css/UpdateInfoForm.css'
 import axios from 'axios'
 import { useHistory } from 'react-router-dom'
+import moment from 'moment'
 
 const UpdateInfoForm = (props) => {
     const [name, setName] = useState('');
@@ -15,6 +16,8 @@ const UpdateInfoForm = (props) => {
     const [size, setSize] = useState()
     const [selectedImg, setSelectedImg] = useState('');
     const [adoptionStatus, setAdoptionStatus] = useState('');
+    const [availUntil, setAvailUntil] = useState('');
+    const [availUntilYear, setAvailUntilYear] = useState('')
     const [date, setDate] = useState('');
 
     // Function to upload the image to cloudinary
@@ -58,6 +61,8 @@ const UpdateInfoForm = (props) => {
             setSize(data.size)
             setSelectedImg(data.animalImg);
             setAdoptionStatus(data.adoptionStatus);
+            setAvailUntil(data.availUntil);
+            setAvailUntilYear(data.availUntilYear);
             setDate(data.updatedAt);
         };
 
@@ -70,10 +75,21 @@ const UpdateInfoForm = (props) => {
 
         setDate(date.substring(0, 10)); 
 
-        if(!name || !color || !breed || !description || !gender || !animalType || !selectedImg || !adoptionStatus) return;
-        dispatch(updateAnimalAction(props.paramId, name, color, breed, description, gender, animalType, size, selectedImg, adoptionStatus, date));
+        if(!name || !color || !breed || !description || !gender || !animalType || !selectedImg || !adoptionStatus || !availUntil || !availUntilYear) return;
+        dispatch(updateAnimalAction(props.paramId, name, color, breed, description, gender, animalType, size, selectedImg, adoptionStatus, availUntil, availUntilYear));
 
         history.push('/manage');
+    }
+
+    const availUntilHandler = (e) => {
+        let tempVal = e.target.value
+        let tempAvailUntil = moment(tempVal).format('MM/DD/YYYY')
+        let tempAvailUntilYear = moment(tempVal).format('YYYY/MM/DD')
+        
+        console.log(tempAvailUntil)
+        console.log(tempAvailUntilYear)
+        setAvailUntil(tempAvailUntil)
+        setAvailUntilYear(tempAvailUntilYear)
     }
 
     return (
@@ -126,8 +142,8 @@ const UpdateInfoForm = (props) => {
                     <input type="file" className="update-imgUpload" name="imgUpload" onChange={(e) => uploadImg(e.target.files[0])} />
                 </div>
                 
-                <label htmlFor="availUntil" className="lbl-update lbl-update-availUntil">Available Until</label>
-                <input type="date" name="availUntil" id="" className="update-availUntil" />
+                <label htmlFor="availUntil" className="lbl-update lbl-update-availUntil">Available Until<span className='span-availUntil'>({availUntil})</span></label>
+                <input type="date" name="availUntil" className="update-availUntil" onChange={availUntilHandler} />
                 
                 <p className='update-img-preview-txt'>Preview</p>
                 <img src={selectedImg} className='update-img-preview' />

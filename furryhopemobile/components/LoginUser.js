@@ -85,9 +85,12 @@ const LoginUser = ({ navigation }) => {
             />
             
             <View style={styles.forgotPwdContainer}>
-                <Text style={styles.forgotPwdTxt}>Forgot your password?</Text>
+                <TouchableOpacity onPress={() => navigation.navigate('Re-verify')}>
+                    <Text style={styles.forgotPwd}>Verify Account</Text>
+                </TouchableOpacity>
+
                 <TouchableOpacity onPress={() => navigation.navigate('Forgot Password')}>
-                    <Text style={styles.forgotPwd}>Reset</Text>
+                    <Text style={styles.forgotPwd}>Forgot Password?</Text>
                 </TouchableOpacity>
             </View>
 
@@ -200,20 +203,22 @@ const styles = StyleSheet.create({
     forgotPwdContainer: {
         display: 'flex',
         flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
         marginTop: 20,
         marginLeft: 45,
+        marginRight: 45
     },
 
     forgotPwdTxt: {
-        fontSize: 14.5,
+        fontSize: 13,
         fontFamily: 'PoppinsRegular',
     },
 
     forgotPwd: {
         color: '#551A8B',
-        fontSize: 14.5,
+        fontSize: 13,
         fontFamily: 'PoppinsRegular',
-        marginLeft: 5,
     },
 
     loginBtn: {

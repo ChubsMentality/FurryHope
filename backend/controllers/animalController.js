@@ -25,15 +25,15 @@ const getCats = asyncHandler(async (req, res) => {
 
 // Creates a new animal
 const createAnimal = asyncHandler(async (req, res) => {
-    const {name, color, breed, description, gender, type, size, animalImg, adoptionStatus} = req.body;
+    const {name, color, breed, description, gender, type, size, animalImg, adoptionStatus, availUntil, availUntilYear} = req.body;
 
-    if(!name || !color || !breed || !description || !gender || !type || !size || !animalImg || !adoptionStatus) {
+    if(!name || !color || !breed || !description || !gender || !type || !size || !animalImg || !adoptionStatus || !availUntil || !availUntilYear) {
         res.status(400);
         throw new Error('Please fill out the necessary information');
     }
     else {
         // Creates a new animal and store it inside the database
-        const animal = new Animal({ name, color, breed, description, gender, type, size, animalImg, adoptionStatus});
+        const animal = new Animal({ name, color, breed, description, gender, type, size, animalImg, adoptionStatus, availUntil, availUntilYear });
 
         // saves the animal into the database
         const createdAnimal = await animal.save();
@@ -55,7 +55,7 @@ const getAnimalById = asyncHandler(async (req, res) => {
 
 // Updating the animal's data
 const updateAnimal = asyncHandler(async (req, res) => {
-    const { name, color, breed, description, gender, type, size, animalImg, adoptionStatus } = req.body
+    const { name, color, breed, description, gender, type, size, animalImg, adoptionStatus, availUntil, availUntilYear } = req.body
     
     // Finds the id of the animal
     const animal = await Animal.findById(req.params.id);
@@ -70,6 +70,8 @@ const updateAnimal = asyncHandler(async (req, res) => {
         animal.size = size
         animal.animalImg = animalImg;
         animal.adoptionStatus = adoptionStatus;
+        animal.availUntil = availUntil
+        animal.availUntilYear = availUntilYear
 
         // Saving the updated data into the database
         const updatedAnimal = await animal.save();

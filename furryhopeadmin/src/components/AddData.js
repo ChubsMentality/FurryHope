@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 import ClipLoader from 'react-spinners/ClipLoader'
 import Sidebar from './Sidebar'
+import moment from 'moment'
 
 // There's a tutorial on how to upload an image to the database
 // Just use bootstrap's built-in form for file upload
@@ -37,6 +38,8 @@ const AddData = () => {
     const [animalType, setAnimalType] = useState('');
     const [size, setSize] = useState('')
     const [selectedImg, setSelectedImg] = useState('https://res.cloudinary.com/drvd7jh0b/image/upload/v1640256598/hyr5slabmcd9zf8xddrv.png');
+    const [availUntil, setAvailUntil] = useState('')
+    const [availUntilYear, setAvailUntilYear] = useState('')
     const adoptionStatus = 'Not Adopted'
 
     // Function to upload the image to cloudinary
@@ -93,8 +96,8 @@ const AddData = () => {
 
     const submitHandler = (e) => {
         e.preventDefault();
-        if(!name || !breed || !description || !color || !gender || !animalType || !size || !selectedImg || !adoptionStatus) return;
-        dispatch(createAnimalAction(name, color, breed, description, gender, animalType, size, selectedImg, adoptionStatus));
+        if(!name || !breed || !description || !color || !gender || !animalType || !size || !selectedImg || !adoptionStatus || !availUntil || !availUntilYear) return;
+        dispatch(createAnimalAction(name, color, breed, description, gender, animalType, size, selectedImg, adoptionStatus, availUntil, availUntilYear));
         alert('Successfully Added to the Database!');
         setName('')
         setBreed('Unknown / Unidentified')
@@ -105,6 +108,24 @@ const AddData = () => {
         setSelectedImg('https://res.cloudinary.com/drvd7jh0b/image/upload/v1640256598/hyr5slabmcd9zf8xddrv.png')
 
         updateTotalCount()
+    }
+
+    const d = new Date()
+    let date = d.toLocaleDateString(undefined, { day: '2-digit', month: '2-digit', year: 'numeric' })
+
+    console.log(date + 'Not formatted')
+    console.log(moment().format('MM/DD/YYYY'))
+
+    availUntil && console.log(availUntil)
+    const availUntilHandler = (e) => {
+        let tempVal = e.target.value
+        let tempAvailUntil = moment(tempVal).format('MM/DD/YYYY')
+        let tempAvailUntilYear = moment(tempVal).format('YYYY/MM/DD')
+        
+        console.log(tempAvailUntil)
+        console.log(tempAvailUntilYear)
+        setAvailUntil(tempAvailUntil)
+        setAvailUntilYear(tempAvailUntilYear)
     }
 
     return (
@@ -169,7 +190,7 @@ const AddData = () => {
                     </div>
                     <div className='addData-form-right-column'>
                         <label htmlFor="date" className="lbl-add-availUntil">Available Until</label><br/>
-                        <input type="date" name="date" id="date" className='add-data-availUntil' />
+                        <input type="date" name="date" id="date" className='add-data-availUntil' onChange={availUntilHandler} />
 
 
                         <div className="add-data-imgUploadContainer">

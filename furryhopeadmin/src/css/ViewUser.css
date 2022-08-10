@@ -111,19 +111,67 @@
     margin-right: 10px;
 }
 
-/* 1600 x 900 */
-@media screen and (max-width: 1919px) {
-    
-}
+@media screen and (width: 1366px) and (height: 625px) {
+    .viewUser-modal {
+        height: 400px;
+        width: 700px;
+    }
 
-/* 1440 x 900 */
-@media screen and (max-width: 1440px) {
+    .viewUser-closeModal {
+        height: 25px;
+        width: 25px;
+    }
 
-}
+    .viewUser-left, .viewUser-right {
+        padding: 40px;
+    }
 
-/* 1360 x 768 */
-@media screen and (max-width: 1360px) {
-    
+    .viewUser-profContainer {
+        margin: 0 0 25px 0;
+    }
+
+    .viewUser-profilePic {
+        height: 50px;
+        width: 50px;
+    }
+
+    .userInfo-name {
+        font-size: 1.1rem;
+    }
+
+    .userInfo-id {
+        font-size: .8rem;
+    }
+
+    .userInfo-label, .userInfo-label-right {
+        font-size: .95rem;
+    }
+
+    .userInfo-value, .userInfo-value-right {
+        font-size: .85rem;
+    }
+
+    .userInfo-label-address {
+        font-size: .95rem;
+    }
+
+    .userInfo-value-address {
+        font-size: .85rem;
+    }
+
+    .viewUser-right-header {
+        font-size: 1.15rem;
+    }
+
+    .breedsPrefContainer, .colorsPrefContainer {
+        margin: 0 0 15px 0;
+    }
+
+    .breedPrefItem, .colorPrefItem {
+        font-size: .75rem;
+        margin: 0 10px 0 0;
+        padding: 3px 13px
+    }
 }
 
 /* 1280 x 1024 */

@@ -18,6 +18,12 @@
   margin: 0 90px;
 }
 
+.reportsSwitchLabel {
+  font-size: 1rem;
+  margin-left: 90px;
+  margin-right: 10px;
+}
+
 .listOfReports-container {
   margin: 40px 90px 30px 90px;
   display: flex;
@@ -265,7 +271,7 @@
 }
 
 /* 1360 x 768 */
-@media screen and (max-width: 1360px) {
+@media screen and (max-width: 1366px) {
   .strayAnimalReport-content {
     margin-left: 275px;
     padding-top: 55px;
@@ -277,6 +283,54 @@
 
   .listOfReports-container {
     margin: 30px 65px 30px 65px;
+  }
+}
+
+@media screen and (width: 1366px) and (height: 625px) {
+  .reportsSwitchLabel {
+    font-size: .9rem;
+    margin-left: 65px;
+  }
+
+  .listOfReports-container {
+    margin-top: 15px;
+    row-gap: 35;
+    column-gap: 40px;
+  }
+
+  .report-container {
+    height: 160px;
+  }
+
+  .report-id {
+    margin: 18px 22px 0 22px;
+    font-size: .6rem;
+  }
+
+  .report-description {
+    font-size: .7rem;
+    line-height: 1.05rem;
+  }
+
+  .report-subContainer {
+  }
+
+  .report-dateSubmitted {
+    font-size: .65rem;
+  }
+
+  .report-viewed, .report-dismissed {
+    font-size: .55rem;
+    padding: 4px 9px;
+  }
+
+  .report-actions {
+    height: 35px;
+  }
+
+  .report-viewBtn,
+  .report-deleteBtn {
+    font-size: .75rem;
   }
 }
 
@@ -394,7 +448,7 @@
   width: 640px;
   background-color: white;
   border-radius: 5px;
-  z-index: 10;
+  z-index: 30;
 }
 
 .closeStrayAnimalModal {
@@ -598,7 +652,7 @@
 }
 
 /* 1360 x 768 */
-@media screen and (max-width: 1360px) {
+@media screen and (max-width: 1366px) {
   .strayAnimalModal {
     height: 550px;
     width: 480px;
@@ -669,6 +723,22 @@
   .strayModal-dismissBtn {
     font-size: .9rem;
     padding: 7px 12px;
+  }
+}
+
+@media screen and (width: 1366px) and (height: 625px) {
+  .strayAnimalModal {
+    height: 500px;
+    width: 480px;
+  }
+
+  .strayModal-heading-container {
+    margin: 35px 35px 0 35px;
+  }
+
+  .strayModalViewedChecked {
+    height: 15px;
+    width: 15px;
   }
 }
 

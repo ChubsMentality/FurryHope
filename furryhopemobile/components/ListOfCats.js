@@ -17,6 +17,9 @@ const ListOfDogs = ({ navigation }) => {
     const [contentOffSet, setContentOffSet] = useState(0)
     const CONTENT_THRESHOLD = 1500
 
+    // Filter avail functionality
+    // Card / List switch
+
     const filterSearch = (arr) => {
         return arr.breed === searchQuery
     }

@@ -60,6 +60,10 @@
     position: relative;
 }
 
+.specDonation-container:nth-of-type(even), .specInventory-container:nth-of-type(even) {
+    background: #f5f5f5;
+}
+
 .donations-labels-container {
     width: auto;
     display: flex;
@@ -126,6 +130,7 @@
 .specDonation-delete-icon {
     height: 45px;
     width: 45px;
+    cursor: pointer;
 }
 
 .inventories-container {
@@ -207,7 +212,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 10;
+    z-index: 30;
 }
 
 .donations-close-modal {
@@ -553,7 +558,7 @@
 }
 
 /* 1360 x 768 */
-@media screen and (max-width: 1360px) {
+@media screen and (max-width: 1366px) {
     .donations-content {
         margin-left: 275px;
     }
@@ -674,6 +679,65 @@
 
     .donations-received-btn {
         font-size: 1.05rem;
+    }
+}
+
+@media screen and (width: 1366px) and (height: 625px) {
+    .donations-content {
+        padding-top: 40px;
+    }
+
+    .donations-header {
+        font-size: 1.3rem;
+    }
+
+    .toggle-donation-btn {
+        font-size: .7rem;
+        padding: 7px 8px;
+    }
+
+    .donations-container, .inventories-container {
+        margin: 18px 70px 0 70px;
+        height: 465px;
+    }
+
+    .donations-labels-container, .inventories-labels-container {
+        padding: 15px 30px;
+    }
+
+    .donations-label, .inventories-label {
+        font-size: .73rem;
+    }
+
+    .specDonation-container, .specInventory-container {
+        height: 40px;
+    }
+
+    .donations-modal {
+        width: 680px;
+        padding: 50px 0 0 0;
+    }
+
+    .donation-modal-label {
+        font-size: .87rem;
+    }
+
+    .donation-modal-value {
+        font-size: .82rem;
+    }
+
+    .donations-modal-tableHeading {
+        padding: 5px 35px;
+        font-size: .8rem;
+    }
+
+    .donations-modal-itemName, .donations-modal-quantity {
+        font-size: .75rem;
+    }
+
+    .donations-received-btn {
+        font-size: .9rem;
+        margin: 20px auto;
     }
 }
 

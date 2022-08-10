@@ -67,11 +67,12 @@ const styles = StyleSheet.create({
     },
 
     profilePic: {
-        marginTop: 20,
+        marginRight: 'auto',
+        marginLeft: 'auto',
         height: 95,
         width: 95,
         borderRadius: 50,
-        marginLeft: 16,
+        zIndex: 50,
     },
 
     profileFullName: {
@@ -79,62 +80,61 @@ const styles = StyleSheet.create({
         fontSize: 15,
         marginTop: 13,
         marginBottom: 25,
-        marginLeft: 16,
+        zIndex: 50,
+        textAlign: 'center'
     },
 
     profilePicVector: {
         position: 'absolute',
-        top: 20,
-        left: -130,
-        height: 300,
-        width: 300,
-        backgroundColor: 'white',
-        borderRadius: 120,
+        top: -30,
+        left: -30,
+        height: 110,
+        width: 110,
+        backgroundColor: '#fff066',
+        // backgroundColor: '#FFED4F',
+        // backgroundColor: '#ffeb33',
+        // backgroundColor: '#ffe81a',
+        borderRadius: 100,
         zIndex: -1
     },
 
     profilePicVector2: {
         position: 'absolute',
-        top: 20,
-        left: -110,
-        height: 300,
-        width: 300,
+        bottom: -10,
+        right: -10,
+        height: 50,
+        width: 50,
         backgroundColor: '#fff066',
-        borderRadius: 120,
-        zIndex: -2
+        // backgroundColor: '#ffeb33',
+        // backgroundColor: '#ffe81a',
+        borderRadius: 100,
+        zIndex: 1
     },
 
     profilePicVector3: {
         position: 'absolute',
-        top: 20,
-        left: -90,
-        height: 300,
-        width: 300,
-        backgroundColor: '#FFED4F',
-        borderRadius: 120,
-        zIndex: -3
+        bottom: -90,
+        left: 5,
+        height: 140,
+        width: 140,
+        backgroundColor: '#fff066',
+        // backgroundColor: '#ffeb33',
+        // backgroundColor: '#ffe81a',
+        borderRadius: 100,
+        zIndex: 1
     },
 
     profilePicVector4: {
         position: 'absolute',
-        top: 20,
-        left: -70,
-        height: 300,
-        width: 300,
+        top: -90,
+        right: -30,
+        height: 140,
+        width: 140,
+        backgroundColor: '#fff066',
         // backgroundColor: '#ffeb33',
-        borderRadius: 120,
-        zIndex: -3
-    },
-
-    profilePicVector5: {
-        position: 'absolute',
-        top: 20,
-        left: -50,
-        height: 300,
-        width: 300,
         // backgroundColor: '#ffe81a',
-        borderRadius: 120,
-        zIndex: -3
+        borderRadius: 100,
+        zIndex: 1
     },
 
     profileBtn: {
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
     logoutContainer: {
         borderTopWidth: .5,
         borderTopColor: '#e6e6e6',
-        marginTop: 75,
+        marginTop: 95,
     },
 
     logoutBtn: {

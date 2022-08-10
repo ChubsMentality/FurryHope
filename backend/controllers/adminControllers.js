@@ -9,9 +9,11 @@ const RegisterAnimal = require('../models/animalRegistrationModel')
 const Adoption = require('../models/adoptionModel')
 const InterviewSched = require('../models/interviewSchedModel')
 const asyncHandler = require('express-async-handler');
-const { generateToken } = require('../utils/generateToken');
+const { generateToken, generateResetPasswordToken } = require('../utils/generateToken');
 const { emailTransport } = require('../utils/verifyUserUtils')
 const { sendInterviewSchedTemplate, pickupTemplate, rejectAdoptionTemplate, registerAnimalTemplate } = require('../utils/emailTemplates');
+const ResetPasswordToken = require('../models/resetPasswordToken');
+const { generateResetPasswordTemplate, plainEmailTemplate } = require('../utils/resetPasswordUtil')
 
 const registerAdmin = asyncHandler(async (req, res) => {
     const { fullName, email, contactNo, address, password, jobPosition, role, profilePicture } = req.body;
@@ -625,7 +627,103 @@ const deleteFromInventory = asyncHandler(async (req, res) => {
     }
 })
 
+const sendResetPassword = asyncHandler(async (req, res) => {
+    const { email } = req.body
+
+    if (!email) {
+        throw new Error('Please provide your email')
+    }
+
+    const admin = await Admin.findOne({ email })
+
+    if(!admin) {
+        throw new Error('Admin not found')
+    }    
+
+    // To check whether a token is still in the database.
+    const token = await ResetPasswordToken.findOne({ owner: admin._id })
+    if (token) {
+        throw new Error('Your reset link is still valid, please wait for an hour upon requesting the link to get another one.')
+    }
+
+    // Generating the token for reseting the password
+    const generatedToken = await generateResetPasswordToken()
+    const resetToken = new ResetPasswordToken({ owner: admin._id, token: generatedToken })
+    await resetToken.save()
+
+    let mailOptions = {
+        from: 'furryhope.mail@gmail.com',
+        to: admin.email,
+        subject: 'Reset Password Link - FurryHope',
+        html: generateResetPasswordTemplate(`http://localhost:3001/reset-password?token=${generatedToken}&id=${admin._id}`)
+    }
+
+    emailTransport.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            console.log(error)
+        } else {
+            console.log(`Email was sent to: ${info.response}`)
+        }
+    })
+
+    res.json({
+        success: true,
+        message: 'Reset password link has been sent to your email.'
+    })
+})
+
+const resetPassword = asyncHandler(async (req, res) => {
+    // This 'user' and 'password' comes from the userAuth middleware where we check if the reset token is valid.
+    const { password } = req.body
+
+    const admin = await Admin.findById(req.admin._id)
+    if (!admin) {
+        throw new Error('User not found')
+    }
+
+    const isPasswordSame = await admin.matchPassword(password)
+    if (isPasswordSame) {
+        throw new Error('Please use a different password than your old one.')
+    }
+
+    if (password.trim().length < 8) {
+        throw new Error('Password must be at least 8 characters.')
+    }
+
+    // Saving the new password in the database
+    admin.password = password.trim()
+    await admin.save()
+
+    // Removing the token from the database.
+    await ResetPasswordToken.findOneAndDelete({ owner: admin._id })
+
+    let mailOptions = {
+        from: 'furryhope.mail@gmail.com',
+        to: admin.email,
+        subject: 'Password Reset Successful - FurryHope',
+        html: plainEmailTemplate(
+            'Password has been changed',
+            'Login in with your new password.'
+        )
+    }
+
+    emailTransport.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            console.log(error)
+        } else {
+            console.log(`Email was sent to: ${info.response}`)
+        }
+    })
+
+    res.json({ 
+        success: true,
+        message: 'Password has been changed' 
+    })
+})
+
 module.exports = {
+    sendResetPassword,
+    resetPassword,
     registerAdmin,
     authAdmin,
     getAdminInfo,

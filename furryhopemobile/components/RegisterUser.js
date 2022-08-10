@@ -555,7 +555,7 @@ const styles = StyleSheet.create({
     returnContainer: {
         display: 'flex',
         flexDirection: 'row',
-        marginTop: 28,
+        marginTop: 15,
         marginBottom: 75,
         marginLeft: 38,
     },

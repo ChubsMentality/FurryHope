@@ -43,7 +43,17 @@ const animalSchema = mongoose.Schema(
         adoptionStatus: {
             type: String,
             default: 'Not Adopted'
-        } 
+        },
+
+        availUntil: {
+            type: String,
+            required: true
+        },
+
+        availUntilYear: {
+            type: String,
+            required: true,
+        }
     },
     {
         timestamps: true,

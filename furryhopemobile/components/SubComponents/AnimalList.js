@@ -55,13 +55,13 @@ const styles = StyleSheet.create({
 
     name: {
         fontFamily: 'PoppinsSemiBold',
-        fontSize: 18,
+        fontSize: 16.5,
         marginLeft: 10,
     },
 
     breed: {
         fontFamily: 'PoppinsRegular',
-        fontSize: 13.5,
+        fontSize: 13,
         marginLeft: 10,
     },
 
@@ -70,9 +70,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         paddingTop: 5,
-        paddingRight: 12,
+        paddingRight: 20,
         paddingBottom: 5,
-        paddingLeft: 12,
+        paddingLeft: 20,
         marginRight: 15,
         borderRadius: 5,
     },
@@ -80,6 +80,6 @@ const styles = StyleSheet.create({
     viewTxt: {
         color: 'white',
         fontFamily: 'PoppinsMedium',
-        fontSize: 13,
+        fontSize: 14,
     },
 })

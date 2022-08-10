@@ -48,12 +48,22 @@ const {
     getRegistration,
     updateRequirements,
     rejectRegistration,
+    sendResetPassword,
+    resetPassword,
 } = require('../controllers/adminControllers.js');
+const { adminResetValid } = require('../middlewares/userAuth.js');
 
 // Routes (/api/admins)
 router.route('/').post(registerAdmin); // To add an admin account
 
 router.route('/getAdmin/:id').get(getAdminInfo)
+
+router.route('/sendResetPassword').post(sendResetPassword)
+router.route('/resetPassword').post(adminResetValid, resetPassword)
+
+router.route('/verify-token').get(adminResetValid, (req, res) => {
+    res.json({ success: true })
+})
 
 // Get user and admin accounts
 router.route('/userAccounts').get(getUserAccounts)

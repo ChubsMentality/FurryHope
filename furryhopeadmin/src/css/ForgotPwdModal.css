@@ -122,7 +122,45 @@
 }
 
 /* 1360 x 900 */
-@media screen and (max-width: 1360px) {
+@media screen and (max-width: 1366px) {
+}
+
+@media screen and (width: 1366px) and (height: 625px) {
+    .forgotPwdModal {
+        height: 360px
+    }
+
+    .forgotPwdModal-close {
+        height: 24px;
+        width: 24px;
+    }
+
+    .forgotPwdHeader {
+        margin-top: 10px;
+        font-size: 1.7rem;
+    }
+
+    .forgotPwdSubHeader {
+        font-size: 1.1rem;
+    }
+
+    .forgotPwdLabel {
+        font-size: .9rem;
+        margin: 40px 0 0 63px;
+    }
+
+    .forgotPwdInput {
+        height: 30px;
+        font-size: .75rem;
+    }
+
+    .forgotPwdSubmitBtn {
+        margin: 50px auto 0 auto;
+        height: 45px;
+        font-size: .95rem;
+        border: none;
+        outline: none;
+    }
 }
 
 /* 1280 x 1024 */

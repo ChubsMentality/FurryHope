@@ -77,7 +77,7 @@
 
 .input-add-admin:focus {
   background-color: white;
-  border: 3px solid black;
+  border: 1px solid black;
 }
 
 .input-add-admin:nth-of-type(6) {
@@ -97,6 +97,8 @@
 .input-file-profPic {
   font-size: 1.1rem;
   margin: 5px 0 0 0;
+  cursor: pointer;
+  width: fit-content;
 }
 
 .add-admin-img-preview {
@@ -106,7 +108,7 @@
 .add-admin-pic-preview {
   height: 150px;
   width: 150px;
-  border-radius: 50%;
+  border-radius: 100%;
 }
 
 .btn-submit-admin {
@@ -258,9 +260,64 @@
 }
 
 /* 1360 x 768 */
-@media screen and (max-width: 1360px) {
+@media screen and (max-width: 1366px) {
   .add-admin-content {
     margin-left: 275px;
+  }
+}
+
+@media screen and (width: 1366px) and (height: 625px) {
+  .add-admin-content {
+    padding: 40px 0;
+  }
+
+  .add-admin-return-icon {
+    height: 22px;
+    width: 22px;
+  }
+
+  .add-admin-return-btn {
+    font-size: .93rem;
+    margin-left: 10px;
+  }
+
+  .addAdmin-form-container {
+    padding: 30px;
+    margin-top: 23px;
+  }
+
+  .lbl-add-admin {
+    font-size: .78rem;
+    margin-bottom: 3px;
+  }
+
+  .input-add-admin {
+    font-size: .7rem;
+    height: 30px;
+    padding: 0 9px;
+    margin-bottom: 0;
+  }
+
+  .add-admin-select {
+    font-size: .7rem;
+  }
+
+  .input-file-profPic {
+    font-size: .7rem;
+  }
+
+  .add-admin-pic-preview {
+    height: 90px;
+    width: 90px;
+    margin-top: 10px;
+  }
+
+  .btn-submit-admin {
+    height: auto;
+    width: auto;
+    font-size: 1.1rem;
+    padding: 8px 35px;
+    bottom: 50px;
   }
 }
 

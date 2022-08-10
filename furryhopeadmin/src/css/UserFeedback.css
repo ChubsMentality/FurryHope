@@ -204,7 +204,7 @@
 }
 
 /* 1360 x 900 */
-@media screen and (max-width: 1360px) {
+@media screen and (max-width: 1366px) {
     .userFeedback-content {
         margin-left: 275px;
         padding-top: 60px;
@@ -268,6 +268,58 @@
     .feedback-deleteBtn {
         border-bottom-right-radius: 10px;
         transition: .2s ease-out;
+    }
+}
+
+@media screen and (width: 1366px) and (height: 625px) {
+    .userFeedback-content {
+        padding-top: 40px;
+    }
+
+    .userFeedbacks-container {
+        margin: 40px 70px 0 70px;
+    }
+
+    .feedback-container {
+        height: 166px;
+        width: 280px;
+    }
+
+    .feedbackProfPic {
+        height: 45px;
+        width: 45px;
+        border-width: 5px;
+    }
+
+    .feedback-name {
+        font-size: .83rem;
+    }
+
+    .feedback-txt {
+        font-size: .68rem;
+        line-height: 20px;
+        margin: 5px 22px 6px 22px;
+    }
+
+    .feedback-subInfo {
+        margin: 12px 22px 0 22px;
+    }
+
+    .feedback-rating-txt {
+        font-size: .7rem;
+    }
+
+    .feedback-viewed {
+        font-size: .58rem;
+        padding: 3px 10px;
+    }
+
+    .feedback-actions {
+        height: 35px;
+    }
+
+    .feedback-viewBtn, .feedback-deleteBtn {
+        font-size: .75rem;
     }
 }
 

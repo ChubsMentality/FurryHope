@@ -22,6 +22,8 @@ const {
     getSpecificAdoptions,
     updatePreference,
     submitDonation,
+    reSendCode,
+    reVerifyUser,
 } = require('../controllers/userController');
 
 // http://localhost:5000/api/users/
@@ -30,6 +32,10 @@ const {
 router.route('/').post(registerUser)
 
 router.route('/verifyUser/:id').post(verifyUser)
+
+router.route('/resendCode').post(reSendCode)
+
+router.route('/reVerifyUser').post(reVerifyUser)
 
 // Route to send the reset password link to the user
 router.route('/sendResetPassword').post(sendResetPassword)

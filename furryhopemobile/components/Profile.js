@@ -126,8 +126,27 @@ const Profile = () => {
 
     const RegistrationListItem = ({ item }) => {
         return (
-            <View>
+            <View style={styles.adoptionListContainer} key={item._id}>
+                <View style={styles.adoptionListLeft}>
+                    <Image source={item.animalImg} style={styles.animalImg} />
 
+                    <View style={styles.adoptionInfo}>
+                        <Text style={styles.animalName}>{item.animalName}</Text>
+                        <Text style={styles.animalBreed}>{item.animalBreed}</Text>
+                    </View>
+                </View>
+
+                {item.registrationStatus === 'Pending' &&
+                    <Text style={styles.pending}>{item.registrationStatus}</Text>
+                }
+
+                {item.registrationStatus === 'Registered' &&
+                    <Text style={styles.accepted}>{item.registrationStatus}</Text>
+                }
+
+                {item.adoptionStatus === 'Not Registered' &&
+                    <Text style={styles.rejected}>{item.registrationStatus}</Text>
+                }
             </View>
         )
     }
@@ -309,30 +328,26 @@ const styles = StyleSheet.create({
 
     toggleBtnContainer: {
         marginTop: 35,
-        marginRight: 30,
-        marginLeft: 30,
         flexDirection: 'row',
     },
 
     toggleBtn: {
-        height: 45,
+        height: 50,
         width: '50%',
         backgroundColor: '#FFFF66',
-        borderRadius: 5,
         justifyContent: 'center',
         alignItems: 'center',
     },
 
     toggleTxt: {
         fontFamily: 'PoppinsSemiBold',
-        fontSize: 13,
+        fontSize: 14,
     },
 
     toggleBtnInactive: {
-        height: 45,
+        height: 50,
         width: '50%',
         backgroundColor: '#FAFAFA',
-        borderRadius: 5,
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -340,7 +355,7 @@ const styles = StyleSheet.create({
     toggleTxtInactive: {
         color: '#A1A1AA',
         fontFamily: 'PoppinsSemiBold',
-        fontSize: 13,
+        fontSize: 14,
     },
 
     moreOptionsContainer: {
@@ -365,9 +380,7 @@ const styles = StyleSheet.create({
     },
 
     myPetsContainer: {
-        marginRight: 30,
-        marginLeft: 30,
-        width: '85.5%',
+        width: '100%',
         height: 415,
     },
 
@@ -379,6 +392,8 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         paddingTop: 18,
         paddingBottom: 18,
+        paddingRight: 20,
+        paddingLeft: 20,
         // backgroundColor: 'aqua'
     },
 
@@ -394,7 +409,7 @@ const styles = StyleSheet.create({
     },
 
     adoptionInfo: {
-        marginLeft: 5,
+        marginLeft: 10,
     },
 
     animalName: {
@@ -411,25 +426,37 @@ const styles = StyleSheet.create({
         fontSize: 12,
         fontFamily: 'PoppinsMedium',
         backgroundColor: '#f4d952',
-        padding: 5,
+        paddingTop: 5,
+        paddingRight: 10,
+        paddingBottom: 5,
+        paddingLeft: 10,
         overflow: 'hidden',
+        borderRadius: 5,
     },
 
     accepted: {
         fontSize: 12,
         fontFamily: 'PoppinsMedium',
         backgroundColor: '#ed5e68',
-        padding: 5,
+        paddingTop: 5,
+        paddingRight: 10,
+        paddingBottom: 5,
+        paddingLeft: 10,
         overflow: 'hidden',
+        color: 'white',
     },
 
     rejected: {
         fontSize: 12,
         fontFamily: 'PoppinsMedium',
         backgroundColor: 'green',
-        padding: 5,
+        paddingTop: 5,
+        paddingRight: 10,
+        paddingBottom: 5,
+        paddingLeft: 10,
         borderRadius: 5,
         overflow: 'hidden',
+        color: 'white',
     },
 })
 

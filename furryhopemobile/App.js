@@ -27,6 +27,9 @@ import AdoptionForm from './components/Forms/AdoptionForm';
 import Verification from './components/VerificationScreen'
 import ForgotPassword from './components/ForgotPassword';
 import ProfileSettings from './components/ProfileSettings'
+import OnBoarding from './components/OnBoarding'
+import ReVerification from './components/ReVerification'
+import ReVerify from './components/ReVerify';
 import 'react-native-gesture-handler'
 import { Platform } from 'react-native';
 
@@ -230,10 +233,13 @@ const App = () => {
               ) : (
                 // If not, only the login and register screens are available
                 <Stack.Group>
+                  <Stack.Screen name='OnBoarding' component={OnBoarding} options={{headerShown: false}} />
                   <Stack.Screen name='Login' component={Login} options={{headerShown: false}} />
+                  <Stack.Screen name='Re-verify' component={ReVerify} options={{ headerShown: false }} />
                   <Stack.Screen name='Register' component={Register} options={{ headerShown: false }} />
                   <Stack.Screen name='Forgot Password' component={ForgotPassword} options={{headerShown: false }} />
                   <Stack.Screen name='Verification' component={Verification} options={{ headerShown: false }} />
+                  <Stack.Screen name='ReVerification' component={ReVerification} options={{ headerShown: false }} />
                 </Stack.Group>
               )}
             </Stack.Navigator>

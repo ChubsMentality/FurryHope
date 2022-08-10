@@ -14,6 +14,7 @@ const ViewAnimalData = ({ navigation, route }) => {
     const [size, setSize] = useState('')
     const [adoptionStatus, setAdoptionStatus] = useState('');
     const [animalImg, setAnimalImg] = useState('');
+    const [availUntil, setAvailUntil] = useState('')
 
     const pendingAdoption = adoptionStatus === 'Pending'
     const adopted = adoptionStatus === 'Adopted'
@@ -34,7 +35,7 @@ const ViewAnimalData = ({ navigation, route }) => {
             setSize(data.size)
             setAdoptionStatus(data.adoptionStatus)
             setAnimalImg(data.animalImg)
-            
+            setAvailUntil(data.availUntil)
         } catch (error) {
             console.log(error)
             alert(error)
@@ -62,8 +63,13 @@ const ViewAnimalData = ({ navigation, route }) => {
                                 <Text style={styles.breed}> {breed}</Text>
                             </View>
                             <Text style={styles.idLabel}>ID: <Text style={styles.idValue}>{id}</Text></Text>
+
+                            <Text style={styles.availUntilLabel}>Available Until: 
+                                <Text style={styles.availUntilValue}>{availUntil}</Text>
+                            </Text>
                         </View>
                     </View>
+
 
                     <View style={styles.otherInfo}>
                         <View style={styles.otherInfoContainer}>
@@ -149,8 +155,25 @@ const styles = StyleSheet.create({
     },
 
     idLabel: {
+        fontFamily: 'PoppinsMedium',
+        fontSize: 14,
+        marginTop: 3,
+    },
+
+    idValue: {
         fontFamily: 'PoppinsLight',
-        fontSize: 13,
+        marginLeft: 5,
+    },
+
+    availUntilLabel: {
+        fontFamily: 'PoppinsMedium',
+        fontSize: 14,
+        marginTop: 3,
+    },
+
+    availUntilValue: {
+        fontFamily: 'PoppinsLight',
+        marginLeft: 5,
     },
 
     name: {

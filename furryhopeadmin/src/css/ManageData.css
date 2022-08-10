@@ -409,7 +409,7 @@
 }
 
 /* 1368 x 768 */
-@media screen and (max-width: 1360px) {
+@media screen and (max-width: 1366px) {
   .manage-content {
     margin-left: 275px;
   }
@@ -473,6 +473,105 @@
     width: 25px;
   }
 
+}
+
+@media screen and (width: 1366px) and (height: 625px) {
+  .manage-content {
+    padding-top: 40px;
+    height: 100%;
+  }
+
+  .manage-header {
+    font-size: 1.3rem;
+  }
+
+  .manage-adminName {
+    font-size: .8rem;
+  }
+
+  .manage-adminPos {
+    font-size: .7rem;
+  }
+
+  .manage-adminProfile {
+    height: 45px;
+    width: 45px;
+    margin-left: 10px;
+  }
+
+  .manage-animals-container {
+    margin: 15px 70px 0 70px;
+    height: 500px;
+  }
+
+  .manage-subHeader {
+    padding: 15px 40px 0 40px;
+  }
+
+  .manage-searchContainer {
+    height: 12px;
+  }
+
+  .manage-searchIcon {
+    height: 18px;
+    width: 18px;
+  }
+
+  .manage-searchTxt {
+    font-size: .7rem;
+    font-weight: 200;
+  }
+
+  .manage-filter-animals {
+
+  }
+
+  .manage-filter-txt {
+    font-size: .8rem;
+    margin: 0 10px 0 0;
+  }
+
+  .manage-select {
+    font-size: .7rem;
+    padding: 3px
+  }
+
+  .manage-add-animal {
+    font-size: .7rem;
+    padding: 6px 13px;
+  }
+
+  .manage-table-label {
+    /* outline: 1px solid red; */
+    height: 5px;
+  }
+
+  .manage-label {
+    font-size: .7rem;
+  }
+
+  .specAnimal-container {
+    height: 40px;
+    /* outline: 1px solid green */
+  }
+
+  .specAnimal-name-profPic {
+    height: 37px;
+    width: 37px;
+  }
+
+  .specAnimal-name-head {
+    font-size: .73rem;
+  }
+
+  .specAnimal-email-info, .specAnimal-contactNo-info, .specAnimal-verified-info {
+    font-size: .73rem;
+  }
+
+  .specAnimal-btn {
+    height: 22px;
+    width: 22px;
+  }
 }
 
 /* 1280 x 1024 */

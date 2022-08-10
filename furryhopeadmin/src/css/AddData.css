@@ -186,6 +186,7 @@
   display: block;
   cursor: pointer;
   margin-top: -13px;
+  width: fit-content;
 }
 
 .add-data-preview-txt {
@@ -411,7 +412,7 @@
 }
 
 /* 1360 x 768 */
-@media screen and (max-width: 1360px) {
+@media screen and (max-width: 1366px) {
   .addData-content {
     margin-left: 275px;
     padding-top: 55px;
@@ -497,6 +498,70 @@
 
   .btn-add {
     font-size: 1.2rem;
+  }
+}
+
+@media screen and (width: 1366px) and (height: 625px) {
+  .addData-content {
+    padding: 40px 0;
+    margin-left: 275px;
+  }
+
+  .addData-backIcon {
+    height: 22px;
+    width: 22px;
+  }
+
+  .addData-backTxt {
+    font-size: .9rem;
+  }
+
+  .addData-form-container {
+    margin-top: 20px;
+    padding: 30px;
+    width: 690px;
+  }
+
+  .lbl-addData {
+    font-size: .8rem;
+  }
+
+  .input-add-data, .addColor {
+    margin-top: -7px;
+    font-size: .7rem;
+    height: 30px;
+  }
+
+  .addDesc {
+    margin-top: -7px;
+  }
+
+  .addData-selectContainer {
+    margin-top: -10px;
+  }
+
+  .lbl-add-availUntil, .lbl-add-imgUpload, .add-data-preview-txt {
+    font-size: .8rem;
+  }
+
+  .add-data-availUntil {
+    font-size: .8rem;
+    margin-top: -8px;
+  }
+
+  .add-data-imgUpload {
+    font-size: .7rem;
+    margin-top: -8px;
+  }
+
+  .add-data-imgUpload-preview {
+    width: 280px;
+    height: 190px;
+  }
+
+  .btn-add {
+    font-size: 1rem;
+    padding: 8px 30px;
   }
 }
 

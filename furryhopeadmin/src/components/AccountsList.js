@@ -333,6 +333,9 @@ const AccountsList = () => {
                                             checked={activeAccounts}
                                             offColor='#808080'
                                             onColor='#808080'
+                                            height={20}
+                                            width={40}
+                                            handleDiameter={20}
                                             checkedIcon={false}
                                             uncheckedIcon={false}
                                             className='switch-accounts'
@@ -353,9 +356,12 @@ const AccountsList = () => {
                                             checked={activeAccounts}
                                             offColor='#808080'
                                             onColor='#808080'
-                                            size={5}
+                                            height={20}
+                                            width={40}
+                                            handleDiameter={20}
                                             checkedIcon={false}
                                             uncheckedIcon={false}
+                                            className='switch-accounts'
                                         />
                                     </label>
                                     <p className='switch-admins'>Admins</p>

@@ -63,6 +63,10 @@
     margin-right: 3px;
 }
 
+.feedbackRating-outline {
+    cursor: pointer;
+}
+
 .feedbackModal-date {
     margin-left: 15px;
     font-size: 1.05rem;
@@ -202,7 +206,7 @@
 }
 
 /* 1360 x 900 */
-@media screen and (max-width: 1360px) {
+@media screen and (max-width: 1366px) {
     .feedback-modal {
         height: 430px;
         width: 400px;
@@ -260,9 +264,9 @@
         margin: 30px 35px 0 35px;
     }
 
-    .feedbackModal-checkBox {
-        height: 24px;
-        width: 24px;
+    .feedbackModal-checkbox {
+        height: 22px;
+        width: 22px;
         cursor: pointer;
     }
 

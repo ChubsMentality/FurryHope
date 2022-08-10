@@ -236,7 +236,7 @@
 }
 
 /* 1360 x 768 */
-@media screen and (max-width: 1360px) {
+@media screen and (max-width: 1366px) {
     .sidebar-body {
         width: 275px;
     }
@@ -277,6 +277,57 @@
 
     .sidebar-a-logout {
         font-size: 1.05rem;
+    }
+}
+
+@media screen and (width: 1366px) and (height: 625px) {
+    .sidebar-body {
+        width: 275px;
+    }
+
+    .sidebar-header {
+        margin: 50px 25px 0 25px
+    }
+
+    .sidebar-logo {
+        height: 23px;
+        width: 23px;
+    }
+
+    .sidebar-furryhope {
+        font-size: 1.4rem;
+    }
+
+    .sidebar-sup {
+        font-size: .8rem;
+    }
+
+    .sidebar-tagline {
+        font-size: .9rem;
+        margin: -18px 25px 0 25px;
+    }
+
+    .sidebar-links {
+        margin-top: 20px;
+    }
+
+    .sidebar-li {
+        height: 53px;
+    }
+
+    .sidebar-icons {
+        margin: 0 15px 0 25px;
+        height: 20px;
+        width: 20px;
+    }
+
+    .sidebar-a {
+        font-size: .8rem;
+    }
+
+    .sidebar-a-logout {
+        font-size: .8rem;
+        font-weight: 300;
     }
 }
 

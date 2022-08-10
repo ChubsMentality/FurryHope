@@ -353,7 +353,7 @@ p {
 }
 
 /* 1360 x 900 */
-@media screen and (max-width: 1360px) {
+@media screen and (max-width: 1366px) {
   .loginRight { 
     padding: 0 40px;
   }
@@ -426,6 +426,62 @@ p {
 
   .loginTagline {
     font-size: 1.2rem;
+  }
+}
+
+@media screen and (width: 1366px) and (height: 625px) {
+  .loginRight {
+    padding: 0 40px;
+  }
+
+  .loginGradient {
+    left: -400px
+  }
+
+  .loginForm {
+    height: 415px;
+    width: 310px;
+  }
+
+  .loginFormHeaderContainer {
+    margin: 33px 27px 40px 27px;
+  }
+
+  .loginLabel {
+    font-size: .8rem;
+    margin-left: 27px;
+  }
+
+  .loginInput {
+    height: 29px;
+    margin-left: 27px;
+    margin-right: 27px;
+    width: 232px;
+  }
+
+  .loginSubmitBtn {
+    font-size: 1.1rem;
+    height: 42px;
+    margin: 70px 27px 0 27px;
+    width: 253px;
+  }
+
+  .loginRightImg {
+    height: 50px;
+    width: 50px;
+  }
+
+  .loginRightSubHeader {
+    font-size: 5rem;
+    margin: 275px 0 -48px 0;
+  }
+
+  .loginRightSub {
+    font-size: 5rem;
+  }
+
+  .loginTagline {
+    margin: 0 0 0 0;
   }
 }
 

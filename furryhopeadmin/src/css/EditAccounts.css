@@ -52,7 +52,7 @@
 
 .editAdmin-input:focus {
     background-color: white;
-    border: 3px solid black
+    border: 1px solid black
 }
 
 .editAdmin-label-right {
@@ -91,6 +91,9 @@
     font-size: 1.5rem;
     font-weight: 500;
     padding: 10px 25px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
 }
 
 .editAdmin-done {
@@ -153,7 +156,7 @@
 }
 
 /* 1360 x 768 */
-@media screen and (max-width: 1360px) {
+@media screen and (max-width: 1366px) {
     .editAdmin-modal {
         height: 570px;
         width: 820px
@@ -190,6 +193,52 @@
 
     .editAdmin-close, .editAdmin-done {
         font-size: .98rem;
+    }
+}
+
+@media screen and (width: 1366px) and (height: 625px) {
+    .editAdmin-modal {
+        height: 470px;
+        width: 780px;
+    }
+
+    .editAdmin-left {
+        padding: 25px 0 25px 40px;
+    }
+
+    .editAdmin-right {
+        padding: 25px 0 0 0;
+    }
+
+    .editAdmin-label {
+        font-size: .8rem;
+        margin: 0;
+    }
+
+    .editAdmin-input {
+        padding: 8px 0 8px 10px;
+        font-size: .75rem;
+        width: 300px;
+    }
+
+    .editAdmin-select {
+        font-size: .75rem;
+        padding: 3px 7px;
+    }
+
+    .editAdmin-preview {
+        height: 90px;
+        width: 90px;
+        margin: 10px 0 0 0;
+    }
+
+    .editAdmins-btn-container {
+        margin-top: 80px;
+    }
+
+    .editAdmin-close, .editAdmin-done {
+        font-size: .85rem;
+        padding: 10px 25px;
     }
 }
 

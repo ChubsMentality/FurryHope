@@ -2,9 +2,11 @@ import React, { useState, useEffect, useRef } from 'react'
 import { FlatList, Image, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, Touchable, TouchableOpacity, useWindowDimensions, View } from 'react-native'
 import { sortArray } from './SubComponents/QuickSortArrOfObjs'
 import Ionicons from 'react-native-vector-icons/Ionicons'
+import ADesign from 'react-native-vector-icons/AntDesign'
 import axios from 'axios'
 import AnimalCard from './SubComponents/AnimalCard'
 import AnimalList from './SubComponents/AnimalList'
+import moment from 'moment'
 
 const ListOfDogs = ({ navigation }) => {
     const scrollRef = useRef(null)
@@ -18,6 +20,7 @@ const ListOfDogs = ({ navigation }) => {
     const [searchQuery, setSearchQuery] = useState('')
     const [searchResult, setSearchResult] = useState()
     const [contentOffSet, setContentOffset] = useState(0)
+    const [toggleView, setToggleView] = useState(true)
     const CONTENT_THRESHOLD = 1500
     console.log(contentOffSet)
 
@@ -25,10 +28,25 @@ const ListOfDogs = ({ navigation }) => {
         return arr.breed === searchQuery
     }
 
+    let d = new Date()
+    let cDate = d.toLocaleDateString(undefined, { day: '2-digit', month: '2-digit', year: 'numeric' })
+    let formatted = moment(cDate).format('YYYY/MM/DD')
+
+    console.log(cDate)
+    console.log(formatted)
+
+    const filterAvail = (arr) => {
+        let d = new Date()
+        let cDate = d.toLocaleDateString(undefined, { day: '2-digit', month: '2-digit', year: 'numeric' })
+        let formatted = moment(cDate).format('YYYY/MM/DD')
+
+        return arr.availUntilYear >= formatted
+    }
+
     const fetchDogs = async () => {
         const { data } = await axios.get('http://localhost:5000/api/animals/getDogs')
         setDogs(data)
-        setCurrentList(data)
+        setCurrentList(data.filter(filterAvail))
     }
   
     const submitSearch = () => {
@@ -141,23 +159,73 @@ const ListOfDogs = ({ navigation }) => {
                     <></>
                 }
 
-                <View style={styles.dogsContainer}>
-                    {currentList && currentList.filter((animals) => {
-                        if(searchQuery === '') {
-                            return animals
-                        } else if(animals.breed.toLowerCase().includes(searchQuery.toLowerCase())) {
-                            return animals
-                        }
-                    }).map((item) => (
-                        <AnimalList 
-                            key={item._id}
-                            _id={item._id}
-                            animalImg={item.animalImg}
-                            name={item.name}
-                            breed={item.breed}
-                        />
-                    ))}
+                <View style={{ marginTop: 30, marginRight: 30, marginLeft: 30, flexDirection: 'row', alignItems: 'center' }}>
+                    {toggleView === true ?
+                        <>
+                            <TouchableOpacity style={[styles.toggleListActive, styles.toggleListBtn]} onPress={() => setToggleView(true)}>
+                                <ADesign name='appstore1' size={18} color='white' style={{ marginTop: -3 }} />
+                                <Text style={styles.toggleListActiveTxt}>Card</Text>
+                            </TouchableOpacity>
+
+                            <TouchableOpacity style={[styles.toggleListInactive, styles.toggleListBtn]} onPress={() => setToggleView(false)}>
+                                <Ionicons name='md-list-outline' size={20} color='#A1A1AA' />
+                                <Text style={styles.toggleListInactiveTxt}>List</Text>
+                            </TouchableOpacity>
+                        </>
+                        :
+                        <>
+                            <TouchableOpacity style={[styles.toggleListInactive, styles.toggleListBtn]} onPress={() => setToggleView(true)}>
+                                <ADesign name='appstore1' size={18} color='#A1A1AA' style={{ marginTop: -3 }} />
+                                <Text style={styles.toggleListInactiveTxt}>Card</Text>
+                            </TouchableOpacity>
+
+                            <TouchableOpacity style={[styles.toggleListActive, styles.toggleListBtn]} onPress={() => setToggleView(false)}>
+                                <Ionicons name='md-list-outline' size={20} color='white' />
+                                <Text style={styles.toggleListActiveTxt}>List</Text>
+                            </TouchableOpacity>
+                        </>
+                    }
                 </View>
+
+                {toggleView === true ?
+                    <View style={styles.dogsContainer}>
+                        {currentList && currentList.filter((animals) => {
+                            if(searchQuery === '') {
+                                return animals
+                            } else if(animals.breed.toLowerCase().includes(searchQuery.toLowerCase())) {
+                                return animals
+                            }
+                        }).map((item) => (
+                            <AnimalCard 
+                                key={item._id}
+                                _id={item._id}
+                                animalImg={item.animalImg}
+                                name={item.name}
+                                breed={item.breed}
+                                availUntil={item.availUntil}
+                            />
+                        ))}
+                    </View>
+                    :
+                    <View style={styles.dogsContainer}>
+                        {currentList && currentList.filter((animals) => {
+                            if(searchQuery === '') {
+                                return animals
+                            } else if(animals.breed.toLowerCase().includes(searchQuery.toLowerCase())) {
+                                return animals
+                            }
+                        }).map((item) => (
+                            <AnimalList 
+                                key={item._id}
+                                _id={item._id}
+                                animalImg={item.animalImg}
+                                name={item.name}
+                                breed={item.breed}
+                                availUntil={item.availUntil}
+                            />
+                        ))}
+                    </View>
+                }
                 
                 <View style={{ marginTop: 50 }}></View>
             </ScrollView>
@@ -313,6 +381,39 @@ const styles = StyleSheet.create({
         color: 'white',
         fontFamily: 'PoppinsMedium',
         fontSize: 12,
+    },
+
+    toggleListBtn: {
+        height: 45,
+        width: '50%',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+
+    toggleListActive: {
+        backgroundColor: '#111',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+
+    toggleListActiveTxt: {
+        color: 'white',
+        fontFamily: 'PoppinsMedium',
+        marginLeft: 10,
+        fontSize: 16
+    },
+
+    toggleListInactive: {
+        backgroundColor: '#FAFAFA',
+
+    },
+
+    toggleListInactiveTxt: {
+        color: '#A1A1AA',
+        fontSize: 16,
+        fontFamily: 'PoppinsLight',
+        marginLeft: 10,
     },
 
     dogsContainer: {
