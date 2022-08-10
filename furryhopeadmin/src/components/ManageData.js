@@ -11,6 +11,7 @@ import { MdDelete } from 'react-icons/md'
 import { AiOutlineSearch } from 'react-icons/ai'
 import { Link } from 'react-router-dom'
 import { AiTwotoneEdit } from 'react-icons/ai'
+import { sortArray } from './SubComponents/QuickSortArrOfObjs'
 
 const ManageData = () => {
     const dispatch = useDispatch();
@@ -51,6 +52,7 @@ const ManageData = () => {
 
     // To filter the animals
     const [currentStatus, setCurrentStatus] = useState('No Filter')
+    const [sortBy, setSortBy] = useState('name')
     const [notAdopted, setNotAdopted] = useState()
     const [pending, setPending] = useState()
     const [adopted, setAdopted] = useState()
@@ -84,7 +86,29 @@ const ManageData = () => {
             setFilteredAnimals(adopted)
         }
 
-    }, [currentStatus, successCreate, successUpdate, successDelete ])
+        if(sortBy === 'name') {
+            setFilteredAnimals(prevState => sortArray(prevState, 0, prevState.length - 1, 'name'))
+        } else if(sortBy === 'breed') {
+            setFilteredAnimals(prevState => sortArray(prevState, 0, prevState.length - 1, 'breed'))
+        } else if(sortBy === 'color') {
+            setFilteredAnimals(prevState => sortArray(prevState, 0, prevState.length - 1, 'color'))
+        } else if(sortBy === 'size') {
+            setFilteredAnimals(prevState => sortArray(prevState, 0, prevState.length - 1, 'size'))
+        }
+
+    }, [currentStatus, sortBy, successCreate, successUpdate, successDelete ])
+
+    // useEffect(() => {
+    //     if(sortBy === 'name') {
+    //         setFilteredAnimals(prevState => sortArray(prevState, 0, prevState.length - 1, 'name'))
+    //     } else if(sortBy === 'breed') {
+    //         setFilteredAnimals(prevState => sortArray(prevState, 0, prevState.length - 1, 'breed'))
+    //     } else if(sortBy === 'color') {
+    //         setFilteredAnimals(prevState => sortArray(prevState, 0, prevState.length - 1, 'color'))
+    //     } else if(sortBy === 'size') {
+    //         setFilteredAnimals(prevState => sortArray(prevState, 0, prevState.length - 1, 'size'))
+    //     }
+    // }, [sortBy, successCreate, successUpdate, successDelete ])
 
     const DataContainer = ({ currentAnimals }) => {
         return (
@@ -216,12 +240,13 @@ const ManageData = () => {
                         </div>
                         <div className="manage-animals-right">
                             <div className="manage-filter-animals">
-                                <p className="manage-filter-txt">Filter</p>
-                                <select className='manage-select' value={currentStatus} onChange={(e) => setCurrentStatus(e.target.value)}>
-                                    <option value='No Filter'>No Filter</option>
-                                    <option value='Not Adopted'>Not Adopted</option>
-                                    <option value='Pending'>Pending</option>
-                                    <option value='Adopted'>Adopted</option>
+                                <p className="manage-filter-txt">Sort By</p>
+                                <select className='manage-select' value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+                                    <option value='none'>None</option>
+                                    <option value='name'>Name</option>
+                                    <option value='breed'>Breed</option>
+                                    <option value='color'>Color</option>
+                                    <option value='size'>Size</option>
                                 </select>
                             </div>
 

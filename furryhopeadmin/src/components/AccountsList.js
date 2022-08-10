@@ -15,6 +15,7 @@ import Loading from "./SubComponents/Loading"
 import Sidebar from "./Sidebar"
 import "../css/AccountsList.css"
 import ViewUser from "./Modals/ViewUser"
+import { sortArray } from "./SubComponents/QuickSortArrOfObjs"
 
 const AccountsList = () => {
     const [userAccounts, setUserAccounts] = useState()
@@ -23,6 +24,7 @@ const AccountsList = () => {
     const [activeAccounts, setActiveAccounts] = useState(false)
     const [editAdmin, setEditAdmin] = useState(false)
     const [viewUser, setViewUser] = useState(false)
+    const [sortBy, setSortBy] = useState('name')
     const dispatch = useDispatch()
     const adminState = useSelector((state) => state.adminLogin)
     const { adminInfo } = adminState
@@ -251,6 +253,7 @@ const AccountsList = () => {
 
             userAccounts && setCurrentUsers(userAccounts.slice(itemOffset, endOffset))
             userAccounts && setPageCount(Math.ceil(userAccounts.length / accountsPerPage))
+
         }, [itemOffset, accountsPerPage])
 
         const handlePageClick = (event) => {
@@ -291,6 +294,19 @@ const AccountsList = () => {
         getAdminAccounts()
     }, [dispatch, adminDeleteSuccess, userDeleteSuccess])
 
+    useEffect(() => {
+        if(sortBy === 'name') {
+            adminAccounts && setAdminAccounts(prevState => sortArray(prevState, 0, prevState.length - 1, 'fullName'))
+            userAccounts && setUserAccounts(prevState => sortArray(prevState, 0, prevState.length - 1, 'fullName'))
+        } else if(sortBy === 'email') {
+            adminAccounts && setAdminAccounts(prevState => sortArray(prevState, 0, prevState.length - 1, 'email'))
+            userAccounts && setUserAccounts(prevState => sortArray(prevState, 0, prevState.length - 1, 'email'))
+        }
+    }, [sortBy])
+    
+    adminAccounts && console.log(adminAccounts)
+    userAccounts && console.log(userAccounts)
+
     return (
         <div className='accounts-body'>
             <Sidebar />
@@ -326,6 +342,14 @@ const AccountsList = () => {
                                         }
                                     </div>
 
+                                    {/* <div className="manage-filter-animals">
+                                        <p className="manage-filter-txt">Sort By</p>
+                                        <select className='manage-select' value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+                                            <option value='name'>Name</option>
+                                            <option value='email'>Email</option>
+                                        </select>
+                                    </div> */}
+
                                     <p className='switch-users'>Users</p>
                                     <label>
                                         <Switch
@@ -349,6 +373,14 @@ const AccountsList = () => {
                                 <p className='accounts-users-header'>User Accounts</p>
 
                                 <div className='switch-container'>
+                                    {/* <div className="manage-filter-animals">
+                                        <p className="manage-filter-txt">Sort By</p>
+                                        <select className='manage-select' value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+                                            <option value='name'>Name</option>
+                                            <option value='email'>Email</option>
+                                        </select>
+                                    </div> */}
+
                                     <p className='switch-users'>Users</p>
                                     <label>
                                         <Switch

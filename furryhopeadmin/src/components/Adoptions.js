@@ -8,6 +8,7 @@ import ReactPaginate from 'react-paginate'
 import axios from 'axios'
 import Sidebar from './Sidebar'
 import '../css/Adoptions.css'
+import { sortArray } from './SubComponents/QuickSortArrOfObjs'
 
 const Adoptions = () => {
     const dispatch = useDispatch()
@@ -17,6 +18,7 @@ const Adoptions = () => {
     const { adminInfo } = adminState
 
     const [pending, setPending] = useState()
+    const [sortBy, setSortBy] = useState('applicantName')
     const [rejected, setRejected] = useState()
     const [accepted, setAccepted] = useState()
     const [listOfAdoptions, setListOfAdoptions] = useState()
@@ -63,7 +65,17 @@ const Adoptions = () => {
         } else if(filterBy === 'Accepted') {
             setListOfAdoptions(accepted)
         }
-    }, [filterBy])
+
+        if(sortBy === 'applicantName') {
+            setListOfAdoptions(prevState => sortArray(prevState, 0, prevState.length - 1, 'applicantName'))
+        } else if(sortBy === 'animalName') {
+            setListOfAdoptions(prevState => sortArray(prevState, 0, prevState.length - 1, 'animalName'))
+        } else if(sortBy === 'animalBreed') {
+            setListOfAdoptions(prevState => sortArray(prevState, 0, prevState.length - 1, 'animalBreed'))
+        } else if(sortBy === 'status') {
+            setListOfAdoptions(prevState => sortArray(prevState, 0, prevState.length - 1, 'applicationStatus'))
+        }
+    }, [filterBy, sortBy])
 
     const PaginatedAdoptions = ({ currentAdoptions }) => {
         return (
@@ -187,13 +199,25 @@ const Adoptions = () => {
                         </div>
 
                         <div className="adoptionsAdmin-right">
-                            <p className="adoptionAdmin-filter-label">Filter By</p>
-                            <select className='adoptionAdmin-select' value={filterBy} onChange={(e) => setFilterBy(e.target.value)}>
-                                <option value='No Filter'>No Filter</option>
-                                <option value='Pending'>Pending</option>
-                                <option value='Rejected'>Rejected</option>
-                                <option value='Accepted'>Accepted</option>
-                            </select>
+                            <div className="manage-filter-animals">
+                                <p className="manage-filter-txt">Sort By</p>
+                                <select className='manage-select' value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+                                    <option value='applicantName'>Applicant's Name</option>
+                                    <option value='animalName'>Animal's Name</option>
+                                    <option value='animalBreed'>Animal's Breed</option>
+                                    <option value='status'>Status</option>
+                                </select>
+                            </div>
+
+                            <div className="manage-filter-animals">
+                                <p className="manage-filter-txt">Filter</p>
+                                <select className='manage-select' value={filterBy} onChange={(e) => setFilterBy(e.target.value)}>
+                                    <option value='No Filter'>No Filter</option>
+                                    <option value='Pending'>Pending</option>
+                                    <option value='Rejected'>Rejected</option>
+                                    <option value='Accepted'>Accepted</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
 

@@ -11,11 +11,13 @@ import Overlay from './SubComponents/Overlay'
 import axios from 'axios'
 import Sidebar from './Sidebar'
 import Switch from 'react-switch'
+import { sortArray } from './SubComponents/QuickSortArrOfObjs'
 import '../css/AnimalRegistration.css'
 
 const AnimalRegistration = () => {
     const dispatch = useDispatch()
     const [searchQuery, setSearchQuery] = useState('')
+    const [sortBy, setSortBy] = useState('applicantName')
     // const registrations = useSelector(state => state.getRegistrations)
     // const { animalRegistrations, loading } = registrations
 
@@ -25,12 +27,15 @@ const AnimalRegistration = () => {
     const pendingState = useSelector(state => state.pendingPetsState)
     const { loading, pendingRegistrations } = pendingState
 
-
     const registeredState = useSelector(state => state.registeredPetsState)
     const { registeredPets } = registeredState
 
+    registeredPets && console.log(registeredPets)
+
     const notRegisteredState = useSelector(state => state.notRegisteredPetsState)
     const { notRegisteredPets } = notRegisteredState
+
+    notRegisteredPets && console.log(notRegisteredPets)
 
     const deleteRegState = useSelector(state => state.deleteRegistrationState)
     const { success:successDelete } = deleteRegState
@@ -38,8 +43,8 @@ const AnimalRegistration = () => {
     const [active, setActive] = useState('Pending')
     const [activeState, setActiveState] = useState(true)
     const [activeArr, setActiveArr] = useState()
-
-    console.log(pendingRegistrations)
+    const [notReg, setNotReg] = useState()
+    const [reg, setReg] = useState()
 
     // const getAnimalHandler = async () => {
     //     try {
@@ -70,6 +75,24 @@ const AnimalRegistration = () => {
     const deleteHandler = (id) => {        
         if(window.confirm('Are you sure you want to delete?')) {
             dispatch(deleteRegistration(id))
+        }
+    }
+
+    const getNotReg = async () => {
+        try {
+            const { data } = await axios.get('http://localhost:5000/api/admins/getNotRegisteredPets')
+            setNotReg(data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const getReg = async () => {
+        try {
+            const { data } = await axios.get('http://localhost:5000/api/admins/getRegisteredPets')
+            setReg(data)
+        } catch (error) {
+            console.log(error)
         }
     }
 
@@ -181,19 +204,31 @@ const AnimalRegistration = () => {
     useEffect(() => {
         // getAnimalHandler()
         dispatch(getPendingRegistrations())
-        dispatch(getRegisteredPets())
-        dispatch(getNotRegisteredPets())
+        // dispatch(getRegisteredPets())
+        // dispatch(getNotRegisteredPets())
+        getNotReg()
+        getReg()
     }, [dispatch, successDelete])
 
     useEffect(() => {
         if(active === 'Pending') {
             setActiveArr(pendingRegistrations)
         } else if(active === 'Not Registered') {
-            setActiveArr(notRegisteredPets)
+            setActiveArr(notReg)
         } else if(active === 'Registered') {
-            setActiveArr(registeredPets)
+            setActiveArr(reg)
         }
-    }, [active])
+
+        // if(sortBy === 'name') {
+        //     setActiveArr(prevState => sortArray(prevState, 0, prevState.length - 1, 'name'))
+        // } else if(sortBy === 'animalName') {
+        //     setActiveArr(prevState => sortArray(prevState, 0, prevState.length - 1, 'animalName'))
+        // } else if(sortBy === 'animalBreed') {
+        //     setActiveArr(prevState => sortArray(prevState, 0, prevState.length - 1, 'animalBreed'))
+        // } else if(sortBy === 'status') {
+        //     setActiveArr(prevState => sortArray(prevState, 0, prevState.length - 1, 'registrationStatus'))
+        // }
+    }, [active, sortBy])
     
     return (
         <div className='animalRegistration-body'>
@@ -214,13 +249,25 @@ const AnimalRegistration = () => {
                 </div>
 
                 <div className="animalReg-subContainer">
-                    <div className="animalReg-select-container">
-                        <p className="animalReg-select-label">Status</p>
-                        <select value={active} onChange={(e) => setActive(e.target.value)} className='animalReg-select'>
-                            <option value='Pending'>Pending</option>
-                            <option value='Not Registered'>Not Registered</option>
-                            <option value='Registered'>Registered</option>
-                        </select>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 15}}>
+                        <div className="animalReg-select-container">
+                            <p className="animalReg-select-label">Status</p>
+                            <select value={active} onChange={(e) => setActive(e.target.value)} className='animalReg-select'>
+                                <option value='Pending'>Pending</option>
+                                <option value='Not Registered'>Not Registered</option>
+                                <option value='Registered'>Registered</option>
+                            </select>
+                        </div>
+
+                        {/* <div className="animalReg-select-container">
+                            <p className="animalReg-select-label">Status</p>
+                            <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className='animalReg-select'>
+                                <option value='name'>Applicant's Name</option>
+                                <option value='animalName'>Animal's Name</option>
+                                <option value='animalBreed'>Animal's Breed</option>
+                                <option value='status'>Status</option>
+                            </select>
+                        </div> */}
                     </div>
 
                     <div className="manage-searchContainer">

@@ -249,7 +249,7 @@ const registerAnimal = asyncHandler(async (req, res) => {
     const registered = 'Registered'
 
     if(registration) {
-        registration.registered = registered
+        registration.registrationStatus = registered
         const updated = await registration.save()
         res.json(updated)
     } else {
@@ -257,6 +257,7 @@ const registerAnimal = asyncHandler(async (req, res) => {
         throw new Error('Registration was not found.')
     }
 })
+// rejectRegistration
 
 const sendRegisteredMessage = asyncHandler(async (req, res) => {
     const { email, name, animalName, } = req.body

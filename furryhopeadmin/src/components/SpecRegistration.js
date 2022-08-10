@@ -60,11 +60,11 @@ const SpecRegistration = ({ history, match }) => {
                         }
 
                         {data && data.registrationStatus === 'Registered' &&
-                            <p className="specReg-currentStatus-rejected">{data && data.registrationStatus}</p>
+                            <p className="specReg-currentStatus-accepted">{data && data.registrationStatus}</p>
                         }
 
                         {data && data.registrationStatus === 'Not Registered' &&
-                            <p className="specReg-currentStatus-accepted">{data && data.registrationStatus}</p>
+                            <p className="specReg-currentStatus-rejected">{data && data.registrationStatus}</p>
                         }
                     </div>
 

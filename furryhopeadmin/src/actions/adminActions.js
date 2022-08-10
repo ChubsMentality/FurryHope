@@ -228,6 +228,680 @@ export const getAnimalRegistrations = () => async (dispatch) => {
     }
 }
 
+
+//getRegisteredPets
+
+export const getAdoptionApplications = () => async (dispatch) => {
+    try {
+        dispatch({
+            type: GET_ADOPTIONS_REQUEST
+        })
+
+        const { data } = await axios.get('http://localhost:5000/api/admins/adoptions')
+        
+        dispatch({
+            type: GET_ADOPTIONS_SUCCESS,
+            payload: data
+        })
+    } catch (error) {
+        const message = 
+            error.response && error.response.data.message
+            ? error.response.data.message
+                : error.message
+        
+                dispatch({
+                    type: GET_ADOPTIONS_FAIL,
+            payload: message
+        })        
+    }
+}
+
+export const getSpecificAdoption = (id) => async (dispatch) => {
+    try {
+        dispatch({
+            type: GET_SPECIFIC_ADOPTION_REQUEST
+        })
+
+        const { data } = await axios.get(`http://localhost:5000/api/admins/adoptions/${id}`)
+
+        dispatch({
+            type: GET_SPECIFIC_ADOPTION_SUCCESS,
+            payload: data
+        })
+    } catch (error) {
+        const message = error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message
+        
+            dispatch({
+            type: GET_SPECIFIC_ADOPTION_FAIL,
+            payload: message,
+        })
+    }
+}
+
+export const deleteAdoptionApplication = (id) => async (dispatch) => {
+    try {
+        dispatch({
+            type: DELETE_ADOPTION_REQUEST
+        })
+
+        const { data } = await axios.delete(`http://localhost:5000/api/admins/adoptions/${id}`)
+        
+        dispatch({
+            type: DELETE_ADOPTION_SUCCESS,
+            payload: data
+        })
+    } catch (error) {
+        const message = 
+        error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message;
+                
+                dispatch({
+                    type: DELETE_ADOPTION_FAIL,
+                    payload: message
+                })
+            }
+}
+
+export const updateAdoptionApplication = (animalId, adoptionId, adoptionStatus, applicationStatus) => async (dispatch) => {
+    try {
+        dispatch({
+            type: UPDATE_ADOPTION_APPLICATION_REQUEST,
+        })
+        
+        // Updating the adoption status
+        const { data: updateAdoptionData } = await axios.put(`http://localhost:5000/api/admins/updateAdoptionStatus/${animalId}`, { adoptionStatus })
+        
+        // Updating the application status
+        const { data } = await axios.put(`http://localhost:5000/api/admins/updateApplication/${adoptionId}`, { adoptionStatus, applicationStatus })
+        
+        dispatch({
+            type: UPDATE_ADOPTION_APPLICATION_SUCCESS,
+            payload: data
+        })
+    } catch (error) {
+        const message = 
+        error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+        
+        dispatch({
+            type: UPDATE_ADOPTION_APPLICATION_FAIL,
+            payload: message
+        })
+    }
+}
+
+export const deleteAdminAccount = (id) => async (dispatch) => {
+    try {
+        dispatch({
+            type: DELETE_ADMIN_ACCOUNT_REQUEST,
+        })
+        
+        const { data } = await axios.delete(`http://localhost:5000/api/admins/deleteAdmin/${id}`)
+        
+        dispatch({
+            type: DELETE_ADMIN_ACCOUNT_SUCCESS,
+            payload: data,
+        })
+    } catch (error) {
+        const message = 
+        error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+        
+        dispatch({
+            type: DELETE_ADMIN_ACCOUNT_FAIL,
+            payload: message
+        })
+    }
+}
+
+export const deleteUserAccount = (id) => async (dispatch) => {
+    try {
+        dispatch({
+            type: DELETE_USER_ACCOUNT_REQUEST,
+        })
+        
+        const { data } = await axios.delete(`http://localhost:5000/api/admins/deleteUser/${id}`)
+        
+        dispatch({
+            type: DELETE_USER_ACCOUNT_SUCCESS,
+            payload: data,
+        })
+    } catch (error) {
+        const message = 
+            error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message;
+                
+                dispatch({
+            type: DELETE_USER_ACCOUNT_FAIL,
+            payload: message
+        })
+    }
+}
+
+export const getStrayAnimalReports = () => async (dispatch) => {
+    try {
+        dispatch({
+            type: GET_STRAY_REPORTS_REQUEST
+        })
+        
+        const { data } = await axios.get('http://localhost:5000/api/admins/getReports')
+        
+        dispatch({
+            type: GET_STRAY_REPORTS_SUCCESS,
+            payload: data
+        })
+    } catch (error) {
+        const message = 
+        error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message
+        
+        dispatch({
+            type: GET_STRAY_REPORTS_FAIL,
+            payload: message
+        })
+    }
+}
+
+export const getDismissedReports = () => async (dispatch) => {
+    try {
+        dispatch({
+            type: GET_DISMISSED_REPORTS_REQUEST
+        })
+        
+        const { data } = await axios.get('http://localhost:5000/api/admins/dismissedReports')
+        
+        dispatch({
+            type: GET_DISMISSED_REPORTS_SUCCESS,
+            payload: data
+        })
+    } catch (error) {
+        const message = 
+        error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message
+        
+        dispatch({
+            type: GET_DISMISSED_REPORTS_FAIL,
+            payload: message
+        })
+    }
+}
+
+export const deleteReport = (id) => async (dispatch) => {
+    try {
+        dispatch({
+            type: DELETE_REPORT_REQUEST
+        })
+        
+        const { data } = await axios.delete(`http://localhost:5000/api/admins/deleteReport/${id}`)
+        
+        dispatch({
+            type: DELETE_REPORT_SUCCESS
+        })
+    } catch (error) {
+        const message = 
+        error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message
+        
+        dispatch({
+            type: GET_DISMISSED_REPORTS_FAIL,
+            payload: message
+        })
+    }
+}
+
+export const dismissReport = (id) => async (dispatch) => {
+    try {
+        dispatch({
+            type: DISMISS_STRAY_REPORT_REQUEST
+        })
+        
+        const status = 'Dismissed'
+        const { data } = await axios.put(`http://localhost:5000/api/admins/dismissReport/${id}`, {status})
+        
+        dispatch({
+            type: DISMISS_STRAY_REPORT_SUCCESS,
+            payload: data
+        })
+    } catch (error) {
+        const message = 
+        error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message
+        
+        dispatch({
+            type: DISMISS_STRAY_REPORT_FAIL,
+            payload: message
+        })
+    }
+}
+
+export const getInterviewSchedule = (id) => async (dispatch) => {
+    try {
+        dispatch({
+            type: GET_INTERVIEW_SCHED_REQUEST
+        })
+
+        const { data } = await axios.get(`http://localhost:5000/api/admins/getInterviewSched/${id}`)
+
+        dispatch({
+            type: GET_INTERVIEW_SCHED_SUCCESS,
+            payload: data
+        })
+    } catch (error) {
+        const message = 
+        error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message
+        
+        dispatch({
+            type: GET_INTERVIEW_SCHED_FAIL,
+            payload: message
+        })
+    }
+} 
+
+export const submitInterviewSchedule = (id, recipientEmail, message, date, time) => async (dispatch) => {
+    try {
+        dispatch({
+            type: SEND_INTERVIEW_MESSAGE_REQUEST
+        })
+        
+        const { data } = await axios.post(`http://localhost:5000/api/admins/createInterviewSched/${id}`, { recipientEmail, message, date, time })
+        
+        dispatch({
+            type: SEND_INTERVIEW_MESSAGE_SUCCESS,
+            payload: data,
+        })
+    } catch (error) {
+        const message = 
+        error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message
+        
+        dispatch({
+            type: SEND_INTERVIEW_MESSAGE_FAIL,
+            payload: message
+        })
+    }
+}
+
+export const getDonations = () => async (dispatch) => {
+    try {
+        dispatch({
+            type: GET_DONATIONS_REQUEST,
+        })
+        
+        const { data } = await axios.get('http://localhost:5000/api/admins/getDonations') 
+        
+        dispatch({
+            type: GET_DONATIONS_SUCCESS,
+            payload: data
+        })
+    } catch (error) {
+        const message = 
+            error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message
+
+            dispatch({
+                type: GET_DONATIONS_FAIL,
+                payload: message
+            })
+        }
+    }
+    
+    export const deleteDonationHandler = (id) => async (dispatch) => {
+        try {
+            dispatch({
+            type: DELETE_DONATION_REQUEST
+        })
+        
+        const { data } = await axios.delete(`http://localhost:5000/api/admins/deleteDonation/${id}`)
+        
+        dispatch({
+            type: DELETE_DONATION_SUCCESS
+        })
+    } catch (error) {
+        const message = 
+        error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message
+        
+        dispatch({
+            type: DELETE_DONATION_FAIL,
+            payload: message,
+        })
+    }
+}
+
+export const updateBeenInterviewed = (id) => async (dispatch) => {
+    try {
+        dispatch({
+            type: HAS_BEEN_INTERVIEWED_REQUEST
+        })
+        
+        const { data } = await axios.put(`http://localhost:5000/api/admins/hasBeenInterviewed/${id}`)
+        
+        dispatch({
+            type: HAS_BEEN_INTERVIEWED_SUCCESS,
+        })
+    } catch (error) {
+        const message = 
+            error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message
+            
+            dispatch({
+                type: HAS_BEEN_INTERVIEWED_FAIL,
+                payload: message,
+            })
+        }
+    }
+    
+export const receivedDonation = (id) => async (dispatch) => {
+    try {
+        dispatch({
+            type: RECEIVED_DONATION_REQUEST
+        })
+        
+        const { data } = await axios.put(`http://localhost:5000/api/admins/updateReceivedDonation/${id}`)
+        
+        dispatch({
+            type: RECEIVED_DONATION_SUCCESS
+        })
+    } catch (error) {
+        const message = 
+        error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message
+        
+        dispatch({
+            type: RECEIVED_DONATION_FAIL,
+            payload: message
+        })
+    }
+}
+
+export const addToInventory = (dataItems, donatedBy, donatedByPicture,dateOfDonation) => async (dispatch) => {
+    try {
+        dispatch({
+            type: ADD_TO_INVENTORY_REQUEST
+        })
+        
+        const { data } = await axios.post('http://localhost:5000/api/admins/addToDonationInventory', { dataItems, donatedBy, donatedByPicture, dateOfDonation })
+        
+        dispatch({
+            type: ADD_TO_INVENTORY_SUCCESS,
+            payload: data
+        })
+    } catch (error) {
+        const message = 
+        error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message
+        
+        dispatch({
+            type: ADD_TO_INVENTORY_FAIL,
+            payload: message
+        })
+    }
+}
+
+export const getDonationInventory = () => async (dispatch) => {
+    try {
+        dispatch({
+            type: GET_INVENTORY_REQUEST
+        })
+        
+        const { data } = await axios.get('http://localhost:5000/api/admins/getDonationInventory')
+        
+        dispatch({
+            type: GET_INVENTORY_SUCCESS,
+            payload: data
+        })
+    } catch (error) {
+        const message = 
+        error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message
+        
+        dispatch({
+            type: GET_INVENTORY_FAIL,
+            payload: message
+        })    
+    }
+}
+
+export const getFeedbacks = () => async (dispatch) => {
+    try {
+        dispatch({
+            type: GET_FEEDBACKS_REQUEST
+        })
+
+        const { data } = await axios.get('http://localhost:5000/api/admins/getFeedbacks')
+        
+        dispatch({
+            type: GET_FEEDBACKS_SUCCESS,
+            payload: data
+        })
+    } catch (error) {
+        const message = 
+        error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message
+                
+                dispatch({
+                    type: GET_FEEDBACKS_FAIL,
+                    payload: message
+                })   
+            }
+        }
+        
+        export const deleteFeedback = (id) => async (dispatch) => {
+            try {
+                dispatch({
+            type: DELETE_FEEDBACK_REQUEST,
+        })
+        
+        const { data } = await axios.delete(`http://localhost:5000/api/admins/getFeedback/${id}`)
+        
+        dispatch({
+            type: DELETE_FEEDBACK_SUCCESS
+        })
+    } catch (error) {
+        const message = 
+        error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message
+        
+        dispatch({
+            type: DELETE_FEEDBACK_FAIL,
+            payload: message
+        })
+    }
+}
+
+export const feedbackHasBeenRead = (id) => async (dispatch) => {
+    try {
+        dispatch({
+            type: FEEDBACK_VIEWED_REQUEST
+        })
+        
+        const { data } = await axios.put(`http://localhost:5000/api/admins/feedBackRead/${id}`)
+        
+        dispatch({
+            type: FEEDBACK_VIEWED_SUCCESS
+        })
+    } catch (error) {
+        const message = 
+        error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message
+
+        dispatch({
+            type: FEEDBACK_VIEWED_FAIL,
+            payload: message
+        })
+    }
+}
+
+export const getPendingRegistrations = () => async (dispatch) => {
+    try {
+        dispatch({
+            type: GET_PENDING_PETS_REQUEST,
+        })
+
+        const { data } = await axios.get('http://localhost:5000/api/admins/pendingRegistrations')
+        
+        dispatch({
+            type: GET_PENDING_PETS_SUCCESS,
+            payload: data
+        })
+    } catch (error) {
+        const message = 
+        error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message
+        
+        dispatch({
+            type: GET_PENDING_PETS_FAIL,
+            payload: message
+        })
+    }
+}
+
+export const getRegisteredPets = () => async (dispatch) => {
+    try {
+        dispatch({
+            type: GET_REGISTERED_PETS_REQUEST,
+        })
+        
+        const { data } = await axios.get('http://localhost:5000/api/admins/getRegisteredPets')
+        
+        dispatch({
+            type: GET_REGISTERED_PETS_SUCCESS,
+            payload: data
+        })
+    } catch (error) {
+        const message = 
+        error.response && error.response.data.message
+        ? error.response.data.message
+                : error.message
+
+                dispatch({
+                    type: GET_REGISTERED_PETS_FAIL,
+                    payload: message
+                })
+            }
+        }
+        
+export const getNotRegisteredPets = () => async (dispatch) => {
+    try {
+        dispatch({
+            type: GET_NOTREGISTERED_PETS_REQUEST,
+        })
+        
+        const { data } = await axios.get('http://localhost:5000/api/admins/getNotRegisteredPets')
+        
+        dispatch({
+            type: GET_NOTREGISTERED_PETS_SUCCESS,
+            payload: data
+        })
+    } catch (error) {
+        const message = 
+        error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message
+        
+        dispatch({
+            type: GET_NOTREGISTERED_PETS_FAIL,
+            payload: message
+        })        
+    }
+}
+
+export const deleteRegistration = (id) => async (dispatch) => {
+    try {
+        dispatch({
+            type: DELETE_REGISTRATION_REQUEST
+        })
+        
+        const { data } = await axios.delete(`http://localhost:5000/api/admins/deleteRegistration/${id}`)
+
+        dispatch({
+            type: DELETE_REGISTRATION_SUCCESS
+        })
+    } catch (error) {
+        const message = 
+        error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message
+        
+        dispatch({
+            type: DELETE_REGISTRATION_FAIL,
+            payload: message
+        })        
+    }
+}
+
+export const updateRequirements = (id, regFeeComplete, certOfResidencyComplete, ownerPictureComplete, petPhotoComplete, proofOfAntiRabiesComplete, photocopyCertOfAntiRabiesComplete) => async (dispatch) => {
+    try {
+        dispatch({
+            type: SAVE_REQUIREMENTS_REQUEST,
+        })
+        
+        const { data } = await axios.put(`http://localhost:5000/api/admins/updateRequirements/${id}`, { regFeeComplete, certOfResidencyComplete, ownerPictureComplete, petPhotoComplete, proofOfAntiRabiesComplete, photocopyCertOfAntiRabiesComplete })
+        
+        dispatch({
+            type: SAVE_REQUIREMENTS_SUCCESS,
+            payload: data
+        })
+    } catch (error) {
+        const message = 
+        error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message
+        
+        dispatch({
+            type: SAVE_REQUIREMENTS_FAIL,
+            payload: message
+        })  
+    }
+}
+
+export const rejectRegistration = (id) => async (dispatch) => {
+    try {
+        dispatch({
+            type: REJECT_REGISTRATION_REQUEST
+        })
+
+        const { data } = await axios.put(`http://localhost:5000/api/admins/rejectRegistration/${id}`)
+        
+        dispatch({
+            type: REJECT_REGISTRATION_SUCCESS
+        })
+    } catch (error) {
+        const message = 
+        error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message
+
+        dispatch({
+            type: REJECT_REGISTRATION_FAIL,
+            payload: message
+        }) 
+    }
+}
+
 export const registerAnimal = (id) => async (dispatch) => {
     try {
         dispatch({
@@ -251,674 +925,3 @@ export const registerAnimal = (id) => async (dispatch) => {
         })
     }
 } 
-
-export const getAdoptionApplications = () => async (dispatch) => {
-    try {
-        dispatch({
-            type: GET_ADOPTIONS_REQUEST
-        })
-
-        const { data } = await axios.get('http://localhost:5000/api/admins/adoptions')
-
-        dispatch({
-            type: GET_ADOPTIONS_SUCCESS,
-            payload: data
-        })
-    } catch (error) {
-        const message = 
-            error.response && error.response.data.message
-                ? error.response.data.message
-                : error.message
-        
-        dispatch({
-            type: GET_ADOPTIONS_FAIL,
-            payload: message
-        })        
-    }
-}
-
-export const getSpecificAdoption = (id) => async (dispatch) => {
-    try {
-        dispatch({
-            type: GET_SPECIFIC_ADOPTION_REQUEST
-        })
-
-        const { data } = await axios.get(`http://localhost:5000/api/admins/adoptions/${id}`)
-
-        dispatch({
-            type: GET_SPECIFIC_ADOPTION_SUCCESS,
-            payload: data
-        })
-    } catch (error) {
-        const message = error.response && error.response.data.message
-            ? error.response.data.message
-            : error.message
-        
-        dispatch({
-            type: GET_SPECIFIC_ADOPTION_FAIL,
-            payload: message,
-        })
-    }
-}
-
-export const deleteAdoptionApplication = (id) => async (dispatch) => {
-    try {
-        dispatch({
-            type: DELETE_ADOPTION_REQUEST
-        })
-
-        const { data } = await axios.delete(`http://localhost:5000/api/admins/adoptions/${id}`)
-
-        dispatch({
-            type: DELETE_ADOPTION_SUCCESS,
-            payload: data
-        })
-    } catch (error) {
-        const message = 
-            error.response && error.response.data.message
-                ? error.response.data.message
-                : error.message;
-
-        dispatch({
-            type: DELETE_ADOPTION_FAIL,
-            payload: message
-        })
-    }
-}
-
-export const updateAdoptionApplication = (animalId, adoptionId, adoptionStatus, applicationStatus) => async (dispatch) => {
-    try {
-        dispatch({
-            type: UPDATE_ADOPTION_APPLICATION_REQUEST,
-        })
-
-        // Updating the adoption status
-        const { data: updateAdoptionData } = await axios.put(`http://localhost:5000/api/admins/updateAdoptionStatus/${animalId}`, { adoptionStatus })
-
-        // Updating the application status
-        const { data } = await axios.put(`http://localhost:5000/api/admins/updateApplication/${adoptionId}`, { adoptionStatus, applicationStatus })
-
-        dispatch({
-            type: UPDATE_ADOPTION_APPLICATION_SUCCESS,
-            payload: data
-        })
-    } catch (error) {
-        const message = 
-            error.response && error.response.data.message
-                ? error.response.data.message
-                : error.message;
-
-        dispatch({
-            type: UPDATE_ADOPTION_APPLICATION_FAIL,
-            payload: message
-        })
-    }
-}
-
-export const deleteAdminAccount = (id) => async (dispatch) => {
-    try {
-        dispatch({
-            type: DELETE_ADMIN_ACCOUNT_REQUEST,
-        })
-
-        const { data } = await axios.delete(`http://localhost:5000/api/admins/deleteAdmin/${id}`)
-
-        dispatch({
-            type: DELETE_ADMIN_ACCOUNT_SUCCESS,
-            payload: data,
-        })
-    } catch (error) {
-        const message = 
-            error.response && error.response.data.message
-                ? error.response.data.message
-                : error.message;
-
-        dispatch({
-            type: DELETE_ADMIN_ACCOUNT_FAIL,
-            payload: message
-        })
-    }
-}
-
-export const deleteUserAccount = (id) => async (dispatch) => {
-    try {
-        dispatch({
-            type: DELETE_USER_ACCOUNT_REQUEST,
-        })
-
-        const { data } = await axios.delete(`http://localhost:5000/api/admins/deleteUser/${id}`)
-
-        dispatch({
-            type: DELETE_USER_ACCOUNT_SUCCESS,
-            payload: data,
-        })
-    } catch (error) {
-        const message = 
-            error.response && error.response.data.message
-                ? error.response.data.message
-                : error.message;
-
-        dispatch({
-            type: DELETE_USER_ACCOUNT_FAIL,
-            payload: message
-        })
-    }
-}
-
-export const getStrayAnimalReports = () => async (dispatch) => {
-    try {
-        dispatch({
-            type: GET_STRAY_REPORTS_REQUEST
-        })
-
-        const { data } = await axios.get('http://localhost:5000/api/admins/getReports')
-       
-        dispatch({
-            type: GET_STRAY_REPORTS_SUCCESS,
-            payload: data
-        })
-    } catch (error) {
-        const message = 
-            error.response && error.response.data.message
-                ? error.response.data.message
-                : error.message
-
-        dispatch({
-            type: GET_STRAY_REPORTS_FAIL,
-            payload: message
-        })
-    }
-}
-
-export const getDismissedReports = () => async (dispatch) => {
-    try {
-        dispatch({
-            type: GET_DISMISSED_REPORTS_REQUEST
-        })
-
-        const { data } = await axios.get('http://localhost:5000/api/admins/dismissedReports')
-
-        dispatch({
-            type: GET_DISMISSED_REPORTS_SUCCESS,
-            payload: data
-        })
-    } catch (error) {
-        const message = 
-            error.response && error.response.data.message
-                ? error.response.data.message
-                : error.message
-
-        dispatch({
-            type: GET_DISMISSED_REPORTS_FAIL,
-            payload: message
-        })
-    }
-}
-
-export const deleteReport = (id) => async (dispatch) => {
-    try {
-        dispatch({
-            type: DELETE_REPORT_REQUEST
-        })
-
-        const { data } = await axios.delete(`http://localhost:5000/api/admins/deleteReport/${id}`)
-
-        dispatch({
-            type: DELETE_REPORT_SUCCESS
-        })
-    } catch (error) {
-        const message = 
-            error.response && error.response.data.message
-                ? error.response.data.message
-                : error.message
-
-        dispatch({
-            type: GET_DISMISSED_REPORTS_FAIL,
-            payload: message
-        })
-    }
-}
-
-export const dismissReport = (id) => async (dispatch) => {
-    try {
-        dispatch({
-            type: DISMISS_STRAY_REPORT_REQUEST
-        })
-
-        const status = 'Dismissed'
-        const { data } = await axios.put(`http://localhost:5000/api/admins/dismissReport/${id}`, {status})
-
-        dispatch({
-            type: DISMISS_STRAY_REPORT_SUCCESS,
-            payload: data
-        })
-    } catch (error) {
-        const message = 
-            error.response && error.response.data.message
-                ? error.response.data.message
-                : error.message
-
-        dispatch({
-            type: DISMISS_STRAY_REPORT_FAIL,
-            payload: message
-        })
-    }
-}
-
-export const getInterviewSchedule = (id) => async (dispatch) => {
-    try {
-        dispatch({
-            type: GET_INTERVIEW_SCHED_REQUEST
-        })
-
-        const { data } = await axios.get(`http://localhost:5000/api/admins/getInterviewSched/${id}`)
-
-        dispatch({
-            type: GET_INTERVIEW_SCHED_SUCCESS,
-            payload: data
-        })
-    } catch (error) {
-        const message = 
-            error.response && error.response.data.message
-                ? error.response.data.message
-                : error.message
-
-        dispatch({
-            type: GET_INTERVIEW_SCHED_FAIL,
-            payload: message
-        })
-    }
-} 
-
-export const submitInterviewSchedule = (id, recipientEmail, message, date, time) => async (dispatch) => {
-    try {
-        dispatch({
-            type: SEND_INTERVIEW_MESSAGE_REQUEST
-        })
-
-        const { data } = await axios.post(`http://localhost:5000/api/admins/createInterviewSched/${id}`, { recipientEmail, message, date, time })
-
-        dispatch({
-            type: SEND_INTERVIEW_MESSAGE_SUCCESS,
-            payload: data,
-        })
-    } catch (error) {
-        const message = 
-            error.response && error.response.data.message
-                ? error.response.data.message
-                : error.message
-
-        dispatch({
-            type: SEND_INTERVIEW_MESSAGE_FAIL,
-            payload: message
-        })
-    }
-}
-
-export const getDonations = () => async (dispatch) => {
-    try {
-        dispatch({
-        type: GET_DONATIONS_REQUEST,
-        })
-
-        const { data } = await axios.get('http://localhost:5000/api/admins/getDonations') 
-
-        dispatch({
-            type: GET_DONATIONS_SUCCESS,
-            payload: data
-        })
-    } catch (error) {
-        const message = 
-            error.response && error.response.data.message
-                ? error.response.data.message
-                : error.message
-
-        dispatch({
-            type: GET_DONATIONS_FAIL,
-            payload: message
-        })
-    }
-}
-
-export const deleteDonationHandler = (id) => async (dispatch) => {
-    try {
-        dispatch({
-            type: DELETE_DONATION_REQUEST
-        })
-
-        const { data } = await axios.delete(`http://localhost:5000/api/admins/deleteDonation/${id}`)
-
-        dispatch({
-            type: DELETE_DONATION_SUCCESS
-        })
-    } catch (error) {
-        const message = 
-            error.response && error.response.data.message
-                ? error.response.data.message
-                : error.message
-
-        dispatch({
-            type: DELETE_DONATION_FAIL,
-            payload: message,
-        })
-    }
-}
-
-export const updateBeenInterviewed = (id) => async (dispatch) => {
-    try {
-        dispatch({
-            type: HAS_BEEN_INTERVIEWED_REQUEST
-        })
-
-        const { data } = await axios.put(`http://localhost:5000/api/admins/hasBeenInterviewed/${id}`)
-
-        dispatch({
-            type: HAS_BEEN_INTERVIEWED_SUCCESS,
-        })
-    } catch (error) {
-        const message = 
-            error.response && error.response.data.message
-                ? error.response.data.message
-                : error.message
-
-        dispatch({
-            type: HAS_BEEN_INTERVIEWED_FAIL,
-            payload: message,
-        })
-    }
-}
-
-export const receivedDonation = (id) => async (dispatch) => {
-    try {
-        dispatch({
-            type: RECEIVED_DONATION_REQUEST
-        })
-
-        const { data } = await axios.put(`http://localhost:5000/api/admins/updateReceivedDonation/${id}`)
-
-        dispatch({
-            type: RECEIVED_DONATION_SUCCESS
-        })
-    } catch (error) {
-        const message = 
-            error.response && error.response.data.message
-                ? error.response.data.message
-                : error.message
-            
-        dispatch({
-            type: RECEIVED_DONATION_FAIL,
-            payload: message
-        })
-    }
-}
-
-export const addToInventory = (dataItems, donatedBy, donatedByPicture,dateOfDonation) => async (dispatch) => {
-    try {
-        dispatch({
-            type: ADD_TO_INVENTORY_REQUEST
-        })
-
-        const { data } = await axios.post('http://localhost:5000/api/admins/addToDonationInventory', { dataItems, donatedBy, donatedByPicture, dateOfDonation })
-
-        dispatch({
-            type: ADD_TO_INVENTORY_SUCCESS,
-            payload: data
-        })
-    } catch (error) {
-        const message = 
-            error.response && error.response.data.message
-                ? error.response.data.message
-                : error.message
-
-        dispatch({
-            type: ADD_TO_INVENTORY_FAIL,
-            payload: message
-        })
-    }
-}
-
-export const getDonationInventory = () => async (dispatch) => {
-    try {
-        dispatch({
-            type: GET_INVENTORY_REQUEST
-        })
-
-        const { data } = await axios.get('http://localhost:5000/api/admins/getDonationInventory')
-
-        dispatch({
-            type: GET_INVENTORY_SUCCESS,
-            payload: data
-        })
-    } catch (error) {
-        const message = 
-            error.response && error.response.data.message
-                ? error.response.data.message
-                : error.message
-
-        dispatch({
-            type: GET_INVENTORY_FAIL,
-            payload: message
-        })    
-    }
-}
-
-export const getFeedbacks = () => async (dispatch) => {
-    try {
-        dispatch({
-            type: GET_FEEDBACKS_REQUEST
-        })
-
-        const { data } = await axios.get('http://localhost:5000/api/admins/getFeedbacks')
-
-        dispatch({
-            type: GET_FEEDBACKS_SUCCESS,
-            payload: data
-        })
-    } catch (error) {
-        const message = 
-            error.response && error.response.data.message
-                ? error.response.data.message
-                : error.message
-
-        dispatch({
-            type: GET_FEEDBACKS_FAIL,
-            payload: message
-        })   
-    }
-}
-
-export const deleteFeedback = (id) => async (dispatch) => {
-    try {
-        dispatch({
-            type: DELETE_FEEDBACK_REQUEST,
-        })
-
-        const { data } = await axios.delete(`http://localhost:5000/api/admins/getFeedback/${id}`)
-
-        dispatch({
-            type: DELETE_FEEDBACK_SUCCESS
-        })
-    } catch (error) {
-        const message = 
-            error.response && error.response.data.message
-                ? error.response.data.message
-                : error.message
-
-        dispatch({
-            type: DELETE_FEEDBACK_FAIL,
-            payload: message
-        })
-    }
-}
-
-export const feedbackHasBeenRead = (id) => async (dispatch) => {
-    try {
-        dispatch({
-            type: FEEDBACK_VIEWED_REQUEST
-        })
-
-        const { data } = await axios.put(`http://localhost:5000/api/admins/feedBackRead/${id}`)
-
-        dispatch({
-            type: FEEDBACK_VIEWED_SUCCESS
-        })
-    } catch (error) {
-        const message = 
-            error.response && error.response.data.message
-                ? error.response.data.message
-                : error.message
-
-        dispatch({
-            type: FEEDBACK_VIEWED_FAIL,
-            payload: message
-        })
-    }
-}
-
-export const getPendingRegistrations = () => async (dispatch) => {
-    try {
-        dispatch({
-            type: GET_PENDING_PETS_REQUEST,
-        })
-
-        const { data } = await axios.get('http://localhost:5000/api/admins/pendingRegistrations')
-
-        dispatch({
-            type: GET_PENDING_PETS_SUCCESS,
-            payload: data
-        })
-    } catch (error) {
-        const message = 
-            error.response && error.response.data.message
-                ? error.response.data.message
-                : error.message
-
-        dispatch({
-            type: GET_PENDING_PETS_FAIL,
-            payload: message
-        })
-    }
-}
-
-export const getRegisteredPets = () => async (dispatch) => {
-    try {
-        dispatch({
-            type: GET_REGISTERED_PETS_REQUEST,
-        })
-
-        const { data } = await axios.get('http://localhost:5000/api/admins/getRegisteredPets')
-
-        dispatch({
-            type: GET_REGISTERED_PETS_SUCCESS,
-            payload: data
-        })
-    } catch (error) {
-        const message = 
-            error.response && error.response.data.message
-                ? error.response.data.message
-                : error.message
-
-        dispatch({
-            type: GET_REGISTERED_PETS_FAIL,
-            payload: message
-        })
-    }
-}
-
-export const getNotRegisteredPets = () => async (dispatch) => {
-    try {
-        dispatch({
-            type: GET_NOTREGISTERED_PETS_REQUEST,
-        })
-
-        const { data } = await axios.get('http://localhost:5000/api/admins/getNotRegisteredPets')
-
-        dispatch({
-            type: GET_NOTREGISTERED_PETS_SUCCESS,
-            payload: data
-        })
-    } catch (error) {
-        const message = 
-            error.response && error.response.data.message
-                ? error.response.data.message
-                : error.message
-
-        dispatch({
-            type: GET_NOTREGISTERED_PETS_FAIL,
-            payload: message
-        })        
-    }
-}
-
-export const deleteRegistration = (id) => async (dispatch) => {
-    try {
-        dispatch({
-            type: DELETE_REGISTRATION_REQUEST
-        })
-
-        const { data } = await axios.delete(`http://localhost:5000/api/admins/deleteRegistration/${id}`)
-
-        dispatch({
-            type: DELETE_REGISTRATION_SUCCESS
-        })
-    } catch (error) {
-        const message = 
-            error.response && error.response.data.message
-                ? error.response.data.message
-                : error.message
-
-        dispatch({
-            type: DELETE_REGISTRATION_FAIL,
-            payload: message
-        })        
-    }
-}
-
-export const updateRequirements = (id, regFeeComplete, certOfResidencyComplete, ownerPictureComplete, petPhotoComplete, proofOfAntiRabiesComplete, photocopyCertOfAntiRabiesComplete) => async (dispatch) => {
-    try {
-        dispatch({
-            type: SAVE_REQUIREMENTS_REQUEST,
-        })
-
-        const { data } = await axios.put(`http://localhost:5000/api/admins/updateRequirements/${id}`, { regFeeComplete, certOfResidencyComplete, ownerPictureComplete, petPhotoComplete, proofOfAntiRabiesComplete, photocopyCertOfAntiRabiesComplete })
-
-        dispatch({
-            type: SAVE_REQUIREMENTS_SUCCESS,
-            payload: data
-        })
-    } catch (error) {
-        const message = 
-            error.response && error.response.data.message
-                ? error.response.data.message
-                : error.message
-
-        dispatch({
-            type: SAVE_REQUIREMENTS_FAIL,
-            payload: message
-        })  
-    }
-}
-
-export const rejectRegistration = (id) => async (dispatch) => {
-    try {
-        dispatch({
-            type: REJECT_REGISTRATION_REQUEST
-        })
-
-        const { data } = await axios.put(`http://localhost:5000/api/admins/rejectRegistration/${id}`)
-
-        dispatch({
-            type: REJECT_REGISTRATION_SUCCESS
-        })
-    } catch (error) {
-        const message = 
-            error.response && error.response.data.message
-                ? error.response.data.message
-                : error.message
-
-        dispatch({
-            type: REJECT_REGISTRATION_FAIL,
-            payload: message
-        }) 
-    }
-}

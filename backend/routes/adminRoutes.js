@@ -138,7 +138,7 @@ router.route('/getNotRegisteredPets').get(getNotRegisteredPets)
 
 router.route('/registerAnimal/:id').put(registerAnimal)
 
-router.route('rejectRegistration/:id').put(rejectRegistration)
+router.route('/rejectRegistration/:id').put(rejectRegistration)
 
 router.route('/deleteRegistration/:id').delete(deleteRegistration)
 
