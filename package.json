@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node backend/server.js",
     "dev": "nodemon backend/server.js",
-    "heroku-postbuild":"NPM_CONFIG_PRODUCTION=false npm install --prefix furryhopeadmin && npm run build --prefix furryhopeadmin"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix furryhopeadmin && npm run build --prefix furryhopeadmin"
   },
   "author": "",
   "license": "ISC",
@@ -18,7 +18,9 @@
     "express-async-handler": "^1.1.4",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.0.6",
-    "nodemailer": "^6.7.2",
+    "nodemailer": "^6.7.2"
+  },
+  "devDependencies": {
     "nodemon": "^2.0.12"
   }
 }
