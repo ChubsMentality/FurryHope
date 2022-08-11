@@ -9,6 +9,7 @@ import Overlay from './SubComponents/Overlay'
 import '../css/UserFeedback.css'
 
 const UserFeedback = () => {
+    const URL = 'https://furryhopebackend.herokuapp.com/'
     const dispatch = useDispatch()
     const adminLogin = useSelector(state => state.adminLogin)
     const { adminInfo } = adminLogin
@@ -31,7 +32,7 @@ const UserFeedback = () => {
 
     const toggleFeedback = async (id) => {
         try {
-            const { data } = await axios.get(`http://localhost:5000/api/admins/getFeedback/${id}`)
+            const { data } = await axios.get(`${URL}api/admins/getFeedback/${id}`)
             setFeedback(data)
             setModal(true)
         } catch (error) {

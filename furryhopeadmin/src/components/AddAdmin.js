@@ -17,6 +17,7 @@ const override = css`
 `
 
 const AddAdmin = ({ history }) => {
+    const URL = 'https://furryhopebackend.herokuapp.com/'
 
     // loading state
     const [color] = useState('#111111')

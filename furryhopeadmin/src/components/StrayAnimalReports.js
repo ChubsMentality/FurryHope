@@ -11,6 +11,7 @@ import Sidebar from './Sidebar'
 import '../css/StrayAnimalReports.css'
 
 const StrayAnimalReports = () => {
+    const URL = 'https://furryhopebackend.herokuapp.com/'
     const [specificReport, setSpecificReport] = useState()
     const [modal, setModal] = useState(false)
     const [active, setActive] = useState('Not Dismissed')
@@ -40,7 +41,7 @@ const StrayAnimalReports = () => {
    
     const displaySpecificReport = async (id) => { 
         try {
-            const { data } = await axios.get(`http://localhost:5000/api/admins/getReports/${id}`)
+            const { data } = await axios.get(`${URL}api/admins/getReports/${id}`)
             setSpecificReport(data)
             setModal(true)
             console.log(pendingReports)
@@ -157,7 +158,7 @@ const StrayAnimalReports = () => {
 
     const getDismissed = async () => {
         try {
-            const { data } = await axios.get('http://localhost:5000/api/admins/dismissedReports')
+            const { data } = await axios.get(`${URL}api/admins/dismissedReports`)
             console.log(data)
             setDismissed(data)
         } catch (error) {

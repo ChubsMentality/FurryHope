@@ -4,6 +4,7 @@ import '../../css/ForgotPwdModal.css'
 import axios from 'axios'
 
 const ForgotPassword = (props) => {
+    const URL = 'https://furryhopebackend.herokuapp.com/'
     const [email, setEmail] = useState()
 
     const sendResetPwd = async () => {
@@ -13,7 +14,7 @@ const ForgotPassword = (props) => {
         }
 
         try {
-            const { data } = await axios.post('http://localhost:5000/api/admins/sendResetPassword', { email })
+            const { data } = await axios.post(`${URL}api/admins/sendResetPassword`, { email })
             console.log(data.message)
             alert('Check your email for the link')
         } catch (error) {

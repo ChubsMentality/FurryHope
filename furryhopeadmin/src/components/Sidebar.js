@@ -14,6 +14,7 @@ import { VscFeedback } from 'react-icons/vsc'
 import logo from "../assets/Sidebar/logo-black.svg"
 
 const Sidebar = () => {
+    const URL = 'https://furryhopebackend.herokuapp.com/'
     const dispatch = useDispatch()
     const history = useHistory()
 

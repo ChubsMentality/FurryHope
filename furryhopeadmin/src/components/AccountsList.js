@@ -18,6 +18,7 @@ import ViewUser from "./Modals/ViewUser"
 import { sortArray } from "./SubComponents/QuickSortArrOfObjs"
 
 const AccountsList = () => {
+    const URL = 'https://furryhopebackend.herokuapp.com/'
     const [userAccounts, setUserAccounts] = useState()
     const [adminAccounts, setAdminAccounts] = useState()
     const [accounts, setAccounts] = useState()
@@ -59,7 +60,7 @@ const AccountsList = () => {
     const getUserAccounts = async () => {
         try {
             const { data } = await axios.get(
-                "http://localhost:5000/api/admins/userAccounts"
+                `${URL}api/admins/userAccounts`
             )
             console.log(data)
             setUserAccounts(data)
@@ -71,7 +72,7 @@ const AccountsList = () => {
     const getAdminAccounts = async () => {
         try {
             const { data } = await axios.get(
-                "http://localhost:5000/api/admins/adminAccounts"
+                `${URL}api/admins/adminAccounts`
             )
             console.log(data)
             setAdminAccounts(data)

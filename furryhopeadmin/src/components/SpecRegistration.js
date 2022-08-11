@@ -16,6 +16,7 @@ const SpecRegistration = ({ history, match }) => {
     const [petPhotoComplete, setPetPhotoComplete] = useState()
     const [proofOfAntiRabiesComplete, setProofOfAntiRabiesComplete] = useState()
     const [photocopyCertOfAntiRabiesComplete, setPhotocopyCertOfAntiRabiesComplete] = useState()
+    const URL = 'https://furryhopebackend.herokuapp.com/'
 
     const registerState = useSelector(state => state.animalRegister)
     const { success:successReg } = registerState
@@ -27,7 +28,7 @@ const SpecRegistration = ({ history, match }) => {
     const { success:successReject } = rejectState
 
     const getRegistration = async () => {
-        const { data } = await axios.get(`http://localhost:5000/api/admins/getRegistration/${match.params.id}`)
+        const { data } = await axios.get(`${URL}api/admins/getRegistration/${match.params.id}`)
         setData(data)
         console.log(data)
         setRegFeeComplete(data.regFeeComplete)

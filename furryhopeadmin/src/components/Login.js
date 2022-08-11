@@ -12,6 +12,8 @@ const Login = ({history}) => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [modal, setModal] = useState(false)
+    const URL = 'https://furryhopebackend.herokuapp.com/'
+
 
     console.log(window.screen.availWidth)
 

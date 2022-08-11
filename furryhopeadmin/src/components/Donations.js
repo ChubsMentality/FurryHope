@@ -12,6 +12,7 @@ import '../css/Donations.css'
 
 const Donations = () => {
     const dispatch = useDispatch()
+    const URL = 'https://furryhopebackend.herokuapp.com/'
 
     const adminState = useSelector((state) => state.adminLogin)
     const { adminInfo } = adminState
@@ -53,7 +54,7 @@ const Donations = () => {
 
     const getDonations = async () => {
         try {
-            const { data } = await axios.get('http://localhost:5000/api/admins/getDonations')
+            const { data } = await axios.get(`${URL}api/admins/getDonations`)
             setDonations(data)
             setNotReceived(data.filter(filterReceived))
             console.log(data)
@@ -65,7 +66,7 @@ const Donations = () => {
 
     const viewDonation = async (id) => {
         try {
-            const { data } = await axios.get(`http://localhost:5000/api/admins/getDonationById/${id}`)
+            const { data } = await axios.get(`${URL}api/admins/getDonationById/${id}`)
             // console.log(data)
             setDataItems(data.items)
             setDonation(data)
@@ -97,7 +98,7 @@ const Donations = () => {
         dispatch(deleteDonationHandler(id))
 
         try {
-            const { data } = await axios.delete(`http://localhost:5000/api/admins/removeFromInventory/${id}`)
+            const { data } = await axios.delete(`${URL}api/admins/removeFromInventory/${id}`)
         } catch (error) {
             console.log(error)
         }

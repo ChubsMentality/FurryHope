@@ -10,10 +10,11 @@ const ViewUser = (props) => {
     const [genderPreference, setGenderPreference] = useState()
     const [colorPreferences, setColorPreferences] = useState()
     const [breedPreferences, setBreedPreferences] = useState()
+    const URL = 'https://furryhopebackend.herokuapp.com/'
 
     const getUser = async () => {
         try {
-            const { data } = await axios.get(`http://localhost:5000/api/users/getUserById/${props.id}`)
+            const { data } = await axios.get(`${URL}api/users/getUserById/${props.id}`)
             setUser(data)
             setAnimalPreference(data.animalPreference)
             setSizePreference(data.sizePreference)

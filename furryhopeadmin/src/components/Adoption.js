@@ -15,6 +15,7 @@ import { IoArrowBack, IoClose, IoSend } from 'react-icons/io5'
 import { FaCheck } from 'react-icons/fa'
 
 const Adoption = ({ match, history }) => {
+    const URL = 'https://furryhopebackend.herokuapp.com/'
     const dispatch = useDispatch()
     const sAdoption = useSelector(state => state.specificAdoptionState)
     const { loading, error, specificAdoption } = sAdoption
@@ -60,7 +61,7 @@ const Adoption = ({ match, history }) => {
 
     const getInterviewSched = async () => {
         try {
-            const { data } = await axios.get(`http://localhost:5000/api/admins/getInterviewSched/${match.params.id}`)
+            const { data } = await axios.get(`${URL}api/admins/getInterviewSched/${match.params.id}`)
             setInterviewSched(data)
             console.log(data)
         } catch (error) {
@@ -83,7 +84,7 @@ const Adoption = ({ match, history }) => {
             alert('Please fill out all the necessary fields')
         } else {
             try {
-                const { data } = await axios.post(`http://localhost:5000/api/admins/createInterviewSched/${match.params.id}`, { recipientEmail, date, time })
+                const { data } = await axios.post(`${URL}api/admins/createInterviewSched/${match.params.id}`, { recipientEmail, date, time })
                 alert('Successfully sent the email.')
                 
                 toggleInterviewSched()
@@ -116,7 +117,7 @@ const Adoption = ({ match, history }) => {
             dispatch(updateAdoptionApplication(animalId, adoptionId, adoptionStatus, applicationStatus))
 
             try {
-                const { data } = await axios.post('http://localhost:5000/api/admins/sendRejectMessage', {email, adopterName, animalName})
+                const { data } = await axios.post(`${URL}api/admins/sendRejectMessage`, {email, adopterName, animalName})
                 console.log(data)
                 alert('Message Sent')
             } catch (error) {
@@ -147,7 +148,7 @@ const Adoption = ({ match, history }) => {
             if(!email || !pickupDate || !pickupTime || !animalName || !adopterName) {
                 alert('Please fill out all the necessary fields')
             } else {
-                const { data } = await axios.post('http://localhost:5000/api/admins/sendPickupMessage', { email, pickupDate, pickupTime, animalName, adopterName })
+                const { data } = await axios.post(`${URL}api/admins/sendPickupMessage`, { email, pickupDate, pickupTime, animalName, adopterName })
                 alert('Successfully sent the message')
                 setAcceptAdoptionOverlay(!acceptAdoptionOverlay)
             }

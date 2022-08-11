@@ -24,6 +24,9 @@ import {
     GET_ADOPTIONS_FAIL,
 } from '../constants/adminConstants'
 
+// START
+const URL = 'https://furryhopebackend.herokuapp.com/'
+
 export const getAnimalData = () => async (dispatch) => {
     try {
         dispatch({
@@ -31,7 +34,7 @@ export const getAnimalData = () => async (dispatch) => {
         });
 
         // Gets all of the animals inside the database
-        const { data } = await axios.get('http://localhost:5000/api/animals');
+        const { data } = await axios.get(`${URL}api/animals`);
 
         dispatch({
             type: ANIMAL_DATA_SUCCESS,
@@ -64,7 +67,7 @@ export const createAnimalAction =
             };
 
             const { data } = await axios.post(
-                `http://localhost:5000/api/animals/create`,
+                `${URL}api/animals/create`,
                 { name, color, breed, description, gender, type, size, animalImg, adoptionStatus, availUntil, availUntilYear },
                 config
             );
@@ -99,7 +102,7 @@ export const updateAnimalAction =
             };
 
             const { data } = await axios.put(
-                `http://localhost:5000/api/animals/${id}`,
+                `${URL}api/animals/${id}`,
                 { name, color, breed, description, gender, type, size, animalImg, adoptionStatus, availUntil, availUntilYear },
                 config
             );
@@ -127,7 +130,7 @@ export const deleteAnimalAction = (id) => async (dispatch) => {
             type: ANIMAL_DELETE_REQUEST
         });
 
-        const { data } = await axios.delete(`http://localhost:5000/api/animals/${id}`);
+        const { data } = await axios.delete(`${URL}api/animals/${id}`);
 
         dispatch({
             type: ANIMAL_DELETE_SUCCESS,

@@ -12,6 +12,7 @@ import '../css/AdoptionApplications.css'
 import EmptyAdoptions from './SubComponents/EmptyAdoptions'
 
 const AdoptionApplications = () => {
+    const URL = 'https://furryhopebackend.herokuapp.com/'
     const dispatch = useDispatch()
     const applications = useSelector(state => state.adoptionApplications)
     const { adoptionApplications, loading } = applications
@@ -45,7 +46,7 @@ const AdoptionApplications = () => {
 
     const openModal = async (id) => {
         try {
-            const { data } = await axios.get(`http://localhost:5000/api/admins/adoptions/${id}`)
+            const { data } = await axios.get(`${URL}api/admins/adoptions/${id}`)
             console.log(data)
             setApplicationData(data)
         } catch (error) {

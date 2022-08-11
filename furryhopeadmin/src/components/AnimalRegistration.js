@@ -19,6 +19,7 @@ const AnimalRegistration = () => {
     const [searchQuery, setSearchQuery] = useState('')
     const [sortBy, setSortBy] = useState('applicantName')
     // const registrations = useSelector(state => state.getRegistrations)
+    const URL = 'https://furryhopebackend.herokuapp.com/'
     // const { animalRegistrations, loading } = registrations
 
     const adminState = useSelector((state) => state.adminLogin)
@@ -49,7 +50,7 @@ const AnimalRegistration = () => {
     // const getAnimalHandler = async () => {
     //     try {
     //         setLoading(true)
-    //         const { data } = await axios.get('http://localhost:5000/api/admins/getAllRegistrations')
+    //         const { data } = await axios.get('${URL}api/admins/getAllRegistrations')
     //         console.log(data)
     //         setRegistered(data.filter(filterRegistered))
     //         setNotRegistered(data.filter(filterNotRegistered))
@@ -64,7 +65,7 @@ const AnimalRegistration = () => {
         dispatch(registerAnimal(id))
 
         try {
-            const { data } = await axios.post('http://localhost:5000/api/admins/sendRegisteredMessage', { email, name, animalName })
+            const { data } = await axios.post(`${URL}api/admins/sendRegisteredMessage`, { email, name, animalName })
         } catch (error) {
             console.log(error)
         }
@@ -80,7 +81,7 @@ const AnimalRegistration = () => {
 
     const getNotReg = async () => {
         try {
-            const { data } = await axios.get('http://localhost:5000/api/admins/getNotRegisteredPets')
+            const { data } = await axios.get(`${URL}api/admins/getNotRegisteredPets`)
             setNotReg(data)
         } catch (error) {
             console.log(error)
@@ -89,7 +90,7 @@ const AnimalRegistration = () => {
 
     const getReg = async () => {
         try {
-            const { data } = await axios.get('http://localhost:5000/api/admins/getRegisteredPets')
+            const { data } = await axios.get(`${URL}api/admins/getRegisteredPets`)
             setReg(data)
         } catch (error) {
             console.log(error)
