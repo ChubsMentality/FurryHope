@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node backend/server.js",
-    "dev": "nodemon backend/server.js"
+    "dev": "nodemon backend/server.js",
+    "heroku-postbuild":"NPM_CONFIG_PRODUCTION=false npm install --prefix furryhopeadmin && npm run build --prefix furryhopeadmin"
   },
   "author": "",
   "license": "ISC",

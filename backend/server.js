@@ -1,7 +1,7 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
-
+const path = require('path')
 const connectDB = require('./config/db');
 const adminRoutes = require('./routes/adminRoutes');
 const animalRoutes = require('./routes/animalRoutes');
@@ -27,11 +27,6 @@ app.listen(PORT, () => {
     console.log(`Server on port ${PORT}`)
 });
 
-// API Calls - GET
-app.get('/', (req, res) => {
-    res.send("API IS RUNNING");
-});
-
 // Routes for the Admin
 // Uses the route for adding admins and loggin in
 app.use('/api/admins', adminRoutes);
@@ -41,6 +36,26 @@ app.use('/api/animals', animalRoutes);
 
 // Routes for the users of the mobile app
 app.use('/api/users', userRoutes);
+
+
+// ---------- deployment ----------
+
+__dirname = path.resolve()
+if(process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname, '/furryhopeadmin/build')))
+
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, 'furryhopeadmin', 'build', 'index.html'))
+    })
+} else {
+    // API Calls - GET
+    app.get('/', (req, res) => {
+        res.send("API IS RUNNING");
+    });
+}
+
+// ---------- deployment ----------
+
 
 // For error handling within the server
 app.use(notFound);
