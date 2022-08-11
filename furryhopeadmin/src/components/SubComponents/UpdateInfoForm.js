@@ -73,6 +73,13 @@ const UpdateInfoForm = (props) => {
     const updateHandler = (e) => {
         e.preventDefault();
 
+        let today = moment().format('MM/DD/YYYY')
+
+        if(availUntil < today) {
+            alert('Choose a valid date')
+            return
+        }
+
         setDate(date.substring(0, 10)); 
 
         if(!name || !color || !breed || !description || !gender || !animalType || !selectedImg || !adoptionStatus || !availUntil || !availUntilYear) return;

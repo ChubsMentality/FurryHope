@@ -23,7 +23,9 @@ connectDB();
 
 // Creating the web server - it listens on port 5000
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, console.log(`server on port ${PORT}`));
+app.listen(PORT, () => {
+    console.log(`Server on port ${PORT}`)
+});
 
 // API Calls - GET
 app.get('/', (req, res) => {

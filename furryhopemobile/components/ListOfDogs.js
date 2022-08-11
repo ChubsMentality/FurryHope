@@ -22,7 +22,6 @@ const ListOfDogs = ({ navigation }) => {
     const [contentOffSet, setContentOffset] = useState(0)
     const [toggleView, setToggleView] = useState(true)
     const CONTENT_THRESHOLD = 1500
-    console.log(contentOffSet)
 
     const filterSearch = (arr) => {
         return arr.breed === searchQuery
@@ -50,9 +49,7 @@ const ListOfDogs = ({ navigation }) => {
     }
   
     const submitSearch = () => {
-        console.log(searchQuery)
         setSearchResult(currentList.filter(filterSearch))
-        console.log(searchResult)
         setCurrentList(searchResult)
     }
 
@@ -71,13 +68,11 @@ const ListOfDogs = ({ navigation }) => {
     const sortByNameHandler = () => {
         setSortBy('name')
         setCurrentList(prevState => sortArray(prevState, 0, prevState.length - 1, 'name'))
-        console.log('sorted by name')
     }
 
     const sortByBreedHandler = () => {
         setSortBy('breed')
         setCurrentList(prevState => sortArray(prevState, 0, prevState.length - 1, 'breed'))
-        console.log('sorted by breed')
     }
 
     const sortByColorHandler = () => {
@@ -131,7 +126,6 @@ const ListOfDogs = ({ navigation }) => {
             <ScrollView 
                 style={{ flex: 1, paddingTop: 150 }}
                 onScroll={getScrollPosition}
-                scrollEventThrottle={1500}
                 ref={scrollRef}
             >
                 {sortBtnsActive ?

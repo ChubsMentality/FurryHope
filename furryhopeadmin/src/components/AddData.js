@@ -96,6 +96,13 @@ const AddData = () => {
 
     const submitHandler = (e) => {
         e.preventDefault();
+        let today = moment().format('MM/DD/YYYY')
+
+        if(availUntil < today) {
+            alert('Choose a valid date')
+            return
+        }
+
         if(!name || !breed || !description || !color || !gender || !animalType || !size || !selectedImg || !adoptionStatus || !availUntil || !availUntilYear) return;
         dispatch(createAnimalAction(name, color, breed, description, gender, animalType, size, selectedImg, adoptionStatus, availUntil, availUntilYear));
         alert('Successfully Added to the Database!');

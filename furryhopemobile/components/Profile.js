@@ -109,15 +109,15 @@ const Profile = () => {
                     </View>
                 </View>
 
-                {item.adoptionStatus === 'Pending' &&
+                {item.applicationStatus === 'Pending' &&
                     <Text style={styles.pending}>{item.adoptionStatus}</Text>
                 }
 
-                {item.adoptionStatus === 'Accepted' &&
+                {item.applicationStatus === 'Accepted' &&
                     <Text style={styles.accepted}>{item.adoptionStatus}</Text>
                 }
 
-                {item.adoptionStatus === 'Rejected' &&
+                {item.applicationStatus === 'Rejected' &&
                     <Text style={styles.rejected}>{item.adoptionStatus}</Text>
                 }
             </View>
@@ -434,7 +434,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
     },
 
-    accepted: {
+    rejected: {
         fontSize: 12,
         fontFamily: 'PoppinsMedium',
         backgroundColor: '#ed5e68',
@@ -446,7 +446,7 @@ const styles = StyleSheet.create({
         color: 'white',
     },
 
-    rejected: {
+    accepted: {
         fontSize: 12,
         fontFamily: 'PoppinsMedium',
         backgroundColor: 'green',

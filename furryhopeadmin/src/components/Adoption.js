@@ -9,6 +9,7 @@ import Loading from './SubComponents/Loading'
 import Overlay from './SubComponents/Overlay'
 import '../css/Adoption.css' 
 import axios from 'axios'
+import moment from 'moment'
 
 import { IoArrowBack, IoClose, IoSend } from 'react-icons/io5'
 import { FaCheck } from 'react-icons/fa'
@@ -71,6 +72,12 @@ const Adoption = ({ match, history }) => {
         let time = `${selectedHour}:${selectedMinute} ${selectedTimePeriod}`
         let dateToString = selectedDate.toString()
         let date = dateToString.substring(4,15)
+
+        let today = moment().format('MMM DD YYYY')
+        if(date < today) {
+            alert('Choose a valid date')
+            return
+        }
         
         if(recipientEmail === '' || date === '' || time === '') {
             alert('Please fill out all the necessary fields')
@@ -127,10 +134,15 @@ const Adoption = ({ match, history }) => {
         const dateToString = tempPickupDate.toString()
         let pickupDate = dateToString.substring(4,15) 
 
+        let today = moment().format('MMM DD YYYY')
+        if(pickupDate < today) {
+            alert('Choose a valid date')
+            return
+        }
+
         let pickupTime = `${pickupHour}:${pickupMinute} ${pickupTimePeriod}`
         console.log(pickupTime)
-        dispatch(updateAdoptionApplication(animalId, adoptionId, adoptionStatus, applicationStatus))
-
+        
         try {
             if(!email || !pickupDate || !pickupTime || !animalName || !adopterName) {
                 alert('Please fill out all the necessary fields')
@@ -142,7 +154,8 @@ const Adoption = ({ match, history }) => {
         } catch (error) {
             console.log(error) 
         }  
-
+        
+        dispatch(updateAdoptionApplication(animalId, adoptionId, adoptionStatus, applicationStatus))
         setAcceptedAdoption(!acceptedAdoption)
         setAcceptAdoptionOverlay(!acceptAdoptionOverlay)
     }

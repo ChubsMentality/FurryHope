@@ -38,6 +38,8 @@ const SpecRegistration = ({ history, match }) => {
         setPhotocopyCertOfAntiRabiesComplete(data.photocopyCertOfAntiRabiesComplete)
     }
 
+    const reqMet = regFeeComplete && certOfResidencyComplete && ownerPictureComplete && petPhotoComplete && proofOfAntiRabiesComplete && photocopyCertOfAntiRabiesComplete
+
     useEffect(() => {
         getRegistration()
     }, [match, successUpdate, successReject, successReg])
@@ -201,10 +203,27 @@ const SpecRegistration = ({ history, match }) => {
                             <button className="specReg-saveBtn" onClick={() => dispatch(updateRequirements(data && data._id, regFeeComplete, certOfResidencyComplete, ownerPictureComplete, petPhotoComplete, proofOfAntiRabiesComplete, photocopyCertOfAntiRabiesComplete))}>SAVE</button>
                         </div>
 
-                        <div className="specReg-regActions specRegInfo">
-                            <button className="regInfoAccept regInfoBtn" onClick={() => dispatch(registerAnimal(data && data._id))}>REGISTER</button>
-                            <button className="regInfoDecline regInfoBtn" onClick={() => dispatch(rejectRegistration(data && data._id))}>REJECT</button>
-                        </div>
+                        {data && data.registrationStatus === 'Registered' ?
+                            <div className="specReg-regActions specRegInfo">
+                                <button className="regInfoAccept regInfoBtn" style={{ opacity: .4 }} disabled onClick={() => dispatch(registerAnimal(data && data._id))}>REGISTER</button>
+                                <button className="regInfoDecline regInfoBtn" style={{ opacity: .4 }} disabled onClick={() => dispatch(rejectRegistration(data && data._id))}>REJECT</button>
+                            </div>
+                            : data && data.registrationStatus === 'Not Registered' ?
+                                <div className="specReg-regActions specRegInfo">
+                                    <button className="regInfoAccept regInfoBtn" style={{ opacity: .4 }} disabled onClick={() => dispatch(registerAnimal(data && data._id))}>REGISTER</button>
+                                    <button className="regInfoDecline regInfoBtn" style={{ opacity: .4 }} disabled onClick={() => dispatch(rejectRegistration(data && data._id))}>REJECT</button>
+                                </div>
+                                : reqMet === false ?
+                                    <div className="specReg-regActions specRegInfo">
+                                        <button className="regInfoAccept regInfoBtn" style={{ opacity: .4 }} disabled onClick={() => dispatch(registerAnimal(data && data._id))}>REGISTER</button>
+                                        <button className="regInfoDecline regInfoBtn" style={{ opacity: .4 }} disabled onClick={() => dispatch(rejectRegistration(data && data._id))}>REJECT</button>
+                                    </div>
+                                    :
+                                    <div className="specReg-regActions specRegInfo">
+                                        <button className="regInfoAccept regInfoBtn" onClick={() => dispatch(registerAnimal(data && data._id))}>REGISTER</button>
+                                        <button className="regInfoDecline regInfoBtn" onClick={() => dispatch(rejectRegistration(data && data._id))}>REJECT</button>
+                                    </div>
+                        }
                     </div>
                 </div>
             </div>

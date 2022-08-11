@@ -10,6 +10,7 @@ import axios from 'axios'
 import BottomNav from './SubComponents/BottomNav'
 import addIcon from '../assets/Icons/add-icon-plus.png'
 import TopNav from './SubComponents/TopNav'
+import moment from 'moment'
 
 const Donate = () => {
     const navigation = useNavigation() 
@@ -32,6 +33,7 @@ const Donate = () => {
     const [selectedMonth, setSelectedMonth] = useState('January')
     const [selectedDay, setSelectedDay] = useState('01')
     const [selectedYear, setSelectedYear] = useState('2022')
+    const [tempMonth, setTempMonth] = useState()
 
     // Time
     const [hour, setHour] = useState('1')
@@ -75,34 +77,73 @@ const Donate = () => {
         setItems(items.filter((item) => item.id !== id))
     }
 
+    useEffect(() => {
+        console.log(selectedMonth)
+
+        if(selectedMonth === 'January') {
+            setTempMonth('01')
+        } else if(selectedMonth === 'February') {
+            setTempMonth('02')
+        } else if(selectedMonth === 'March') {
+            setTempMonth('03')
+        } else if(selectedMonth === 'April') {
+            setTempMonth('04')
+        } else if(selectedMonth === 'May') {
+            setTempMonth('05')
+        } else if(selectedMonth === 'June') {
+            setTempMonth('06')
+        } else if(selectedMonth === 'July') {
+            setTempMonth('07')
+        } else if(selectedMonth === 'August') {
+            setTempMonth('08')
+        } else if(selectedMonth === 'September') {
+            setTempMonth('09')
+        } else if(selectedMonth === 'October') {
+            setTempMonth('10')
+        } else if(selectedMonth === 'November') {
+            setTempMonth('11')
+        } else if(selectedMonth === 'December') {
+            setTempMonth('12')
+        }
+    }, [selectedMonth])
+
     const submitHandler = async () => {
         setLoading(true)
+        const dateOfDonation = `${selectedMonth} ${selectedDay}, ${selectedYear}`
+        const time = `${hour}:${minute} ${timePeriod}`
+        const dateCompare = `${selectedYear} ${tempMonth} ${selectedDay}`
+        const today = moment().format('YYYY MM DD')
 
         if(!name || !email || !contactNo || !selectedMonth || !selectedDay || !selectedYear || !hour || !minute || !timePeriod || !items ) {
             alert('Fill out the necessary fields.')
         }
 
         if(selectedMonth === 'February' && selectedDay === '29') {
+            setLoading(false)
             alert('Invalid Date, Choose a valid one')
         } else if(selectedMonth === 'February' && selectedDay === '30') {
+            setLoading(false)
             alert('Invalid Date, Choose a valid one')
         } else if(selectedMonth === 'February' && selectedDay === '31') {
+            setLoading(false)
             alert('Invalid Date, Choose a valid one')
         } else if(selectedMonth === 'April' && selectedDay === '31') {
+            setLoading(false)
             alert('Invalid Date, Choose a valid one')
         } else if(selectedMonth === 'June' && selectedDay === '31') {
+            setLoading(false)
             alert('Invalid Date, Choose a valid one')
         } else if(selectedMonth === 'September' && selectedDay === '31') {
+            setLoading(false)
             alert('Invalid Date, Choose a valid one')
         } else if(selectedMonth === 'November' && selectedDay === '31') {
             alert('Invalid Date, Choose a valid one')
+            setLoading(false)
+        } else if(dateCompare < today) {
+            alert('Choose a valid date.')
+            setLoading(false)
+            return
         } else {
-            let dateOfDonation = `${selectedMonth} ${selectedDay}, ${selectedYear}`
-            let time = `${hour}:${minute} ${timePeriod}`
-
-            console.log(dateOfDonation)
-            console.log(time)
-
             try {
                 const { data } = await axios.post('http://localhost:5000/api/users/submitDonation', 
                 { dateOfDonation, time, name, email, contactNo, items, profilePicture }, config)
@@ -175,15 +216,15 @@ const Donate = () => {
                         style={[styles.picker, styles.middlePicker]}
                         itemStyle={styles.pickerItem}
                     >
-                        <Picker.Item label='1' value='1' />
-                        <Picker.Item label='2' value='2' />
-                        <Picker.Item label='3' value='3' />
-                        <Picker.Item label='4' value='4' />
-                        <Picker.Item label='5' value='5' />
-                        <Picker.Item label='6' value='6' />
-                        <Picker.Item label='7' value='7' />
-                        <Picker.Item label='8' value='8' />
-                        <Picker.Item label='9' value='9' />
+                        <Picker.Item label='01' value='1' />
+                        <Picker.Item label='02' value='2' />
+                        <Picker.Item label='03' value='3' />
+                        <Picker.Item label='04' value='4' />
+                        <Picker.Item label='05' value='5' />
+                        <Picker.Item label='06' value='6' />
+                        <Picker.Item label='07' value='7' />
+                        <Picker.Item label='08' value='8' />
+                        <Picker.Item label='09' value='9' />
                         <Picker.Item label='10' value='10' />
                         <Picker.Item label='11' value='11' />
                         <Picker.Item label='12' value='12' />
