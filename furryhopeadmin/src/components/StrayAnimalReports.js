@@ -118,13 +118,13 @@ const StrayAnimalReports = () => {
             const endOffset = itemOffset + reportsPerPage
             // console.log(`Loading items from ${itemOffset} to ${endOffset}`)
         
-            pendingReports && setCurrentReports(pendingReports.slice(itemOffset, endOffset))
-            pendingReports && setPageCount(Math.ceil(pendingReports.length / reportsPerPage))
+            activeArr && setCurrentReports(activeArr.slice(itemOffset, endOffset))
+            activeArr && setPageCount(Math.ceil(activeArr.length / reportsPerPage))
         }, [itemOffset, reportsPerPage])
 
         // Invoke when user click to request another page.
         const handlePageClick = (event) => {
-            const newOffset = (event.selected * reportsPerPage) % pendingReports.length;
+            const newOffset = (event.selected * reportsPerPage) % activeArr.length;
             // console.log(`User requested page number ${event.selected}, which is offset ${newOffset}`)
             setItemOffset(newOffset);
         }
@@ -171,16 +171,18 @@ const StrayAnimalReports = () => {
         getDismissed()
     }, [dispatch, successDelete, successDismiss, successViewed])
 
-    // useEffect(() => {
-    //     if(active === 'Not Dismissed') {
-    //         setActiveArr(pendingReports)
-    //     } else if(active === 'Dismissed') {
-    //         setActiveArr(dismissedReports && dismissedReports)
-    //         console.log(dismissedReports)
-    //     }
-    // }, [active, successDelete, successDismiss, successViewed])
+    useEffect(() => {
+        if(active === 'Not Dismissed') {
+            setActiveArr(pendingReports)
+            console.log(active)
+        } else if(active === 'Dismissed') {
+            // setActiveArr(dismissedReports)
+            // console.log(dismissedReports)
+           setActiveArr(dismissed)
+            console.log(active)
+        }
+    }, [active, successDelete, successDismiss, successViewed])
 
-    console.log(pendingReports)
 
     return (
         <div className='strayAnimalReport-body'>

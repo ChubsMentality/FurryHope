@@ -273,7 +273,7 @@ const AnimalRegistration = () => {
 
                     <div className="manage-searchContainer">
                         <AiOutlineSearch className='manage-searchIcon' color='#111' />
-                        <input type="text" className="manage-searchTxt" placeholder='Search for a specific breed...' value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
+                        <input type="text" className="manage-searchTxt" placeholder={`Enter name of applicant`} value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
                     </div>
                 </div>
 
