@@ -25,11 +25,15 @@
 }
 
 .manage-header {
-  margin: 0 0 20px 0;
   font-size: 2.1rem;
   font-weight: 700;
   width: fit-content;
   border-bottom: 1px solid #b0b0b0;
+}
+
+.manage-animal-count {
+  margin-top: 10px;
+  font-size: 1.2rem;
 }
 
 .manage-adminInfo {
@@ -273,6 +277,11 @@
     font-size: 1.85rem;
   }
 
+  .manage-animal-count {
+    margin-top: 10px;
+    font-size: 1.1rem;
+  }
+
   .manage-adminName {
     font-size: 1.1rem;
   }
@@ -362,6 +371,11 @@
     font-size: 1.7rem;
   }
 
+  .manage-animal-count {
+    margin-top: 8px;
+    font-size: 1.05rem;
+  }
+
   .manage-adminName {
     font-size: 1rem;
   }
@@ -420,6 +434,11 @@
 
   .manage-header {
     font-size: 1.55rem;
+  }
+
+  .manage-animal-count {
+    margin-top: 17x;
+    font-size: 1rem;
   }
 
   .manage-subHeader {
@@ -483,6 +502,11 @@
 
   .manage-header {
     font-size: 1.3rem;
+  }
+
+  .manage-animal-count {
+    margin-top: 6px;
+    font-size: .9rem;
   }
 
   .manage-adminName {
@@ -588,6 +612,11 @@
     font-size: 1.4rem;
   }
 
+  .manage-animal-count {
+    margin-top: 7px;
+    font-size: .85rem;
+  }
+
   .manage-adminName {
     font-size: .9rem;
   }
@@ -677,21 +706,35 @@
     font-size: .9rem;
   }
 
+  .manage-searchContainer {
+    padding: 5px;
+  }
+
+  .manage-searchIcon {
+    height: 14px;
+    width: 14px;
+  }
+
+  .manage-searchTxt {
+    font-size: .6rem;
+  }
+
   .manage-filter-animals {
     margin-right: 15px;
   }
 
   .manage-filter-txt {
-    font-size: .75rem;
+    font-size: .7rem;
   }
 
   .manage-select {
-    font-size: .7rem;
+    font-size: .6rem;
   }
 
   .manage-add-animal {
-    font-size: .7rem;
+    font-size: .6rem;
     margin: 0;
+    padding: 5px 8px;
   }
 
   .manage-table-label {

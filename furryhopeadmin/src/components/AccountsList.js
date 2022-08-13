@@ -330,7 +330,7 @@ const AccountsList = () => {
                     <div className="accounts-container-heading">
                         {activeAccounts ? (
                             <div className='accounts-subHeader'>
-                                <p className='accounts-admins-header'>Admin Accounts</p>
+                                <p className='accounts-admins-header'>Admin Accounts <span>({adminAccounts && adminAccounts.length})</span></p>
 
                                 <div className='switch-container'>
                                     <div className="accounts-addAdmin-link">
@@ -371,7 +371,7 @@ const AccountsList = () => {
                             </div>
                         ) : (
                             <div className='accounts-subHeader'>
-                                <p className='accounts-users-header'>User Accounts</p>
+                                <p className='accounts-users-header'>User Accounts <span>({userAccounts && userAccounts.length})</span></p>
 
                                 <div className='switch-container'>
                                     {/* <div className="manage-filter-animals">

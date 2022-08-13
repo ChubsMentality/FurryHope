@@ -256,7 +256,7 @@
     }
 
     .accounts-subHeader {
-        padding: 25px 40px 0 40px;
+        padding: 20px 40px 5px 40px;
     }
 
     .accounts-admins-header, .accounts-users-header {
@@ -282,7 +282,6 @@
     }
 
     .accounts-table-label {
-        /* background-color: aqua; */
         height: 15px;
         margin: 20px 0 0 0;
     }
@@ -721,6 +720,14 @@
 
    .accounts-container {
 
+   }
+
+   .accounts-subHeader {
+    padding: 5px 40px 5px 40px;
+   }
+
+   .accounts-table-label {
+    height: 10px;
    }
 
    .accounsts-admins-header, .accounts-users-header {

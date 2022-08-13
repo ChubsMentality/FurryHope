@@ -220,7 +220,10 @@ const ManageData = () => {
             <Sidebar />
             <div className='manage-content'>
                 <div className="manage-header-container">
-                    <p className='manage-header'>LIST OF ANIMALS</p>
+                    <div>
+                        <p className='manage-header'>LIST OF ANIMALS</p>
+                        <p className="manage-animal-count">Animals (<span>{filteredAnimals && filteredAnimals.length}</span>)</p>
+                    </div>
 
                     <div className="manage-adminInfo">
                         <div className="manage-adminInfo-left">
