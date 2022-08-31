@@ -13,6 +13,7 @@ import Adoptions from './Adoptions'
 import Adoption from './Adoption'
 import StrayAnimalReports from './StrayAnimalReports'
 import Donations from './Donations'
+import SpecDonation from './SpecDonation'
 import Error from '../components/Error404'
 import UserFeedback from './UserFeedback'
 import SpecRegistration from './SpecRegistration'
@@ -45,6 +46,7 @@ const App = () => {
                     <Route path="/update/:id" component={UpdateData} />
                     <Route path="/reports" component={StrayAnimalReports} />
                     <Route path="/donations" component={Donations} />
+                    <Route path='/donation/:id' component={SpecDonation} />
                     <Route path='/feedbacks' component={UserFeedback} />
                     <Route path="*" component={Error} />
                 </Switch>  

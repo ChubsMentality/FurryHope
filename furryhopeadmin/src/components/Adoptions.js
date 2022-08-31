@@ -120,9 +120,17 @@ const Adoptions = () => {
                             <Link style={{ textDecoration: 'none' }} to={`adoption/${adoption._id}`}>
                                 <p className='adoptionViewBtn'>View Details</p>
                             </Link>
-                            <button className='adoptionsDeleteBtn' onClick={() => deleteHandler(adoption._id)}>
-                                <MdDelete className='adoptionsDeleteBtnTxt' color='red' />
-                            </button>
+
+                            {adminInfo && adminInfo.role === 'Admin' ?
+                                <button className='adoptionsDeleteBtn' onClick={() => deleteHandler(adoption._id)}>
+                                    <MdDelete className='adoptionsDeleteBtnTxt' color='red' />
+                                </button>
+                                :
+                                <button className='adoptionsDeleteBtn' onClick={() => alert(`You're not allowed / authorized to perform this action.`)}>
+                                    <MdDelete className='adoptionsDeleteBtnTxt' color='#808080' />
+                                </button>
+
+                            }
                         </div>
                     </div> 
                 ))}

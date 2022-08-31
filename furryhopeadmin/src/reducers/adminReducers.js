@@ -99,6 +99,18 @@ import {
     REJECT_REGISTRATION_REQUEST,
     REJECT_REGISTRATION_SUCCESS,
     REJECT_REGISTRATION_FAIL,
+    DISABLE_ADMIN_REQUEST,
+    DISABLE_ADMIN_SUCCESS,
+    DISABLE_ADMIN_FAIL,
+    ENABLE_ADMIN_REQUEST,
+    ENABLE_ADMIN_SUCCESS,
+    ENABLE_ADMIN_FAIL,
+    UPDATE_ADMIN_REQUEST,
+    UPDATE_ADMIN_SUCCESS,
+    UPDATE_ADMIN_FAIL,
+    ANIMAL_CAPTURED_REQUEST,
+    ANIMAL_CAPTURED_SUCCESS,
+    ANIMAL_CAPTURED_FAIL
 } from '../constants/adminConstants'
 
 export const adminLoginReducer = (state={}, action) => {
@@ -125,6 +137,45 @@ export const addAdminReducer = (state = {}, action) => {
         case ADD_ADMIN_FAIL:
             return {loading: false, error: action.payload}
         default: 
+            return state
+    }
+}
+
+export const disableAdminReducer = (state = {}, action) => {
+    switch(action.type) {
+        case DISABLE_ADMIN_REQUEST:
+            return { loading: true }
+        case DISABLE_ADMIN_SUCCESS:
+            return { loading: false, success: true }
+        case DISABLE_ADMIN_FAIL:
+            return { loading: false, success: false, error: action.payload }
+        default:
+            return state
+    }
+}
+
+export const enableAdminReducer = (state = {}, action) => {
+    switch(action.type) {
+        case ENABLE_ADMIN_REQUEST:
+            return { loading: true }
+        case ENABLE_ADMIN_SUCCESS:
+            return { loading: false, success: true }
+        case ENABLE_ADMIN_FAIL:
+            return { loading: false, success: false, error: action.payload }
+        default:
+            return state
+    }
+}
+
+export const updateAdminReducer = (state = {}, action) => {
+    switch(action.type) {
+        case UPDATE_ADMIN_REQUEST:
+            return { loading: true }
+        case UPDATE_ADMIN_SUCCESS:
+            return { loading: false, success: true }
+        case UPDATE_ADMIN_FAIL:
+            return { loading: false, success: false, error: action.payload }
+        default:
             return state
     }
 }
@@ -544,6 +595,19 @@ export const rejectRegistrationReducer = (state = {}, action) => {
         case REJECT_REGISTRATION_FAIL:
             return { loading: false, success: false, error: action.payload }
         default: 
+            return state
+    }
+}
+
+export const animalCapturedReducer = (state = {}, action) => {
+    switch(action.type) {
+        case ANIMAL_CAPTURED_REQUEST:
+            return { loading: true }
+        case ANIMAL_CAPTURED_SUCCESS:
+            return { loading: false, success: true }
+        case ANIMAL_CAPTURED_FAIL: 
+            return { loading: false, success: false, error: action.payload }
+        default:
             return state
     }
 }

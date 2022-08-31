@@ -75,9 +75,11 @@ const AddAdmin = ({ history }) => {
             alert('Your password should also contain special characters')
         } else if(password !== confirmPassword) {
             alert('Passwords does not match');
+        } else if(contactNo.length > 11) {
+            alert('Enter a valid contact number')
         } else {
             dispatch(addAnAdmin(fullName, email, contactNo, address, password, jobPosition, role, profilePicture))
-            alert('Successfully created an admin account.')
+            alert('Successfully created an account')
             
             setFullName('')
             setEmail('')

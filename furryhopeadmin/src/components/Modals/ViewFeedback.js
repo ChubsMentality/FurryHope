@@ -9,6 +9,10 @@ import '../../css/ViewFeedback.css'
 const ViewFeedback = (props) => {
     const dispatch = useDispatch()
 
+    const feedbackHasBeenReadHandler = () => {
+        dispatch(feedbackHasBeenRead(props.id, props.profilePicture, props.message, props.email))
+    }
+
     return (
         <div className="feedback-modal">
             <IoClose className='close-feedbackModal' color='#111' onClick={() => props.closeFeedback()} />
@@ -98,7 +102,7 @@ const ViewFeedback = (props) => {
                             type="checkbox" 
                             className='feedbackModal-checkbox' 
                             value={props.viewed} 
-                            onClick={() => dispatch(feedbackHasBeenRead(props.id))} 
+                            onClick={() => feedbackHasBeenReadHandler()} 
                         />
                         <p className="hasBeenRead-label">Viewed</p>
                     </>

@@ -71,7 +71,7 @@ const AddData = () => {
     const [currentCount, setCurrentCount] = useState(Number)
     useEffect(() => {
         const getCurrentCount = async () => {
-            const { data } = await axios.get(`${URL}api/animals/totalCount`)
+            const { data } = await axios.get(`http://localhost:5000/api/animals/totalCount`)
             console.log(data.currentCount)
             setCurrentCount(data.currentCount + 1)
             console.log('Count to be passed: ', currentCount)
@@ -88,7 +88,7 @@ const AddData = () => {
 
     const updateTotalCount = () => {
         console.log(`Count to be passed: ${currentCount}`)
-        axios.put(`${URL}api/animals/updateCount`, { currentCount })
+        axios.put(`http://localhost:5000/api/animals/updateCount`, { currentCount })
             .then((response) => {
                 console.log(response)
             })

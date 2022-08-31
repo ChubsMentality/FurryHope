@@ -50,7 +50,7 @@ const AnimalRegistration = () => {
     // const getAnimalHandler = async () => {
     //     try {
     //         setLoading(true)
-    //         const { data } = await axios.get('${URL}api/admins/getAllRegistrations')
+    //         const { data } = await axios.get('http://localhost:5000/api/admins/getAllRegistrations')
     //         console.log(data)
     //         setRegistered(data.filter(filterRegistered))
     //         setNotRegistered(data.filter(filterNotRegistered))
@@ -65,7 +65,7 @@ const AnimalRegistration = () => {
         dispatch(registerAnimal(id))
 
         try {
-            const { data } = await axios.post(`${URL}api/admins/sendRegisteredMessage`, { email, name, animalName })
+            const { data } = await axios.post(`http://localhost:5000/api/admins/sendRegisteredMessage`, { email, name, animalName })
         } catch (error) {
             console.log(error)
         }
@@ -81,7 +81,7 @@ const AnimalRegistration = () => {
 
     const getNotReg = async () => {
         try {
-            const { data } = await axios.get(`${URL}api/admins/getNotRegisteredPets`)
+            const { data } = await axios.get(`http://localhost:5000/api/admins/getNotRegisteredPets`)
             setNotReg(data)
         } catch (error) {
             console.log(error)
@@ -90,7 +90,7 @@ const AnimalRegistration = () => {
 
     const getReg = async () => {
         try {
-            const { data } = await axios.get(`${URL}api/admins/getRegisteredPets`)
+            const { data } = await axios.get(`http://localhost:5000/api/admins/getRegisteredPets`)
             setReg(data)
         } catch (error) {
             console.log(error)
@@ -143,7 +143,11 @@ const AnimalRegistration = () => {
                                 </button>
                             </Link>
 
-                            <MdDelete className='specReg-deleteReg' color='#ed5e68' onClick={() => deleteHandler(registration._id)} />
+                            {adminInfo && adminInfo.role === 'Admin' ?
+                                <MdDelete className='specReg-deleteReg' color='#ed5e68' onClick={() => deleteHandler(registration._id)} />
+                                :
+                                <MdDelete className='specReg-deleteReg' color='#808080' onClick={() => alert(`You're not allowed / authorized to perform this action.`)} />
+                            }
                         </div>
                     </div>
                 ))}

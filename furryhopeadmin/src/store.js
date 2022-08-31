@@ -33,6 +33,10 @@ import {
     deleteRegistrationReducer,
     updateReqReducer,
     rejectRegistrationReducer,
+    disableAdminReducer,
+    enableAdminReducer,
+    updateAdminReducer,
+    animalCapturedReducer,
 } from './reducers/adminReducers'
 import { animalCreateReducer, animalDataReducer, animalDeleteReducer, animalUpdateReducer } from './reducers/animalReducer'
 
@@ -74,6 +78,9 @@ const reducer = combineReducers({
     deleteRegistrationState: deleteRegistrationReducer,
     updateReqState: updateReqReducer,
     rejectRegistrationState: rejectRegistrationReducer,
+    disableAdminState: disableAdminReducer,
+    enableAdminState: enableAdminReducer,
+    updateAdminState: updateAdminReducer,
 })
 
 // Gets the admin info from the local storage

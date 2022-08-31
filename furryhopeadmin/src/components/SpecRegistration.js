@@ -16,6 +16,8 @@ const SpecRegistration = ({ history, match }) => {
     const [petPhotoComplete, setPetPhotoComplete] = useState()
     const [proofOfAntiRabiesComplete, setProofOfAntiRabiesComplete] = useState()
     const [photocopyCertOfAntiRabiesComplete, setPhotocopyCertOfAntiRabiesComplete] = useState()
+    const [adoptionStatus, setAdoptionStatus] = useState()
+    const [adoptionReference, setAdoptionReference] = useState()
     const URL = 'https://furryhopebackend.herokuapp.com/'
 
     const registerState = useSelector(state => state.animalRegister)
@@ -28,21 +30,36 @@ const SpecRegistration = ({ history, match }) => {
     const { success:successReject } = rejectState
 
     const getRegistration = async () => {
-        const { data } = await axios.get(`${URL}api/admins/getRegistration/${match.params.id}`)
+        const { data } = await axios.get(`http://localhost:5000/api/admins/getRegistration/${match.params.id}`)
         setData(data)
-        console.log(data)
+        console.log(data.adoptionReference)
+        setAdoptionReference(data.adoptionReference)
         setRegFeeComplete(data.regFeeComplete)
         setCertOfResidencyComplete(data.certOfResidencyComplete)
         setOwnerPictureComplete(data.ownerPictureComplete)
         setPetPhotoComplete(data.petPhotoComplete)
         setProofOfAntiRabiesComplete(data.proofOfAntiRabiesComplete)
         setPhotocopyCertOfAntiRabiesComplete(data.photocopyCertOfAntiRabiesComplete)
+
+        // const { data:adoptionRefData } = await axios.get(`http://localhost:5000/api/admins/getAdoptionByReference`, { adoptionReference })
+        // setAdoptionStatus(adoptionRefData.adoptionStatus)
+        // console.log(adoptionRefData)
     }
+
+    const getAdoption = async () => {
+        const { data } = await axios.get(`http://localhost:5000/api/admins/getAdoptionByReference`, { adoptionReference })
+        setAdoptionStatus(data.adoptionStatus)
+        console.log(data)
+    }
+
 
     const reqMet = regFeeComplete && certOfResidencyComplete && ownerPictureComplete && petPhotoComplete && proofOfAntiRabiesComplete && photocopyCertOfAntiRabiesComplete
 
+    adoptionStatus && console.log(adoptionStatus)
+
     useEffect(() => {
         getRegistration()
+        getAdoption()
     }, [match, successUpdate, successReject, successReg])
 
     return (

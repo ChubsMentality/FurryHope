@@ -96,8 +96,23 @@ import {
     REJECT_REGISTRATION_REQUEST,
     REJECT_REGISTRATION_SUCCESS,
     REJECT_REGISTRATION_FAIL,
+    DISABLE_ADMIN_REQUEST,
+    DISABLE_ADMIN_SUCCESS,
+    DISABLE_ADMIN_FAIL,
+    ENABLE_ADMIN_REQUEST,
+    ENABLE_ADMIN_SUCCESS,
+    ENABLE_ADMIN_FAIL,
+    UPDATE_ADMIN_REQUEST,
+    UPDATE_ADMIN_SUCCESS,
+    UPDATE_ADMIN_FAIL,
+    ANIMAL_CAPTURED_REQUEST,
+    ANIMAL_CAPTURED_SUCCESS,
+    ANIMAL_CAPTURED_FAIL,
 } from '../constants/adminConstants'
 import axios from 'axios'
+
+const env = true
+
 const URL = 'https://furryhopebackend.herokuapp.com/'
 // start
 
@@ -107,7 +122,7 @@ export const viewedReport = (id) => async (dispatch) => {
             type: REPORT_VIEWED_REQUEST
         })
 
-        const { data } = await axios.put(`${URL}api/admins/reportBeenRead/${id}`)
+        const { data } = await axios.put(`http://localhost:5000/api/admins/reportBeenRead/${id}`)
 
         dispatch({
             type: REPORT_VIEWED_SUCCESS
@@ -138,7 +153,7 @@ export const login = (email, password) => async (dispatch) => {
         }
 
         // POST - Authenticating the user (the file is in the backend (controllers))
-        const { data } = await axios.post(`${URL}api/admins/loginAdmin`, // Route authenticating an admin
+        const { data } = await axios.post(`http://localhost:5000/api/admins/loginAdmin`, // Route authenticating an admin
             {
                 email,
                 password,
@@ -180,7 +195,7 @@ export const addAnAdmin = (fullName, email, contactNo, address, password, jobPos
         };
 
         // Adding an admin account to the database
-        const { data } = await axios.post(`${URL}api/admins`, // Route for adding an admin account
+        const { data } = await axios.post(`http://localhost:5000/api/admins`, // Route for adding an admin account
             {
                 fullName,
                 email,
@@ -211,7 +226,7 @@ export const getAnimalRegistrations = () => async (dispatch) => {
             type: GET_ANIMAL_REGISTRATIONS_REQUEST
         })
 
-        const { data } = await axios.get(`${URL}api/admins/getAllRegistrations`)
+        const { data } = await axios.get(`http://localhost:5000/api/admins/getAllRegistrations`)
 
         dispatch({
             type: GET_ANIMAL_REGISTRATIONS_SUCCESS,
@@ -239,7 +254,7 @@ export const getAdoptionApplications = () => async (dispatch) => {
             type: GET_ADOPTIONS_REQUEST
         })
 
-        const { data } = await axios.get(`${URL}api/admins/adoptions`)
+        const { data } = await axios.get(`http://localhost:5000/api/admins/adoptions`)
         
         dispatch({
             type: GET_ADOPTIONS_SUCCESS,
@@ -264,7 +279,7 @@ export const getSpecificAdoption = (id) => async (dispatch) => {
             type: GET_SPECIFIC_ADOPTION_REQUEST
         })
 
-        const { data } = await axios.get(`${URL}api/admins/adoptions/${id}`)
+        const { data } = await axios.get(`http://localhost:5000/api/admins/adoptions/${id}`)
 
         dispatch({
             type: GET_SPECIFIC_ADOPTION_SUCCESS,
@@ -288,7 +303,7 @@ export const deleteAdoptionApplication = (id) => async (dispatch) => {
             type: DELETE_ADOPTION_REQUEST
         })
 
-        const { data } = await axios.delete(`${URL}api/admins/adoptions/${id}`)
+        const { data } = await axios.delete(`http://localhost:5000/api/admins/adoptions/${id}`)
         
         dispatch({
             type: DELETE_ADOPTION_SUCCESS,
@@ -314,10 +329,10 @@ export const updateAdoptionApplication = (animalId, adoptionId, adoptionStatus, 
         })
         
         // Updating the adoption status
-        const { data: updateAdoptionData } = await axios.put(`${URL}api/admins/updateAdoptionStatus/${animalId}`, { adoptionStatus })
+        const { data: updateAdoptionData } = await axios.put(`http://localhost:5000/api/admins/updateAdoptionStatus/${animalId}`, { adoptionStatus })
         
         // Updating the application status
-        const { data } = await axios.put(`${URL}api/admins/updateApplication/${adoptionId}`, { adoptionStatus, applicationStatus })
+        const { data } = await axios.put(`http://localhost:5000/api/admins/updateApplication/${adoptionId}`, { adoptionStatus, applicationStatus })
         
         dispatch({
             type: UPDATE_ADOPTION_APPLICATION_SUCCESS,
@@ -342,7 +357,7 @@ export const deleteAdminAccount = (id) => async (dispatch) => {
             type: DELETE_ADMIN_ACCOUNT_REQUEST,
         })
         
-        const { data } = await axios.delete(`${URL}api/admins/deleteAdmin/${id}`)
+        const { data } = await axios.delete(`http://localhost:5000/api/admins/deleteAdmin/${id}`)
         
         dispatch({
             type: DELETE_ADMIN_ACCOUNT_SUCCESS,
@@ -367,7 +382,7 @@ export const deleteUserAccount = (id) => async (dispatch) => {
             type: DELETE_USER_ACCOUNT_REQUEST,
         })
         
-        const { data } = await axios.delete(`${URL}api/admins/deleteUser/${id}`)
+        const { data } = await axios.delete(`http://localhost:5000/api/admins/deleteUser/${id}`)
         
         dispatch({
             type: DELETE_USER_ACCOUNT_SUCCESS,
@@ -392,7 +407,7 @@ export const getStrayAnimalReports = () => async (dispatch) => {
             type: GET_STRAY_REPORTS_REQUEST
         })
         
-        const { data } = await axios.get(`${URL}api/admins/getReports`)
+        const { data } = await axios.get(`http://localhost:5000/api/admins/getReports`)
         
         dispatch({
             type: GET_STRAY_REPORTS_SUCCESS,
@@ -417,7 +432,7 @@ export const getDismissedReports = () => async (dispatch) => {
             type: GET_DISMISSED_REPORTS_REQUEST
         })
         
-        const { data } = await axios.get(`${URL}api/admins/dismissedReports`)
+        const { data } = await axios.get(`http://localhost:5000/api/admins/dismissedReports`)
         
         dispatch({
             type: GET_DISMISSED_REPORTS_SUCCESS,
@@ -442,7 +457,7 @@ export const deleteReport = (id) => async (dispatch) => {
             type: DELETE_REPORT_REQUEST
         })
         
-        const { data } = await axios.delete(`${URL}api/admins/deleteReport/${id}`)
+        const { data } = await axios.delete(`http://localhost:5000/api/admins/deleteReport/${id}`)
         
         dispatch({
             type: DELETE_REPORT_SUCCESS
@@ -467,7 +482,7 @@ export const dismissReport = (id) => async (dispatch) => {
         })
         
         const status = 'Dismissed'
-        const { data } = await axios.put(`${URL}api/admins/dismissReport/${id}`, {status})
+        const { data } = await axios.put(`http://localhost:5000/api/admins/dismissReport/${id}`, {status})
         
         dispatch({
             type: DISMISS_STRAY_REPORT_SUCCESS,
@@ -492,7 +507,7 @@ export const getInterviewSchedule = (id) => async (dispatch) => {
             type: GET_INTERVIEW_SCHED_REQUEST
         })
 
-        const { data } = await axios.get(`${URL}api/admins/getInterviewSched/${id}`)
+        const { data } = await axios.get(`http://localhost:5000/api/admins/getInterviewSched/${id}`)
 
         dispatch({
             type: GET_INTERVIEW_SCHED_SUCCESS,
@@ -517,7 +532,7 @@ export const submitInterviewSchedule = (id, recipientEmail, message, date, time)
             type: SEND_INTERVIEW_MESSAGE_REQUEST
         })
         
-        const { data } = await axios.post(`${URL}api/admins/createInterviewSched/${id}`, { recipientEmail, message, date, time })
+        const { data } = await axios.post(`http://localhost:5000/api/admins/createInterviewSched/${id}`, { recipientEmail, message, date, time })
         
         dispatch({
             type: SEND_INTERVIEW_MESSAGE_SUCCESS,
@@ -542,7 +557,7 @@ export const getDonations = () => async (dispatch) => {
             type: GET_DONATIONS_REQUEST,
         })
         
-        const { data } = await axios.get(`${URL}api/admins/getDonations`) 
+        const { data } = await axios.get(`http://localhost:5000/api/admins/getDonations`) 
         
         dispatch({
             type: GET_DONATIONS_SUCCESS,
@@ -567,7 +582,7 @@ export const getDonations = () => async (dispatch) => {
             type: DELETE_DONATION_REQUEST
         })
         
-        const { data } = await axios.delete(`${URL}api/admins/deleteDonation/${id}`)
+        const { data } = await axios.delete(`http://localhost:5000/api/admins/deleteDonation/${id}`)
         
         dispatch({
             type: DELETE_DONATION_SUCCESS
@@ -591,7 +606,7 @@ export const updateBeenInterviewed = (id) => async (dispatch) => {
             type: HAS_BEEN_INTERVIEWED_REQUEST
         })
         
-        const { data } = await axios.put(`${URL}api/admins/hasBeenInterviewed/${id}`)
+        const { data } = await axios.put(`http://localhost:5000/api/admins/hasBeenInterviewed/${id}`)
         
         dispatch({
             type: HAS_BEEN_INTERVIEWED_SUCCESS,
@@ -609,13 +624,13 @@ export const updateBeenInterviewed = (id) => async (dispatch) => {
         }
     }
     
-export const receivedDonation = (id) => async (dispatch) => {
+export const receivedDonation = (id, proofOfDonation) => async (dispatch) => {
     try {
         dispatch({
             type: RECEIVED_DONATION_REQUEST
         })
         
-        const { data } = await axios.put(`${URL}api/admins/updateReceivedDonation/${id}`)
+        const { data } = await axios.put(`http://localhost:5000/api/admins/updateReceivedDonation/${id}`, { proofOfDonation })
         
         dispatch({
             type: RECEIVED_DONATION_SUCCESS
@@ -633,13 +648,13 @@ export const receivedDonation = (id) => async (dispatch) => {
     }
 }
 
-export const addToInventory = (dataItems, donatedBy, donatedByPicture,dateOfDonation) => async (dispatch) => {
+export const addToInventory = (dataItems, donatedBy, email, contactNo, donatedByPicture, dateOfDonation, proofOfDonation, received, donationId) => async (dispatch) => {
     try {
         dispatch({
             type: ADD_TO_INVENTORY_REQUEST
         })
         
-        const { data } = await axios.post(`${URL}api/admins/addToDonationInventory`, { dataItems, donatedBy, donatedByPicture, dateOfDonation })
+        const { data } = await axios.post(`http://localhost:5000/api/admins/addToDonationInventory`, { dataItems, donatedBy, email, contactNo, donatedByPicture, dateOfDonation, proofOfDonation, received, donationId })
         
         dispatch({
             type: ADD_TO_INVENTORY_SUCCESS,
@@ -664,7 +679,7 @@ export const getDonationInventory = () => async (dispatch) => {
             type: GET_INVENTORY_REQUEST
         })
         
-        const { data } = await axios.get(`${URL}api/admins/getDonationInventory`)
+        const { data } = await axios.get(`http://localhost:5000/api/admins/getDonationInventory`)
         
         dispatch({
             type: GET_INVENTORY_SUCCESS,
@@ -689,7 +704,7 @@ export const getFeedbacks = () => async (dispatch) => {
             type: GET_FEEDBACKS_REQUEST
         })
 
-        const { data } = await axios.get(`${URL}api/admins/getFeedbacks`)
+        const { data } = await axios.get(`http://localhost:5000/api/admins/getFeedbacks`)
         
         dispatch({
             type: GET_FEEDBACKS_SUCCESS,
@@ -714,7 +729,7 @@ export const getFeedbacks = () => async (dispatch) => {
             type: DELETE_FEEDBACK_REQUEST,
         })
         
-        const { data } = await axios.delete(`${URL}api/admins/getFeedback/${id}`)
+        const { data } = await axios.delete(`http://localhost:5000/api/admins/getFeedback/${id}`)
         
         dispatch({
             type: DELETE_FEEDBACK_SUCCESS
@@ -732,13 +747,13 @@ export const getFeedbacks = () => async (dispatch) => {
     }
 }
 
-export const feedbackHasBeenRead = (id) => async (dispatch) => {
+export const feedbackHasBeenRead = (id, profilePicture, message, email) => async (dispatch) => {
     try {
         dispatch({
             type: FEEDBACK_VIEWED_REQUEST
         })
         
-        const { data } = await axios.put(`${URL}api/admins/feedBackRead/${id}`)
+        const { data } = await axios.put(`http://localhost:5000/api/admins/feedBackRead/${id}`, { profilePicture, message, email })
         
         dispatch({
             type: FEEDBACK_VIEWED_SUCCESS
@@ -762,7 +777,7 @@ export const getPendingRegistrations = () => async (dispatch) => {
             type: GET_PENDING_PETS_REQUEST,
         })
 
-        const { data } = await axios.get(`${URL}api/admins/pendingRegistrations`)
+        const { data } = await axios.get(`http://localhost:5000/api/admins/pendingRegistrations`)
         
         dispatch({
             type: GET_PENDING_PETS_SUCCESS,
@@ -787,7 +802,7 @@ export const getRegisteredPets = () => async (dispatch) => {
             type: GET_REGISTERED_PETS_REQUEST,
         })
         
-        const { data } = await axios.get(`${URL}api/admins/getRegisteredPets`)
+        const { data } = await axios.get(`http://localhost:5000/api/admins/getRegisteredPets`)
         
         dispatch({
             type: GET_REGISTERED_PETS_SUCCESS,
@@ -812,7 +827,7 @@ export const getNotRegisteredPets = () => async (dispatch) => {
             type: GET_NOTREGISTERED_PETS_REQUEST,
         })
         
-        const { data } = await axios.get(`${URL}api/admins/getNotRegisteredPets`)
+        const { data } = await axios.get(`http://localhost:5000/api/admins/getNotRegisteredPets`)
         
         dispatch({
             type: GET_NOTREGISTERED_PETS_SUCCESS,
@@ -837,7 +852,7 @@ export const deleteRegistration = (id) => async (dispatch) => {
             type: DELETE_REGISTRATION_REQUEST
         })
         
-        const { data } = await axios.delete(`${URL}api/admins/deleteRegistration/${id}`)
+        const { data } = await axios.delete(`http://localhost:5000/api/admins/deleteRegistration/${id}`)
 
         dispatch({
             type: DELETE_REGISTRATION_SUCCESS
@@ -861,7 +876,7 @@ export const updateRequirements = (id, regFeeComplete, certOfResidencyComplete, 
             type: SAVE_REQUIREMENTS_REQUEST,
         })
         
-        const { data } = await axios.put(`${URL}api/admins/updateRequirements/${id}`, { regFeeComplete, certOfResidencyComplete, ownerPictureComplete, petPhotoComplete, proofOfAntiRabiesComplete, photocopyCertOfAntiRabiesComplete })
+        const { data } = await axios.put(`http://localhost:5000/api/admins/updateRequirements/${id}`, { regFeeComplete, certOfResidencyComplete, ownerPictureComplete, petPhotoComplete, proofOfAntiRabiesComplete, photocopyCertOfAntiRabiesComplete })
         
         dispatch({
             type: SAVE_REQUIREMENTS_SUCCESS,
@@ -886,7 +901,7 @@ export const rejectRegistration = (id) => async (dispatch) => {
             type: REJECT_REGISTRATION_REQUEST
         })
 
-        const { data } = await axios.put(`${URL}api/admins/rejectRegistration/${id}`)
+        const { data } = await axios.put(`http://localhost:5000/api/admins/rejectRegistration/${id}`)
         
         dispatch({
             type: REJECT_REGISTRATION_SUCCESS
@@ -910,7 +925,7 @@ export const registerAnimal = (id) => async (dispatch) => {
             type: REGISTER_ANIMAL_REQUEST,
         })
 
-        const { data } = await axios.put(`${URL}api/admins/registerAnimal/${id}`)
+        const { data } = await axios.put(`http://localhost:5000/api/admins/registerAnimal/${id}`)
 
         dispatch({
             type: REGISTER_ANIMAL_SUCCESS,
@@ -927,3 +942,83 @@ export const registerAnimal = (id) => async (dispatch) => {
         })
     }
 } 
+
+export const disableAdmin = (id) => async (dispatch) => {
+    try {
+        dispatch({
+            type: DISABLE_ADMIN_REQUEST,
+        })
+
+        const { data } = await axios.put(`http://localhost:5000/api/admins/disableAdmin/${id}`)
+
+        dispatch({
+            type: DISABLE_ADMIN_SUCCESS
+        })
+    } catch (error) {
+        const message = 
+            error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message
+        
+        dispatch({
+            type: DISABLE_ADMIN_FAIL,
+            payload: message
+        })
+    }
+}
+
+export const enableAdmin = (id) => async (dispatch) => {
+    try {
+        dispatch({
+            type: ENABLE_ADMIN_REQUEST,
+        })
+
+        const { data } = await axios.put(`http://localhost:5000/api/admins/enableAdmin/${id}`)
+
+        dispatch({
+            type: ENABLE_ADMIN_SUCCESS
+        })
+    } catch (error) {
+        const message = 
+            error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message
+        
+        dispatch({
+            type: ENABLE_ADMIN_FAIL,
+            payload: message
+        })
+    }
+}
+
+export const updateAdmin = (id, fullName, email, contactNo, address, jobPosition, role, profilePicture) => async(dispatch) => {
+    try {
+        dispatch({
+            type: UPDATE_ADMIN_REQUEST
+        })
+
+        const { data } = await axios.put(`http://localhost:5000/api/admins/updateAdmin/${id}`, { fullName, email, contactNo, address, jobPosition, role, profilePicture })
+
+        dispatch({
+            type: UPDATE_ADMIN_SUCCESS,
+        })
+    } catch (error) {
+        const message = 
+            error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message
+        
+        dispatch({
+            type: UPDATE_ADMIN_FAIL,
+            payload: message
+        })
+    }
+}
+
+const animalCaptured = () => async (dispatch) => {
+    try {
+        
+    } catch (error) {
+        
+    }
+}

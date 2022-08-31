@@ -98,18 +98,6 @@ const ManageData = () => {
 
     }, [currentStatus, sortBy, successCreate, successUpdate, successDelete ])
 
-    // useEffect(() => {
-    //     if(sortBy === 'name') {
-    //         setFilteredAnimals(prevState => sortArray(prevState, 0, prevState.length - 1, 'name'))
-    //     } else if(sortBy === 'breed') {
-    //         setFilteredAnimals(prevState => sortArray(prevState, 0, prevState.length - 1, 'breed'))
-    //     } else if(sortBy === 'color') {
-    //         setFilteredAnimals(prevState => sortArray(prevState, 0, prevState.length - 1, 'color'))
-    //     } else if(sortBy === 'size') {
-    //         setFilteredAnimals(prevState => sortArray(prevState, 0, prevState.length - 1, 'size'))
-    //     }
-    // }, [sortBy, successCreate, successUpdate, successDelete ])
-
     const DataContainer = ({ currentAnimals }) => {
         return (
             <>
@@ -142,15 +130,35 @@ const ManageData = () => {
                             </div>
 
                             <div className="specAnimal-actions specAnimal-column">
-                                <Link to={`update/${animal._id}`}>
-                                    <button className="specAnimal-btn-container specAnimal-edit">
-                                        <AiTwotoneEdit  className='specAnimal-btn' />
-                                    </button>
-                                </Link>
+                                {adminInfo && adminInfo.role === 'Admin' ?
+                                    <>
+                                        <Link to={`update/${animal._id}`}>
+                                            <button className="specAnimal-btn-container specAnimal-edit">
+                                                <AiTwotoneEdit  className='specAnimal-btn' />
+                                            </button>
+                                        </Link>
+                                    </>
+                                    :
+                                    <>
+                                        <button className="specAnimal-btn-container specAnimal-edit" onClick={() => alert(`You're not allowed / authorized to perform this action.`)}>
+                                            <AiTwotoneEdit  className='specAnimal-btn' color='#808080' />
+                                        </button>
+                                    </>
+                                }
 
-                                <button className="specAnimal-btn-container specAnimal-delete" onClick={() => deleteHandler(animal._id)}>
-                                    <MdDelete color='red' className='specAnimal-btn' />
-                                </button>
+                                {adminInfo && adminInfo.role === 'Admin' ?
+                                    <>
+                                        <button className="specAnimal-btn-container specAnimal-delete" onClick={() => deleteHandler(animal._id)}>
+                                            <MdDelete color='red' className='specAnimal-btn' />
+                                        </button>
+                                    </>
+                                    :
+                                    <>
+                                        <button style={{ cursor: 'default' }} className="specAnimal-btn-container specAnimal-delete" onClick={() => alert(`You're not allowed / authorized to perform this action.`)}>
+                                            <MdDelete className='specAnimal-btn' color='#808080' />
+                                        </button>
+                                    </>
+                                }
                             </div>
                         </div>
                 ))}

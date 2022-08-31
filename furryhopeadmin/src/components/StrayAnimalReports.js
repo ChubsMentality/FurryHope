@@ -17,6 +17,7 @@ const StrayAnimalReports = () => {
     const [active, setActive] = useState('Not Dismissed')
     const [dismissed, setDismissed] = useState()
     const [activeArr, setActiveArr] = useState()
+    const [successCaptured, setSuccessCaptured] = useState(false)
 
     const adminState = useSelector((state) => state.adminLogin)
     const { adminInfo } = adminState
@@ -41,7 +42,7 @@ const StrayAnimalReports = () => {
    
     const displaySpecificReport = async (id) => { 
         try {
-            const { data } = await axios.get(`${URL}api/admins/getReports/${id}`)
+            const { data } = await axios.get(`http://localhost:5000/api/admins/getReports/${id}`)
             setSpecificReport(data)
             setModal(true)
             console.log(pendingReports)
@@ -64,6 +65,26 @@ const StrayAnimalReports = () => {
     const deleteReportHandler = (id) => {
         if(window.confirm('Are you sure you want to delete?')) {
             dispatch(deleteReport(id))
+        }
+    }
+
+    const animalCapturedHandler = async (id, token) => {
+        console.log(id)
+        console.log(token)
+        
+        const config = {
+            headers: {
+                'Content-Type': 'application/json', 
+                Authorization: `Bearer ${token}`
+            },
+        }
+
+        try {
+            const { data } = await axios.put(`http://localhost:5000/api/users/animalHasBeenCaptured/${id}`, config)
+            alert(`Animal has been captured`)
+            setSuccessCaptured(!successCaptured)
+        } catch (error) {
+            console.log(error)   
         }
     }
 
@@ -96,7 +117,11 @@ const StrayAnimalReports = () => {
                         <div className="report-actions">
                             <button className='report-viewBtn' onClick={() => displaySpecificReport(report._id)}>VIEW</button>
 
-                            <button className='report-deleteBtn' onClick={() => deleteReportHandler(report._id)}>DELETE</button>
+                            {adminInfo && adminInfo.role === 'Admin' ?
+                                <button className='report-deleteBtn' onClick={() => deleteReportHandler(report._id)}>DELETE</button>
+                                :
+                                <button className='report-deleteBtn' onClick={() => alert(`You're not allowed / authorized to perform this action.`)}>DELETE</button>
+                            }
                         </div>
                     </div>
                 ))}
@@ -158,7 +183,7 @@ const StrayAnimalReports = () => {
 
     const getDismissed = async () => {
         try {
-            const { data } = await axios.get(`${URL}api/admins/dismissedReports`)
+            const { data } = await axios.get(`http://localhost:5000/api/admins/dismissedReports`)
             console.log(data)
             setDismissed(data)
         } catch (error) {
@@ -181,7 +206,7 @@ const StrayAnimalReports = () => {
            setActiveArr(dismissed)
             console.log(active)
         }
-    }, [active, successDelete, successDismiss, successViewed])
+    }, [active, successDelete, successDismiss, successViewed, successCaptured])
 
 
     return (
@@ -242,21 +267,38 @@ const StrayAnimalReports = () => {
                     </div>
 
                     <div className="strayModalBottom">
-                        <div className="strayModalViewed-container">
-                            {specificReport && specificReport.viewed === true ?
-                                <>
-                                    <div className="strayModal-checked">
-                                        <FaCheck className='strayModalViewedChecked' color='#fff' />
-                                    </div>
-                                    <p className="strayModal-viewedLabel-checked">Viewed</p>
-                                </>
-                                :
-                                <>
-                                    <input type="checkbox" className='strayModal-checkbox' value={specificReport.viewed} onClick={() => dispatch(viewedReport(specificReport._id))}/>
-                                    <p className="strayModal-viewedLabel">Viewed</p>
-                                </>
-                            }
+                        <div style={{ display: 'flex' }}>
+                            <div className="strayModalViewed-container">
+                                {specificReport && specificReport.animalStatus === 'Captured' ?
+                                    <>
+                                        <div className="strayModal-checked">
+                                            <FaCheck className='strayModalViewedChecked' color='#fff' />
+                                        </div>
+                                        <p className="strayModal-viewedLabel-checked">Animal Captured</p>
+                                    </>
+                                    :
+                                    <>
+                                        <input type="checkbox" className='strayModal-checkbox' value={specificReport.animalStatus} onClick={() => animalCapturedHandler(specificReport._id, specificReport.userToken)}/>
+                                        <p className="strayModal-viewedLabel">Animal Captured</p>
+                                    </>
+                                }
+                            </div>
 
+                            <div className="strayModalViewed-container" style={{ marginLeft: 15 }}>
+                                {specificReport && specificReport.viewed === true ?
+                                    <>
+                                        <div className="strayModal-checked">
+                                            <FaCheck className='strayModalViewedChecked' color='#fff' />
+                                        </div>
+                                        <p className="strayModal-viewedLabel-checked">Viewed</p>
+                                    </>
+                                    :
+                                    <>
+                                        <input type="checkbox" className='strayModal-checkbox' value={specificReport.viewed} onClick={() => dispatch(viewedReport(specificReport._id))}/>
+                                        <p className="strayModal-viewedLabel">Viewed</p>
+                                    </>
+                                }
+                            </div>
                         </div>
 
                         {specificReport && specificReport.status === 'Dismissed' ?

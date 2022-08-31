@@ -1,21 +1,24 @@
 import React, { useState, useEffect } from "react"
-import ReactPaginate from "react-paginate"
 import { useDispatch, useSelector } from "react-redux"
-import { deleteAdminAccount, deleteUserAccount } from "../actions/adminActions"
+import { deleteAdminAccount, deleteUserAccount, disableAdmin, enableAdmin } from "../actions/adminActions"
 import { Link } from 'react-router-dom'
 import { FaUserEdit } from 'react-icons/fa'
 import { IoPersonCircle } from 'react-icons/io5'
-import { MdDelete } from 'react-icons/md'
+import { MdDelete, MdDisabledVisible, MdOutlineMoreHoriz, MdUnpublished } from 'react-icons/md'
 import { HiEye } from 'react-icons/hi'
+import { FaUserCheck } from 'react-icons/fa'
+import { sortArray } from "./SubComponents/QuickSortArrOfObjs"
+import ReactPaginate from "react-paginate"
 import EditAdmin from "./Modals/EditAdmin"
 import Switch from "react-switch"
 import axios from "axios"
 import Overlay from "./SubComponents/Overlay"
 import Loading from "./SubComponents/Loading"
 import Sidebar from "./Sidebar"
-import "../css/AccountsList.css"
 import ViewUser from "./Modals/ViewUser"
-import { sortArray } from "./SubComponents/QuickSortArrOfObjs"
+import DeleteAdmin from "./Modals/DeleteAdmin"
+import DeleteUser from './Modals/DeleteUser'
+import "../css/AccountsList.css"
 
 const AccountsList = () => {
     const URL = 'https://furryhopebackend.herokuapp.com/'
@@ -26,6 +29,11 @@ const AccountsList = () => {
     const [editAdmin, setEditAdmin] = useState(false)
     const [viewUser, setViewUser] = useState(false)
     const [sortBy, setSortBy] = useState('name')
+    const [deleteAdminModal, setDeleteAdminModal] = useState(false)
+    const [deleteUserModal, setDeleteUserModal] = useState(false)
+    const [deleteAdminId, setDeleteAdminId] = useState('')
+    const [deleteUserId, setDeleteUserId] = useState('')
+
     const dispatch = useDispatch()
     const adminState = useSelector((state) => state.adminLogin)
     const { adminInfo } = adminState
@@ -36,8 +44,36 @@ const AccountsList = () => {
     const userDelete = useSelector((state) => state.userAccDelete)
     const { success: userDeleteSuccess } = userDelete
 
+    const adminDisable = useSelector((state) => state.disableAdminState)
+    const { success: adminDisableSuccess } = adminDisable
+
+    const adminEnable = useSelector((state) => state.enableAdminState)
+    const { success: adminEnableSuccess } = adminEnable
+
+    const adminUpdate = useSelector((state) => state.updateAdminState)
+    const { success: adminUpdateSuccess } = adminUpdate
+
     const [adminId, setAdminId] = useState('')
     const [userId, setUserId] = useState('')
+   
+
+    const openDeleteAdmin = (id) => {
+        setDeleteAdminId(id)
+        setDeleteAdminModal(true)
+    }
+
+    const closeDeleteAdmin = () => {
+        setDeleteAdminModal(false)
+    }
+
+    const openDeleteUser = (id) => {
+        setDeleteUserId(id)
+        setDeleteUserModal(true)
+    }
+
+    const closeDeleteUser = () => {
+        setDeleteUserModal(false)
+    }
 
     const openEditAdmin = (id) => {
         setEditAdmin(true)
@@ -60,7 +96,7 @@ const AccountsList = () => {
     const getUserAccounts = async () => {
         try {
             const { data } = await axios.get(
-                `${URL}api/admins/userAccounts`
+                `http://localhost:5000/api/admins/userAccounts`
             )
             console.log(data)
             setUserAccounts(data)
@@ -72,7 +108,7 @@ const AccountsList = () => {
     const getAdminAccounts = async () => {
         try {
             const { data } = await axios.get(
-                `${URL}api/admins/adminAccounts`
+                `http://localhost:5000/api/admins/adminAccounts`
             )
             console.log(data)
             setAdminAccounts(data)
@@ -86,13 +122,14 @@ const AccountsList = () => {
     }
 
     const deleteAdminHandler = (id) => {
-        try {
-            if (window.confirm('Are you sure you want to delete?')) {
-                dispatch(deleteAdminAccount(id))
-            }
-        } catch (error) {
-            console.log(error)
-        }
+        openDeleteAdmin()
+        // try {
+        //     if (window.confirm('Are you sure you want to delete?')) {
+        //         dispatch(deleteAdminAccount(id))
+        //     }
+        // } catch (error) {
+        //     console.log(error)
+        // }
     }
 
     const deleteUserHandler = (id) => {
@@ -103,6 +140,20 @@ const AccountsList = () => {
         } catch (error) {
             console.log(error)
         }
+    }
+
+    const disableHandler = (id) => {
+        if(window.confirm('Are you sure you want to disable this account?')) {
+            dispatch(disableAdmin(id))
+            alert('Disabled Account.')
+        } 
+    }
+
+    const enableHandler = (id) => {
+        if(window.confirm('Are you sure you want to activate this account?')) {
+            dispatch(enableAdmin(id))
+            alert('Account activated')
+        } 
     }
 
     const AdminsToPaginate = ({ adminAccounts }) => {
@@ -129,23 +180,96 @@ const AccountsList = () => {
                             </div>
 
                             <div className="specAccount-verified specAcccount-jobPos specAccount-column">
-                                <p className="specAccount-verified-info">{admin.jobPosition}</p>
+                                <p className="specAccount-verified-info">{admin.accountStatus}</p>
                             </div>
 
                             <div className="specAccount-actions specAccount-column">
-                                <button className="specAccount-btn-container specAccount-edit" onClick={() => openEditAdmin(admin._id)}>
-                                    <FaUserEdit className='specAccount-btn' />
-                                </button>
+                                {adminInfo && adminInfo.role === 'Admin' ?
+                                    <>
+                                        <div className="tooltip-container">
+                                            <button className="specAccount-btn-container specAccount-edit" onClick={() => openEditAdmin(admin._id)}>
+                                                <FaUserEdit className='specAccount-btn' />
+                                            </button>
 
-                                {activeAccounts ?
-                                    <button className="specAccount-btn-container specAccount-delete" onClick={() => deleteAdminHandler(admin._id)}>
-                                        <MdDelete color='red' className='specAccount-btn' />
-                                    </button>
+                                            {/* <span className='tooltip-txt'>Edit Account</span> */}
+                                        </div>
+                                    </>
                                     :
-                                    <button className="specAccount-btn-container specAccount-delete">
-                                        <MdDelete color='red' className='specAccount-btn' />
-                                    </button>
+                                    <>
+                                        <div className="tooltip-container">
+                                            <button className="specAccount-btn-container specAccount-edit" onClick={() => alert(`You're not allowed / authorized to perform this action.`)}>
+                                                <FaUserEdit className='specAccount-btn' color='#808080' />
+                                            </button>
+
+                                            {/* <span className='tooltip-txt'>Edit Account</span> */}
+                                        </div>
+                                    </>
                                 }
+
+                                {adminInfo && adminInfo.role === 'Admin' ?
+                                    <>
+                                        <div className='tooltip-container'>
+                                            {admin.accountStatus === 'Active' ?
+                                                <>
+                                                    <button className='specAccount-btn-container specAccount-disable' onClick={() => disableHandler(admin._id)}>
+                                                        <MdUnpublished className='specAccount-btn' color='red' />
+                                                    </button>
+
+                                                    <span className='tooltip-txt'>Disable Account</span>
+                                                </>
+                                                :   
+                                                <>
+                                                    <button className='specAccount-btn-container specAccount-disable'>
+                                                        <FaUserCheck className='specAccount-btn' color='green' onClick={() => enableHandler(admin._id)}/>
+                                                    </button>
+
+                                                    <span className='tooltip-txt'>Enable Account</span>
+                                                </>
+                                            }
+                                        </div>
+                                    </>
+                                    :
+                                    <>
+                                        <div className='tooltip-container'>
+                                            {admin.accountStatus === 'Active' ?
+                                                <>
+                                                    <button className='specAccount-btn-container specAccount-disable' onClick={() => alert(`You're not allowed / authorized to perform this action.`)}>
+                                                        <MdUnpublished className='specAccount-btn' color='#808080' />
+                                                    </button>
+
+                                                    <span className='tooltip-txt'>Disable Account</span>
+                                                </>
+                                                :   
+                                                <>
+                                                    <button className='specAccount-btn-container specAccount-disable' onClick={() => alert(`You're not allowed / authorized to perform this action.`)}>
+                                                        <FaUserCheck className='specAccount-btn' color='#808080' />
+                                                    </button>
+
+                                                    <span className='tooltip-txt'>Enable Account</span>
+                                                </>
+                                            }
+                                        </div>
+                                    </>
+                                }
+
+                                {adminInfo && adminInfo.role === 'Admin' ?
+                                    <>
+                                        <div className="tooltip-container">
+                                            <button className="specAccount-btn-container specAccount-delete" onClick={() => openDeleteAdmin(admin._id)}>
+                                                <MdDelete color='red' className='specAccount-btn' />
+                                            </button>
+                                        </div>
+                                    </>
+                                    :
+                                    <>
+                                        <div className="tooltip-container">
+                                            <button className="specAccount-btn-container specAccount-delete" onClick={() => alert(`You're not allowed / authorized to perform this action.`)}>
+                                                <MdDelete color='#808080' className='specAccount-btn' />
+                                            </button>
+                                        </div>
+                                    </>
+                                }
+
                             </div>
                         </div>
                 ))}
@@ -228,14 +352,18 @@ const AccountsList = () => {
                                     <HiEye className="specAccount-btn" />
                                 </button>
 
-                                {activeAccounts ?
-                                    <button className="specAccount-btn-container specAccount-delete">
-                                        <MdDelete color='red' className='specAccount-btn' />
-                                    </button>
+                                {adminInfo && adminInfo.role === 'Admin' ?
+                                    <>
+                                        <button className="specAccount-btn-container specAccount-delete" onClick={() => openDeleteUser(user._id)}>
+                                            <MdDelete color='red' className='specAccount-btn' />
+                                        </button>
+                                    </>
                                     :
-                                    <button className="specAccount-btn-container specAccount-delete" onClick={() => deleteUserHandler(user._id)}>
-                                        <MdDelete color='red' className='specAccount-btn' />
-                                    </button>
+                                    <>
+                                        <button className="specAccount-btn-container specAccount-delete" onClick={() => alert(`You're not allowed / authorized to perform this action.`)}>
+                                            <MdDelete color='#808080' className='specAccount-btn' />
+                                        </button>
+                                    </>
                                 }
                             </div>
                         </div>
@@ -293,7 +421,7 @@ const AccountsList = () => {
         // getAdminHandler()
         getUserAccounts()
         getAdminAccounts()
-    }, [dispatch, adminDeleteSuccess, userDeleteSuccess])
+    }, [dispatch, adminDeleteSuccess, userDeleteSuccess, adminDisableSuccess, adminEnableSuccess, adminUpdateSuccess])
 
     useEffect(() => {
         if(sortBy === 'name') {
@@ -305,13 +433,14 @@ const AccountsList = () => {
         }
     }, [sortBy])
     
-    adminAccounts && console.log(adminAccounts)
-    userAccounts && console.log(userAccounts)
-
     return (
         <div className='accounts-body'>
             <Sidebar />
-            
+            {deleteAdminModal && <Overlay />}
+            {deleteAdminModal &&  <DeleteAdmin id={deleteAdminId} closeDeleteAdmin={closeDeleteAdmin} deleteAdminModal={deleteAdminModal} />}
+            {deleteUserModal && <Overlay />}
+            {deleteUserModal && <DeleteUser id={deleteUserId} closeDeleteUser={closeDeleteUser} />}
+
             <div className='accounts-content'>
                 <div className="accounts-header-container">
                     <p className='accounts-header'>LIST OF ACCOUNTS</p>
@@ -408,7 +537,7 @@ const AccountsList = () => {
                                     <p className="accounts-label accounts-label-name">Name</p>
                                     <p className="accounts-label accounts-label-email">Email</p>
                                     <p className="accounts-label accounts-label-contactNo">Contact Number</p>
-                                    <p className="accounts-label accounts-label-jobPos">Job Position</p>
+                                    <p className="accounts-label accounts-label-jobPos">Account Status</p>
                                     <p className="accounts-label accounts-label-actions">Actions</p>
                                 </>
                                 : 

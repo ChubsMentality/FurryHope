@@ -51,7 +51,7 @@ const UpdateInfoForm = (props) => {
     // Getting the animal data to be updated
     useEffect(() => {
         const fetching = async () => {
-            const { data } = await axios.get(`${URL}api/animals/${props.paramId}`);
+            const { data } = await axios.get(`http://localhost:5000/api/animals/${props.paramId}`);
         
             setName(data.name);
             setBreed(data.breed);

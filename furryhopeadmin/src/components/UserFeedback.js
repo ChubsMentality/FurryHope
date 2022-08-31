@@ -32,7 +32,7 @@ const UserFeedback = () => {
 
     const toggleFeedback = async (id) => {
         try {
-            const { data } = await axios.get(`${URL}api/admins/getFeedback/${id}`)
+            const { data } = await axios.get(`http://localhost:5000/api/admins/getFeedback/${id}`)
             setFeedback(data)
             setModal(true)
         } catch (error) {
@@ -77,7 +77,11 @@ const UserFeedback = () => {
                         <div className="feedback-actions">
                             <button className='feedback-viewBtn' onClick={() => toggleFeedback(item._id)}>VIEW</button>
 
-                            <button className='feedback-deleteBtn' onClick={() => deleteHandler(item._id)}>DELETE</button>
+                            {adminInfo && adminInfo.role === 'Admin' ?
+                                <button className='feedback-deleteBtn' onClick={() => deleteHandler(item._id)}>DELETE</button>
+                                :
+                                <button className='feedback-deleteBtn' onClick={() => alert(`You're not allowed / authorized to perform this action.`)}>DELETE</button>
+                            }
                         </div>
                     </div>
                 ))}

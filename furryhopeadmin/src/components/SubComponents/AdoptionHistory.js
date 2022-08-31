@@ -9,7 +9,7 @@ const AdoptionHistory = (props) => {
 
     const getAdoptions = async () => {
         try {
-            const { data:response } = await axios.get(`${URL}api/admins/adoptionsPerAnimal/${props.paramId}`)
+            const { data:response } = await axios.get(`http://localhost:5000/api/admins/adoptionsPerAnimal/${props.paramId}`)
             console.log(response)
             setData(response)
         } catch (error) {
@@ -20,7 +20,7 @@ const AdoptionHistory = (props) => {
     const deleteAdoptionById = async (id) => {
         try {
             if(window.confirm('Are you sure you want to delete?')) {
-                const { data } = await axios.delete(`${URL}api/admins/adoptions/${id}`)
+                const { data } = await axios.delete(`http://localhost:5000/api/admins/adoptions/${id}`)
                 console.log(data)
             }
         } catch (error) {

@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { updateAdmin } from '../../actions/adminActions'
 import { IoClose } from 'react-icons/io5'
 import axios from 'axios'
 import '../../css/EditAccounts.css'
@@ -12,11 +14,12 @@ const EditAdmin = (props) => {
     const [jobPosition, setJobPosition] = useState()
     const [role, setRole] = useState()
     const [profilePicture, setProfilePicture] = useState()
+    const dispatch = useDispatch()
     const URL = 'https://furryhopebackend.herokuapp.com/'
 
     const getAdmin = async () => {
         try {
-            const { data } = await axios.get(`${URL}api/admins/getAdmin/${props.id}`)
+            const { data } = await axios.get(`http://localhost:5000/api/admins/getAdmin/${props.id}`)
             console.log(data)
             setAdmin(data)
             setFullName(data.fullName)
@@ -57,7 +60,8 @@ const EditAdmin = (props) => {
 
     const updateHandler = async () => {
         try {
-            const { data } = await axios.put(`${URL}api/admins/updateAdmin/${props.id}`, { fullName, email, contactNo, address, jobPosition, role, profilePicture })
+            dispatch(updateAdmin(props.id, fullName, email, contactNo, address, jobPosition, role, profilePicture))
+            // const { data } = await axios.put(`http://localhost:5000/api/admins/updateAdmin/${props.id}`, { fullName, email, contactNo, address, jobPosition, role, profilePicture })
             alert('Your changes have been saved')
             props.setEditAdmin(!props.editAdmin)
         } catch (error) {
