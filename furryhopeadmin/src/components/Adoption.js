@@ -190,7 +190,7 @@ const Adoption = ({ match, history }) => {
 
                     <div className="specAdoption-nav-statusContainer">
                         <p className="specAdoption-statusLabel">Status:</p>
-
+                        {specificAdoption && console.log(specificAdoption)}
                         {specificAdoption && specificAdoption.applicationStatus === 'Pending' &&
                             <p className="specAdoption-currentStatus-pending">{specificAdoption.applicationStatus}</p>
                         }

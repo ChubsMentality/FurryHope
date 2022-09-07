@@ -74,8 +74,8 @@
     resize: none;
     padding: 10px;
     font-size: .8rem;
-    border: 1px solid rgb(212, 215, 216);
-    background-color: rgb(242, 244, 245);
+    border: 1px solid rgb(212, 215, 216); /* #D4D7D8 */
+    background-color: rgb(242, 244, 245); /* #F2F4F5 */
 }
 
 .deleteOtherReason:focus {

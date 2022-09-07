@@ -111,8 +111,6 @@ import {
 } from '../constants/adminConstants'
 import axios from 'axios'
 
-const env = true
-
 const URL = 'https://furryhopebackend.herokuapp.com/'
 // start
 

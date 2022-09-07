@@ -31,7 +31,7 @@ const DeleteUser = (props) => {
             <p className="deleteReasonTxt">Tell us the reason why you're deleting this account.</p>
 
             <div className="deleteCheckBoxContainer">
-                {reason === 'Resigned / No longer an employee' ?
+                {reason === 'Violated Policies, etc.' ?
                     <div className="deleteCheckBox_checked" onClick={() => setReason('')}>
                         <FaCheck className='deleteCheckBoxIcon' color='white' />
                     </div>
