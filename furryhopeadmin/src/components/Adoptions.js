@@ -18,6 +18,7 @@ const Adoptions = () => {
     const { adminInfo } = adminState
 
     const [pending, setPending] = useState()
+    const [cancelled, setCancelled] = useState()
     const [sortBy, setSortBy] = useState('applicantName')
     const [rejected, setRejected] = useState()
     const [accepted, setAccepted] = useState()
@@ -51,10 +52,15 @@ const Adoptions = () => {
         return arr.applicationStatus === 'Accepted'
     }
 
+    const filterCancelled = (arr) => {
+        return arr.applicationStatus === 'Cancelled'
+    }
+
     useEffect(() => {
         adoptionApplications && setPending(adoptionApplications.filter(filterPending))
         adoptionApplications && setRejected(adoptionApplications.filter(filterRejected))
         adoptionApplications && setAccepted(adoptionApplications.filter(filterAccepted))
+        adoptionApplications && setCancelled(adoptionApplications.filter(filterCancelled))
 
         if(filterBy === 'No Filter') {
             setListOfAdoptions(adoptionApplications)
@@ -64,6 +70,8 @@ const Adoptions = () => {
             setListOfAdoptions(rejected)
         } else if(filterBy === 'Accepted') {
             setListOfAdoptions(accepted)
+        } else if(filterBy === 'Cancelled') {
+            setListOfAdoptions(cancelled)
         }
 
         if(sortBy === 'applicantName') {
@@ -108,6 +116,10 @@ const Adoptions = () => {
                             }
 
                             {adoption.applicationStatus === 'Rejected' &&
+                                <p className="currentAdoptionStatusRejected">{adoption.applicationStatus}</p>
+                            }
+
+                            {adoption.applicationStatus === 'Cancelled' &&
                                 <p className="currentAdoptionStatusRejected">{adoption.applicationStatus}</p>
                             }
 
@@ -224,6 +236,7 @@ const Adoptions = () => {
                                     <option value='Pending'>Pending</option>
                                     <option value='Rejected'>Rejected</option>
                                     <option value='Accepted'>Accepted</option>
+                                    <option value='Cancelled'>Cancelled</option>
                                 </select>
                             </div>
                         </div>

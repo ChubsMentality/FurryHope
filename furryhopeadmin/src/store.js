@@ -81,6 +81,7 @@ const reducer = combineReducers({
     disableAdminState: disableAdminReducer,
     enableAdminState: enableAdminReducer,
     updateAdminState: updateAdminReducer,
+    animalCapturedState: animalCapturedReducer,
 })
 
 // Gets the admin info from the local storage

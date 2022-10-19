@@ -20,6 +20,8 @@ const Adoption = ({ match, history }) => {
     const sAdoption = useSelector(state => state.specificAdoptionState)
     const { loading, error, specificAdoption } = sAdoption
 
+    console.log(match.params.id)
+
     const hBInterviewed = useSelector(state => state.interviewedState)
     const { success:sInterviewed } = hBInterviewed
 
@@ -73,13 +75,17 @@ const Adoption = ({ match, history }) => {
         let time = `${selectedHour}:${selectedMinute} ${selectedTimePeriod}`
         let dateToString = selectedDate.toString()
         let date = dateToString.substring(4,15)
+        let temp = moment(date).format('YYYY MM DD')
+        console.log(temp)
 
-        let today = moment().format('MMM DD YYYY')
-        if(date < today) {
-            alert('Choose a valid date')
+        let today = moment().format('YYYY MM DD')
+        console.log(today)
+       
+        if(temp < today) {
+            alert('Invalid Date')
             return
         }
-        
+
         if(recipientEmail === '' || date === '' || time === '') {
             alert('Please fill out all the necessary fields')
         } else {
@@ -92,9 +98,6 @@ const Adoption = ({ match, history }) => {
                 console.log(error)
             }
         }
-        // console.log(recipientEmail)
-        // console.log(date)
-        // console.log(time)
     }
 
     const toggleSchedOverlay = () => {
@@ -128,18 +131,25 @@ const Adoption = ({ match, history }) => {
         setRejectedAdoption(!rejectedAdoption)
     }
 
-    const acceptApplication = async (animalId, adoptionId, email, tempPickupDate, pickupHour, pickupMinute, pickupTimePeriod, animalName, adopterName ) => {
+    const acceptApplication = async (animalId, adoptionId, email, tempPickupDate, pickupHour, pickupMinute, pickupTimePeriod, animalName, adopterName, adoptionReference) => {
         const adoptionStatus = 'Adopted'
         const applicationStatus = 'Accepted'
-
+        
         const dateToString = tempPickupDate.toString()
         let pickupDate = dateToString.substring(4,15) 
-
-        let today = moment().format('MMM DD YYYY')
-        if(pickupDate < today) {
+        let temp = moment(pickupDate).format('YYYY MM DD')
+        
+        let today = moment().format('YYYY MM DD')
+        if(temp < today) {
             alert('Choose a valid date')
             return
         }
+        
+        const petFollowUp = moment(tempPickupDate).format('MMMM DD YYYY') // 'January 1, XXXX'
+        const followUpDate = moment(tempPickupDate).subtract(3, 'd').format('MMM DD YYYY') // Jan 1, XXXX
+        dispatch(updateAdoptionApplication(animalId, adoptionId, adoptionStatus, applicationStatus, petFollowUp, followUpDate, email))
+        setAcceptedAdoption(!acceptedAdoption)
+        setAcceptAdoptionOverlay(!acceptAdoptionOverlay)
 
         let pickupTime = `${pickupHour}:${pickupMinute} ${pickupTimePeriod}`
         console.log(pickupTime)
@@ -148,19 +158,15 @@ const Adoption = ({ match, history }) => {
             if(!email || !pickupDate || !pickupTime || !animalName || !adopterName) {
                 alert('Please fill out all the necessary fields')
             } else {
-                const { data } = await axios.post(`http://localhost:5000/api/admins/sendPickupMessage`, { email, pickupDate, pickupTime, animalName, adopterName })
+                const { data } = await axios.post(`http://localhost:5000/api/admins/sendPickupMessage`, { email, pickupDate, pickupTime, animalName, adopterName, adoptionReference })
                 alert('Successfully sent the message')
                 setAcceptAdoptionOverlay(!acceptAdoptionOverlay)
             }
         } catch (error) {
             console.log(error) 
         }  
-        
-        dispatch(updateAdoptionApplication(animalId, adoptionId, adoptionStatus, applicationStatus))
-        setAcceptedAdoption(!acceptedAdoption)
-        setAcceptAdoptionOverlay(!acceptAdoptionOverlay)
     }
- 
+
     useEffect(() => {
         dispatch(getSpecificAdoption(match.params.id))
     }, [match.params.id, sInterviewed, acceptedAdoption, rejectedAdoption])
@@ -172,6 +178,10 @@ const Adoption = ({ match, history }) => {
     useEffect(() => {
         specificAdoption && setRecipientEmail(specificAdoption.email)
         specificAdoption && setEmail(specificAdoption.email)
+    }, [])
+
+    useEffect(() => {
+
     }, [])
 
     const isInterviewSchedEmpty = interviewSched && interviewSched.length === 0
@@ -200,6 +210,10 @@ const Adoption = ({ match, history }) => {
                         }
 
                         {specificAdoption && specificAdoption.applicationStatus === 'Rejected' &&
+                            <p className="specAdoption-currentStatus-rejected">{specificAdoption.applicationStatus}</p>
+                        }
+
+                        {specificAdoption && specificAdoption.applicationStatus === 'Cancelled' &&
                             <p className="specAdoption-currentStatus-rejected">{specificAdoption.applicationStatus}</p>
                         }
                     </div>
@@ -263,12 +277,12 @@ const Adoption = ({ match, history }) => {
                     </div>
 
                     <div className="specAdoption-setInterviewSched-container specAdoption-info-container">
-                        {interviewSched && interviewSched.length >= 1 ?
+                        {interviewSched && interviewSched ?
                             <>
                                 <p className='specAdoption-sched-header'>Adoption interview details</p>
-                                <p className='specAdoption-sched-label'>To: <span>{interviewSched[0].recipientEmail}</span></p>
-                                <p className='specAdoption-sched-label'>Date: <span>{interviewSched[0].date}</span></p>
-                                <p className='specAdoption-sched-label'>Time: <span>{interviewSched[0].time}</span></p>
+                                <p className='specAdoption-sched-label'>To: <span>{interviewSched.recipientEmail}</span></p>
+                                <p className='specAdoption-sched-label'>Date: <span>{interviewSched.date}</span></p>
+                                <p className='specAdoption-sched-label'>Time: <span>{interviewSched.time}</span></p>
                                 {/* <input type="checkbox" name="isInterviewed" id="" className="specAdoption-sched-isInterviewed" onClick={console.log('clicked')} /> */}
 
                                 {specificAdoption && specificAdoption.hasBeenInterviewed === true ?
@@ -319,6 +333,16 @@ const Adoption = ({ match, history }) => {
                                 }
 
                                 {specificAdoption && specificAdoption.applicationStatus === 'Rejected' &&
+                                    <>
+                                        <p className="specAdoption-adoptBtns-header">Accept or reject the adoption.</p>
+                                        <div className="specAdoption-adoptBtnsContainer">
+                                            <button className="specAdoption-disabledBtn" disabled>ACCEPT</button>
+                                            <button className="specAdoption-disabledBtn" disabled>REJECT</button>
+                                        </div>
+                                    </>
+                                }
+
+                                {specificAdoption && specificAdoption.applicationStatus === 'Cancelled' &&
                                     <>
                                         <p className="specAdoption-adoptBtns-header">Accept or reject the adoption.</p>
                                         <div className="specAdoption-adoptBtnsContainer">
@@ -578,6 +602,7 @@ const Adoption = ({ match, history }) => {
                         </select>
                     </div>
 
+                    {specificAdoption && console.log(specificAdoption)}
                     <button className='accept-adoption-btn'
                         onClick={() => acceptApplication(
                             specificAdoption.animalId, 
@@ -589,6 +614,7 @@ const Adoption = ({ match, history }) => {
                             pickupTimePeriod,
                             specificAdoption.animalName,
                             specificAdoption.applicantName,
+                            specificAdoption.adoptionReference,
                         )}
                     >
                         Accept Adoption

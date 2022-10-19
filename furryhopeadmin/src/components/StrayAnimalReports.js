@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getStrayAnimalReports, dismissReport, getDismissedReports, deleteReport, viewedReport } from '../actions/adminActions'
+import { getStrayAnimalReports, dismissReport, getDismissedReports, deleteReport, viewedReport, animalCaptured } from '../actions/adminActions'
 import { IoClose } from 'react-icons/io5'
 import { FaCheck } from 'react-icons/fa'
 import ReactPaginate from 'react-paginate'
@@ -17,7 +17,6 @@ const StrayAnimalReports = () => {
     const [active, setActive] = useState('Not Dismissed')
     const [dismissed, setDismissed] = useState()
     const [activeArr, setActiveArr] = useState()
-    const [successCaptured, setSuccessCaptured] = useState(false)
 
     const adminState = useSelector((state) => state.adminLogin)
     const { adminInfo } = adminState
@@ -39,6 +38,9 @@ const StrayAnimalReports = () => {
 
     const reportReadState = useSelector(state => state.reportViewedState)
     const { success:successViewed } = reportReadState
+
+    const animalCapState = useSelector(state => state.animalCapturedState)
+    const { success:successCaptured } = animalCapState
    
     const displaySpecificReport = async (id) => { 
         try {
@@ -68,25 +70,24 @@ const StrayAnimalReports = () => {
         }
     }
 
-    const animalCapturedHandler = async (id, token) => {
-        console.log(id)
-        console.log(token)
+    // const animalCapturedHandler = async (id, token) => {
+    //     console.log(id)
+    //     console.log(token)
         
-        const config = {
-            headers: {
-                'Content-Type': 'application/json', 
-                Authorization: `Bearer ${token}`
-            },
-        }
+    //     const config = {
+    //         headers: {
+    //             Authorization: `Bearer ${token}`
+    //         }
+    //     }
 
-        try {
-            const { data } = await axios.put(`http://localhost:5000/api/users/animalHasBeenCaptured/${id}`, config)
-            alert(`Animal has been captured`)
-            setSuccessCaptured(!successCaptured)
-        } catch (error) {
-            console.log(error)   
-        }
-    }
+    //     try {
+    //         const { data } = await axios.put(`http://localhost:5000/api/users/animalHasBeenCaptured/${id}`, config)
+    //         alert(`Animal has been captured`)
+    //         setSuccessCaptured(!successCaptured)
+    //     } catch (error) {
+    //         console.log(error)   
+    //     }
+    // }
 
     const DataContainer = ({ currentReports }) => {
         return (
@@ -194,7 +195,7 @@ const StrayAnimalReports = () => {
     useEffect(() => {
         dispatch(getStrayAnimalReports())
         getDismissed()
-    }, [dispatch, successDelete, successDismiss, successViewed])
+    }, [dispatch, successDelete, successDismiss, successViewed, successCaptured])
 
     useEffect(() => {
         if(active === 'Not Dismissed') {
@@ -236,7 +237,7 @@ const StrayAnimalReports = () => {
                 </select>
 
                 <div className="listOfReports-container">
-                    <PaginatedData reportsPerPage={5} />
+                    <PaginatedData reportsPerPage={6} />
                 </div>
             </div>
 
@@ -278,7 +279,7 @@ const StrayAnimalReports = () => {
                                     </>
                                     :
                                     <>
-                                        <input type="checkbox" className='strayModal-checkbox' value={specificReport.animalStatus} onClick={() => animalCapturedHandler(specificReport._id, specificReport.userToken)}/>
+                                        <input type="checkbox" className='strayModal-checkbox' value={specificReport.animalStatus} onClick={() => dispatch(animalCaptured(specificReport._id, specificReport.userEmail))} />
                                         <p className="strayModal-viewedLabel">Animal Captured</p>
                                     </>
                                 }

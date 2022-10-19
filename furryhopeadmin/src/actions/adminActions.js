@@ -320,7 +320,7 @@ export const deleteAdoptionApplication = (id) => async (dispatch) => {
             }
 }
 
-export const updateAdoptionApplication = (animalId, adoptionId, adoptionStatus, applicationStatus) => async (dispatch) => {
+export const updateAdoptionApplication = (animalId, adoptionId, adoptionStatus, applicationStatus, petFollowUp, followUpDate, email) => async (dispatch) => {
     try {
         dispatch({
             type: UPDATE_ADOPTION_APPLICATION_REQUEST,
@@ -330,7 +330,7 @@ export const updateAdoptionApplication = (animalId, adoptionId, adoptionStatus, 
         const { data: updateAdoptionData } = await axios.put(`http://localhost:5000/api/admins/updateAdoptionStatus/${animalId}`, { adoptionStatus })
         
         // Updating the application status
-        const { data } = await axios.put(`http://localhost:5000/api/admins/updateApplication/${adoptionId}`, { adoptionStatus, applicationStatus })
+        const { data } = await axios.put(`http://localhost:5000/api/admins/updateApplication/${adoptionId}`, { adoptionStatus, applicationStatus, petFollowUp, followUpDate, email })
         
         dispatch({
             type: UPDATE_ADOPTION_APPLICATION_SUCCESS,
@@ -721,14 +721,14 @@ export const getFeedbacks = () => async (dispatch) => {
             }
         }
         
-        export const deleteFeedback = (id) => async (dispatch) => {
-            try {
-                dispatch({
+export const deleteFeedback = (id) => async (dispatch) => {
+    try {
+        dispatch({
             type: DELETE_FEEDBACK_REQUEST,
         })
-        
+
         const { data } = await axios.delete(`http://localhost:5000/api/admins/getFeedback/${id}`)
-        
+
         dispatch({
             type: DELETE_FEEDBACK_SUCCESS
         })
@@ -1013,10 +1013,26 @@ export const updateAdmin = (id, fullName, email, contactNo, address, jobPosition
     }
 }
 
-const animalCaptured = () => async (dispatch) => {
+export const animalCaptured = (id, email) => async (dispatch) => {
     try {
-        
+        dispatch({
+            type: ANIMAL_CAPTURED_REQUEST
+        })
+
+        const { data } = await axios.put(`http://localhost:5000/api/admins/animalCaptured/${id}`, { email })
+
+        dispatch({
+            type: ANIMAL_CAPTURED_SUCCESS
+        })
     } catch (error) {
+        const message = 
+            error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message
         
+        dispatch({
+            type: ANIMAL_CAPTURED_FAIL,
+            payload: message
+        })
     }
 }

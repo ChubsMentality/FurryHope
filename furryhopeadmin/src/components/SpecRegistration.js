@@ -40,10 +40,6 @@ const SpecRegistration = ({ history, match }) => {
         setPetPhotoComplete(data.petPhotoComplete)
         setProofOfAntiRabiesComplete(data.proofOfAntiRabiesComplete)
         setPhotocopyCertOfAntiRabiesComplete(data.photocopyCertOfAntiRabiesComplete)
-
-        // const { data:adoptionRefData } = await axios.get(`http://localhost:5000/api/admins/getAdoptionByReference`, { adoptionReference })
-        // setAdoptionStatus(adoptionRefData.adoptionStatus)
-        // console.log(adoptionRefData)
     }
 
     const getAdoption = async () => {
@@ -52,6 +48,11 @@ const SpecRegistration = ({ history, match }) => {
         console.log(data)
     }
 
+    useEffect(() => {
+        setTimeout(() => {
+            adoptionReference && getAdoption()
+        }, 5000)
+    }, [adoptionReference])
 
     const reqMet = regFeeComplete && certOfResidencyComplete && ownerPictureComplete && petPhotoComplete && proofOfAntiRabiesComplete && photocopyCertOfAntiRabiesComplete
 
@@ -59,7 +60,7 @@ const SpecRegistration = ({ history, match }) => {
 
     useEffect(() => {
         getRegistration()
-        getAdoption()
+        // getAdoption()
     }, [match, successUpdate, successReject, successReg])
 
     return (
