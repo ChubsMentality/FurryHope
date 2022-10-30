@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { getFeedbacks, deleteFeedback } from '../actions/adminActions'
+import { getFeedbacks, deleteFeedback, toggleMenuOff, toggleMenuOn } from '../actions/adminActions'
+import { BiMenuAltRight } from 'react-icons/bi'
 import axios from 'axios'
 import Sidebar from './Sidebar'
+import SidebarOverlay from './SubComponents/SidebarOverlay'
 import ReactPaginate from 'react-paginate'
 import ViewFeedback from './Modals/ViewFeedback'
 import Overlay from './SubComponents/Overlay'
@@ -23,12 +25,11 @@ const UserFeedback = () => {
     const beenRead = useSelector(state => state.feedbackViewedState)
     const { success:successUpdate } = beenRead
 
+    const menuState = useSelector((state) => state.toggleMenuState)
+    const { toggleState } = menuState
+
     const [modal, setModal] = useState(false)
     const [feedback, setFeedback] = useState()
-
-    console.log(feedbackList)
-    
-    console.log(window.innerWidth)
 
     const toggleFeedback = async (id) => {
         try {
@@ -147,9 +148,26 @@ const UserFeedback = () => {
 
     return (
         <div className="userFeedback-body">
-            <Sidebar />
+            {window.innerWidth <= 778 ?
+                toggleState === true &&
+                    <Sidebar />
+                :
+                <Sidebar />
+            }
+
+            {toggleState && <SidebarOverlay />}
 
             <div className="userFeedback-content">
+                {window.innerWidth <= 778 ?
+                    toggleState === true ?
+                        <BiMenuAltRight className='menu-right' color='#111' onClick={() => dispatch(toggleMenuOff())} />
+                        :
+                        <BiMenuAltRight className='menu-right' color='#111' onClick={() => dispatch(toggleMenuOn())}/>
+                    :
+                    <>
+                    </>
+                }
+
                 <div className="accounts-header-container">
                     <p className='accounts-header'>FEEDBACKS</p>
 

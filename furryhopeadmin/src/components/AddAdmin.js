@@ -2,11 +2,13 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import '../css/AddAdmin.css'
 import { useDispatch, useSelector } from 'react-redux'
-import { addAnAdmin } from '../actions/adminActions'
+import { addAnAdmin, toggleMenuOff, toggleMenuOn } from '../actions/adminActions'
 import { css } from '@emotion/css'
 import { AiOutlineArrowLeft } from 'react-icons/ai'
+import { BiMenuAltRight } from 'react-icons/bi'
 import ClipLoader from 'react-spinners/ClipLoader'
 import Sidebar from './Sidebar'
+import SidebarOverlay from './SubComponents/SidebarOverlay'
 
 const override = css`
     display: block;
@@ -35,6 +37,9 @@ const AddAdmin = ({ history }) => {
     const dispatch = useDispatch();
     const addAdmin = useSelector(state => state.addAdmin) 
     const { loading, error } = addAdmin
+
+    const menuState = useSelector((state) => state.toggleMenuState)
+    const { toggleState } = menuState
 
     // Function to upload the image to cloudinary
     const uploadImg = (selectedImg) => {
@@ -99,8 +104,26 @@ const AddAdmin = ({ history }) => {
     
     return ( 
         <div className="body">
-            <Sidebar />
+            {window.innerWidth <= 778 ?
+                toggleState === true &&
+                    <Sidebar />
+                :
+                <Sidebar />
+            }
+
+            {toggleState && <SidebarOverlay />}
+
             <div className='add-admin-content'>
+                {window.innerWidth <= 778 ?
+                    toggleState === true ?
+                        <BiMenuAltRight className='menu-right' color='#111' onClick={() => dispatch(toggleMenuOff())} />
+                        :
+                        <BiMenuAltRight className='menu-right' color='#111' onClick={() => dispatch(toggleMenuOn())}/>
+                    :
+                    <>
+                    </>
+                }
+
                 <Link to='/accountsList' className='add-admin-header'>
                     <AiOutlineArrowLeft className='add-admin-return-icon' color='#111' />
                     <p className='add-admin-return-btn'>

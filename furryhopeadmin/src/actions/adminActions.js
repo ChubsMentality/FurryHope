@@ -108,6 +108,8 @@ import {
     ANIMAL_CAPTURED_REQUEST,
     ANIMAL_CAPTURED_SUCCESS,
     ANIMAL_CAPTURED_FAIL,
+    TOGGLE_MENU_OFF,
+    TOGGLE_MENU_ON,
 } from '../constants/adminConstants'
 import axios from 'axios'
 
@@ -1035,4 +1037,12 @@ export const animalCaptured = (id, email) => async (dispatch) => {
             payload: message
         })
     }
+}
+
+export const toggleMenuOff = () => async (dispatch) => {
+    dispatch({ type: TOGGLE_MENU_OFF })
+}
+
+export const toggleMenuOn = () => async (dispatch) => {
+    dispatch({ type: TOGGLE_MENU_ON })
 }

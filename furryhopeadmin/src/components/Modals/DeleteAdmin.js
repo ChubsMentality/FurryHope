@@ -12,6 +12,8 @@ const DeleteAdmin = (props) => {
     const [specifiedReason, setSpecifiedReason] = useState('')
     const [confirmDeletionTxt, setConfirmDeletionTxt] = useState('')
 
+    console.log(props)
+
     const deleteAccountHandler = () => {
         if(reason === '') {
             alert('Please tell us your reason for deleting the account.')

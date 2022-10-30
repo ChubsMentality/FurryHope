@@ -110,7 +110,9 @@ import {
     UPDATE_ADMIN_FAIL,
     ANIMAL_CAPTURED_REQUEST,
     ANIMAL_CAPTURED_SUCCESS,
-    ANIMAL_CAPTURED_FAIL
+    ANIMAL_CAPTURED_FAIL,
+    TOGGLE_MENU_OFF,
+    TOGGLE_MENU_ON,
 } from '../constants/adminConstants'
 
 export const adminLoginReducer = (state={}, action) => {
@@ -608,6 +610,17 @@ export const animalCapturedReducer = (state = {}, action) => {
         case ANIMAL_CAPTURED_FAIL: 
             return { loading: false, success: false, error: action.payload }
         default:
+            return state
+    }
+}
+
+export const toggleMenuReducer = (state = { toggleState: false }, action) => {
+    switch(action.type) {
+        case TOGGLE_MENU_OFF:
+            return { toggleState: false }
+        case TOGGLE_MENU_ON:
+            return { toggleState: true }
+        default: 
             return state
     }
 }

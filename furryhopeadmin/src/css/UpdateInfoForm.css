@@ -395,3 +395,83 @@
         width: 220px;
     }
 }
+
+@media screen and (max-width: 430px) {
+    .updateData-form-container {
+        padding: 40px 25px 0 25px;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .update-data-right-column {
+        width: 100%;
+    }
+
+    .lbl-update {
+        font-size: .7rem;
+        margin: -25px 0 -20px 0;
+    }
+
+    .input-update-data {
+        height: 25px;
+        width: 305px;
+        font-size: .65rem;
+    }
+
+    .lbl-update-breed {
+        margin-top: -40px;
+    }
+
+    .lbl-update-desc {
+        margin-top: -40px;
+    }
+
+    .updateDesc {
+        font-size: .65rem;
+        height: 80px;
+        width: 300px;
+    }
+
+    .update-imgUploadContainer {
+        margin: -30px 0 15px 0;
+    }
+
+    .lbl-update-imgUpload {
+        margin-bottom: 0
+    }
+
+    .update-imgUpload {
+        margin-bottom: 15px;
+    }
+
+    .lbl-update-availUntil {
+        margin-top: -15px;
+    }
+
+    .update-availUntil {
+        font-size: .7rem;
+    }
+    
+    .span-availUntil {
+        font-size: .7rem;
+    }
+
+    .update-img-preview-txt {
+        font-size: .7rem;
+        margin-top: -15px;
+        margin-bottom: 0;
+    }
+
+    .update-img-preview {
+        width: 200px;
+        height: 130px;
+    }
+
+    .btn-update {
+        font-size: 1rem;
+        height: 38px;
+        width: 120px;
+        margin-right: 10px;
+        margin-bottom: 30px;
+    }
+}

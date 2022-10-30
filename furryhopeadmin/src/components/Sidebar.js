@@ -2,10 +2,10 @@ import React from "react"
 import "../css/Sidebar.css"
 import { NavLink, Link , useHistory } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
-import { logout } from "../actions/adminActions"
+import { logout, toggleMenuOff } from "../actions/adminActions"
 import { VscListUnordered } from 'react-icons/vsc'
 import { MdAddBox } from 'react-icons/md'
-import { IoPersonSharp } from 'react-icons/io5'
+import { IoPersonSharp, IoClose } from 'react-icons/io5'
 import { BiDonateHeart } from 'react-icons/bi'
 import { RiLogoutBoxLine } from 'react-icons/ri'
 import { AiFillAlert } from 'react-icons/ai'
@@ -29,6 +29,10 @@ const Sidebar = () => {
     return (
         <div className='sidebar-body'>
             <div>
+                {window.innerWidth <= 768 &&
+                    <IoClose className='sidebar-toggle-close' color='#111' onClick={() => dispatch(toggleMenuOff())}/>
+                }
+
                 <NavLink to='/manage' className='sidebar-header'>
                     <img src={logo} className='sidebar-logo' />
                     <h5 className='sidebar-furryhope'>

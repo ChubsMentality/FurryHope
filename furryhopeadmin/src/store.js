@@ -37,6 +37,7 @@ import {
     enableAdminReducer,
     updateAdminReducer,
     animalCapturedReducer,
+    toggleMenuReducer,
 } from './reducers/adminReducers'
 import { animalCreateReducer, animalDataReducer, animalDeleteReducer, animalUpdateReducer } from './reducers/animalReducer'
 
@@ -82,6 +83,7 @@ const reducer = combineReducers({
     enableAdminState: enableAdminReducer,
     updateAdminState: updateAdminReducer,
     animalCapturedState: animalCapturedReducer,
+    toggleMenuState: toggleMenuReducer,
 })
 
 // Gets the admin info from the local storage

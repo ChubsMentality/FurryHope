@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { useDispatch } from 'react-redux'
-import { receivedDonation, addToInventory } from '../actions/adminActions'
+import { useDispatch, useSelector } from 'react-redux'
+import { receivedDonation, addToInventory, toggleMenuOff, toggleMenuOn } from '../actions/adminActions'
 import { IoArrowBack } from 'react-icons/io5'
+import { BiMenuAltRight } from 'react-icons/bi'
 import Sidebar from './Sidebar'
+import SidebarOverlay from './SubComponents/SidebarOverlay'
 import axios from 'axios'
 import '../css/SpecDonation.css'
 import '../css/Adoption.css' 
@@ -19,6 +21,9 @@ const SpecDonation = ({ match, history }) => {
     const [time, setTime] = useState()
     const [proofOfDonation, setProofOfDonation] = useState()
     const [received, setReceived] = useState()
+
+    const menuState = useSelector((state) => state.toggleMenuState)
+    const { toggleState } = menuState
     
     const uploadImg = (selectedImg) => {
         if(selectedImg.type === 'image/jpeg' || selectedImg.type === 'image/png') {
@@ -78,9 +83,26 @@ const SpecDonation = ({ match, history }) => {
 
     return (
         <div className='specDonation-body'>
-            <Sidebar />
+            {window.innerWidth <= 778 ?
+                toggleState === true &&
+                    <Sidebar />
+                :
+                <Sidebar />
+            }
+
+            {toggleState && <SidebarOverlay />}
 
             <div className="specDonation-content">
+                {window.innerWidth <= 778 ?
+                    toggleState === true ?
+                        <BiMenuAltRight className='menu-right' color='#111' onClick={() => dispatch(toggleMenuOff())} />
+                        :
+                        <BiMenuAltRight className='menu-right' color='#111' onClick={() => dispatch(toggleMenuOn())}/>
+                    :
+                    <>
+                    </>
+                }
+
                 <div className="specAdoption-nav-container">
                     <div className="specAdoption-back-container" onClick={() => history.goBack()}>
                         <IoArrowBack className='specAdoption-back-icon' color='#111'/>

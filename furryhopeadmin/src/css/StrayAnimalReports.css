@@ -345,6 +345,10 @@
     width: 271px;
   }
 
+  .reportsSwitchLabel {
+    margin-left: 65px;
+  }
+
   .report-id {
     margin: 20px 18px 0 18px;
     font-size: .67rem;
@@ -752,4 +756,90 @@
 /* 1024 x 768 */
 @media screen and (max-width: 1024px) {
  
+}
+
+/* 768 x 1024 */
+@media screen and (max-width: 778px) {
+  .strayAnimalReport-content {
+    margin-left: 0;
+  }
+
+  .reports-header-container {
+    margin: 40px 45px 0 45px;
+  }
+
+  .listOfReports-container {
+    margin: 20px 45px 0 45px;
+  }
+
+  .reportsSwitchLabel {
+    margin-left: 45px;
+  }
+
+  .report-container {
+  }
+}
+
+@media screen and (max-width: 430px) {
+  .reports-header-container {
+    margin: 0 25px;
+  }
+
+  .reportsSwitchLabel {
+    margin-left: 25px;
+    font-size: .8rem;
+  }
+
+  .reportsSwitch {
+    font-size: .75rem;
+  }
+
+  .listOfReports-container {
+    margin: 30px 25px 30px 25px;
+    gap: 10px;
+  }
+
+  .report-container {
+    width: 180px;
+    height: 140px;
+  }
+
+  .pagination-container-feedback {
+    margin-left: -100px;
+  }
+
+  .strayAnimalModal {
+    height: 520px;
+    width: 380px;
+  }
+
+  .closeStrayAnimalModal {
+    height: 25px;
+    width: 25px;
+  }
+
+  .strayModal-heading-container {
+    margin: 30px 35px 0 35px;
+  }
+
+  .strayModal-checkbox, .strayModal-checked {
+    height: 18px;
+    width: 18px;
+  }
+
+  .strayModal-viewedLabel,
+  .strayModal-viewedLabel-checked {
+    font-size: .6rem;
+    margin-left: 7px;
+  }
+
+  .strayModalViewedChecked {
+    height: 12px;
+    width: 12px;
+  }
+
+  .strayModal-dismissBtn {
+    font-size: .75rem;
+    padding: 5px 8px;
+  }
 }

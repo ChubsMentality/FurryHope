@@ -104,3 +104,28 @@
         width: var(--box-size-1280);
     }
 }
+
+@media screen and (max-width: 430px) {
+    :root {
+        --box-size-430: 35px
+    }
+
+    .loading-container {
+        height: 200px;
+        width: 370px;
+    }
+
+    .animation-container {
+        margin: 70px 0 0 0;
+    }
+
+    .loading-txt {
+        font-size: 1.05rem;
+        margin-top: 40px;
+    }
+
+    .animated-circle {
+        height: var(--box-size-430);
+        width: var(--box-size-430)
+    }
+}

@@ -616,4 +616,76 @@
     }
 }
 
+@media screen and (max-width: 778px) {
+    .animalRegistration-content {
+        margin-left: 0;
+    }
+
+    .animalReg-subContainer {
+        margin: 25px 50px 0 50px;
+    }
+
+    .animalReg-container {
+        margin: 30px 50px 0 50px;
+    }
+}
+
+@media screen and (max-width: 430px) {
+    .animalRegistration-headerContainer {
+        margin: 0 25px;
+    }
+
+    .animalReg-subContainer {
+        margin: 20px 25px 0 25px;
+    }
+
+    .animalReg-container {
+        margin: 15px 25px 0 25px;
+    }
+
+    .animalReg-subHeader {
+        padding: 10px 15px 0 15px;
+        background-color: red;
+    }
+
+    .animalReg-label-container {
+        padding: 15px;
+    }
+
+    .animalReg-label {
+        font-size: .6rem;
+    }
+
+    .specReg-container {
+        padding: 10px 15px;
+    }
+
+    .specReg-applicantImg {
+        height: 23px;
+        width: 23px;
+    }
+
+    .specReg-applicantName {
+        font-size: .55rem;
+    }
+
+    .specReg-petName {
+        font-size: .55rem;
+    }
+
+    .specReg-petBreed {
+        font-size: .5rem;
+    }
+
+    .specReg-viewData {
+        font-size: .55rem;
+        padding: 3px 5px;
+    }
+
+    .specReg-deleteReg {
+        height: 28px;
+        width: 28px;
+    }
+}
+
 

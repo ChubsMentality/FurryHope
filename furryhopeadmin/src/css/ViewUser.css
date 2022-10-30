@@ -42,6 +42,7 @@
 .viewUser-profilePic {
     height: 80px;
     width: 80px;
+    border-radius: 100%;
 }
 
 .viewUser-userInfo-container {
@@ -260,4 +261,156 @@
 /* 1024 x 768 */
 @media screen and (max-width: 1024px) {
 
+}
+
+/* 768 x 1024 */
+@media screen and (max-width: 768px) {
+    .viewUser-modal {
+        height: 400px;
+        width: 650px;
+    }
+
+    .viewUser-closeModal {
+        /* height: 25px; */
+        /* width: 25px; */
+    }
+
+    .viewUser-profContainer {
+        margin: 0 0 20px 0;
+    }
+
+    .viewUser-profilePic {
+        height: 48px;
+        width: 48px;
+    }
+
+    .userInfo-name {
+        font-size: 1rem;
+    }
+
+    .userInfo-id {
+        font-size: .75rem;
+    }
+
+    .userInfo-label,
+    .userInfo-label-right {
+        font-size: .9rem;
+    }
+
+    .userInfo-value,
+    .userInfo-value-right {
+        font-size: .8rem;
+    }
+
+    .userInfo-label-address {
+        font-size: .9rem;
+    }
+
+    .userInfo-value-address {
+        font-size: .8rem;
+    }
+
+    .viewUser-right-header {
+        font-size: 1.05rem;
+    }
+
+    .userInfo-pref {
+        font-size: .95rem;
+        font-weight: 500;
+    }
+
+    .breedsPrefContainer,
+    .colorsPrefContainer {
+        margin: 0 0 15px 0;
+    }
+
+    .breedPrefItem,
+    .colorPrefItem {
+        font-size: .65rem;
+        margin: 0 10px 0 0;
+        padding: 4px 10px
+    }
+}
+
+@media screen and (max-width: 430px) {
+    .viewUser-modal {
+        flex-direction: column;
+        height: auto;
+        width: auto;
+        padding: 15px 30px;
+    }
+
+    .viewUser-left {
+        padding: 0;
+    }
+
+    .viewUser-right {
+        padding: 0;
+    }
+
+    .viewUser-closeModal {
+        height: 25px;
+        width: 25px;
+    }
+
+    .viewUser-profContainer {
+        margin: 20px 0 20px 0;
+    }
+
+    .viewUser-profilePic {
+        height: 40px;
+        width: 40px;
+    }
+
+    .userInfo-name {
+        font-size: .85rem;
+    }
+
+    .userInfo-id {
+        font-size: .7rem;
+    }
+
+    .userInfo-label,
+    .userInfo-label-right {
+        font-size: .65rem;
+        margin: 0;
+        margin: 10px 0 5px 0;
+    }
+
+    .userInfo-value,
+    .userInfo-value-right {
+        font-size: .65rem;
+    }
+
+    .userInfo-label-address {
+        font-size: .65rem;
+        margin-bottom: 0px;
+    }
+
+    .userInfo-value-address {
+        font-size: .65rem;
+        width: 100%;
+        margin: 0;
+    }
+
+    .viewUser-right-header {
+        font-size: .7rem;
+    }
+
+    .userInfo-pref {
+        font-size: .95rem;
+        font-weight: 500;
+    }
+
+    .breedsPrefContainer,
+    .colorsPrefContainer {
+        margin: 0 0 5px 0;
+    }
+
+    .breedPrefItem,
+    .colorPrefItem {
+        font-size: .5rem;
+        margin: 0 10px 0 0;
+        padding: 5px 10px;
+    }
 }

@@ -108,12 +108,12 @@ const UpdateInfoForm = (props) => {
 
                 <br />
 
-                <label htmlFor="breed" className="lbl-breed lbl-update">Breed</label><br />
+                <label htmlFor="breed" className="lbl-breed lbl-update lbl-update-breed">Breed</label><br />
                 <input type="text" name="breed" className="addBreed input-update-data" value={breed} onChange={(e) => setBreed(e.target.value)}/><br />
 
                 <br />
 
-                <label htmlFor="desc" className="lbl-breed lbl-update">Description (optional)</label><br />
+                <label htmlFor="desc" className="lbl-breed lbl-update lbl-update-desc">Description (optional)</label><br />
                 <textarea name="desc" className="updateDesc" value={description} onChange={(e) => setDescription(e.target.value)}></textarea><br />
 
                 <br />

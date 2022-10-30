@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getStrayAnimalReports, dismissReport, getDismissedReports, deleteReport, viewedReport, animalCaptured } from '../actions/adminActions'
+import { getStrayAnimalReports, dismissReport, getDismissedReports, deleteReport, viewedReport, animalCaptured, toggleMenuOff, toggleMenuOn, } from '../actions/adminActions'
 import { IoClose } from 'react-icons/io5'
 import { FaCheck } from 'react-icons/fa'
+import { BiMenuAltRight } from 'react-icons/bi'
 import ReactPaginate from 'react-paginate'
 import axios from 'axios'
 import Loading from './SubComponents/Loading'
 import Overlay from './SubComponents/Overlay'
 import Sidebar from './Sidebar'
+import SidebarOverlay from './SubComponents/SidebarOverlay'
 import '../css/StrayAnimalReports.css'
 
 const StrayAnimalReports = () => {
@@ -41,6 +43,9 @@ const StrayAnimalReports = () => {
 
     const animalCapState = useSelector(state => state.animalCapturedState)
     const { success:successCaptured } = animalCapState
+
+    const menuState = useSelector((state) => state.toggleMenuState)
+    const { toggleState } = menuState
    
     const displaySpecificReport = async (id) => { 
         try {
@@ -209,14 +214,31 @@ const StrayAnimalReports = () => {
         }
     }, [active, successDelete, successDismiss, successViewed, successCaptured])
 
-
     return (
         <div className='strayAnimalReport-body'>
-            <Sidebar />
             {loading && <Loading />}
             {loading && <Overlay />}
 
+            {window.innerWidth <= 778 ?
+                toggleState === true &&
+                    <Sidebar />
+                :
+                <Sidebar />
+            }
+
+            {toggleState && <SidebarOverlay />}
+
             <div className="strayAnimalReport-content">
+                {window.innerWidth <= 778 ?
+                    toggleState === true ?
+                        <BiMenuAltRight className='menu-right' color='#111' onClick={() => dispatch(toggleMenuOff())} />
+                        :
+                        <BiMenuAltRight className='menu-right' color='#111' onClick={() => dispatch(toggleMenuOn())}/>
+                    :
+                    <>
+                    </>
+                }
+
                 <div className="reports-header-container">
                     <p className='accounts-header'>LIST OF REPORTS</p>
 

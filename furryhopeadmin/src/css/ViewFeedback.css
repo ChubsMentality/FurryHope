@@ -319,3 +319,12 @@
 @media screen and (max-width: 1024px) {
 
 }
+
+@media screen and (max-width: 430px) {
+    .feedback-modal {
+        width: 300px;
+        margin: 0;
+        height: 420px;
+        left: 45%;
+    }
+}

@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { getAnimalRegistrations, registerAnimal, getPendingRegistrations, getRegisteredPets, getNotRegisteredPets, deleteRegistration } from '../actions/adminActions'
+import { getAnimalRegistrations, registerAnimal, getPendingRegistrations, getRegisteredPets, getNotRegisteredPets, deleteRegistration, toggleMenuOff, toggleMenuOn, } from '../actions/adminActions'
 import { Link } from 'react-router-dom'
 import { MdDelete } from 'react-icons/md'
+import { sortArray } from './SubComponents/QuickSortArrOfObjs'
 import { AiOutlineSearch } from 'react-icons/ai'
 import { IoClose } from 'react-icons/io5'
+import { BiMenuAltRight } from 'react-icons/bi'
 import ReactPaginate from 'react-paginate'
 import Loading from './SubComponents/Loading'
 import Overlay from './SubComponents/Overlay'
 import axios from 'axios'
 import Sidebar from './Sidebar'
+import SidebarOverlay from './SubComponents/SidebarOverlay'
 import Switch from 'react-switch'
-import { sortArray } from './SubComponents/QuickSortArrOfObjs'
 import '../css/AnimalRegistration.css'
 
 const AnimalRegistration = () => {
@@ -41,25 +43,14 @@ const AnimalRegistration = () => {
     const deleteRegState = useSelector(state => state.deleteRegistrationState)
     const { success:successDelete } = deleteRegState
 
+    const menuState = useSelector((state) => state.toggleMenuState)
+    const { toggleState } = menuState
+
     const [active, setActive] = useState('Pending')
     const [activeState, setActiveState] = useState(true)
     const [activeArr, setActiveArr] = useState()
     const [notReg, setNotReg] = useState()
     const [reg, setReg] = useState()
-
-    // const getAnimalHandler = async () => {
-    //     try {
-    //         setLoading(true)
-    //         const { data } = await axios.get('http://localhost:5000/api/admins/getAllRegistrations')
-    //         console.log(data)
-    //         setRegistered(data.filter(filterRegistered))
-    //         setNotRegistered(data.filter(filterNotRegistered))
-    //         setActiveArr(data.filter(filterNotRegistered))
-    //         setActive('Not Registered')
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-    // }
 
     const registerAnimalHandler = async (id, email, name, animalName) => {
         dispatch(registerAnimal(id))
@@ -117,10 +108,14 @@ const AnimalRegistration = () => {
                             <p className="specReg-petName">{registration.animalName}</p>
                             <p className="specReg-petBreed">{registration.animalBreed}</p>
                         </div>
-
-                        <div className="specReg-regType specReg-column">
-                            <p className="specRegType">{registration.registrationType}</p>
-                        </div>
+                        
+                        {window.innerWidth <= 430 ?
+                            null
+                            :
+                            <div className="specReg-regType specReg-column">
+                                <p className="specRegType">{registration.registrationType}</p>
+                            </div>
+                        }
 
                         <div className="specReg-status specReg-column">
                             {registration.registrationStatus === 'Pending' &&
@@ -237,9 +232,26 @@ const AnimalRegistration = () => {
     
     return (
         <div className='animalRegistration-body'>
-            <Sidebar />
+            {window.innerWidth <= 778 ?
+                toggleState === true &&
+                    <Sidebar />
+                :
+                <Sidebar />
+            }
+
+            {toggleState && <SidebarOverlay />}
 
             <div className='animalRegistration-content'>
+                {window.innerWidth <= 778 ?
+                    toggleState === true ?
+                        <BiMenuAltRight className='menu-right' color='#111' onClick={() => dispatch(toggleMenuOff())} />
+                        :
+                        <BiMenuAltRight className='menu-right' color='#111' onClick={() => dispatch(toggleMenuOn())}/>
+                    :
+                    <>
+                    </>
+                }
+
                 <div className="accounts-header-container">
                     <p className='accounts-header'>PET REGISTRATION</p>
 
@@ -285,7 +297,11 @@ const AnimalRegistration = () => {
                     <div className="animalReg-label-container">
                         <p className="animalReg-label animalReg-label-applicant">Applicant</p>
                         <p className="animalReg-label animalReg-label-pet">Pet</p>
-                        <p className="animalReg-label animalReg-label-regType">Registration Type</p>
+                        {window.innerWidth <= 430 ?
+                            null
+                            :
+                            <p className="animalReg-label animalReg-label-regType">Registration Type</p>
+                        }
                         <p className="animalReg-label animalReg-label-status">Status</p>
                         <p className="animalReg-label animalReg-label-actions">Actions</p>
                     </div>

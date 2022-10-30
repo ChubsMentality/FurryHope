@@ -112,6 +112,10 @@
     padding: 15px 40px;
 }
 
+.adoptionContainer:nth-child(even) {
+    background: #f5f5f5;
+}
+
 .adoptionContainerColumn {
     width: 25%;
 }
@@ -704,4 +708,102 @@
         height: 25px;
         width: 25px;
     }
+}
+
+/* 768 x 1024 */
+@media screen and (max-width: 768px) {
+    .adoptionsAdmin-content {
+        margin-left: 0;
+    }
+
+    .adoptionsAdmin-header-container {
+        margin: 50px 40px 0 40px;
+    }
+}
+
+@media screen and (max-width: 430px) {
+    .adoptionsAdmin-header-container {
+        margin: -5px 25px 0 25px;
+    }
+
+    .adoptionsAdmin-header {
+        font-size: .9rem;
+    }
+
+    .adoptionsAdmin-adminInfo-name {
+        font-size: .75rem;
+    }
+
+    .adoptionsAdmin-adminInfo-jobPos {
+        font-size: .65rem;
+    }
+
+    .adoptionsAdmin-adminProfilePic {
+        height: 40px;
+        width: 40px;
+        margin-left: 8px;
+    }
+
+    .adoptionsAdmin-container {
+        height: 480px;
+        margin: 20px 25px 0 25px;
+    }
+
+    .adoptionsAdmin-subHeader {
+        padding: 10px 15px 0 15px;
+    }
+
+    .adoptionsAdmin-container-header {
+        font-size: .65rem;
+    }
+
+    .adoptionsAdmin-table-headings {
+        padding: 10px 15px;
+    }
+
+    .adoptionsAdmin-label {
+        font-size: .5rem;
+    }
+
+    .adoptionContainer {
+        height: 38px;
+        padding: 10px 15px;
+    }
+
+    .adoptionApplicantImg, .adoptionAnimalImg {
+        height: 23px;
+        width: 23px;
+    }
+
+    .adoptionApplicantName {
+        font-size: .45rem;
+        margin-left: 3px;
+    }
+
+    .adoptionAnimalName {
+        font-size: .45rem;
+    }
+
+    .adoptionAnimalBreed {
+        font-size: .4rem;
+    }
+
+    .currentAdoptionStatusPending,
+    .currentAdoptionStatusRejected,
+    .currentAdoptionStatusAccepted {
+        font-size: .45rem;
+        padding: 4px 8px;
+    }
+
+    .adoptionViewBtn {
+        font-size: .45rem;
+        padding: 3px 5px;
+    }
+
+    .adoptionsDeleteBtnTxt {
+        height: 15px;
+        width: 15px;
+    }
+
+
 }

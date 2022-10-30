@@ -40,7 +40,7 @@ const AdoptionHistory = (props) => {
             <thead className='adoptions-table-head'>
                 <tr className='adoptions-table-row'>
                     <th className='adoptions-row-head adoptionHisHead-applicant'>Applicant</th>
-                    <th className='adoptions-row-head adoptionHisHead-address'>Address</th>
+                    {window.innerWidth > 430 ? <th className='adoptions-row-head adoptionHisHead-address'>Address</th> : null}
                     <th className='adoptions-row-head adoptionHisHead-contactNo'>Contact No.</th>
                     <th className='adoptions-row-head adoptionHisHead-status'>Status</th>
                     <th className='adoptions-row-head adoptionHisHead-actions'></th>
@@ -53,7 +53,7 @@ const AdoptionHistory = (props) => {
                             <img src={item.applicantImg} alt="" className="adoptionHis-applicantImg" />
                             <p className='adoptionHis-applicantName'>{item.applicantName}</p>
                         </td>
-                        <td className='adoptions-row-body adoptionHis-address'>{item.address}</td>
+                        {window.innerWidth > 430 ? <td className='adoptions-row-body adoptionHis-address'>{item.address}</td> : null}
                         <td className='adoptions-row-body adoptions-row-center adoptionHis-contactNo'>{item.contactNo}</td>
                         <td className='adoptions-row-body adoptions-row-center adoptionHis-status'>
                             {item.applicationStatus === 'Pending' &&

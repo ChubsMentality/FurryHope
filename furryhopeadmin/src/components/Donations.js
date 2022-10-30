@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { getDonations, deleteDonationHandler, receivedDonation, addToInventory, getDonationInventory } from '../actions/adminActions'
+import { getDonations, deleteDonationHandler, receivedDonation, addToInventory, getDonationInventory, toggleMenuOff, toggleMenuOn } from '../actions/adminActions'
 import { Link } from 'react-router-dom'
+import { MdDelete } from 'react-icons/md'
+import { IoClose } from 'react-icons/io5'
+import { BiMenuAltRight } from 'react-icons/bi'
 import ReactPaginate from 'react-paginate'
 import axios from 'axios'
 import Sidebar from './Sidebar'
+import SidebarOverlay from './SubComponents/SidebarOverlay'
 import Loading from './SubComponents/Loading'
 import Overlay from './SubComponents/Overlay'
-import { MdDelete } from 'react-icons/md'
-import { IoClose } from 'react-icons/io5'
 import '../css/Donations.css'
 
 const Donations = () => {
@@ -29,6 +31,9 @@ const Donations = () => {
 
     const getInventory = useSelector(state => state.donationInventoryState)
     const { inventoryList } = getInventory
+
+    const menuState = useSelector((state) => state.toggleMenuState)
+    const { toggleState } = menuState
 
     const [notReceived, setNotReceived] = useState()
     const [received, setReceived] = useState()
@@ -92,9 +97,13 @@ const Donations = () => {
                             <p className="specDonation-email-txt">{donation.email}</p>
                         </div>
 
-                        <div className="specDonation-contactNo specDonation-column">
-                            <p className="specDonation-contactNo-txt">{donation.contactNo}</p>
-                        </div>
+                        {window.innerWidth <= 430 ?
+                            null
+                            :
+                            <div className="specDonation-contactNo specDonation-column">
+                                <p className="specDonation-contactNo-txt">{donation.contactNo}</p>
+                            </div>
+                        }
 
                         <div className="specDonation-received specDonation-column">
                             <p className="specDonation-received-txt">{donation.received ? 'Received' : 'Not Receieved' }</p>
@@ -192,9 +201,13 @@ const Donations = () => {
                             <p className="specDonation-email-txt">{donation.email}</p>
                         </div>
 
-                        <div className="specDonation-contactNo specDonation-column">
-                            <p className="specDonation-contactNo-txt">{donation.contactNo}</p>
-                        </div>
+                        {window.innerWidth <= 430 ?
+                            null
+                            :
+                            <div className="specDonation-contactNo specDonation-column">
+                                <p className="specDonation-contactNo-txt">{donation.contactNo}</p>
+                            </div>
+                        }
 
                         <div className="specDonation-received specDonation-column">
                             <p className="specDonation-received-txt">{donation.received ? 'Received' : 'Not Receieved' }</p>
@@ -375,11 +388,29 @@ const Donations = () => {
 
     return (
         <div className='donations-body'>
-            <Sidebar />
             {loading && <Loading />}
             {loading && <Overlay />}
 
+            {window.innerWidth <= 778 ?
+                toggleState === true &&
+                    <Sidebar />
+                :
+                <Sidebar />
+            }
+
+            {toggleState && <SidebarOverlay />}
+
             <div className="donations-content">
+                {window.innerWidth <= 778 ?
+                    toggleState === true ?
+                        <BiMenuAltRight className='menu-right' color='#111' onClick={() => dispatch(toggleMenuOff())} />
+                        :
+                        <BiMenuAltRight className='menu-right' color='#111' onClick={() => dispatch(toggleMenuOn())}/>
+                    :
+                    <>
+                    </>
+                }
+
                 <div className="donations-header-container">
                     <p className='donations-header'>DONATIONS</p>
 
@@ -402,7 +433,7 @@ const Donations = () => {
                         <div className="donations-labels-container">
                             <p className="donations-label donations-label-donatedBy">Donator</p>
                             <p className="donations-label donations-label-email">Email</p>
-                            <p className="donations-label donations-label-contactNo">Contact Number</p>
+                            {window.innerWidth > 430 ? <p className="donations-label donations-label-contactNo">Contact Number</p> : null}
                             <p className="donations-label donations-label-received">Received</p>
                             <p className="donations-label donations-label-actions">Actions</p>
                         </div>
@@ -414,7 +445,7 @@ const Donations = () => {
                         <div className="donations-labels-container">
                             <p className="donations-label donations-label-donatedBy">Donator</p>
                             <p className="donations-label donations-label-email">Email</p>
-                            <p className="donations-label donations-label-contactNo">Contact Number</p>
+                            {window.innerWidth > 430 ? <p className="donations-label donations-label-contactNo">Contact Number</p> : null}
                             <p className="donations-label donations-label-received">Received</p>
                             <p className="donations-label donations-label-actions">Actions</p>
                         </div>

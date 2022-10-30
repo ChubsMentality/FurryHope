@@ -12,6 +12,8 @@
     justify-content: space-between;
     font-family: "Poppins", sans-serif;
     color: black;
+    transition: .15s ease-in;
+    z-index: 10;
 }
 
 .sidebar-header {
@@ -416,5 +418,91 @@
 
     .sidebar-a {
         font-size: .9rem;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .sidebar-toggle-close {
+        height: 30px;
+        width: 30px;
+        position: absolute;
+        top: 15px;
+        right: 10px;
+        cursor: pointer;
+    }
+
+    .sidebar-body {
+        width: 350px;
+    }
+
+    .sidebar-header {
+        margin: 90px 35px 0 35px;
+    }
+
+    .sidebar-furryhope {
+        font-size: 1.6rem;
+    }
+
+    .sidebar-tagline {
+        font-size: .95rem;
+        margin: -20px 35px 0 35px;
+    }
+
+    .sidebar-links {
+        margin-top: 40px;
+    }
+
+    .sidebar-li {
+        height: 70px;
+    }
+
+    .sidebar-icons {
+        height: 25px;
+        width: 25px;
+        margin: 0 15px 0 35px;
+    }
+
+    .sidebar-a, .sidebar-a-logout {
+        font-size: 1.05rem;
+    }
+}
+
+@media screen and (max-width: 430px) {
+    .sidebar-body {
+        width: 330px;
+    }
+
+    .sidebar-toggle-close {
+        height: 28px;
+        width: 28px;
+    }
+
+    .sidebar-header {
+        margin: 70px 35px 0 35px;
+    }
+
+    .sidebar-furryhope {
+        font-size: 1.5rem;
+    }
+
+    .sidebar-tagline {
+        font-size: .9rem;
+    }
+
+    .sidebar-links {
+        margin-top: 25px;
+    }
+
+    .sidebar-li {
+        height: 65px;
+    }
+
+    .sidebar-icons {
+        height: 23px;
+        width: 23px;
+    }
+
+    .sidebar-a, .sidebar-a-logout {
+        font-size: 1rem;
     }
 }

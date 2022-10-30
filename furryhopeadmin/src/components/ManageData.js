@@ -6,12 +6,15 @@ import Loading from './SubComponents/Loading'
 import Overlay from './SubComponents/Overlay'
 import Empty from './SubComponents/EmptyComponent'
 import { useDispatch, useSelector } from 'react-redux'
+import { toggleMenuOff, toggleMenuOn } from '../actions/adminActions'
 import { getAnimalData, deleteAnimalAction } from '../actions/animalActions.js'
 import { MdDelete } from 'react-icons/md'
 import { AiOutlineSearch } from 'react-icons/ai'
 import { Link } from 'react-router-dom'
 import { AiTwotoneEdit } from 'react-icons/ai'
+import { BiMenuAltRight } from 'react-icons/bi'
 import { sortArray } from './SubComponents/QuickSortArrOfObjs'
+import SidebarOverlay from './SubComponents/SidebarOverlay'
 
 const ManageData = () => {
     const dispatch = useDispatch();
@@ -34,6 +37,9 @@ const ManageData = () => {
     // Every time an animal's data was deleted, it will trigger in the useEffect and re-render
     const animalDelete = useSelector((state) => state.animalDelete);
     const { success: successDelete } = animalDelete;
+
+    const menuState = useSelector((state) => state.toggleMenuState)
+    const { toggleState } = menuState
 
     // Gets the animal data, and re-render if something is either created, updated, or deleted
     useEffect(() => {
@@ -225,8 +231,27 @@ const ManageData = () => {
         <div className='manage-body'>
             {loading && <Loading />}
             {loading && <Overlay />}
-            <Sidebar />
+
+            {window.innerWidth <= 778 ?
+                toggleState === true &&
+                    <Sidebar />
+                :
+                <Sidebar />
+            }
+
+            {toggleState && <SidebarOverlay />}
+
             <div className='manage-content'>
+                {window.innerWidth <= 778 ?
+                    toggleState === true ?
+                        <BiMenuAltRight className='menu-right' color='#111' onClick={() => dispatch(toggleMenuOff())} />
+                        :
+                        <BiMenuAltRight className='menu-right' color='#111' onClick={() => dispatch(toggleMenuOn())}/>
+                    :
+                    <>
+                    </>
+                }
+
                 <div className="manage-header-container">
                     <div>
                         <p className='manage-header'>LIST OF ANIMALS</p>

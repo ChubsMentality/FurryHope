@@ -557,3 +557,45 @@
 
 /* 1024 x 768 */
 @media screen and (max-width: 1024px) {}
+
+/* 768 x 1024 */
+@media screen and (max-width: 778px) {
+    .userFeedback-content {
+        margin-left: 0;
+    }
+
+    .userFeedbacks-container {
+        margin: 50px 50px 0 50px;
+    }
+
+    .feedback-container {
+        width: 205px;
+    }
+}
+
+@media screen and (max-width: 430px) {
+    .userFeedback-body {
+        height: 100vh;
+    }
+
+    .userFeedbacks-container {
+        margin: 35px 25px 0 25px;
+        column-gap: 10px;
+        row-gap: 35px;
+    }
+
+    .feedback-container {
+        height: 150px;
+        width: 180px;
+    }
+
+    .feedbackProfPic {
+        height: 35px;
+        width: 35px;
+        right: 10px;
+    }
+
+    .feedback-actions {
+        height: 25px;
+    }
+}

@@ -199,3 +199,76 @@
         padding: 8px 25px;
     }
 }
+
+@media screen and (max-width: 430px) {
+    .deleteModalContainer {
+        height: 370px;
+        width: 380px;
+    }
+
+    .deleteModalHeader {
+        font-size: .9rem;
+        margin: 25px 25px 0 25px;
+    }
+
+    .deleteModalHeader::before {
+        width: 90px;
+        height: 1px;
+    }
+
+    .deleteReasonTxt {
+        font-size: .75rem;
+        margin: 6px 25px 25px 25px;
+    }
+
+    .deleteCheckBoxContainer {
+        margin: 10px 25px 0 25px;
+    }
+
+    .deleteCheckBox {
+        height: 12px;
+        width: 12px;
+    }
+
+    .deleteCheckBox_checked {
+        height: 12px;
+        width: 12px;
+    }
+
+    .deleteCheckBoxIcon {
+        height: 8px;
+        width: 8px;
+    }
+
+    .deleteReason {
+        font-size: .75rem;
+    }
+
+    .deleteOtherReason {
+        margin: 15px 25px 0 25px;
+        width: 300px;
+        height: 80px;
+    }
+
+    .confirmDeletionContainer {
+        margin: 25px 25px 0 25px;
+    }
+
+    .confirmDeletionTxt {
+        font-size: .7rem;
+    }
+
+    .confirmDeletionInput {
+        font-size: .6rem;
+        padding: 5px;
+    }
+
+    .btnConfirmDeletion {
+        font-size: .75rem;
+        padding: 6px 15px;
+    }
+
+
+
+
+}

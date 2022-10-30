@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { deleteAdminAccount, deleteUserAccount, disableAdmin, enableAdmin } from "../actions/adminActions"
+import { deleteAdminAccount, deleteUserAccount, disableAdmin, enableAdmin, toggleMenuOff, toggleMenuOn } from "../actions/adminActions"
 import { Link } from 'react-router-dom'
 import { FaUserEdit } from 'react-icons/fa'
 import { IoPersonCircle } from 'react-icons/io5'
@@ -8,11 +8,13 @@ import { MdDelete, MdDisabledVisible, MdOutlineMoreHoriz, MdUnpublished } from '
 import { HiEye } from 'react-icons/hi'
 import { FaUserCheck } from 'react-icons/fa'
 import { sortArray } from "./SubComponents/QuickSortArrOfObjs"
+import { BiMenuAltRight } from 'react-icons/bi'
 import ReactPaginate from "react-paginate"
 import EditAdmin from "./Modals/EditAdmin"
 import Switch from "react-switch"
 import axios from "axios"
 import Overlay from "./SubComponents/Overlay"
+import SidebarOverlay from "./SubComponents/SidebarOverlay"
 import Loading from "./SubComponents/Loading"
 import Sidebar from "./Sidebar"
 import ViewUser from "./Modals/ViewUser"
@@ -52,6 +54,9 @@ const AccountsList = () => {
 
     const adminUpdate = useSelector((state) => state.updateAdminState)
     const { success: adminUpdateSuccess } = adminUpdate
+
+    const menuState = useSelector((state) => state.toggleMenuState)
+    const { toggleState } = menuState
 
     const [adminId, setAdminId] = useState('')
     const [userId, setUserId] = useState('')
@@ -175,9 +180,13 @@ const AccountsList = () => {
                                 <p className="specAccount-email-info">{admin.email}</p>
                             </div>
 
-                            <div className="specAccount-contactNo specAccount-column">
-                                <p className="specAccount-contactNo-info">{admin.contactNo}</p>
-                            </div>
+                            {window.innerWidth <= 430 ?
+                                null
+                                :
+                                <div className="specAccount-contactNo specAccount-column">
+                                    <p className="specAccount-contactNo-info">{admin.contactNo}</p>
+                                </div>
+                            }
 
                             <div className="specAccount-verified specAcccount-jobPos specAccount-column">
                                 <p className="specAccount-verified-info">{admin.accountStatus}</p>
@@ -339,9 +348,13 @@ const AccountsList = () => {
                                 <p className="specAccount-email-info">{user.email}</p>
                             </div>
 
-                            <div className="specAccount-contactNo specAccount-column">
-                                <p className="specAccount-contactNo-info">{user.contactNo}</p>
-                            </div>
+                            {window.innerWidth <= 430 ?
+                                null
+                            :
+                                <div className="specAccount-contactNo specAccount-column">
+                                    <p className="specAccount-contactNo-info">{user.contactNo}</p>
+                                </div>
+                            }
 
                             <div className="specAccount-verified specAcccount-jobPos specAccount-column">
                                 <p className="specAccount-verified-info">{user.verified ? 'true' : 'false'}</p>
@@ -435,15 +448,33 @@ const AccountsList = () => {
     
     return (
         <div className='accounts-body'>
-            <Sidebar />
             {deleteAdminModal && <Overlay />}
             {deleteAdminModal &&  <DeleteAdmin id={deleteAdminId} closeDeleteAdmin={closeDeleteAdmin} deleteAdminModal={deleteAdminModal} />}
             {deleteUserModal && <Overlay />}
             {deleteUserModal && <DeleteUser id={deleteUserId} closeDeleteUser={closeDeleteUser} />}
 
+            {window.innerWidth <= 778 ?
+                toggleState === true &&
+                    <Sidebar />
+                :
+                <Sidebar />
+            }
+
+            {toggleState && <SidebarOverlay />}
+
             <div className='accounts-content'>
+                {window.innerWidth <= 778 ?
+                    toggleState === true ?
+                        <BiMenuAltRight className='menu-right' color='#111' onClick={() => dispatch(toggleMenuOff())} />
+                        :
+                        <BiMenuAltRight className='menu-right' color='#111' onClick={() => dispatch(toggleMenuOn())}/>
+                    :
+                    <>
+                    </>
+                }
+
                 <div className="accounts-header-container">
-                    <p className='accounts-header'>LIST OF ACCOUNTS</p>
+                    <p className='accounts-header accountsList-header'>LIST OF ACCOUNTS</p>
 
                     <div className="accounts-adminInfo">
                         <div className="accounts-adminInfo-left">
@@ -455,6 +486,17 @@ const AccountsList = () => {
                     </div>                    
                 </div>
 
+                {adminInfo.role === 'Admin' ?
+                    activeAccounts === true &&
+                    <>
+                        <Link to={'/addAdmin'}>
+                            <button className='accounts-add-admin'>Add an account?</button>
+                        </Link>
+                    </>
+                    :
+                    <div></div>
+                }
+
                 <div className='accounts-container'>
                     <div className="accounts-container-heading">
                         {activeAccounts ? (
@@ -464,9 +506,12 @@ const AccountsList = () => {
                                 <div className='switch-container'>
                                     <div className="accounts-addAdmin-link">
                                         {adminInfo.role === 'Admin' ?
-                                            <Link to={'/addAdmin'}>
-                                                <button className='accounts-add-admin'>Add an account?</button>
-                                            </Link>
+                                            window.innerWidth <= 430 ||
+                                            <>
+                                                <Link to={'/addAdmin'}>
+                                                    <button className='accounts-add-admin'>Add an account?</button>
+                                                </Link>
+                                            </>
                                             :
                                             <div></div>
                                         }
@@ -536,7 +581,11 @@ const AccountsList = () => {
                                 <>
                                     <p className="accounts-label accounts-label-name">Name</p>
                                     <p className="accounts-label accounts-label-email">Email</p>
-                                    <p className="accounts-label accounts-label-contactNo">Contact Number</p>
+                                    {window.innerWidth <= 430 ?
+                                        null
+                                        :
+                                        <p className="accounts-label accounts-label-contactNo">Contact Number</p>
+                                    }
                                     <p className="accounts-label accounts-label-jobPos">Account Status</p>
                                     <p className="accounts-label accounts-label-actions">Actions</p>
                                 </>
@@ -544,7 +593,11 @@ const AccountsList = () => {
                                 <>
                                     <p className="accounts-label accounts-label-name">Name</p>
                                     <p className="accounts-label accounts-label-email">Email</p>
-                                    <p className="accounts-label accounts-label-contactNo">Contact Number</p>
+                                    {window.innerWidth <= 430 ?
+                                        null
+                                        :
+                                        <p className="accounts-label accounts-label-contactNo">Contact Number</p>
+                                    }
                                     <p className="accounts-label accounts-label-verified">Verified</p>
                                     <p className="accounts-label accounts-label-actions">Actions</p>
                                 </>

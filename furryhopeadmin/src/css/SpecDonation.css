@@ -298,3 +298,27 @@
         margin: 25px 0 0 55px;
     }
 }   
+
+/* 768 x 1024 */
+@media screen and (max-width: 778px) {
+    .specDonation-content {
+        margin-left: 0;
+    }
+}
+
+@media screen and (max-width: 430px) {
+    .specDonation-body {
+        height: 100%;
+    }
+
+    .specDonation-flexContainer {
+        width: auto;
+        margin: 20px 25px 40px 25px;
+        flex-direction: column-reverse;
+    }
+
+    .specDonation-info-container {
+        width: 100%;
+        margin-top: 50px;
+    }
+}

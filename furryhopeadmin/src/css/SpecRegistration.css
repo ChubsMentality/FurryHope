@@ -1,5 +1,5 @@
 .specReg-body {
-    height: 100%;
+    height: 100vh;
     width: 100%;
     font-family: 'Poppins', sans-serif;
     position: relative;
@@ -9,6 +9,7 @@
 .specReg-content {
     margin-left: 380px;
     padding-top: 70px;
+    padding-bottom: 70px;
 }
 
 .specReg-header {
@@ -94,6 +95,7 @@
 .regInfo-applicantImg {
     height: 90px;
     width: 90px;
+    border-radius: 100%;
 }
 
 .regInfo-applicantInfo {
@@ -641,5 +643,54 @@
     .regInfoBtn {
         font-size: .85rem;
         padding: 8px 12px;
+    }
+}
+
+@media screen and (max-width: 778px) {
+    .specReg-content {
+        margin-left: 0;
+    }
+}
+
+@media screen and (max-width: 430px) {
+    .specReg-body {
+        height: 100%;
+        width: 100vw;
+    }
+
+    .specReg-header {
+        margin: 0 25px;
+    }
+
+    .specReg-back-icon {
+        height: 20px;
+        width: 20px;
+    }
+
+    .specReg-back-txt {
+        font-size: .85rem;
+    }
+
+    .specReg-currentStatus-pending,
+    .specReg-currentStatus-rejected,
+    .specReg-currentStatus-accepted {
+        padding: 4px 8px;
+        margin: 0 0 0 10px;
+        font-size: .6rem;
+    }
+
+    .specReg-regInfoContainer {
+        margin: 20px 25px 0 25px;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .specReg-regInfo {
+        margin: 20px 0 0 0;
+    }
+
+    .specReg-regRequirements {
+        margin: 20px 0;
     }
 }

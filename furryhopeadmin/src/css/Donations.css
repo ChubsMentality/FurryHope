@@ -890,3 +890,63 @@
         font-size: 1rem;
     }
 }
+
+@media screen and (max-width: 778px) {
+    .donations-content {
+        margin-left: 0;
+    }
+}
+
+@media screen and (max-width: 430px) {
+    .donations-header-container {
+        margin: 0 25px;
+    }
+
+    .donations-header {
+        font-size: 1.05rem;
+    }
+
+    .toggleRegistrationsBtnContainer {
+        margin: 10px 0 0 25px;
+    }
+
+    .toggle-donation-btn {
+        font-size: .7rem;
+        padding: 7px;
+    }
+
+    .donations-container, .inventories-container {
+        margin: 25px 25px 0 25px;
+        height: 520px;
+    }
+
+    .donations-labels-container, .inventories-labels-container {
+        padding: 10px 15px 10px 15px;;
+    }
+
+    .donations-label, .inventories-label {
+        font-size: .75rem;
+    }
+
+    .specDonation-container, .specInventory-container {
+        height: 35px;
+        padding: 20px 15px;
+    }
+
+    .specDonation-image, .specInventory-donatorImg{
+        height: 22px;
+        width: 22px;
+    }
+
+    .specInventory-donator-txt,
+    .specInventory-date-txt,
+    .specInventory-items,
+    .specInventory-itemQuantity {
+        font-size: .4rem;
+    }
+
+    .specDonation-view {
+        font-size: .55rem;
+        padding: 4px 12px;
+    }
+}

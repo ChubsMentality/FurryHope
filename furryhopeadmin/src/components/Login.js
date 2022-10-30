@@ -69,6 +69,20 @@ const Login = ({history}) => {
     return (
         <div className='loginBody'>
             <div className='loginLeft'>
+                {window.innerWidth <= 768 &&
+                    <div
+                        style={{
+                            height: '100vh',
+                            width: '100vw',
+                            position: 'absolute',
+                            inset: 0,
+                            backgroundColor: 'rgba(0, 0, 0, .45)',
+                            zIndex: 5,
+                        }}
+                    >
+                    </div>
+                }
+
                 <form className='loginForm' onSubmit={submitHandler} ref={formRef}>
                     <div className="loginFormHeaderContainer">
                         <img src={logoBlack} className="loginFormHeaderImg" />

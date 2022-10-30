@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getSpecificAdoption, getInterviewSchedule, submitInterviewSchedule, updateBeenInterviewed, updateAdoptionApplication } from '../actions/adminActions'
+import { BiMenuAltRight } from 'react-icons/bi'
+import { getSpecificAdoption, getInterviewSchedule, submitInterviewSchedule, updateBeenInterviewed, updateAdoptionApplication, toggleMenuOff, toggleMenuOn } from '../actions/adminActions'
+import SidebarOverlay from './SubComponents/SidebarOverlay'
 import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css";
 import TimePicker from 'react-time-picker'
 import Sidebar from './Sidebar'
 import Loading from './SubComponents/Loading'
 import Overlay from './SubComponents/Overlay'
-import '../css/Adoption.css' 
 import axios from 'axios'
 import moment from 'moment'
+import '../css/Adoption.css' 
 
 import { IoArrowBack, IoClose, IoSend } from 'react-icons/io5'
 import { FaCheck } from 'react-icons/fa'
@@ -24,6 +26,9 @@ const Adoption = ({ match, history }) => {
 
     const hBInterviewed = useSelector(state => state.interviewedState)
     const { success:sInterviewed } = hBInterviewed
+
+    const menuState = useSelector((state) => state.toggleMenuState)
+    const { toggleState } = menuState
 
     // const iSchedState = useSelector(state => state.getInterviewSchedState)
     // const { interviewSched } = iSchedState
@@ -180,18 +185,31 @@ const Adoption = ({ match, history }) => {
         specificAdoption && setEmail(specificAdoption.email)
     }, [])
 
-    useEffect(() => {
-
-    }, [])
-
     const isInterviewSchedEmpty = interviewSched && interviewSched.length === 0
     const hideAdoptionButtons = specificAdoption && specificAdoption.applicationStatus === 'Rejected' || specificAdoption && specificAdoption.applicationStatus === 'Accepted'
 
     return (
         <div className='specAdoption-body'>
-            <Sidebar />
+            {window.innerWidth <= 778 ?
+                toggleState === true &&
+                    <Sidebar />
+                :
+                <Sidebar />
+            }
+
+            {toggleState && <SidebarOverlay />}
 
             <div className="specAdoption-content">
+                {window.innerWidth <= 778 ?
+                    toggleState === true ?
+                        <BiMenuAltRight className='menu-right' color='#111' onClick={() => dispatch(toggleMenuOff())} />
+                        :
+                        <BiMenuAltRight className='menu-right' color='#111' onClick={() => dispatch(toggleMenuOn())}/>
+                    :
+                    <>
+                    </>
+                }
+
                 <div className="specAdoption-nav-container">
                     <div className="specAdoption-back-container" onClick={() => history.goBack()}>
                         <IoArrowBack className='specAdoption-back-icon' color='#111'/>

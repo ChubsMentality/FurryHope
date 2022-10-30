@@ -286,3 +286,113 @@
     }
 
 }
+
+@media screen and (max-width: 778px) {
+    .editAdmin-modal {
+        height: 500px;
+        width: 600px;
+    }
+
+    .editAdmin-left {
+        padding: 30px 0 30px 40px; 
+    }
+
+    .editAdmin-right {
+        padding: 30px 0 0 0;
+    }
+
+    .editAdmin-label {
+        font-size: .75rem;
+    }
+
+    .editAdmin-input {
+        width: 230px;
+        padding: 10px 0 10px 10px;
+        font-size: .7rem;
+    }
+
+    .editAdmin-label-right {
+        font-size: .75rem;
+    }
+
+    .editAdmin-select {
+        font-size: .7rem;
+    }
+
+    .editAdmin-preview {
+        height: 90px;
+        width: 90px;
+    }
+
+    .editAdmin-close, .editAdmin-done {
+        font-size: .8rem;
+    }
+}
+
+@media screen and (max-width: 430px) {
+    .editAdmin-modal {
+        flex-direction: column;
+        width: auto;
+        height: auto;
+        padding: 28px 30px;
+    }
+
+    .editAdmin-left, .editAdmin-right {
+        padding: 0;
+        width: 100%;
+        height: auto;
+    }
+
+    .editAdmin-label {
+        font-size: .65rem;
+        margin-top: 0;
+        margin-bottom: -2px;
+    }
+
+    .editAdmin-input {
+        margin-bottom: 0;
+        display: block;
+        font-size: .6rem;
+        padding: 7px 0 7px 7px;
+    }
+
+    .editAdmin-left-btnContainer {
+        display: flex;
+        align-items: center;
+        margin: 30px 0 0 0;
+        gap: 10px;
+    }
+
+    .editAdmin-left-close, .editAdmin-left-next {
+        font-size: .9rem;
+        border: none;
+    }
+
+    .editAdmin-left-close, .editAdmin-left-next {
+        font-size: .8rem;
+        padding: 8px 20px;
+        border-radius: 5px;
+    }
+
+    .editAdmin-close,
+    .editAdmin-done {
+        font-size: .8rem;
+        padding: 8px 20px;
+    }
+
+    .editAdmin-close-icon {
+        height: 20px;
+        width: 20px;
+        position: absolute;
+        top: 15px;
+        right: 15px;
+    }
+
+    .editAdmin-left-next {
+        color: white;
+    }
+
+    .editAdmin-left-next {
+        background-color: #111;
+    }
+}

@@ -538,17 +538,17 @@ p {
   }
 
   .loginRightHeaderContainer {
-    margin: 15px 0 0 0;
+    margin: 25px 0 0 0;
   }
 
   .loginRightImg {
-    height: 60px;
-    width: 60px;
+    height: 80px;
+    width: 80px;
   }
 
   .loginRightSubHeader {
     font-size: 5.8rem;
-    margin: 410px 0 0 0;
+    margin: 430px 0 0 0;
   }
 
   .loginRightSub {
@@ -624,5 +624,91 @@ p {
 
   .loginTagline {
     font-size: 1rem;
+  }
+}
+
+/* 768px - Tablets */
+@media screen and (max-width: 768px) {
+  .loginLeft {
+    width: 100%;
+    background-color: none;
+    background-image: url('../assets/Images/loginBg.jpg');
+    background-position: center;
+    background-size: cover;
+    position: relative;
+  }
+
+  .loginRight {
+    display: none;
+  }
+
+  .loginForm {
+    height: 500px;
+    width: 380px;
+  }
+
+  .loginFormHeaderContainer {
+    margin: 33px 23px 50px 23px;
+  } 
+
+  .loginFormHeaderImg {
+    height: 30px;
+    width: 30px;
+  }
+
+  .loginFormHeader {
+    font-size: .8rem;
+  }
+
+  .loginLabel {
+    margin: 0 30px 3px 30px;
+    font-size: 1rem;
+  }
+
+  .loginInput {
+    height: 35px;
+    width: 295px;
+    margin: 0 30px 25px 30px;
+    font-size: .75rem;
+  }
+
+  .loginForgotPwdLink {
+    font-size: .85rem;
+    margin: 15px 0 30px 30px;
+  }
+
+  .loginSubmitBtn {
+    font-size: 1.15rem;
+    margin: 80px 30px 0 30px;
+    height: 50px;
+    width: 318px;
+  }
+}
+
+@media screen and (max-width: 430px) {
+  .loginForm {
+    height: 480px;
+    width: 340px;
+  }
+
+  .loginFormHeaderContainer {
+    margin: 35px 25px 50px 25px;
+  }
+
+  .loginLabel {
+    font-size: .95rem;
+  }
+
+  .loginInput {
+    width: 260px;
+  }
+
+  .loginForgotPwdLink {
+    font-size: .8rem;
+    margin: -5px 0 30px 30px;
+  }
+
+  .loginSubmitBtn {
+    width: 285px;
   }
 }

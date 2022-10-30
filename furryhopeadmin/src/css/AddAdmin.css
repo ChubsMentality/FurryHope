@@ -407,3 +407,14 @@
     width: 120px;
   }
 }
+
+/* 768 x 1024 */
+@media screen and (max-width: 778px) {
+  .body {
+    height: 100vh;
+  }
+  
+  .add-admin-content {
+    margin-left: 0;
+  }
+}

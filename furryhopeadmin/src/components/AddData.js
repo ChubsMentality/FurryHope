@@ -2,12 +2,15 @@ import React, { useState, useEffect } from 'react'
 import '../css/AddData.css'
 import { useDispatch, useSelector} from 'react-redux'
 import { createAnimalAction } from '../actions/animalActions'
+import { toggleMenuOff, toggleMenuOn } from '../actions/adminActions'
 import { css } from '@emotion/css'
 import { IoArrowBackOutline } from 'react-icons/io5'
 import { Link } from 'react-router-dom'
+import { BiMenuAltRight } from 'react-icons/bi'
 import axios from 'axios'
 import ClipLoader from 'react-spinners/ClipLoader'
 import Sidebar from './Sidebar'
+import SidebarOverlay from './SubComponents/SidebarOverlay'
 import moment from 'moment'
 
 // There's a tutorial on how to upload an image to the database
@@ -26,6 +29,10 @@ const AddData = () => {
     const dispatch = useDispatch();
     const animalCreate = useSelector((state) => state.animalCreate);
     const { loading, error } = animalCreate
+
+    const menuState = useSelector((state) => state.toggleMenuState)
+    const { toggleState } = menuState
+
     const URL = 'https://furryhopebackend.herokuapp.com/'
 
     // loading state
@@ -136,11 +143,35 @@ const AddData = () => {
         setAvailUntilYear(tempAvailUntilYear)
     }
 
+    console.log(toggleState)
+    console.log(window.innerWidth)
+
     return (
         <div className="addData-body">
-            <Sidebar />
+            {window.innerWidth <= 925 ?
+                toggleState === true &&
+                    <Sidebar />
+                :
+                <Sidebar />
+            }
+
+            {toggleState && <SidebarOverlay />}
+
+            
+
             <div className='addData-content'>
                 {error && window.alert(error)}
+
+                {window.innerWidth <= 925 ?
+                    toggleState === true ?
+                        <BiMenuAltRight className='menu-right' color='#111' onClick={() => dispatch(toggleMenuOff())} />
+                        :
+                        <BiMenuAltRight className='menu-right' color='#111' onClick={() => dispatch(toggleMenuOn())}/>
+                    :
+                    <>
+                    </>
+                }
+
                 <div className="addData-backBtnContainer">
                     <Link to='/manage' className="addData-backBtn">
                         <IoArrowBackOutline className='addData-backIcon' />

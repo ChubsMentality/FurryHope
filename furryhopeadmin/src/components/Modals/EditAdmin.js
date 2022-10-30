@@ -73,8 +73,74 @@ const EditAdmin = (props) => {
         getAdmin()
     }, [props])
 
+    const [currentStep, setCurrentStep] = useState(0)
+
     // FullName, email, contactNo, address, jobPosition, role
     return (
+        window.innerWidth <= 430 ?
+        <div className='editAdmin-modal'>
+            {currentStep === 0 ?
+                <div className="editAdmin-left">
+                    <label htmlFor="name" className="editAdmin-label">Name</label>
+                    <input type="text" name="name" className="editAdmin-input" value={fullName} onChange={(e) => setFullName(e.target.value)} />
+                    <br />
+
+                    <label htmlFor="name" className="editAdmin-label">Email</label>
+                    <input type="text" name="name" className="editAdmin-input" value={email} onChange={(e) => setEmail(e.target.value)} />
+
+                    <br />
+
+                    <label htmlFor="name" className="editAdmin-label">Contact Number</label>
+                    <input type="text" name="name" className="editAdmin-input" value={contactNo} onChange={(e) => setContactNo(e.target.value)} />
+
+                    <br />
+                    
+                    <label htmlFor="name" className="editAdmin-label">Address</label>
+                    <input type="text" name="name" className="editAdmin-input" value={address} onChange={(e) => setAddress(e.target.value)} />
+
+                    <br />
+
+                    <label htmlFor="name" className="editAdmin-label">Job Position</label>
+                    <input type="text" name="name" className="editAdmin-input" value={jobPosition} onChange={(e) => setJobPosition(e.target.value)} />
+
+                    <div className="editAdmin-left-btnContainer">
+                        <button className="editAdmin-left-close" onClick={() => props.toggleModal()}>Close</button>
+                        <button className="editAdmin-left-next" onClick={() => setCurrentStep(1)}>Next</button>
+                    </div>
+                </div>
+            :
+                <div className="editAdmin-right">
+                    {/* <div style={{ position: 'relative' }}>
+                        <IoClose className='editAdmin-closeModal' onClick={() => props.toggleModal()} />
+                    </div> */}
+
+                    {window.innerWidth <= 430 ?
+                        <IoClose className='editAdmin-close-icon' onClick={() => props.toggleModal()} />
+                        :
+                        null
+                    }
+
+                    <label htmlFor="" className="editAdmin-label">Role</label>
+                    <select className='editAdmin-select' value={role} onChange={(e) => setRole(e.target.value)}>
+                        <option value='Admin'>Admin</option>
+                        <option value='Staff'>Staff</option>
+                    </select>
+
+                    <label htmlFor="" className="editAdmin-label">Choose a picture</label>
+                    <input type="file" name="profilePic" className="editAdmin-profPic" onChange={(e) => uploadImg(e.target.files[0])} /><br />
+
+                    <label htmlFor="" style={{ marginTop: 10 }} className="editAdmin-label">Preview</label>
+                    <img src={admin && admin.profilePicture} alt="" className="editAdmin-preview" />
+
+                    <div className="editAdmins-btn-container">
+                        <button className="editAdmin-close" onClick={() => setCurrentStep(0)}>Previous</button>
+                        <button className="editAdmin-done" onClick={() => updateHandler()}>Done</button>
+                    </div>
+                </div>
+            }
+
+        </div>
+        :
         <div className='editAdmin-modal'>
             <div className="editAdmin-left">
                 <label htmlFor="name" className="editAdmin-label">Name</label>
@@ -119,8 +185,8 @@ const EditAdmin = (props) => {
                 <img src={admin && admin.profilePicture} alt="" className="editAdmin-preview" />
 
                 <div className="editAdmins-btn-container">
-                    <button className="editAdmin-close" onClick={() => props.toggleModal()}>CLOSE</button>
-                    <button className="editAdmin-done" onClick={() => updateHandler()}>DONE</button>
+                    <button className="editAdmin-close" onClick={() => props.toggleModal()}>Close</button>
+                    <button className="editAdmin-done" onClick={() => updateHandler()}>Done</button>
                 </div>
             </div>
         </div>

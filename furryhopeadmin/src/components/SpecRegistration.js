@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { registerAnimal, updateRequirements, rejectRegistration } from '../actions/adminActions'
+import { registerAnimal, updateRequirements, rejectRegistration, toggleMenuOff, toggleMenuOn } from '../actions/adminActions'
 import { IoArrowBack } from 'react-icons/io5'
 import { FaCheck } from 'react-icons/fa'
+import { BiMenuAltRight } from 'react-icons/bi'
 import Sidebar from './Sidebar'
-import '../css/SpecRegistration.css'
+import SidebarOverlay from './SubComponents/SidebarOverlay'
 import axios from 'axios'
+import '../css/SpecRegistration.css'
 
 const SpecRegistration = ({ history, match }) => {
     const dispatch = useDispatch()
@@ -28,6 +30,9 @@ const SpecRegistration = ({ history, match }) => {
 
     const rejectState = useSelector(state => state.rejectRegistrationState)
     const { success:successReject } = rejectState
+
+    const menuState = useSelector((state) => state.toggleMenuState)
+    const { toggleState } = menuState
 
     const getRegistration = async () => {
         const { data } = await axios.get(`http://localhost:5000/api/admins/getRegistration/${match.params.id}`)
@@ -56,8 +61,6 @@ const SpecRegistration = ({ history, match }) => {
 
     const reqMet = regFeeComplete && certOfResidencyComplete && ownerPictureComplete && petPhotoComplete && proofOfAntiRabiesComplete && photocopyCertOfAntiRabiesComplete
 
-    adoptionStatus && console.log(adoptionStatus)
-
     useEffect(() => {
         getRegistration()
         // getAdoption()
@@ -65,9 +68,26 @@ const SpecRegistration = ({ history, match }) => {
 
     return (
         <div className="specReg-body">
-            <Sidebar />
+            {window.innerWidth <= 778 ?
+                toggleState === true &&
+                    <Sidebar />
+                :
+                <Sidebar />
+            }
+
+            {toggleState && <SidebarOverlay />}
 
             <div className="specReg-content">
+                {window.innerWidth <= 778 ?
+                    toggleState === true ?
+                        <BiMenuAltRight className='menu-right' color='#111' onClick={() => dispatch(toggleMenuOff())} />
+                        :
+                        <BiMenuAltRight className='menu-right' color='#111' onClick={() => dispatch(toggleMenuOn())}/>
+                    :
+                    <>
+                    </>
+                }
+
                 <div className="specReg-header">
                     <div className="specReg-back-container" onClick={() => history.goBack()}>
                         <IoArrowBack className='specReg-back-icon' color='#111' />

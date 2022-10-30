@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getAdoptionApplications, deleteAdoptionApplication } from '../actions/adminActions'
+import { getAdoptionApplications, deleteAdoptionApplication, toggleMenuOff, toggleMenuOn } from '../actions/adminActions'
 import { Link } from 'react-router-dom'
 import { MdDelete } from 'react-icons/md'
 import { AiOutlineSearch } from 'react-icons/ai'
+import { BiMenuAltRight } from 'react-icons/bi'
+import { sortArray } from './SubComponents/QuickSortArrOfObjs'
 import ReactPaginate from 'react-paginate'
 import axios from 'axios'
 import Sidebar from './Sidebar'
+import SidebarOverlay from './SubComponents/SidebarOverlay'
 import '../css/Adoptions.css'
-import { sortArray } from './SubComponents/QuickSortArrOfObjs'
 
 const Adoptions = () => {
     const dispatch = useDispatch()
@@ -28,7 +30,8 @@ const Adoptions = () => {
     const adoptionState = useSelector(state => state.adoptionApplications)
     const { adoptionApplications } = adoptionState
 
-    console.log(adoptionApplications)
+    const menuState = useSelector((state) => state.toggleMenuState)
+    const { toggleState } = menuState
 
     useEffect(() => {
         dispatch(getAdoptionApplications())
@@ -195,9 +198,26 @@ const Adoptions = () => {
 
     return (
         <div className='adoptionsAdmin-body'>
-            <Sidebar />
+            {window.innerWidth <= 778 ?
+                toggleState === true &&
+                    <Sidebar />
+                :
+                <Sidebar />
+            }
+
+            {toggleState && <SidebarOverlay />}
 
             <div className="adoptionsAdmin-content">
+                {window.innerWidth <= 778 ?
+                    toggleState === true ?
+                        <BiMenuAltRight className='menu-right' color='#111' onClick={() => dispatch(toggleMenuOff())} />
+                        :
+                        <BiMenuAltRight className='menu-right' color='#111' onClick={() => dispatch(toggleMenuOn())}/>
+                    :
+                    <>
+                    </>
+                }
+
                 <div className="adoptionsAdmin-header-container">
                     <h1 className="adoptionsAdmin-header">LIST OF ADOPTIONS</h1>
 
